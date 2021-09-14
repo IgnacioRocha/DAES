@@ -1,0 +1,78 @@
+﻿@model DAES.Model.SistemaIntegrado.Workflow
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Tarea";
+}
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.DefinicionWorkflow.TipoWorkflow.Nombre)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DefinicionWorkflow.TipoWorkflow.Nombre)
+    </dd>
+
+    @*<dt>
+        @Html.DisplayNameFor(model => model.DefinicionWorkflow.Perfil.Nombre)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DefinicionWorkflow.Perfil.Nombre)
+    </dd>*@
+    <dt>
+        @Html.DisplayNameFor(model => model.DefinicionWorkflow.User.UserName)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DefinicionWorkflow.User.UserName)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.FechaCreacion)
+    </dt>
+
+    <dd>
+        @string.Format("{0:dd-MM-yyyy hh:mm:ss}", Model.FechaCreacion)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.FechaTermino)
+    </dt>
+
+    <dd>
+        @string.Format("{0:dd-MM-yyyy hh:mm:ss}", Model.FechaTermino)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Observacion)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Observacion)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.TipoAprobacion.Nombre)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.TipoAprobacion.Nombre)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Terminada)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Terminada)
+    </dd>
+
+</dl>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.WorkflowId }) |
+    @Html.ActionLink("Terminar", "Stop", new { id = Model.WorkflowId }) |
+    @Html.ActionLink("Eliminar", "Delete", new { id = Model.WorkflowId }) |
+    @Html.ActionLink("Volver al proceso", "Details","Proceso", new { id = Model.ProcesoId},null)
+</p>

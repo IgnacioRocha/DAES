@@ -1,0 +1,77 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.DocumentoSinContenido>
+@using GridMvc.Html
+
+<div class="panel panel-default">
+    <div class="panel-heading">Documentos</div>
+    <div class="panel-body">
+        <table class="table table-hover table-striped datatable">
+            <thead>
+                <tr>
+                    <th>
+                        Documento
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaCreacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().TipoDocumentoId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Descripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Autor)
+                    </th>
+                    <th>
+                        Documento
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (item.HasContent && !string.IsNullOrWhiteSpace(item.FileName))
+                            {
+                                @Html.ActionLink(!string.IsNullOrEmpty(item.FileName) ? item.FileName : item.DocumentoId.ToString(), "Download", "Documento", new { id = item.DocumentoId }, null)
+                            }
+                            else if (!string.IsNullOrWhiteSpace(item.Url))
+                            {
+                                <a href="@item.Url" target="_blank">@item.FileName</a>
+                            }
+                            else
+                            {
+                                <p></p>
+                            }
+                        </td>
+
+                        <td>
+                            @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.TipoDocumentoId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Autor)
+                        </td>
+                        <td style="width:300px">
+                            @if (item.HasContent && item.FileName.Contains(".pdf"))
+                            {
+                                <embed src="@Url.Action("ShowPDF", "Documento", new { id = item.DocumentoId })" width="100%" height="300" type="application/pdf">
+                            }
+                            else
+                            {
+                                <p></p>
+                            }
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

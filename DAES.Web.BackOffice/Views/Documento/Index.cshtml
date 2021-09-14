@@ -1,0 +1,82 @@
+﻿@model IEnumerable<DAES.Web.BackOffice.Controllers.DocumentoController.DTODocumento>
+@{
+    Layout = null;
+}
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                Archivo
+            </th>
+            <th>
+                Número Registro
+            </th>
+            <th>
+                Correlativo
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Fecha Recordatorio
+            </th>
+            <th>
+                Recordatorio
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        if (!item.Resuelto && DateTime.Now.Date < item.FechaRecordatorio.Value.Date)
+                        {
+                            <span class="label label-success label-as-badge">En curso normal</span>
+                        }
+                        if (!item.Resuelto && DateTime.Now.Date == item.FechaRecordatorio.Value.Date)
+                        {
+                            <span class="label label-warning label-as-badge">Por vencer</span>
+                        }
+
+                        if (!item.Resuelto && DateTime.Now.Date > item.FechaRecordatorio.Value.Date)
+                        {
+                            <span class="label label-danger label-as-badge">Atrasado</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (item.HasContent && !string.IsNullOrWhiteSpace(item.FileName))
+                    {
+                        @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
+                    }
+                </td>
+
+                <td>
+                    @Html.DisplayFor(model => item.NumeroRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Correlativo)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Descripcion)
+                </td>
+                <td>
+                    @string.Format("{0:dd-MM-yyyy}", item.FechaRecordatorio)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.Recordatorio)
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "Edit", new { id = item.DocumentoId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

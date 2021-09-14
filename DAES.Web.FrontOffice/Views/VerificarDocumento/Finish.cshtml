@@ -1,0 +1,54 @@
+﻿<meta name="robots" content="noindex,nofollow" />
+@model DAES.Model.SistemaIntegrado.Documento
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Verificar documentos</h1>
+        <p class="lead">Permite validar documentos emitidos electrónicamente por la DAES</p>
+    </div>
+</div>
+<div class="container my-3">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Detalles</h5>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(m => Model.DocumentoId, new { @class = "font-weight-bold" })<br />
+                @Html.DisplayFor(m => Model.DocumentoId)
+            </div>
+            
+            @if (Model != null && Model.FechaValidoHasta.HasValue)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.FechaValidoHasta, new { @class = "font-weight-bold" })<br />
+                    @string.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaValidoHasta)
+                </div>
+            }
+
+            @if (Model != null && Model.Proceso != null)
+            {
+                <div class="form-group">
+                    <strong>Organización</strong><br />
+                    @Model.Proceso.Organizacion.NumeroRegistro - @Model.Proceso.Organizacion.RazonSocial
+                </div>
+            }
+
+            @if (Model != null && Model.Content != null)
+            {
+                <div class="form-group">
+                    <iframe src="@Url.Action("Download", new { id = Model.DocumentoId })" width="100%" height="650px">
+                        [Your browser does <em>not</em> support <code>iframe</code>,
+                        or has been configured not to display inline frames.
+                        You can access <a href="GetPDF">the document</a>
+                        via a link though.]
+                    </iframe>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>

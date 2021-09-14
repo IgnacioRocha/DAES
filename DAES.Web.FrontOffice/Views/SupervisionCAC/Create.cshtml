@@ -1,0 +1,230 @@
+﻿@model DAES.Model.DTO.DTOSupervisionCAC
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Modelo de Supervisión CACs</h1>
+        <p class="lead">Dentro de los primeros 10 días hábiles de cada mes</p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+@if (Model == null)
+{
+    return;
+}
+
+<div class="container my-3">
+    @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.RUTSolicitante)
+        @Html.HiddenFor(model => model.NombresSolicitante)
+        @Html.HiddenFor(model => model.ApellidosSolicitante)
+        @Html.HiddenFor(model => model.OrganizacionId)
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Periodo a informar</h5>
+                <p class="card-title">Seleccione el periodo a informar</p>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.Periodo, new { @class = "font-weight-bold" })<br />
+                    @Html.DropDownListFor(model => Model.Periodo, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => Model.Periodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Documentación</h5>
+                        <p class="card-title">Ingrese la documentación solicitada</p>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC01, new { @class = "font-weight-bold" })
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/Balance, AC01, AC03, AC12.xlsx">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC01, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC01, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC02, new { @class = "font-weight-bold" })
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC-02 v3.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC02, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC02, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC04, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC-04 v4.1.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC04, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC04, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC05, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC-05 v3.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC05, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC05, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC06, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC06_TASAS_DE_INTERESES V2.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC06, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC06, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC07, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC07_APORTE_DE_CAPITAL.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC07, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC07, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC08, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC08_ANTECEDENTES_ADMINISTRATIVOS.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC08, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC08, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC09, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC09_DEUDORES.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC09, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC09, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC10, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC10_CUENTAS_A_LA_VISTA.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC10, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC10, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.AC11, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/AC11_CUENTAS_DE_AHORRO_A_PLAZO.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.AC11, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.AC11, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.CACMensualV3, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/CACsMENSUAL(1de2) v3.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.CACMensualV3, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.CACMensualV3, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.CACMensualV4, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/CAC/CACsMENSUAL(2de2) v5.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.CACMensualV4, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.CACMensualV4, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Observacion, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.Observacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Solicitante</h5>
+                        <p class="card-title">Complete los datos de contacto</p>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RUTSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.RUTSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.NombresSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.NombresSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.ApellidosSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.ApellidosSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RegionSolicitanteId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(m => Model.RegionSolicitanteId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.RegionSolicitanteId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.FonoSolicitante, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.EmailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.EmailSolicitante, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
+    }
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "Supervision")'>DAES digital</a>
+</div>
+
+<script type="text/javascript">
+
+    $(document).on('submit', 'form', function () {
+        var buttons = $(this).find('[type="submit"]');
+        if ($(this).valid()) {
+            buttons.each(function (btn) {
+                $(buttons[btn]).prop('disabled', true);
+            });
+        } else {
+            buttons.each(function (btn) {
+                $(buttons[btn]).prop('disabled', false);
+            });
+        }
+    });
+
+</script>

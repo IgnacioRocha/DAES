@@ -1,0 +1,98 @@
+﻿@model List<DAES.Model.SistemaIntegrado.Proceso>
+@{
+    var DTOOrganizacion = new DAES.Web.BackOffice.Controllers.FiscalizacionController.DTOOrganizacion();
+}
+@{
+    Layout = null;
+}
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().ProcesoId)
+            </th>
+            <th>
+                Estado
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Organizacion.NumeroRegistro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Organizacion.RazonSocial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().FechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Fiscalizacions)
+            </th>
+            <th>
+                Proceso relacionado (última fiscalización)
+            </th>
+            <th>
+                Tipo de materia (última fiscalización)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProcesoId)
+                </td>
+                <td>
+                    @if (item.Terminada)
+                    {
+                        <p>Terminado</p>
+                    }
+                    else
+                    {
+                        <p>En curso</p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organizacion.NumeroRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organizacion.RazonSocial)
+                </td>
+                <td>
+                    @item.FechaCreacion.ToString("dd-MM-yyyy HH:mm:ss")
+                </td>
+                <td>
+                    @item.Fiscalizacions.Count(q => q.Activo)
+                </td>
+                <td>
+                    @if (item.Fiscalizacions.Any())
+                    {
+                        var ultimaFiscalizacion = item.Fiscalizacions.Where(q => q.Activo && q.ProcesoRelacionadoId.HasValue).OrderByDescending(q => q.FiscalizacionId).FirstOrDefault();
+                        if (ultimaFiscalizacion != null && ultimaFiscalizacion.ProcesoRelacionado != null)
+                        {
+                            @Html.ActionLink(ultimaFiscalizacion.ProcesoRelacionadoId.ToString(), "View", new { id = ultimaFiscalizacion.ProcesoRelacionadoId }, new { target = "_blank" })
+                        }
+                    }
+                </td>
+                <td>
+                    @if (item.Fiscalizacions.Any())
+                    {
+                        @item.Fiscalizacions.OrderByDescending(q => q.FiscalizacionId).FirstOrDefault().TipoMateria.Descripcion
+                    }
+                </td>
+                <td>
+                    @if (item.Terminada)
+                    {
+                        @Html.ActionLink("Detalles", "View", new { id = item.ProcesoId })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Detalles", "Edit", new { id = item.ProcesoId })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

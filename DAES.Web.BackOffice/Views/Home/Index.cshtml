@@ -1,0 +1,252 @@
+﻿@model DAES.Web.BackOffice.Controllers.HomeController.DTOResume
+@*@{
+    ViewBag.Title = "Sistema integrado DAES";
+}*@
+
+@if (HttpContext.Current.User.Identity.IsAuthenticated && Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador && Model.ProcesoCount > 0)
+{
+    <div class="alert alert-danger">
+        Existen procesos pendientes de término. @Html.ActionLink("Ver procesos pendientes", "Index", "Dashboard", null, new { @class = "alert-link" })
+    </div>
+}
+
+@if (Model.WorkflowCount > 0)
+{
+    <div class="alert alert-danger">
+        Existen tareas asignadas pendientes de término. @Html.ActionLink("Ver tareas pendientes", "Index", "Inbox", null, new { @class = "alert-link" })
+    </div>
+}
+
+<div class="row">
+    @if (HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        if (Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.AreaLegal || Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.AreaContable)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Procesos</h3>
+                    </div>
+                    <div class="panel-body">
+
+                        Iniciar procesos
+                        <ul>
+                            <li>@Html.ActionLink("Iniciar proceso desde gestión documental", "Documento", "Proceso")</li>
+                            <li>@Html.ActionLink("Iniciar proceso manualmente", "Create", "Proceso")</li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Administración</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>@Html.ActionLink("Ayuda", "Index", "Ayuda")</li>
+                            <li>@Html.ActionLink("Cargos", "Index", "Cargo")</li>
+                            <li>@Html.ActionLink("Comunas", "Index", "Comuna")</li>
+                            <li>@Html.ActionLink("Configurar solicitud de certificados", "Index", "ConfiguracionCertificado")</li>
+                            <li>@Html.ActionLink("Estados de organización", "Index", "Estado")</li>
+                            <li>@Html.ActionLink("Firmantes", "Index", "Firmante")</li>
+                            <li>@Html.ActionLink("Géneros", "Index", "Genero")</li>
+                            <li>@Html.ActionLink("Hechos legales", "Index", "HechoLegal")</li>
+                            <li>@Html.ActionLink("Hechos contables", "Index", "HechoContable")</li>
+                            <li>@Html.ActionLink("Organizaciones", "Index", "Organizacion")</li>
+                            <li>@Html.ActionLink("Regiones", "Index", "Region")</li>
+                            <li>@Html.ActionLink("Rubros", "Index", "Rubro")</li>
+                            <li>@Html.ActionLink("Situación", "Index", "Situacion")</li>
+                            <li>@Html.ActionLink("Subrubros", "Index", "SubRubro")</li>
+                            <li>@Html.ActionLink("Tipos de documentos", "Index", "TipoDocumento")</li>
+                            <li>@Html.ActionLink("Tipos de organizaciones", "Index", "TipoOrganizacion")</li>
+                            
+                            <li>@Html.ActionLink("Tipos de materia", "Index", "TipoMateria")</li>
+                            <li>@Html.ActionLink("Tipos de criterios", "Index", "TipoCriterio")</li>
+                            <li>@Html.ActionLink("Tipos de fiscaliazción", "Index", "TipoFiscalizacion")</li>
+                            <li>@Html.ActionLink("Tipos de hallazgos", "Index", "TipoHallazgo")</li>
+                            <li>@Html.ActionLink("Tipos de oficios", "Index", "TipoOficio")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Procesos</h3>
+                    </div>
+                    <div class="panel-body">
+                        Definición de procesos
+                        <ul>
+                            <li>@Html.ActionLink("Definir   tareas", "Index", "TipoWorkflow")</li>
+                            <li>@Html.ActionLink("Definir procesos", "Index", "DefinicionProceso")</li>
+                        </ul>
+
+                        Iniciar procesos
+                        <ul>
+                            <li>@Html.ActionLink("Iniciar proceso desde gestión documental", "Documento", "Proceso")</li>
+                            <li>@Html.ActionLink("Iniciar proceso manualmente", "Create", "Proceso")</li>
+                        </ul>
+
+                        Gestión de procesos
+                        <ul>
+                            <li>@Html.ActionLink("Administrar procesos", "Index", "Proceso")</li>
+                            <li>@Html.ActionLink("Administrar carga de tareas", "Manage", "Workflow")</li>
+                            <li>@Html.ActionLink("Dashboard de procesos", "Index", "Dashboard")</li>
+                            <li>@Html.ActionLink("Dashboard de tareas", "Estadistica", "Dashboard")</li>
+                            <li>@Html.ActionLink("Exportar procesos a Excel", "DownloadProcesos", "ProcesoConsultor")</li>
+                            <li>@Html.ActionLink("Exportar tareas a Excel", "DownloadTareas", "ProcesoConsultor")</li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Seguridad y configuración de sistema</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>@Html.ActionLink("Cuentas de usuario", "Index", "Account")</li>
+                            <li>@Html.ActionLink("Perfiles de usuario", "Index", "Perfil")</li>
+                            <li>@Html.ActionLink("Configuración", "Index", "Configuracion")</li>
+                            @*<li>@Html.ActionLink("Firmar documento", "Index", "Firma")</li>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.AreaRegistro)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Administración</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>@Html.ActionLink("Cargos", "Index", "Cargo")</li>
+                            <li>@Html.ActionLink("Organizaciones", "Index", "Organizacion")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Transparencia)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Exportar organizaciones</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>@Html.ActionLink("Exportar organizaciones a Excel", "Download", "Organizacion")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Secretaria)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Procesos</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>@Html.ActionLink("Iniciar proceso desde gestión documental", "Documento", "Proceso")</li>
+                            <li>@Html.ActionLink("Iniciar proceso manualmente", "Create", "Proceso")</li>
+                            <li>@Html.ActionLink("Administrar procesos", "Index", "Proceso")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        if (Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Jefatura)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Procesos</h3>
+                    </div>
+                    <div class="panel-body">
+                        Definición de procesos
+                        <ul>
+                            <li>@Html.ActionLink("Definir tareas", "Index", "TipoWorkflow")</li>
+                            <li>@Html.ActionLink("Definir procesos", "Index", "DefinicionProceso")</li>
+                        </ul>
+
+                        Iniciar procesos
+                        <ul>
+                            <li>@Html.ActionLink("Iniciar proceso desde gestión documental", "Documento", "Proceso")</li>
+                            <li>@Html.ActionLink("Iniciar proceso manualmente", "Create", "Proceso")</li>
+                        </ul>
+
+                        Gestión de procesos
+                        <ul>
+                            <li>@Html.ActionLink("Administrar procesos", "Index", "Proceso")</li>
+                            <li>@Html.ActionLink("Administrar carga de tareas", "Manage", "Workflow")</li>
+                            <li>@Html.ActionLink("Dashboard de procesos", "Index", "Dashboard")</li>
+                            <li>@Html.ActionLink("Dashboard de tareas", "Estadistica", "Dashboard")</li>
+                            <li>@Html.ActionLink("Exportar procesos a Excel", "DownloadProcesos", "ProcesoConsultor")</li>
+                            <li>@Html.ActionLink("Exportar tareas a Excel", "DownloadTareas", "ProcesoConsultor")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        if (Model.PerfilId != (int)DAES.Infrastructure.Enum.Perfil.SIAC)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Mis tareas y documentos</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul>
+                            <li>@Html.ActionLink("Mis tareas y documentos", "Index", "Inbox")</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Consulta</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li>@Html.ActionLink("Organizaciones", "Index", "OrganizacionConsultor")</li>
+                        <li>@Html.ActionLink("Procesos", "Index", "ProcesoConsultor")</li>
+                        <li>@Html.ActionLink("Documentos", "Index", "DocumentoConsultor")</li>
+                        <li>@Html.ActionLink("Ayuda", "Show", "Ayuda")</li>
+                        
+                        @if (Model.PerfilId != (int)DAES.Infrastructure.Enum.Perfil.SIAC)
+                        {
+                            <li>@Html.ActionLink("Fiscalizaciones", "Index", "Fiscalizacion")</li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>

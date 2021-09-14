@@ -1,0 +1,20 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.TipoDocumento>
+
+@{
+    ViewBag.Title = "Tipos de documentos";
+}
+
+@using GridMvc.Html
+@Html.Grid(Model).Sortable(true).Columns(columns =>
+{
+    columns.Add(q => q.TipoDocumentoId).Titled("Id").Sortable(true).Filterable(true);
+    columns.Add(q => q.Nombre).Titled("Tipo de documento").Sortable(true).Filterable(true);
+    columns.Add(q => q.DiasVigencia).Titled("Días vigencia").Sortable(true).Filterable(true);
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.TipoDocumentoId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Editar", "Edit", new { id = q.TipoDocumentoId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Eliminar", "Delete", new { id = q.TipoDocumentoId }));
+}).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+<hr />
+@Html.ActionLink("Crear nuevo", "Create") | 
+@Html.ActionLink("Volver al inicio", "Index", "Home")

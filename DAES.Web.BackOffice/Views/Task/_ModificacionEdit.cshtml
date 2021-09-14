@@ -1,0 +1,30 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.ModificacionEstatutos.FirstOrDefault().Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.ModificacionEstatutos.FirstOrDefault().NumeroOficio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.ModificacionEstatutos.FirstOrDefault().Vigente)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.ModificacionEstatutos.Count(); i++)
+        {
+            <tr>
+                @Html.EditorFor(m => m.ModificacionEstatutos[i])
+                <td>
+                    @Ajax.ActionLink("Eliminar", "ModificacionDelete", null, new { Model.WorkflowId, Model.ModificacionEstatutos.ToArray()[i].ModificacionEstatutoId }, new AjaxOptions { UpdateTargetId = "modificacion" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

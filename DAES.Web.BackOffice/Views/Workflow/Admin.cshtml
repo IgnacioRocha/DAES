@@ -1,0 +1,147 @@
+﻿@model DAES.Model.SistemaIntegrado.Workflow
+
+@{
+    ViewBag.Title ="Atención de tarea";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">Proceso</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ProcesoId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ProcesoId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.DefinicionProceso.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.DefinicionProceso.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.Organizacion.NumeroRegistro)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.Organizacion.NumeroRegistro)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.Organizacion.RazonSocial)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.Organizacion.RazonSocial)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.DocumentoId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.DocumentoId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.FechaCreacion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.FechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.FechaVencimiento)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.FechaVencimiento)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.Solicitante.Email)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.Solicitante.Email)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Proceso.Terminada)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Proceso.Terminada)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Tarea</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.DefinicionWorkflow.TipoWorkflow.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DefinicionWorkflow.TipoWorkflow.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DefinicionWorkflow.Perfil.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DefinicionWorkflow.Perfil.Nombre)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </dt>
+
+            <dd>
+                @string.Format("{0:dd-MM-yyyy hh:mm:ss}", Model.FechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaTermino)
+            </dt>
+
+            <dd>
+                @string.Format("{0:dd-MM-yyyy hh:mm:ss}", Model.FechaTermino)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Observacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TipoAprobacion.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TipoAprobacion.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Terminada)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Terminada)
+            </dd>
+
+        </dl>        
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Volver al listado", "Index")
+</p>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.DefinicionWorkflow>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DefinicionProceso.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Perfil.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoWorkflow.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Habilitado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DefinicionProceso.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Perfil.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoWorkflow.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Habilitado)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.DefinicionWorkflowId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.DefinicionWorkflowId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.DefinicionWorkflowId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+@Html.ActionLink("Volver al inicio", "Index", "Home")

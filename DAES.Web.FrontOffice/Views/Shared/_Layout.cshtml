@@ -1,0 +1,78 @@
+﻿@using DAES.Web.FrontOffice.Models
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Trámites en línea</title>
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/Content/bootstrap.css">
+    <link rel="stylesheet" href="~/Content/Site.css">
+    <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-7"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-7');
+    </script>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+
+        <div class="container">
+            <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                <img src="https://www.economia.gob.cl/wp-content/uploads/2018/06/logo-pagina-web3.png" width="50%" alt="">
+            </a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                @if (Global.CurrentClaveUnica != null && Global.CurrentClaveUnica.IsAutenticated)
+                {
+                    <div class="row">
+                        <div class="col s12 m12 l12 right-align">
+                            @Global.CurrentClaveUnica.User <text>|</text>
+                            <a href="#" id="btn_logout" name="btn_logout">Cerrar sesión</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </nav>
+
+    @RenderBody()
+
+    <script>
+        $('#btn_logout').click(function () {
+            $.ajax({ url: 'https://api.claveunica.gob.cl/api/v1/accounts/app/logout', dataType: 'script' }).always(function () {
+                window.location.href = '@Url.Action("Logoff", "Account")';
+            });
+        });
+
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            buttons.each(function (btn) {
+                $(buttons[btn]).prop('disabled', true);
+            });
+        });
+    </script>
+</body>
+
+</html>

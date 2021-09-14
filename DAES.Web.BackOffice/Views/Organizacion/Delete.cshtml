@@ -1,0 +1,276 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+
+@{
+    ViewBag.Title = "Organización";
+    ViewBag.SubTitle = "Confirma la eliminación de la siguiente información?";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ciudad.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ciudad.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Comuna.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comuna.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Region.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Region.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rubro.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rubro.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SubRubro.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SubRubro.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoOrganizacion.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoOrganizacion.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroRegistro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroRegistro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RUT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RUT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RazonSocial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RazonSocial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Sigla)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Sigla)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Direccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Direccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fax)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fax)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.URL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.URL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroSociosConstituyentes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroSociosConstituyentes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroSocios)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroSocios)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroSociosHombres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroSociosHombres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumeroSociosMujeres)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumeroSociosMujeres)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MinistroDeFe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MinistroDeFe)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsGeneroFemenino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsGeneroFemenino)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CiudadAsamblea)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CiudadAsamblea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreContacto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreContacto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DireccionContacto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DireccionContacto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelefonoContacto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelefonoContacto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailContacto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailContacto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaCelebracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaCelebracion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaPubliccionDiarioOficial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaPubliccionDiarioOficial)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaActualizacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaActualizacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsImportanciaEconomica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsImportanciaEconomica)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirmar eliminación" class="btn btn-primary" /> |
+            @Html.ActionLink("Volver al listado", "Index")
+        </div>
+    }
+</div>

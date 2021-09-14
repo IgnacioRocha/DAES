@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema integrado DAES</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunob")
+
+    @Styles.Render("~/Content/gridmvc")
+    @Scripts.Render("~/bundles/gridmvcjs")
+
+    @Styles.Render("~/Content/DataTables")
+    @Scripts.Render("~/bundles/datatables")
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-full">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"></button>
+                @Html.ActionLink("Sistema integrado DAES", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </nav>
+    <div class="container-full body-content">
+
+        <div class="page-header">
+            <h2>@ViewBag.Title </h2>
+            @*<h4 class="text-muted">@ViewBag.SubTitle</h4>*@
+        </div>
+
+        @Html.Partial("_Alerts")
+        @RenderBody()
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).on('submit', 'form', function () {
+            var buttons = $(this).find('[type="submit"]');
+            if ($(this).valid()) {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).html('Procesando ...');
+                    $(buttons[btn]).prop('disabled', true);
+                });
+            } else {
+                buttons.each(function (btn) {
+                    $(buttons[btn]).prop('disabled', false);
+                });
+            }
+        });
+
+        $(document).ready(function () {
+            var tables = document.getElementsByClassName("datatable");
+            for (var i = 0; i < tables.length; i++) {
+                $(tables[i]).DataTable({
+                        buttons: [
+                            'copy', 'excel', 'pdf'
+                        ],
+                        "order": [],
+                        "language":
+                        {
+                            "decimal": "",
+                            "emptyTable": "No hay información",
+                            "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                            "infoPostFix": "",
+                            "thousands": ",",
+                            "lengthMenu": "Mostrar _MENU_ entradas",
+                            "loadingRecords": "Cargando...",
+                            "processing": "Procesando...",
+                            "search": "Buscar:",
+                            "zeroRecords": "Sin resultados encontrados",
+                            "paginate":
+                            {
+                                "first": "Primero",
+                                "last": "Ultimo",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            }
+                        }
+                    });
+                $('.dataTables_length').addClass('bs-select');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,56 @@
+﻿@model DAES.Model.SistemaIntegrado.DefinicionWorkflow
+
+@{
+    ViewBag.Title = "Eliminar";
+    ViewBag.SubTitle = "Definición de tarea";
+}
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DefinicionProceso.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DefinicionProceso.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoWorkflow.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoWorkflow.Nombre)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Habilitado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Habilitado)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-primary" />
+            @*@Html.ActionLink("Back to List", "Index")*@
+        </div>
+    }

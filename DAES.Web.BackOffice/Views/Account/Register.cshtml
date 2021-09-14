@@ -1,0 +1,128 @@
+﻿@model DAES.Model.SistemaIntegrado.RegisterViewModel
+@{
+    ViewBag.Title = "Registrar";
+    ViewBag.SubTitle = "Cuenta de usuario";
+}
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.HiddenFor(model => model.OrganizacionId)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Nombre, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.EmailNotificacionTarea, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.EmailNotificacionTarea, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.EmailNotificacionTarea, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PerfilId, "Perfil", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("PerfilId", null,"Seleccione...", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PerfilId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div id="selector">
+        <div class="form-group">
+            @Html.LabelFor(model => model.NombreOrganizacion, null, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => Model.NombreOrganizacion, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Registrar nueva cuenta" />
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/jqueryui")
+
+}
+<script>
+    $(document).ready(function () {
+
+        //$('#selector').hide();
+
+        $("#NombreOrganizacion").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Organizacion/AutoComplete/",
+                    data: { term: request.term },
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data,
+                            function (item) {
+                                return { id: item.id, value: item.value };
+                            }));
+                    }
+                });
+            },
+
+            select: function (event, ui) {
+                $("#NombreOrganizacion").val(ui.item.value);
+                $("#OrganizacionId").val(ui.item.id);
+                return false;
+            }
+        });
+
+        //$('#PerfilId').change(function () {
+        //    var value = $(this).val();
+        //    if (value == '10') {
+        //        $('#selector').show();
+        //    } else {
+        //        $('#selector').hide();
+        //        $("#NombreOrganizacion").val('');
+        //        $("#OrganizacionId").val('');
+        //    }
+        //});
+
+    });
+</script>

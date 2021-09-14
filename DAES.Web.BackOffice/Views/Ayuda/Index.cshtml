@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Ayuda>
+
+@{
+    ViewBag.Title = "Ayuda";
+}
+
+@using GridMvc.Html
+@Html.Grid(Model).Sortable(true).Columns(columns =>
+{
+    columns.Add(q => q.AyudaId).Titled("Id").Sortable(true).Filterable(true);
+    columns.Add(q => q.Pregunta).Titled("Pregunta").Sortable(true).Filterable(true);
+    columns.Add(q => q.Respuesta).Titled("Respuesta").Sortable(true).Filterable(true);
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.AyudaId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Editar", "Edit", new { id = q.AyudaId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Eliminar", "Delete", new { id = q.AyudaId }));
+}).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+
+<hr />
+@Html.ActionLink("Crear nuevo", "Create") | @Html.ActionLink("Volver al inicio", "Index", "Home")
+

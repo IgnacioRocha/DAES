@@ -1,0 +1,23 @@
+﻿@model DAES.Model.SistemaIntegrado.TipoOrganizacion
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Tipo de organización";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+      
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.TipoOrganizacionId }) |
+    @Html.ActionLink("Volver al listado", "Index")
+</p>

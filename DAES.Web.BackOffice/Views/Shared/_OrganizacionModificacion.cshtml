@@ -1,0 +1,60 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.ModificacionEstatuto>
+@using GridMvc.Html
+
+@helper CustomYesNo(DAES.Model.SistemaIntegrado.ModificacionEstatuto obj)
+{
+    if (obj.Vigente)
+    {
+        <text>Si</text>
+    }
+    else
+    {
+        <text>No</text>
+    }
+}
+<div class="panel panel-default">
+    <div class="panel-heading">Modificación</div>
+    <div class="panel-body">
+        <table class="table table-hover table-striped datatable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroOficio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Vigente)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.Fecha)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.NumeroOficio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Vigente)
+                        </td>
+                        <td>
+                            @if (item.Vigente)
+                            {
+                                <p>Si</p>
+                            }
+                            else
+                            {
+                                <p>No</p>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>       
+    </div>
+</div>

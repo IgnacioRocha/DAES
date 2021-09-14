@@ -1,0 +1,23 @@
+﻿@model DAES.Model.SistemaIntegrado.Disolucion
+@Html.HiddenFor(model => model.DisolucionId)
+@Html.HiddenFor(model => model.OrganizacionId)
+
+    <td>
+        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.NumeroOficio, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.NumeroOficio, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaAsamblea, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+        @Html.ValidationMessageFor(model => model.FechaAsamblea, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+        @Html.ValidationMessageFor(model => model.FechaPublicacionDiarioOficial, "", new { @class = "text-danger" })
+    </td>
+    @*<td>
+        @Ajax.ActionLink("Eliminar", "DisolucionDelete", "Organizacion", new { Model.DisolucionId }, new AjaxOptions { UpdateTargetId = "Disolucion" })
+    </td>*@

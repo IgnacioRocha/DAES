@@ -1,0 +1,71 @@
+﻿@model IEnumerable<DAES.Web.BackOffice.Controllers.WorkflowController.DTOWorkflow>
+@{
+    Layout = null;
+}
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                Tarea
+            </th>
+            <th>
+                Proceso
+            </th>
+            <th>
+                Número registro
+            </th>
+            <th>
+                Correlativo
+            </th>
+            <th>
+                Observación
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderByDescending(q => q.WorkflowId))
+        {
+            <tr>
+                <td>
+                    @{
+                        if (!item.Terminada && DateTime.Now.Date < item.FechaVencimiento.Date)
+                        {
+                            <span class="label label-success label-as-badge">En curso normal</span>
+                        }
+                        if (!item.Terminada && DateTime.Now.Date == item.FechaVencimiento.Date)
+                        {
+                            <span class="label label-warning label-as-badge">Por vencer</span>
+                        }
+                        if (!item.Terminada && DateTime.Now.Date > item.FechaVencimiento.Date)
+                        {
+                            <span class="label label-danger label-as-badge">Atrasado</span>
+                        }
+                    }
+                </td>
+                <td>
+                    @item.WorkflowId - @item.Workflow
+                </td>
+                <td>
+                    @item.ProcesoId - @item.Proceso
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Correlativo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Observacion)
+                </td>
+                <td>
+                    @Html.ActionLink("Ejecutar", item.Formulario, "Task", new { item.WorkflowId }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

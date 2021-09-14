@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="DAES.Web.FrontOffice.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Success" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Operación completada correctamente</Value>
+    </Setting>
+    <Setting Name="client_id" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">44568175e9ff4fdcb98cd4e9d368ce11</Value>
+    </Setting>
+    <Setting Name="client_secret" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">3803b17e50314a92972f9dec211df530</Value>
+    </Setting>
+    <Setting Name="redirect_uri" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://tramites.economia.gob.cl/claveunica</Value>
+    </Setting>
+    <Setting Name="url_gestion_procesos" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://gestionprocesos.economia.cl</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,0 +1,68 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+@{
+    ViewBag.Title = "Ejecución de tarea";
+}
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Info" data-toggle="tab">Información de la tarea</a>
+    </li>
+    <li>
+        <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Info">
+        <br />
+        @Html.Partial("_WorkflowDetails", Model.Workflow)
+        @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
+        @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })
+    </div>
+
+    <div class="tab-pane fade" id="Do">
+        <br />
+
+        @using (Html.BeginForm("AsignarResponsable", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Workflow.WorkflowId)
+            @Html.HiddenFor(model => model.Workflow.FechaCreacion)
+            @Html.HiddenFor(model => model.Workflow.FechaTermino)
+            @Html.HiddenFor(model => model.Workflow.DefinicionWorkflowId)
+
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Asignar responsable</div>
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @for (var i = 0; i < Model.Users.Count; i++)
+                                {
+                                    <ul>
+                                        @Html.HiddenFor(model => Model.Users[i].Id)
+                                        @Html.HiddenFor(model => Model.Users[i].UserName)
+                                        @Html.HiddenFor(model => Model.Users[i].Nombre)
+                                        @Html.CheckBoxFor(x => Model.Users[i].Selected, new { id = Html.NameFor(x => Model.Users[i].Id) })
+                                        <label for="@Html.NameFor(x => Model.Users[i].Id)">@Model.Users[i].Nombre - @Model.Users[i].UserName</label>
+                                    </ul>
+                                }
+                                @Html.ValidationMessageFor(model => Model.Users)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

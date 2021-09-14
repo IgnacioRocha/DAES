@@ -1,0 +1,18 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Directorio>
+
+@{
+    ViewBag.Title = "Directorio";
+}
+
+@using GridMvc.Html
+@Html.Grid(Model).Columns(columns =>
+   {
+       columns.Add(q => q.NombreCompleto).Titled("Nombre completo").Sortable(true).Filterable(true);
+       columns.Add(q => q.Cargo.Nombre).Titled("Cargo").Sortable(true).Filterable(true);
+       columns.Add(q => q.FechaInicio).Titled("Desde").RenderValueAs(q => string.Format("{0:dd-MM-yyyy}", q.FechaInicio));
+       columns.Add(q => q.FechaTermino).Titled("Hasta").RenderValueAs(q => string.Format("{0:dd-MM-yyyy}", q.FechaTermino));
+   }).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+<hr />
+@Html.ActionLink("Crear nuevo", "Create")  |
+@Html.ActionLink("Volver al inicio", "Index", "Home")

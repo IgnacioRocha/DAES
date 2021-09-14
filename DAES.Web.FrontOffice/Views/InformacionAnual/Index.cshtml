@@ -1,0 +1,26 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Envío de informacion anual</h1>
+        <p class="lead"></p>
+        <p class="lead">Este trámite requiere <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+        <a id="linkGo" href='@Url.Action("Start")' class="btn btn-primary btn-rounded">Iniciar trámite</a>
+    </div>
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+@*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-18"></script>
+<script>
+    $('#linkGo').click(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-18');
+        gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540034'
+        });
+    });
+</script>*@

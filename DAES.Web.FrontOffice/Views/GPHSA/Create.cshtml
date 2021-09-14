@@ -1,0 +1,136 @@
+﻿@model DAES.Web.FrontOffice.Controllers.DTOInformeHSA
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Nuevo informe HSA</h1>
+        <p class="lead">
+            Ingreso de nuevo informe HSA
+        </p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+<div class="container my-3">
+    <a href="@Url.Action("Index","GPHSA")">Volver al inicio</a>
+</div>
+<div class="container my-3">
+    <div class="row">
+        <div class="col-lg-8 col-md-12 col-sm-12">
+            @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                @Html.HiddenFor(q => q.Email)
+                @Html.HiddenFor(q => q.RUT)
+                @Html.HiddenFor(q => q.Nombre)
+                @Html.HiddenFor(q => q.NombreJefatura)
+                @Html.HiddenFor(q => q.Unidad)
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Datos del informe</h5>
+                        <p class="card-text">Ingrese los datos solicitados en el formulario</p>
+                        <hr />
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.FechaDesde, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.FechaDesde, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => Model.FechaDesde, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.FechaHasta, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.FechaHasta, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => Model.FechaHasta, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.RUT, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.RUT, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(m => Model.RUT, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.Nombre, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.Nombre, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(m => Model.Nombre, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.Unidad, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.Unidad, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(m => Model.Unidad, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.NombreJefatura, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.NombreJefatura, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                    @Html.ValidationMessageFor(m => Model.NombreJefatura, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.ConJornada, new { @class = "font-weight-bold" })
+                            @Html.CheckBoxFor(m => Model.ConJornada)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Funciones, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.Funciones, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.Funciones, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Actividades, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.Actividades, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.Actividades, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Observaciones, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.Observaciones, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.NumeroBoleta, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.NumeroBoleta, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => Model.NumeroBoleta, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.FechaBoleta, new { @class = "font-weight-bold" })
+                                    @Html.EditorFor(m => Model.FechaBoleta, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(m => Model.FechaBoleta, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Boleta, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => Model.Boleta, null, new {
+                                @type = "file",
+                                @accept = "application/msword,application/vnd.ms-excel,application/vnd.ms-powerpoint,text/plain,application/pdf,image/*",
+                                @multiple = "multiple"})
+                            <br />
+                            <small>Solo se aceptan archivos pdf, word, excel, powerpoint, de texto e imagenes. Puede seleccionar varios archivos</small><br />
+                            @Html.ValidationMessageFor(model => model.Boleta, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr />
+                        <button class="btn btn-primary btn-rounded" type="submit">Enviar</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

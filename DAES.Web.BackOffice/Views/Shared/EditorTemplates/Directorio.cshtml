@@ -1,0 +1,29 @@
+﻿@model DAES.Model.SistemaIntegrado.Directorio
+@Html.HiddenFor(model => model.DirectorioId)
+@Html.HiddenFor(model => model.OrganizacionId)
+
+<td>
+    @Html.EditorFor(model => model.NombreCompleto, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.NombreCompleto, "", new { @class = "text-danger" })
+</td>
+<td>
+    @Html.EditorFor(model => model.Rut, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Rut, "", new { @class = "text-danger" })
+</td>
+<td>
+    @Html.DropDownListFor(model => model.CargoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.CargoId, "", new { @class = "text-danger" })
+</td>
+<td>
+    @Html.DropDownListFor(model => model.GeneroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+    @Html.ValidationMessageFor(model => model.GeneroId, "", new { @class = "text-danger" })
+</td>
+<td>
+    @Html.EditorFor(model => model.FechaInicio, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+    @Html.ValidationMessageFor(model => model.FechaInicio, "", new { @class = "text-danger" })
+</td>
+<td>
+    @Html.EditorFor(model => model.FechaTermino, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+    @Html.ValidationMessageFor(model => model.FechaTermino, "", new { @class = "text-danger" })
+</td>
+

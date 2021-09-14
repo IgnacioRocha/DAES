@@ -1,0 +1,29 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Modelo de supervisión</h1>
+        <p class="lead">Todos los trámites de esta sección requiren <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+    </div>
+</div>
+<div class="container my-3">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index","SupervisionCAC")' class="btn btn-outline-primary">
+                <p><h4><u>Ahorro y Crédito</u></h4></p>
+                <p>
+                    Envio de documentos de las cooperativas de ahorro y crédito
+                </p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index","SupervisionNOCAC")' class="btn btn-outline-primary">
+                <p><h4><u>Otras Cooperativas</u></h4></p>
+                <p>
+                    Envio de documentos de las cooperativas que no pertenecen al rubro ahorro y crédito
+                </p>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "CooperativaFinanciera")'>DAES digital</a>
+</div>

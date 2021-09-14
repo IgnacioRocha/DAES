@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" GroupingSetting="Access">
+  <Class Name="DAES.Model.SistemaIntegrado.Proceso">
+    <Position X="7.5" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EQAQAAUAICEAAAABAAIAAAgAAQAQAAAAAQAAAIABIAY=</HashCode>
+      <FileName>SistemaIntegrado\Proceso.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DefinicionProceso" />
+      <Property Name="Organizacion" />
+      <Property Name="Solicitante" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Workflows" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Workflow" Collapsed="true">
+    <Position X="7.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAIQAIAEAIAIAAQAAAAgACAAgAAAAAQAAAAYBBII=</HashCode>
+      <FileName>SistemaIntegrado\Workflow.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DefinicionWorkflow" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.DefinicionProceso" Collapsed="true">
+    <Position X="10.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAQAAAAAAAAAEAAAAAgAABEAARABAAAAAAAAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\DefinicionProceso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Solicitante" Collapsed="true">
+    <Position X="10.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAEQAAAgCAAAAAEAEAAAAAAAAAAAAAAAAAAQAAAAAI=</HashCode>
+      <FileName>SistemaIntegrado\Solicitante.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Organizacion" Collapsed="true">
+    <Position X="4.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gaGEQQAEsKGQAAoBACgGDhgABSySAQQBBEAgQACEAAw=</HashCode>
+      <FileName>SistemaIntegrado\Organizacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Region" />
+      <Property Name="Comuna" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.DefinicionWorkflow" Collapsed="true">
+    <Position X="10" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAEAASAAAAAAEQAAAAgAAAAwCDAIAIAAQAQAAAA=</HashCode>
+      <FileName>SistemaIntegrado\DefinicionWorkflow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Documento">
+    <Position X="0.5" Y="3.75" Width="2.5" />
+    <AssociationLine Name="Organizacion" Type="DAES.Model.SistemaIntegrado.Organizacion" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="3" Y="4.375" />
+        <Point X="5.375" Y="4.375" />
+        <Point X="5.375" Y="3.312" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAkAQIAAI6GEMAAAACAAAAARAQAIBAAgCQAAAQxEKAQ=</HashCode>
+      <FileName>SistemaIntegrado\Documento.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Organizacion" />
+      <Property Name="Workflow" />
+      <Property Name="Proceso" />
+      <Property Name="TipoDocumento" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.TipoDocumento">
+    <Position X="4.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAIAgAAAAAARAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\TipoDocumento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.ConfiguracionCertificado" Collapsed="true">
+    <Position X="7.25" Y="8.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>QgAACAAAAEiABAAAAAAAACgAAAAABAQAAAAwAAAQABA=</HashCode>
+      <FileName>SistemaIntegrado\ConfiguracionCertificado.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TipoDocumento" />
+      <Property Name="TipoOrganizacion" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.TipoOrganizacion" Collapsed="true">
+    <Position X="10.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\TipoOrganizacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Comuna" Collapsed="true">
+    <Position X="2.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEEAAAAgQAAAAAAAAAAgAgAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>SistemaIntegrado\Comuna.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Region" Collapsed="true">
+    <Position X="4.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAQAAAAAAAAAAgAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\Region.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.ActualizacionOrganizacion">
+    <Position X="12.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gaEEAQAEsKCQIAoBAChGDBgABSySAQQBBUAgQACAIAw=</HashCode>
+      <FileName>SistemaIntegrado\ActualizacionOrganizacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Proceso" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Directorio" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.ActualizacionOrganizacionDirectorio">
+    <Position X="15.75" Y="2.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIEAAAEAJAAgAAAAABAAAAAAABAAI=</HashCode>
+      <FileName>SistemaIntegrado\ActualizacionOrganizacionDirectorio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

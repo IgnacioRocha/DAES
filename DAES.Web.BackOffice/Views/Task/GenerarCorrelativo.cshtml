@@ -1,0 +1,100 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+
+@{
+    ViewBag.Title = "Ejecución de tarea";
+}
+
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Info" data-toggle="tab">Información de la tarea</a>
+    </li>
+    <li>
+        <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Info">
+        <br />
+        @Html.Partial("_WorkflowDetails", Model.Workflow)
+        @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
+        @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })
+    </div>
+
+    <div class="tab-pane fade" id="Do">
+        <br />
+
+        @using (Html.BeginForm("GenerarCorrelativo", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Workflow.WorkflowId)
+
+            var organizacion = Model.Organizacion;
+            @Html.HiddenFor(m => organizacion.OrganizacionId)
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Generación de nuevo correlativo</div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => organizacion.NumeroRegistro, "Número de registro", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => organizacion.NumeroRegistro, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => organizacion.NumeroRegistro, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => organizacion.TipoOrganizacionId, "Tipo organización", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => organizacion.TipoOrganizacionId, (SelectList)ViewBag.TipoOrganizacionId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => organizacion.TipoOrganizacionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => organizacion.RegionId, "Región", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => organizacion.RegionId, (SelectList)ViewBag.RegionId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => organizacion.RegionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => organizacion.RazonSocial, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => organizacion.RazonSocial, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => organizacion.RazonSocial, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => organizacion.RUT, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => organizacion.RUT, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => organizacion.RUT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => organizacion.Sigla, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => organizacion.Sigla, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => organizacion.Sigla, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p>
+                <input type="submit" value="Generar correlativo" class="btn btn-primary" />
+            </p>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

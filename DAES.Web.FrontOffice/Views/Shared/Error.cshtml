@@ -1,0 +1,14 @@
+﻿@model HandleErrorInfo
+
+<div class="container">
+    <h1>Error</h1>
+    <p>Ocurrió un error no esperado en @ViewBag.RequestedUrl</p>
+    @if (ViewBag.ReferrerUrl != null)
+    {
+        <p>Volver a <a href="@ViewBag.ReferrerUrl">página anterior</a>.</p>
+    }
+</div>
+
+@* Error page must be longer than 512 bytes for IE and Chrome to show it.
+    So add padding in case we're short. *@
+@(new string(' ', 512))

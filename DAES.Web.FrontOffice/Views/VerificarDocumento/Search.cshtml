@@ -1,0 +1,29 @@
+﻿@model DAES.Model.DTO.DTOVerificacionCertificado
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Verificar documentos</h1>
+        <p class="lead">Permite validar documentos emitidos electrónicamente por la DAES</p>
+    </div>
+</div>
+<div class="container my-3">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Búsqueda de documentos</h5>
+                <p class="card-title">Ingrese el número del documento</p>
+                <div class="form-group">
+                    @Html.EditorFor(m => Model.id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.id, "", new { @class = "text-danger" })
+                </div>
+                <button class="btn btn-primary btn-rounded" type="submit">Buscar</button>
+            </div>
+        </div>
+    }
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>

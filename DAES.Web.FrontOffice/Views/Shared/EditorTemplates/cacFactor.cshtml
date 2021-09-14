@@ -1,0 +1,18 @@
+﻿@model DAES.Model.Supervision.cacFactor
+
+@Html.HiddenFor(q => Model.factId)
+@Html.HiddenFor(q => Model.factDescripcion)
+
+<li class="collection-item">
+    <br />
+    @Html.LabelFor(q => Model.factDescripcion)
+    <br />
+    @Model.factDescripcion
+    <br />
+    <br />
+    @Html.LabelFor(q => Model.concId)
+    <br />
+    @Html.DropDownListFor(q => Model.concId, new SelectList(ViewBag.ConceptoId as IEnumerable<DAES.Model.Supervision.cacConcepto>, "concid", "concdescripcion", Model.concId), "Seleccione respuesta...", new { @class = "teal-text" })
+    @Html.ValidationMessageFor(model => model.concId, "", new { @class = "red-text" })
+    <br />
+</li>

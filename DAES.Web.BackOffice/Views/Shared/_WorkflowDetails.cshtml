@@ -1,0 +1,49 @@
+﻿@model DAES.Model.SistemaIntegrado.Workflow
+
+<div class="panel panel-default">
+    <div class="panel-heading">Tarea</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.WorkflowId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.WorkflowId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </dt>
+
+            <dd>
+                @string.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DefinicionWorkflow.TipoWorkflow.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DefinicionWorkflow.TipoWorkflow.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DefinicionWorkflow.TipoWorkflow.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DefinicionWorkflow.TipoWorkflow.Descripcion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Observacion)
+            </dd>
+
+        </dl>
+        @*@Html.ActionLink("Ver proceso completo", "Details", "ProcesoConsultor", new { id = Model.ProcesoId }, null)*@
+    </div>
+</div>

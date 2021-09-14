@@ -1,0 +1,349 @@
+﻿@model DAES.Model.SistemaIntegrado.ActaFiscalizacion
+@{
+    ViewBag.Title = "Ejecución de tarea";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#ddlRegion").change(function () {
+            var RegionId = $(this).val();
+            $.getJSON("../organizacion/getComuna", { RegionId: RegionId },
+                function (classesData) {
+                    var select = $("#ddlComuna");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Seleccione..."
+                    }));
+                    $.each(classesData, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        });
+    });
+</script>
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Info" data-toggle="tab">Información de la tarea</a>
+    </li>
+    <li>
+        <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Info">
+        <br />
+        @Html.Partial("_WorkflowDetails", Model.Workflow)
+        @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
+        @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })
+    </div>
+
+    <div class="tab-pane fade" id="Do">
+        <br />
+
+        @using (Html.BeginForm("ActaFiscalizacion", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.ActaFiscalizacionId)
+            @Html.HiddenFor(model => model.OrganizacionId)
+            @Html.HiddenFor(model => model.WorkflowId)
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Acta de fiscalización</div>
+                <div class="panel-body">
+
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Organizacion.TipoOrganizacion.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Organizacion.TipoOrganizacion.Nombre, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Organizacion.RazonSocial, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Organizacion.RazonSocial, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Organizacion.NumeroRegistro, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Organizacion.NumeroRegistro, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RUT, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RUT, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RUT, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NOficioAcreditacioRequerimientos, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.NOficioAcreditacioRequerimientos, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.NOficioAcreditacioRequerimientos, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaSalidaOficioAcreditacionRequerimientos, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FechaSalidaOficioAcreditacionRequerimientos, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FechaSalidaOficioAcreditacionRequerimientos, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NActaReunionFiscalizacionInSitu, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.NActaReunionFiscalizacionInSitu, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.NActaReunionFiscalizacionInSitu, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaFiscalizacionInSitu, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.FechaFiscalizacionInSitu, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FechaFiscalizacionInSitu, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RepresentanteLegal, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RepresentanteLegal, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RepresentanteLegal, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GeneroRepresentanteLegalId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.GeneroRepresentanteLegalId, new SelectList(ViewBag.GeneroRepresentanteLegalId, "GeneroId", "Nombre"), "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.GeneroRepresentanteLegalId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.VigenciaRepresentanteLegal, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+
+                                <label>
+                                    @Html.RadioButtonFor(model => model.VigenciaRepresentanteLegal, true, new { @class = "radio-inline", id = "" })
+                                    <span>Vigente</span>
+                                </label>
+                                <label>
+                                    @Html.RadioButtonFor(model => model.VigenciaRepresentanteLegal, false, new { @class = "radio-inline", id = "" })
+                                    <span>No vigente</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Gerente, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Gerente, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Gerente, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.GeneroGerenteId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.GeneroGerenteId, new SelectList(ViewBag.GeneroGerenteId, "GeneroId", "Nombre"), "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.GeneroGerenteId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RegionId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.RegionId, new SelectList(ViewBag.RegionId, "RegionId", "Nombre"), "Seleccione...", htmlAttributes: new { @class = "form-control", @id = "ddlRegion" })
+                                @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ComunaId, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => model.ComunaId, new SelectList(ViewBag.ComunaId, "ComunaId", "Nombre"), "Seleccione...", htmlAttributes: new { @class = "form-control", @id = "ddlComuna" })
+                                @Html.ValidationMessageFor(model => model.ComunaId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DireccionActual, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DireccionActual, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DireccionActual, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CambioDireccion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <label>
+                                    @Html.RadioButtonFor(model => model.CambioDireccion, true, new { @class = "radio-inline", id = "" })
+                                    <span>Si</span>
+                                </label>
+                                <label>
+                                    @Html.RadioButtonFor(model => model.CambioDireccion, false, new { @class = "radio-inline", id = "" })
+                                    <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActaFiscalizacionFiscalizadorContables, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <ul class="list-group row">
+                                    @for (var i = 0; i < Model.ActaFiscalizacionFiscalizadorContables.Count; i++)
+                                    {
+                                        @Html.HiddenFor(model => model.ActaFiscalizacionFiscalizadorContables[i].ActaFiscalizacionFiscalizadorContableId)
+                                        @Html.HiddenFor(model => model.ActaFiscalizacionFiscalizadorContables[i].ActaFiscalizacionId)
+
+                                        <li class="list-group-item">
+                                            <label>
+                                                @Html.CheckBoxFor(model => model.ActaFiscalizacionFiscalizadorContables[i].Seleccionado)
+                                                <span>@Model.ActaFiscalizacionFiscalizadorContables[i].User.Nombre - (@Model.ActaFiscalizacionFiscalizadorContables[i].User.UserName) </span>
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActaFiscalizacionFiscalizadorLegals, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <ul class="list-group row">
+                                    @for (var i = 0; i < Model.ActaFiscalizacionFiscalizadorLegals.Count; i++)
+                                    {
+                                        @Html.HiddenFor(model => model.ActaFiscalizacionFiscalizadorLegals[i].ActaFiscalizacionFiscalizadorLegalId)
+                                        @Html.HiddenFor(model => model.ActaFiscalizacionFiscalizadorLegals[i].ActaFiscalizacionId)
+
+                                        <li class="list-group-item">
+                                            <label>
+                                                @Html.CheckBoxFor(model => model.ActaFiscalizacionFiscalizadorLegals[i].Seleccionado)
+                                                <span>@Model.ActaFiscalizacionFiscalizadorLegals[i].User.Nombre - (@Model.ActaFiscalizacionFiscalizadorLegals[i].User.UserName) </span>
+                                            </label>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActaFiscalizacionHechoLegals, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoLegals.FirstOrDefault().HechoLegal.Antecedente)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoLegals.FirstOrDefault().Requerido)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoLegals.FirstOrDefault().Observacion)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoLegals.FirstOrDefault().File)
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.ActaFiscalizacionHechoLegals.Count; i++)
+                                            {
+                                                <tr>
+                                                    @Html.EditorFor(model => model.ActaFiscalizacionHechoLegals[i])
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ObservacionLegal, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ObservacionLegal, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ObservacionLegal, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ActaFiscalizacionHechoContables, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoContables.FirstOrDefault().HechoContable.Antecedente)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoContables.FirstOrDefault().Requerido)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoContables.FirstOrDefault().Periodo)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoContables.FirstOrDefault().Observacion)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.ActaFiscalizacionHechoContables.FirstOrDefault().File)
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.ActaFiscalizacionHechoContables.Count; i++)
+                                            {
+                                                <tr>
+                                                    @Html.EditorFor(model => model.ActaFiscalizacionHechoContables[i])
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ObservacionContable, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ObservacionContable, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ObservacionContable, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+        }
+    </div>
+</div>

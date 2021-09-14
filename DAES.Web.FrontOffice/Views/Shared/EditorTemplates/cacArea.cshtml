@@ -1,0 +1,13 @@
+﻿@model DAES.Model.Supervision.cacArea
+
+@Html.HiddenFor(q => Model.areaId)
+@Html.HiddenFor(q => Model.areaDescripcion)
+
+<ul class="collection with-header card">
+
+    <li class="collection-header">
+        <span class="card-title">@Model.areaDescripcion </span>
+    </li>
+
+    @Html.EditorFor(q => Model.cacFactors)
+</ul>

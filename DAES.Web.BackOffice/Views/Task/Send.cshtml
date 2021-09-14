@@ -1,0 +1,49 @@
+﻿@model DAES.Model.SistemaIntegrado.Workflow
+
+@{
+    ViewBag.Title = "Envío de tarea";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.WorkflowId)
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Envío de tarea</div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TipoAprobacionId, "Aprobación", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.TipoAprobacionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TipoAprobacionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                @if (Enumerable.Count(ViewBag.DefinicionWorkflowId) > 0)
+                {
+                    <div class="form-group">
+                        @Html.Label("Enviar a", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(model => model.DefinicionWorkflowId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.DefinicionWorkflowId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p>
+        <button type="submit" class="btn btn btn-primary">Confirmar envío</button>
+        <a href="javascript:void(0);" onclick="history.go(-1);" class="btn btn-default">Volver a la tarea</a>
+    </p>
+}

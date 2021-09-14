@@ -1,0 +1,24 @@
+
+
+
+Testing
+Client ID: b2d5390a03e642b799ac7dd61c1d453d
+Client secret: 13a684fb85f649fb860171f6714c8a31
+redirect_uri: https://tramite.economia.cl/claveunica
+
+Produccion
+Client ID: 44568175e9ff4fdcb98cd4e9d368ce11
+Client secret: 3803b17e50314a92972f9dec211df530
+redirect_uri: https://tramites.economia.gob.cl/claveunica
+
+
+
+1. Generar token (guid)
+2. invocar url de autenticacion con parametros de cliente a claveunica
+3. Autenticar con rut y clave del ciudadano
+4. Clave unica responde a pagina /claveunica pasando state y code
+5. Realizar peticion POST para solicitar datos del rut logeado en el paso 3
+6. utilizar información, mostrar etc..
+
+
+

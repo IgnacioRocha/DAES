@@ -1,0 +1,94 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">DAES Digital</h1>
+        <p class="lead">En esta página encontrará todos los trámites de cooperativas, asociaciones gremiales y asociaciones de consumidores. Algunos de estos trámites requieren de <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+<div class="container my-3">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index", "Certificado")' class="btn btn-outline-primary">
+                <p><h4><u>Solicitud certificado</u></h4></p>
+                <p>
+                    Emisión de varios tipos de certificados automáticos y manuales.
+                </p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index", "VerificarDocumento")' class="btn btn-outline-primary">
+                <p><h4><u>Verificar documento</u></h4></p>
+                <p>
+                    Verificación de documentos emitidos por el DAES.<br />
+                </p>
+            </a>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index", "Proceso")' class="btn btn-outline-primary">
+                <p><h4><u>Consultar trámite</u></h4></p>
+                <p>
+                    Consultar el estado de un trámite iniciado electrónicamente.
+                </p>
+            </a>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index", "Organizacion")' class="btn btn-outline-primary">
+                <p><h4><u>Buscar organización</u></h4></p>
+                <p>
+                    Buscar organizaciones en línea en el directorio oficial.
+                </p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index","Constitucion")' class="btn btn-outline-primary">
+                <p><h4><u>Constituir organización</u></h4></p>
+                <p>
+                    Crear cooperativa, asociación gremial o asociación de consumidores<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index","Modificar")' class="btn btn-outline-primary">
+                <p><h4><u>Otros trámites</u></h4></p>
+                <p>
+                    Actualizar información de las organizaciones en línea.<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index","RespuestaOficio")' class="btn btn-outline-primary">
+                <p><h4><u>Respuesta oficio</u></h4></p>
+                <p>
+                    Envío de información solicitada mediante oficios<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index","CooperativaFinanciera")' class="btn btn-outline-primary">
+                <p><h4><u>Cooperativas de importancia económica</u></h4></p>
+                <p>
+                    Modelo de Supervisión y Cumplimiento de los artículos 90° y 91° de la R.A.E 1321<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+         <div class="col-lg-4 col-md-6 col-sm-6 p-1 d-flex">
+            <a href='@Url.Action("Index","AsociacionConsumidor")' class="btn btn-outline-primary">
+                <p><h4><u>Asociaciones de consumidores</u></h4></p>
+                <p>
+                    Envio de información anual y semestral para las asociaciones de consumidores.<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+
+    </div>
+</div>

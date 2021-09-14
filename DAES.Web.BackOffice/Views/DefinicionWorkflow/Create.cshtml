@@ -1,0 +1,53 @@
+﻿@model DAES.Model.SistemaIntegrado.DefinicionWorkflow
+
+@{
+    ViewBag.Title = "Crear";
+    ViewBag.SubTitle = "Definición de tarea";
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.TipoWorkflowId, "Tipo tarea", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TipoWorkflowId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.TipoWorkflowId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserId, "Funcionario", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("UserId", null,"Seleccione...", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DefinicionWorkflowRechazoId, "En caso de rechazo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DefinicionWorkflowRechazoId", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DefinicionWorkflowRechazoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.DefinicionWorkflowDependeDeId, "Tarea padre", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DefinicionWorkflowDependeDeId", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DefinicionWorkflowDependeDeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@

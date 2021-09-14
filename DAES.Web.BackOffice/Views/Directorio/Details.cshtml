@@ -1,0 +1,71 @@
+﻿@model DAES.Model.SistemaIntegrado.Directorio
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Directorio";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cargo.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cargo.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Genero.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Genero.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Organizacion.NumeroRegistro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Organizacion.NumeroRegistro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreCompleto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreCompleto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaTermino)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaTermino)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.DirectorioId }) |
+    @Html.ActionLink("Volver al listado", "Index")
+</p>

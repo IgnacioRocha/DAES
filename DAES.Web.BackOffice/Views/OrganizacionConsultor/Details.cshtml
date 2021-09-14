@@ -1,0 +1,15 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+<h2>@Model.RazonSocial</h2>
+
+<p>
+    <a href="javascript:void(0);" onclick="history.go(-1);">Volver a la lista</a>
+</p>
+
+@Html.Partial("_OrganizacionDetails", Model)
+@Html.Partial("_OrganizacionDocumento", Model.DocumentoSinContenidos)
+@Html.Partial("_OrganizacionProceso", Model.Procesos)
+@Html.Partial("_OrganizacionModificacion", Model.ModificacionEstatutos)
+@Html.Partial("_OrganizacionDisolucion", Model.Disolucions)
+<p>
+    <a href="javascript:void(0);" onclick="history.go(-1);">Volver a la lista</a>
+</p>

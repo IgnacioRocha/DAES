@@ -1,0 +1,35 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Asociaciones de consumidores</h1>
+        <p class="lead">Todos los trámites de esta sección requiren <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+    </div>
+</div>
+<div class="container my-3">
+    <div class="row">
+         <div class="col-lg-4 col-md-4 col-sm-4 p-1 d-flex">
+            <a href='@Url.Action("Index","InformacionSemestral")' class="btn btn-outline-primary">
+                <p><h4><u>Envío de información semestral</u></h4></p>
+                <p>
+                    Envío de información semestral<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 p-1 d-flex">
+            <a href='@Url.Action("Index","InformacionAnual")' class="btn btn-outline-primary">
+                <p><h4><u>Envío de información anual</u></h4></p>
+                <p>
+                    Envío de información anual<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+       
+        <div class="col-4 p-1 d-flex">
+        </div>
+    </div>
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>

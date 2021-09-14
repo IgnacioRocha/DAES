@@ -1,0 +1,10 @@
+﻿@model DAES.Model.DTO.DTOConsultaProceso.DTODefinicionProceso
+
+
+@Html.HiddenFor(q => Model.value)
+@Html.HiddenFor(q => Model.text)
+
+<label>
+    @Html.EditorFor(m => Model.selected) @Model.text
+</label>
+<br />

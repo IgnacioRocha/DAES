@@ -1,0 +1,19 @@
+﻿@model DAES.Model.SistemaIntegrado.TipoCriterio
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Tipo de criterio";
+}
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+    </dl>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.TipoCriterioId }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

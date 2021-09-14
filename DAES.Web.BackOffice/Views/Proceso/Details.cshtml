@@ -1,0 +1,290 @@
+﻿@model DAES.Model.SistemaIntegrado.Proceso
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Proceso";
+}
+
+@if (!Model.Terminada && DateTime.Now.Date > Model.FechaVencimiento.Date)
+{
+    <p>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Proceso fuera de plazo. Este proceso no se completó dentro del plazo establecido.
+        </div>
+    </p>
+}
+else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
+{
+    <p>
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            Proceso a punto de expirar. La fecha de vencimiento de este proceso es hoy.
+        </div>
+    </p>
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Proceso</div>
+    <div class="panel-body">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ProcesoId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ProcesoId)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.DefinicionProceso.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DefinicionProceso.Nombre)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Organizacion.NumeroRegistro)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Organizacion.NumeroRegistro)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Organizacion.RazonSocial)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Organizacion.RazonSocial)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Organizacion.Direccion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Organizacion.Direccion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Organizacion.Region.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Organizacion.Region.Nombre)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Organizacion.Comuna.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Organizacion.Comuna.Nombre)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentoId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DocumentoId)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Correlativo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Correlativo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Observacion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Observacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaCreacion)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaTermino)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaTermino)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaVencimiento)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaVencimiento)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Terminada)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Terminada)
+            </dd>
+
+            @if (Model.Solicitante != null)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.Solicitante.Rut)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Solicitante.Rut)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Solicitante.Nombres)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Solicitante.Nombres)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Solicitante.Apellidos)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Solicitante.Apellidos)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Solicitante.Email)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Solicitante.Email)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Solicitante.Fono)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Solicitante.Fono)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Solicitante.Region.Nombre)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Solicitante.Region.Nombre)
+                </dd>
+
+
+
+            }
+
+
+        </dl>
+        <hr />
+
+        @if (HttpContext.Current.User.Identity.IsAuthenticated)
+        {
+            if (ViewBag.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador || ViewBag.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Jefatura)
+            {
+                <p>
+                    @Html.ActionLink("Editar", "Edit", new { id = Model.ProcesoId }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = Model.ProcesoId }) |
+                    @Html.ActionLink("Ver definición de proceso", "Details", "DefinicionProceso", new { id = Model.DefinicionProcesoId }, null)
+                </p>
+            }
+            if (ViewBag.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Secretaria)
+            {
+                <p>
+                    @Html.ActionLink("Editar", "Edit", new { id = Model.ProcesoId })
+                </p>
+            }
+        }
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Historial de ejecución</div>
+    <div class="panel-body">
+
+        <ul class="timeline">
+            @foreach (var workflow in Model.Workflows.OrderByDescending(q => q.WorkflowId))
+            {
+                var muted = workflow.Terminada ? "text-muted" : "default";
+                var status = "warning glyphicon glyphicon-hourglass";
+                if (workflow.Terminada && workflow.TipoAprobacionId == (int)DAES.Infrastructure.Enum.TipoAprobacion.Aprobada)
+                {
+                    status = "success glyphicon glyphicon-ok";
+                }
+                if (workflow.Terminada && workflow.TipoAprobacionId != (int)DAES.Infrastructure.Enum.TipoAprobacion.Aprobada)
+                {
+                    status = "danger glyphicon glyphicon-remove";
+                }
+
+                <li class="timeline-inverted">
+                    <div class="timeline-badge @status"></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title"><strong> @workflow.DefinicionWorkflow.TipoWorkflow.Nombre. Id: @Html.DisplayFor(model => workflow.WorkflowId)</strong></h4>
+                            <hr />
+                        </div>
+                        <div class="timeline-body @muted">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    Funcionario
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => workflow.User.UserName)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => workflow.FechaCreacion)
+                                </dt>
+
+                                <dd>
+                                    @string.Format("{0:dd-MM-yyyy HH:mm:ss}", workflow.FechaCreacion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => workflow.FechaTermino)
+                                </dt>
+
+                                <dd>
+                                    @string.Format("{0:dd-MM-yyyy HH:mm:ss}", workflow.FechaTermino)
+                                </dd>
+
+                                @if (workflow.FechaTermino.HasValue)
+                                {
+                                    var duracion = workflow.FechaTermino - workflow.FechaCreacion;
+                                    <dt>
+                                        Duración
+                                    </dt>
+
+                                    <dd>
+                                        @string.Format("{0} dias, {1} horas, {2} minutos, {3} segundos", duracion.Value.Days, duracion.Value.Hours, duracion.Value.Minutes, duracion.Value.Seconds)
+                                    </dd>
+                                }
+
+                                @*<dt>
+                                        @Html.DisplayNameFor(model => workflow.TipoAprobacion.Nombre)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => workflow.TipoAprobacion.Nombre)
+                                    </dd>*@
+
+                                @*<dt>
+                                        @Html.DisplayNameFor(model => workflow.Terminada)
+                                    </dt>
+
+                                    <dd>
+                                        @Html.DisplayFor(model => workflow.Terminada)
+                                    </dd>*@
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => workflow.Observacion)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => workflow.Observacion)
+                                </dd>
+
+                            </dl>
+
+                            <hr />
+                            @Html.ActionLink("Detalles", "Details", "Workflow", new { id = workflow.WorkflowId }, null) |
+                            @Html.ActionLink("Editar", "Edit", "Workflow", new { id = workflow.WorkflowId }, null) |
+                            @Html.ActionLink("Terminar", "Stop", "Workflow", new { id = workflow.WorkflowId }, null)
+                            @*@Html.ActionLink("Eliminar", "Delete", "Workflow", new { id = workflow.WorkflowId }, null)*@
+                        </div>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

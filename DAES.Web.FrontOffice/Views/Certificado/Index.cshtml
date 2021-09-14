@@ -1,0 +1,26 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Solicitud de certificados</h1>
+        <p class="lead">Este trámite permite solicitar la emisión de varios tipos de certificados: Certificado Artículo 8vo Transitorio, Certificado Disolución, Certificado Estatutos, Certificado Vigencia y Directorio, Certificado Vigencia</p>
+        <p class="lead">La emisión de certificados manuales se encuentra condicionada a la disponibilidad de antecedentes para su otorgamiento</p>
+        <a id="linkGo" href='@Url.Action("Emitir")' class="btn btn-primary btn-rounded">Iniciar trámite</a>
+    </div>
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-4"></script>
+    <script>
+        $('#linkGo').click(function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'UA-149680284-4');
+            gtag('event', 'Inicio de la solicitud', {
+                'event_category': 'Trámite digital',
+                'event_label': 'Trámite - ID 800540000'
+            });
+        });
+    </script>

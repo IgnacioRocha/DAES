@@ -1,0 +1,170 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+@{
+    ViewBag.Title = "Ejecución de tarea";
+}
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Info" data-toggle="tab">Información de la tarea</a>
+    </li>
+    <li>
+        <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Info">
+        <br />
+        @Html.Partial("_WorkflowDetails", Model.Workflow)
+        @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
+        @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })
+    </div>
+
+    <div class="tab-pane fade" id="Do">
+        <br />
+        @if (Model.Articulo91 != null)
+        {
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Artículo 91</div>
+                <div class="panel-body">
+
+
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Articulo91.NombreGerente)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Articulo91.NombreGerente)
+                        </dd>
+                        
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Articulo91.NombreContadorGeneral)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Articulo91.NombreContadorGeneral)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Articulo91.FechaCelebracionUltimaJuntaGeneralSocios)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Articulo91.FechaCelebracionUltimaJuntaGeneralSocios)
+                        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Articulo91.FechaCelebracionUltimaJuntaGeneralSocios)
+                        </dd>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Articulo91.Periodo)
+                        </dd>
+                        <dd>
+                            @Html.DisplayFor(model => model.Articulo91.Periodo)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Documentos del proceso</div>
+                <div class="panel-body">
+                    <table class="table table-hover table-striped datatable">
+                        <thead>
+                            <tr>
+                                <th>Archivo</th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FechaCreacion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Descripcion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Autor)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Documentos)
+                            {
+                                <tr>
+                                    @if (item.Content != null)
+                                    {
+                                        <td>
+                                            @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
+                                        </td>
+                                    }
+                                    @if (item.Url != null)
+                                    {
+                                        <td>
+                                            <a href="@item.Url" target="_blank">@item.FileName</a>
+                                        </td>
+                                    }
+                                    <td>
+                                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Descripcion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => item.Autor)
+                                    </td>
+
+                                    <td>
+
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=@string.Concat("#modaldetalle", item.DocumentoId) id=@string.Concat("button", item.DocumentoId)>
+                                            Detalle
+                                        </button>
+                                        <div class="modal fade" id=@string.Concat("modaldetalle", item.DocumentoId) tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h3 class="modal-title" id="exampleModalLabel">Detalles del documento</h3>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @Html.Action("Details", "Documento", new { id = item.DocumentoId })
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Aprobación de información</div>
+                <div class="panel-body">
+
+                    @using (Html.BeginForm("Articulo91", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.OrganizacionId)
+                        @Html.HiddenFor(model => model.WorkflowId)
+                        @Html.HiddenFor(model => model.Articulo91.Articulo91Id)
+                        @Html.HiddenFor(model => model.Articulo91.NombreContadorGeneral)
+                        @Html.HiddenFor(model => model.Articulo91.NombreGerente)
+                        @Html.HiddenFor(model => model.Articulo91.FechaCelebracionUltimaJuntaGeneralSocios)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Articulo91.OK, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <label>@Html.RadioButtonFor(i => i.Articulo91.OK, true)Aprobado</label>
+                                <br />
+                                <label>@Html.RadioButtonFor(i => i.Articulo91.OK, false)Rechazado</label>
+                            </div>
+                        </div>
+
+                        <input type="submit" value="Guardar" class="btn btn-primary" />
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+</div>

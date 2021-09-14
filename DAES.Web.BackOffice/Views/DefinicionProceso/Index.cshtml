@@ -1,0 +1,59 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.DefinicionProceso>
+@{
+
+    ViewBag.Title = "Definición de procesos";
+}
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().DefinicionProcesoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Autor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Duracion)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DefinicionProcesoId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Autor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Duracion)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Detalles", "Details", new { id = item.DefinicionProcesoId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Crear nuevo", "Create") |
+@Html.ActionLink("Volver al inicio", "Index", "Home")

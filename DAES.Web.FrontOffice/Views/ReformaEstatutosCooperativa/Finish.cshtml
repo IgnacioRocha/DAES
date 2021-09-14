@@ -1,0 +1,26 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Reforma de Estatutos de una Cooperativa</h1>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "Modificar")'>DAES digital</a>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-1"></script>
+    <script>
+        $(document).ready(function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'UA-149680284-1');
+            gtag('event', 'Fin de la solicitud', {
+                'event_category': 'Trámite digital',
+                'event_label': 'Trámite - ID 800540001'
+            });
+        });
+    </script>
+

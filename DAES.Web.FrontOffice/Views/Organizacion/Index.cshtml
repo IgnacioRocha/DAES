@@ -1,0 +1,155 @@
+﻿@model DAES.Web.FrontOffice.Controllers.OrganizacionController.Search
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Buscar organización</h1>
+        <p class="lead">Ingrese los filtros de búsqueda de la organización</p>
+    </div>
+</div>
+<div class="container my-3">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Datos de la organización</h5>
+                @*<p class="card-title">Ingrese el número del trámite</p>*@
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.Filter, new { @class = "font-weight-bold" })
+                    @Html.EditorFor(m => Model.Filter, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(m => Model.Filter, "", new { @class = "text-danger" })
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.TipoOrganizacionId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(model => Model.TipoOrganizacionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.TipoOrganizacionId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RubroId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(model => Model.RubroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.RubroId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.EstadoId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(model => Model.EstadoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.EstadoId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.SituacionId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(model => Model.SituacionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.SituacionId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RegionId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(model => Model.RegionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.RegionId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.ComunaId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(model => Model.ComunaId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.ComunaId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-rounded" type="submit">Buscar</button>
+            </div>
+        </div>
+    }
+</div>
+
+@if (!Model.First)
+{
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Resultados</h5>
+
+                @if (Model.Organizacions.Any())
+                {
+                    <table class="table table-hover">
+                        @foreach (var item in Model.Organizacions)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroRegistro) - @Html.DisplayFor(modelItem => item.RazonSocial)
+                                </td>
+                                <td>
+                                    <a href='@Url.Action("Details", new { id = item.OrganizacionId })' class="btn btn-primary btn-rounded">Seleccionar</a>
+
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>No se encontraron resultados</p>
+                }
+
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#RegionId').on('change', function () {
+            var RegionId = $(this).val();
+            $.getJSON("/Organizacion/GetComuna", { RegionId: RegionId },
+                function (classesData) {
+                    var select = $("#ComunaId");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Seleccione..."
+                    }));
+                    $.each(classesData, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        });
+
+        $('#RubroId').on('change', function () {
+            var RubroId = $(this).val();
+            $.getJSON("/Organizacion/GetSubRubro", { RubroId: RubroId },
+                function (classesData) {
+                    var select = $("#SubRubroId");
+                    select.empty();
+                    select.append($('<option/>', {
+                        value: 0,
+                        text: "Seleccione..."
+                    }));
+                    $.each(classesData, function (index, itemData) {
+                        select.append($('<option/>', {
+                            value: itemData.Value,
+                            text: itemData.Text
+                        }));
+                    });
+                });
+        });
+    });
+</script>

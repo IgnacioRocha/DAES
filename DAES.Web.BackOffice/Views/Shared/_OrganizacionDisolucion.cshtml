@@ -1,0 +1,46 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Disolucion>
+@using GridMvc.Html
+
+<div class="panel panel-default">
+    <div class="panel-heading">Disolución</div>
+    <div class="panel-body">
+
+        <table class="table table-hover table-striped datatable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Fecha)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroOficio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaAsamblea)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.Fecha)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.NumeroOficio)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaAsamblea)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaPublicacionDiarioOficial)
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

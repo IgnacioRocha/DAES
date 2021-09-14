@@ -1,0 +1,95 @@
+﻿@model DAES.Web.BackOffice.Controllers.OrganizacionController.SearchViewModel
+
+@{
+    ViewBag.Title = "Organizaciones";
+}
+
+<div class="panel-group" id="collapse" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="collapse-heading-one">
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#collapse" href="#collapse-one" aria-expanded="true" aria-controls="collapse-one">
+                    Filtros de búsqueda
+                </a>
+            </h4>
+        </div>
+        <div id="collapse-one" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapse-heading-one">
+            <div class="panel-body">
+                @using (Html.BeginForm("Index", null, FormMethod.Get))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.Label("Texto de búsqueda", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Query, new { htmlAttributes = new { @class = "form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Tipo", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("TipoOrganizacionId", null, "Seleccione...", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Estado", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("EstadoId", null, "Seleccione...", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Situación", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("SituacionId", null, "Seleccione...", new { @class = "form-control" })
+                        </div>
+                    </div>                   
+                    <div class="form-group">
+                        @Html.Label("Rubro", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("RubroId", null, "Seleccione...", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Región", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("RegionId", null, "Seleccione...", new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Comuna", new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownList("ComunaId", null, "Seleccione...", new { @class = "form-control" })
+                            <br />
+                            <input type="submit" value="Buscar organizaciones" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model != null && Model.Organizacions.Any())
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">Resultados</div>
+        <div class="panel-body">
+            @using GridMvc.Html
+            @Html.Grid(Model.Organizacions).Columns(columns =>
+       {
+           columns.Add(q => q.NumeroRegistro).Titled("Registro").Sortable(true).Filterable(true);
+           columns.Add(q => q.RazonSocial).Titled("Razón social").Sortable(true).Filterable(true);
+           columns.Add().Encoded(false).Sanitized(false).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.OrganizacionId }));
+           columns.Add().Encoded(false).Sanitized(false).RenderValueAs(q => @Html.ActionLink("Editar", "Edit", new { id = q.OrganizacionId }));
+       }).WithPaging(15).EmptyText("No se encontraron organizaciones").SetLanguage("es").Selectable(false).WithMultipleFilters()
+        </div>
+    </div>
+}
+
+@*@Html.ActionLink("Crear nueva organización", "Create") |
+@Html.ActionLink("Generar nuevo rol", "GenerarRol") |*@
+@Html.ActionLink("Exportar organizaciones a Excel", "Download") |
+@Html.ActionLink("Volver al inicio", "Index", "Home")

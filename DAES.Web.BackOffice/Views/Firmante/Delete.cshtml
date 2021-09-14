@@ -1,0 +1,52 @@
+﻿@model DAES.Model.SistemaIntegrado.Firmante
+
+@{
+    ViewBag.Title = "Eliminar";
+    ViewBag.SubTitle = "Firmante";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnidadOrganizacional)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnidadOrganizacional)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdFirma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdFirma)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsActivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsActivo)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirmar eliminación" class="btn btn-primary" /> |
+            @Html.ActionLink("Volver al listado", "Index")
+        </div>
+    }
+</div>

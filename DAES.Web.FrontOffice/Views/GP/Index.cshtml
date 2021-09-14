@@ -1,0 +1,31 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Gestión de procesos</h1>
+        <p class="lead">Esta plataforma permite operar los trámites del sistema de gestión de procesos. Para ingresar se requiere <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+    </div>
+</div>
+
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+<div class="container my-3">
+    <div class="card-deck d-flex">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Ingreso de informe HSA</h5>
+                <p class="card-text">Este trámite permite ingresar un nuevo informe de honorarios. Requiere el uso de Clave Única</p>
+                @*<a href="@Url.Action("GPHSA")" class="btn btn-primary">Iniciar trámite</a>*@
+                <a href="@Url.Action("GPHSA")"><img src="~/Content/btn_claveunica_142px.png" /></a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Seguimiento de procesos</h5>
+                <p class="card-text">Este trámite permite conocer el estado de los procesos asociados a un usuario. Requiere el uso de Clave Única</p>
+                @*<a href="@Url.Action("GPSeguimiento")" class="btn btn-primary">Iniciar trámite</a>*@
+                <a href="@Url.Action("GPSeguimiento")"><img src="~/Content/btn_claveunica_142px.png" /></a>
+            </div>
+        </div>
+    </div>
+</div>

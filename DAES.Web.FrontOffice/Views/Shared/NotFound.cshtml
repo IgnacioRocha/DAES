@@ -1,0 +1,22 @@
+﻿
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4 my-3 text-danger">Página no encontrada</h1>
+        <p class="lead"></p>
+    </div>
+</div>
+<div class="container">
+    <p class="text-danger">No se encontró la página @ViewBag.RequestedUrl</p>
+    <a href="javascript:void(0);" onclick="history.go(-1);">Volver a página anterior</a> | <a href='@Url.Action("Index", "Home")'>Ir al inicio</a>
+</div>
+
+
+@*@if (ViewBag.ReferrerUrl != null)
+    {
+        <p>Volver a <a href="@ViewBag.ReferrerUrl">página previa</a>.</p>
+    }*@
+
+@* Error page must be longer than 512 bytes for IE and Chrome to show it.
+    So add padding in case we're short. *@
+@(new string(' ', 512))

@@ -1,0 +1,26 @@
+﻿@model DAES.Model.SistemaIntegrado.HechoLegal
+
+@{
+    ViewBag.Title = "Eliminar";
+    ViewBag.SubTitle = "Hecho legal";
+}
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Antecedente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Antecedente)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirmar eliminación" class="btn btn-primary" /> |
+            @Html.ActionLink("Volver al listado", "Index")
+        </div>
+    }

@@ -1,0 +1,21 @@
+﻿@model DAES.Web.BackOffice.Controllers.DashboardController.Stats
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Dashboard tareas";
+    ViewBag.SubTitle = "Estado de tareas al " + @DateTime.Now;
+}
+
+<div class="alert alert-info alert-dismissible" role="alert">
+    Total de tareas: @Model.total
+</div>
+
+@Html.Grid(Model.items.OrderByDescending(q=>q.totales)).Columns(columns => {
+    columns.Add(q => q.username).Titled("Usuario").Sortable(true).Filterable(true);
+    columns.Add(q => q.totales).Titled("Total").Sortable(true).Filterable(true);
+    columns.Add(q => q.ptotales).Format("{0:p}").Titled("% total").Sortable(true).Filterable(true);
+    columns.Add(q => q.pendientes).Titled("Pendientes").Sortable(true).Filterable(true);
+    columns.Add(q => q.ppendientes).Format("{0:p}").Titled("% pendiente").Sortable(true).Filterable(true);
+    columns.Add(q => q.terminados).Titled("Terminados").Sortable(true).Filterable(true);
+    columns.Add(q => q.pterminados).Format("{0:p}").Titled("% terminado").Sortable(true).Filterable(true);
+}).EmptyText("Sin información.").SetLanguage("es").Selectable(false).WithMultipleFilters()

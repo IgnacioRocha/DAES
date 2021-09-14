@@ -1,0 +1,37 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Directorios.FirstOrDefault().NombreCompleto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Directorios.FirstOrDefault().Rut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Directorios.FirstOrDefault().Cargo.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Directorios.FirstOrDefault().Genero.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Directorios.FirstOrDefault().FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Directorios.FirstOrDefault().FechaTermino)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.Directorios.Count(); i++)
+        {
+            <tr>
+                @Html.EditorFor(m => m.Directorios[i])
+                <td>
+                    @Ajax.ActionLink("Eliminar", "DirectorioDelete", null, new { Model.WorkflowId, Model.Directorios.ToArray()[i].DirectorioId }, new AjaxOptions { UpdateTargetId = "directorio" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

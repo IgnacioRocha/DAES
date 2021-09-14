@@ -1,0 +1,414 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Organización";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Organización</div>
+            <div class="panel-body" style="height: 450px;overflow-y:scroll;">
+                <dl class="dl-horizontal">
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.OrganizacionId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.OrganizacionId)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NumeroRegistro)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NumeroRegistro)
+                    </dd>
+
+                    @if (Model.TipoOrganizacion != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TipoOrganizacion.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TipoOrganizacion.Nombre)
+                        </dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Sigla))
+                    {
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Sigla)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Sigla)
+                        </dd>
+                    }
+
+                    @if (Model.Region != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Region.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Region.Nombre)
+                        </dd>
+                    }
+                    @if (Model.Comuna != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Comuna.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Comuna.Nombre)
+                        </dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Direccion))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Direccion)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Direccion)
+                        </dd>
+                    }
+
+                    @if (Model.Estado != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Estado.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Estado.Nombre)
+                        </dd>
+                    }
+
+
+                    @if (Model.Situacion != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Situacion.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Situacion.Nombre)
+                        </dd>
+                    }
+
+                    @if (Model.Rubro != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Rubro.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Rubro.Nombre)
+                        </dd>
+                    }
+                    @if (Model.SubRubro != null)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.SubRubro.Nombre)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.SubRubro.Nombre)
+                        </dd>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.RUT))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.RUT)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.RUT)
+                        </dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Fono))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Fono)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Fono)
+                        </dd>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Fax))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Fax)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Fax)
+                        </dd>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Email))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.URL))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.URL)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.URL)
+                        </dd>
+                    }
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NumeroSociosConstituyentes)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NumeroSociosConstituyentes)
+                    </dd>
+
+
+
+
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NumeroSocios)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NumeroSocios)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NumeroSociosHombres)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NumeroSociosHombres)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.NumeroSociosMujeres)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.NumeroSociosMujeres)
+                    </dd>
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.MinistroDeFe))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.MinistroDeFe)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.MinistroDeFe)
+                        </dd>
+                    }
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EsGeneroFemenino)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.EsGeneroFemenino)
+                    </dd>
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.CiudadAsamblea))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.CiudadAsamblea)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.CiudadAsamblea)
+                        </dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.NombreContacto))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.NombreContacto)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.NombreContacto)
+                        </dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.DireccionContacto))
+                    {
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.DireccionContacto)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.DireccionContacto)
+                        </dd>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.TelefonoContacto))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.TelefonoContacto)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.TelefonoContacto)
+                        </dd>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.EmailContacto))
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.EmailContacto)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.EmailContacto)
+                        </dd>
+                    }
+                    @if (Model.FechaCreacion.HasValue)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FechaCreacion)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.FechaCreacion)
+                        </dd>
+                    }
+                    @if (Model.FechaCelebracion.HasValue)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FechaCelebracion)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FechaCelebracion)
+                        </dd>
+                    }
+                    @if (Model.FechaPubliccionDiarioOficial.HasValue)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FechaPubliccionDiarioOficial)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FechaPubliccionDiarioOficial)
+                        </dd>
+                    }
+                    @if (Model.FechaActualizacion.HasValue)
+                    {
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FechaActualizacion)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FechaActualizacion)
+                        </dd>
+                    }
+                    <dt>
+                        @Html.DisplayNameFor(model => model.EsImportanciaEconomica)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.EsImportanciaEconomica)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">Geografía</div>
+            <div class="panel-body" style="height: 450px;">
+                @if (Model != null && !string.IsNullOrWhiteSpace(Model.Direccion))
+                {
+                    string url = "https://www.google.com/maps/embed/v1/place";
+                    string key = "?key=AIzaSyBW9a-r2pTB29-ADxw8GKIkX0WOyfVvM9A";
+                    string location = "&q=" + Model.Direccion;
+
+                    if (Model.Comuna != null)
+                    {
+                        location = string.Concat(location, ", ", Model.Comuna.Nombre);
+                    }
+                    <iframe width="100%"
+                            frameborder="0"
+                            height="420px"
+                            style="border:0"
+                            src="@string.Concat(url, key, location)"
+                            allowfullscreen></iframe>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Directorio</div>
+            <div class="panel-body">
+
+                <table class="table table-hover table-striped datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => Model.Directorios.FirstOrDefault().NombreCompleto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => Model.Directorios.FirstOrDefault().Cargo.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => Model.Directorios.FirstOrDefault().FechaInicio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => Model.Directorios.FirstOrDefault().FechaTermino)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Directorios)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => item.NombreCompleto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.Cargo.Nombre)
+                                </td>
+                                <td>
+                                    @string.Format("{0:dd-MM-yyyy}", item.FechaInicio)
+                                </td>
+                                <td>
+                                    @string.Format("{0:dd-MM-yyyy}", item.FechaTermino)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

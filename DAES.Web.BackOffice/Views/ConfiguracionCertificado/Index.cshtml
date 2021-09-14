@@ -1,0 +1,19 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.ConfiguracionCertificado>
+@{
+    ViewBag.Title = "Configuración de certificados";
+}
+
+@using GridMvc.Html
+@Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(q => q.TipoOrganizacion.Nombre).Titled("Tipo organización").Sortable(true).Filterable(true);
+    columns.Add(q => q.TipoDocumento.Nombre).Titled("Tipo documento").Sortable(true).Filterable(true);
+    columns.Add().Encoded(false).Sanitized(false).Titled("Activo?").RenderValueAs(o => Html.CheckBox("checked", o.IsActivo, new { @class = "disabled" }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.ConfiguracionCertificadoId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Editar", "Edit", new { id = q.ConfiguracionCertificadoId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Eliminar", "Delete", new { id = q.ConfiguracionCertificadoId }));
+}).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+<hr />
+@Html.ActionLink("Crear nuevo", "Create") | 
+@Html.ActionLink("Volver al inicio", "Index", "Home")
