@@ -73,6 +73,7 @@ namespace DAES.Web.FrontOffice.Controllers
         public ActionResult Start()
         {
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
