@@ -94,6 +94,7 @@
     <Compile Include="DTO\DTOAsambleaExtraOrdinaria.cs" />
     <Compile Include="DTO\DTOAsambleaOrdinaria.cs" />
     <Compile Include="DTO\DTOConstitucion.cs" />
+    <Compile Include="DTO\DTOEstudioSocioeconomico.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
     <Compile Include="DTO\DTORespuestaOficio.cs" />
     <Compile Include="DTO\DTOCreacionOrganizacion.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoLegal.cs" />
+    <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoOficio.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoMateria.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoCriterio.cs" />

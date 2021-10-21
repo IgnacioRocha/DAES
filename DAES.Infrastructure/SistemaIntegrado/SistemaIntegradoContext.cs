@@ -69,6 +69,8 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<TipoCriterio> TipoCriterio { get; set; }
         public virtual DbSet<TipoOficio> TipoOficio { get; set; }
 
+        public virtual DbSet<EstudioSocioEconomico> EstudioSocioEconomico { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer<SistemaIntegradoContext>(null);

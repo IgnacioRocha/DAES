@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 namespace DAES.BLL
 {
@@ -747,15 +748,20 @@ namespace DAES.BLL
                         throw new Exception("No se encontró la información de la organización");
                     }
                 }
-
-                if (obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
-                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP)
-                {
-                    if (!context.Organizacion.Any(q => q.OrganizacionId == obj.OrganizacionId))
+                
+                    if (
+                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomico &&
+                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
+                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP
+                    )
                     {
-                        throw new Exception("No se encontró la organización");
+                        if (!context.Organizacion.Any(q => q.OrganizacionId == obj.OrganizacionId))
+                        {
+                            throw new Exception("No se encontró la organización");
+                        }
                     }
-                }
+                
+                
 
                 if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoManual || obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico || obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.Actualizacion)
                 {
@@ -829,6 +835,7 @@ namespace DAES.BLL
                     }
                 }
 
+
                 //en el caso de un proceso de constitucion, asociar nueva organización
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb)
                 {
@@ -872,6 +879,43 @@ namespace DAES.BLL
                     };
                 }
 
+                //en el caso de un proceso de estudio socioeconomico
+                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomico)
+                {
+                    foreach (var item in obj.EstudioSocioEconomicos)
+                    {
+                        proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
+                        {
+                            FechaCreacion = item.FechaCreacion,
+                            DocumentoAdjunto = item.DocumentoAdjunto,
+                            Proceso = proceso
+                        });
+                      
+                    }
+     
+                    //si viene datos de una organizacion, usarlos para crea la nueva
+                    if (obj.Organizacion != null)
+                    {
+                        proceso.Organizacion = obj.Organizacion;
+                    }
+
+                    //si no vienen datos, crear una nueva organizacion
+                    if (obj.Organizacion == null)
+                    {
+                        proceso.Organizacion = new Organizacion()
+                        {
+                            FechaCreacion = DateTime.Now,
+                            TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida,
+                            EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
+                            NumeroSocios = 0,
+                            NumeroSociosHombres = 0,
+                            NumeroSociosMujeres = 0,
+                            EsGeneroFemenino = false,
+                            EsImportanciaEconomica = false
+                        };
+                    }
+
+                }
                 //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
                 else
                 {

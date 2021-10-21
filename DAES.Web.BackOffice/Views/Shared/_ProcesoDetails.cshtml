@@ -170,6 +170,7 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
     </div>
 </div>
 
+
 <div class="panel panel-default">
     <div class="panel-heading">Historial de ejecución</div>
     <div class="panel-body">
@@ -246,11 +247,10 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
                             @if (workflow.Documentos.Any())
                             {
                                 <hr />
-                                <div class="panel panel-default">
+                                <div class="panel panel-default" style="overflow:auto">
                                     <div class="panel-heading">Documentos de la tarea</div>
                                     <div class="panel-body">
-
-                                        <table class="table table-hover table-striped datatable">
+                                        <table class="table table-hover table-layout table-striped datatable">
                                             <thead>
                                                 <tr>
                                                     <th>Archivo</th>
@@ -329,6 +329,7 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
                                         </table>
                                     </div>
                                 </div>
+
                             }
                         </div>
                     </div>

@@ -42,7 +42,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 //paso 3, verificar si el token es válido
                 if (!Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.IsValidToken)
                 {
-                    throw new Exception("Problema al conectar con clave única: El toke antifalsificación ya no es válido");
+                    throw new Exception("Problema al conectar con clave única: El token antifalsificación ya no es válido");
                 }
 
                 //paso 4, cambiar código de activacion de la sesion por los de respuesta

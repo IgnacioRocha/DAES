@@ -15,6 +15,7 @@ namespace DAES.Model.SistemaIntegrado
             ActualizacionOrganizacions = new HashSet<ActualizacionOrganizacion>();
             Articulo91s = new HashSet<Articulo91>();
             Fiscalizacions = new HashSet<Fiscalizacion>();
+            EstudioSocioEconomicos = new HashSet<EstudioSocioEconomico>();       
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -55,6 +56,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Id documento GD")]
         public int DocumentoId { get; set; }
 
+        
         [Display(Name = "Correlativo GD")]
         public string Correlativo { get; set; }
 
@@ -66,6 +68,10 @@ namespace DAES.Model.SistemaIntegrado
         public int? SolicitanteId { get; set; }
         public virtual Solicitante Solicitante { get; set; }
 
+        //public int IdEstudio { get; set; }
+
+        //public virtual EstudioSocioEconomico EstudioSocioEconomico { get; set; }
+
         [NotMapped]
         public string UserId { get; set; }
 
@@ -73,6 +79,8 @@ namespace DAES.Model.SistemaIntegrado
         public virtual ICollection<ActualizacionOrganizacion> ActualizacionOrganizacions { get; set; }
         public virtual ICollection<Documento> Documentos { get; set; }
         public virtual ICollection<Articulo91> Articulo91s { get; set; }
+
+        public virtual ICollection<EstudioSocioEconomico> EstudioSocioEconomicos { get; set; }
 
         [Display(Name = "Fiscalizaciones")]
         public virtual ICollection<Fiscalizacion> Fiscalizacions { get; set; }

@@ -1,0 +1,45 @@
+﻿
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Estudio socioeconómico para cooperativas de ahorro y crédito.</h1>
+        <p class="lead">Para proceder con el trámite es necesario confirmar la lectura de la Guía para la Preparación y Evaluación de Proyectos de Constitución de Cooperativas de Ahorro y Crédito.</p>
+        <p class="lead">Este trámite requiere <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+        <table>
+            <th>
+                <a id="linkGo" href='@Url.Action("Start")' class="btn btn-primary btn-rounded">Confirmar lectura e iniciar trámite</a>
+            </th>
+            <th>
+                <!--Inicio dropdown-->
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ver guía
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="~/Content/CAC/Guia.pdf" target="_blank">Preparación y Evaluación de Proyectos de Constitución de Cooperativas de Ahorro y Crédito.</a>
+                    </div>
+                </div>
+            </th>
+        </table>
+    </div>
+</div>
+
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-18"></script>
+<script>
+    $('#linkGo').click(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-18');
+        gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540034'
+        });
+    });
+
+  
+</script>
