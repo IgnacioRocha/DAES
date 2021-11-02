@@ -4,13 +4,10 @@ using DAES.Model.SistemaIntegrado;
 using DAES.Web.FrontOffice.Helper;
 using DAES.Web.FrontOffice.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Text;
 
 
 namespace DAES.Web.FrontOffice.Controllers

@@ -347,8 +347,8 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Views\Articulo90IncisoPrimero\Index.cshtml" />
-    <Content Include="Views\Articulo90IncisoSegundo\Index.cshtml" />
+    <Content Include="Views\Articulo90IncisoPrimero\Search.cshtml" />
+    <Content Include="Views\Articulo90IncisoSegundo\Search.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\cacFactor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\cacArea.cshtml" />
     <Content Include="Views\Constitucion\Create.cshtml" />
@@ -467,6 +467,10 @@
     <Content Include="Views\EstudioSAhorroCredito\Clave.cshtml" />
     <Content Include="Views\EstudioSAhorroCredito\Finish.cshtml" />
     <Content Include="Views\EstudioSAhorroCredito\Create.cshtml" />
+    <Content Include="Views\Articulo90IncisoPrimero\Finish.cshtml" />
+    <Content Include="Views\Articulo90IncisoPrimero\Index.cshtml" />
+    <Content Include="Views\Articulo90IncisoSegundo\Finish.cshtml" />
+    <Content Include="Views\Articulo90IncisoSegundo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />

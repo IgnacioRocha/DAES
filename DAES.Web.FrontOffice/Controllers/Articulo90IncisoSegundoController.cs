@@ -13,18 +13,45 @@ using System.Web.Mvc;
 
 namespace DAES.Web.FrontOffice.Controllers
 {
-
     [Audit]
     public class Articulo90IncisoSegundoController : Controller
     {
+        public class DTOSearch
+        {
+
+            public DTOSearch()
+            {
+                Organizacions = new List<Organizacion>();
+            }
+
+            public bool First { get; set; } = true;
+
+            [Display(Name = "Razón social o número registro")]
+            [Required(ErrorMessage = "Es necesario especificar este dato")]
+            public string Filter { get; set; }
+
+            public List<Organizacion> Organizacions { get; set; }
+        }
 
         public Articulo90IncisoSegundoController()
         {
             ViewBag.User = Global.CurrentClaveUnica.User;
         }
 
-        private ActionResult Redirect()
+        private SistemaIntegradoContext _db = new SistemaIntegradoContext();
+        private BLL.Custom _custom = new BLL.Custom();
+        private List<Documento> documentos = new List<Documento>();
+
+        public ActionResult Index()
         {
+            return View();
+        }
+
+        public ActionResult Start()
+        {
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "Articulo90IncisoSegundo";
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
+
             //activar en desarrollo, bypass de clave única
             //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
@@ -41,37 +68,22 @@ namespace DAES.Web.FrontOffice.Controllers
             //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
 
             //activar en testing y produccion
+
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
-        public class Search
+        public ActionResult Finish()
         {
-
-            public Search()
-            {
-                Organizacions = new List<Organizacion>();
-            }
-
-            public bool First { get; set; } = true;
-
-            [Display(Name = "Razón social o número registro")]
-            [Required(ErrorMessage = "Es necesario especificar este dato")]
-            public string Filter { get; set; }
-
-            public List<Organizacion> Organizacions { get; set; }
+            return View();
         }
 
-        private SistemaIntegradoContext _db = new SistemaIntegradoContext();
-        private BLL.Custom _custom = new BLL.Custom();
-        private List<Documento> documentos = new List<Documento>();
-
-        public ActionResult Index()
+        public ActionResult Search()
         {
-            return View(new Search());
+            return View(new DTOSearch());
         }
 
         [HttpPost]
-        public ActionResult Index(string Filter)
+        public ActionResult Search(string Filter)
         {
             if (!Global.CurrentClaveUnica.IsAutenticated)
             {
@@ -84,7 +96,7 @@ namespace DAES.Web.FrontOffice.Controllers
             query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
             query = query.Where(q => q.RazonSocial.Contains(Filter) || q.NumeroRegistro.Contains(Filter) || q.Sigla.Contains(Filter));
 
-            var model = new Search();
+            var model = new DTOSearch();
             model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
             model.First = false;
 
@@ -191,7 +203,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, proceso.Solicitante.Email);
 
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Finish");
                 }
                 catch (Exception ex)
                 {
@@ -209,6 +221,27 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "JuntaGeneralSociosObligatoriaCooperativa";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Index";
             return Redirect();
+        }
+
+        private ActionResult Redirect()
+        {
+            //activar en desarrollo, bypass de clave única
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+
+            //activar en testing y produccion
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
     }
 }
