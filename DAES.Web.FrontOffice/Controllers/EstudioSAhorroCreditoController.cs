@@ -72,6 +72,7 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+
         }
 
         public ActionResult Finish()
@@ -110,6 +111,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 //Se crea un solicitante
                 proceso.Solicitante = new Solicitante()
                 {
+
                     Rut = Global.CurrentClaveUnica.RUT,
                     Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
                     Email = model.MailSolicitante.ToUpperNull(),
@@ -117,7 +119,6 @@ namespace DAES.Web.FrontOffice.Controllers
                     RegionId = model.RegionSolicitante.GetValueOrDefault(),
                     Fono = model.FonoSolicitante
                 };
-
 
 
                 //Se crea una organización
