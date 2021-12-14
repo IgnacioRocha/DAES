@@ -1,0 +1,147 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+@using (Html.BeginForm())
+{
+    <table class="table dataTable">
+        <tr>
+            <th>
+                <label>¿Disolución previa al año 2003?</label>
+                <input type="checkbox" name="anterior" id="anterior" value="Anterior al 2003" />                
+            </th>
+        </tr>
+    </table>
+    <div style="display:none" id="divAnterior" name="divAnterior">
+        <table class="table table-hover table-striped dataTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.FirstOrDefault().TipoNorma.Nombre)                        
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => Model.Disolucions.FirstOrDefault().NumeroNorma, htmlAttributes: new { @class = "control-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => Model.Disolucions.FirstOrDefault().FechaNorma, htmlAttributes: new { @class = "control-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => Model.Disolucions.FirstOrDefault().FechaPublicacionDiarioOficial, htmlAttributes: new { @class = "control-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => Model.Disolucions.FirstOrDefault().Autorizacion, htmlAttributes: new { @class = "control-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => Model.Disolucions.FirstOrDefault().FechaJuntaSocios, htmlAttributes: new { @class = "control-label" })
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => Model.Disolucions.FirstOrDefault().FechaDisolucion, htmlAttributes: new { @class = "control-label" })
+                    </th>
+                    <th>
+                        <label>¿Tiene Comision Liquidadora?</label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Disolucions.Count(); i++)
+                {
+                    <tr>
+                        @Html.EditorFor(m => m.Disolucions[i])
+                        
+                            @Html.EditorFor(m => Model.Disolucions.FirstOrDefault().Comision, new { htmlAttributes = new { @name = "comision"} })
+                        
+                        <td>
+                            @Ajax.ActionLink("Eliminar", "DisolucionCooperativaDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="divPosterior" name="divPosterior">
+        <table class="table table-hover table-striped dataTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.First().FechaJuntaSocios)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.First().FechaEscrituraPublica)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.First().MinistroDeFe)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.First().FechaPublicacionDiarioOficial)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.First().NumeroFojas)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.First().AñoInscripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.First().DatosCBR)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(m => Model.Disolucions.FirstOrDefault().FechaDisolucion)
+                    </th>
+                    <th>
+                        <label>¿Tiene Comision Liquidadora?</label>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Disolucions.Count(); i++)
+                {
+                    <tr>
+                        @Html.EditorFor(m => m.Disolucions[i])
+                        <td>
+                            @Html.EditorFor(m => Model.Disolucions.FirstOrDefault().Comision, new { htmlAttributes = new { @name = "comision" } })
+                        </td>
+                        <td>
+                            @Ajax.ActionLink("Eliminar", "DisolucionCooperativaDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="divDirectorio" name="divDirectorio" style="display:none">
+        <h4>Comisión Liquidadora</h4>
+        <table class="table dataTable">       
+            <tbody>
+                <tr>
+                    @for (var i = 0; i < Model.Directorios.Count(); i++)
+                    {
+                        <td>
+                            <input type="checkbox" name="directorio[@i]" id="directorio[@i]">
+                            @Html.DisplayFor(m => Model.Directorios[i].NombreCompleto)
+                        </td>
+                    }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        $("#anterior").change(function () {
+            if ($("#anterior").is(':checked')) {
+                $("#divAnterior").show();
+                $("#divPosterior").hide();
+            } else {
+                $("#divAnterior").hide();
+                $("#divPosterior").show()
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $("#Comision").change(function () {
+            if ($("#Comision").is(':checked')) {
+                $("#divDirectorio").show();
+            } else {
+                $("#divDirectorio").hide();
+            }
+        });
+    });
+</script>

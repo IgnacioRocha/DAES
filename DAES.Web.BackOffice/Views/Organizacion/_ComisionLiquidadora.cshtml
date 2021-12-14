@@ -1,0 +1,60 @@
+﻿@model List<DAES.Model.SistemaIntegrado.Disolucion>
+
+<h4>Comisión Liquidadora</h4>
+<table class="table table-striped dataTable">
+    <thead>
+        <tr>
+            <th>
+                <label class="control-label col-6">Miembro Comisión</label>
+            </th>
+            <th>
+                @Html.LabelFor(m => Model.ComisionLiquidadoras.FirstOrDefault().NombreCompleto, new { htmlAttributes = new { @class = "control-label col-6" } })
+            </th>
+            <th>
+                @Html.LabelFor(m => Model.ComisionLiquidadoras.FirstOrDefault().Rut, new { htmlAttributes = new { @class = "control-label col-6" } })
+            </th>
+            <th>
+                @Html.LabelFor(m => Model.ComisionLiquidadoras.FirstOrDefault().Cargo.Nombre, new { htmlAttributes = new { @class = "control-label col-6" } })
+            </th>
+            <th>
+                @Html.LabelFor(m => Model.ComisionLiquidadoras.FirstOrDefault().Genero.Nombre, new { htmlAttributes = new { @class = "control-label col-6" } })
+            </th>
+            <th>
+                @Html.LabelFor(m => Model.ComisionLiquidadoras.FirstOrDefault().FechaInicio, new { htmlAttributes = new { @class = "control-label col-6" } })
+            </th>
+            <th>
+                @Html.LabelFor(m => Model.ComisionLiquidadoras.FirstOrDefault().FechaTermino, new { htmlAttributes = new { @class = "control-label col-6" } })
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.ComisionLiquidadoras.Count(); i++)
+        {
+            @Html.HiddenFor(model => model.ComisionLiquidadoras[i].CargoId)
+            @Html.HiddenFor(model => model.ComisionLiquidadoras[i].GeneroId)
+            <tr>
+                <th>
+                    <input type="checkbox" name="directorio[@i]" id="directorio[@i]" value="@i">
+                </th>
+                <th>
+                    @Html.EditorFor(m => Model.ComisionLiquidadoras[i].NombreCompleto, new { htmlAttributes = new { @class = "form-control col-6" } })
+                </th>
+                <th>
+                    @Html.EditorFor(m => Model.ComisionLiquidadoras[i].Rut, new { htmlAttributes = new { @class = "form-control col-6" } })
+                </th>
+                <th>
+                    @Html.DropDownListFor(model => model.ComisionLiquidadoras[i].Cargo, (SelectList)ViewBag.CargoId, "Seleccione...", htmlAttributes: new { @class = "form-control col-6" })
+                </th>
+                <th>
+                    @Html.DropDownListFor(model => model.ComisionLiquidadoras[i].Genero, (SelectList)ViewBag.GeneroId, "Seleccione...", htmlAttributes: new { @class = "form-control col-6" })
+                </th>
+                <th>
+                    @Html.EditorFor(m => Model.ComisionLiquidadoras[i].FechaInicio, new { htmlAttributes = new { @class = "form-control col-6" } })
+                </th>
+                <th>
+                    @Html.EditorFor(m => Model.ComisionLiquidadoras[i].FechaTermino, new { htmlAttributes = new { @class = "form-control col-6" } })
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

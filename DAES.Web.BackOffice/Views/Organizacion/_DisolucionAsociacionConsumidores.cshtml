@@ -1,0 +1,41 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+
+@using (Html.BeginForm())
+{
+    <table class="table table-hover table-striped datatable">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.DisolucionAsociacionConsumidores.FirstOrDefault().NumeroOficio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.DisolucionAsociacionConsumidores.FirstOrDefault().FechaOficio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.DisolucionAsociacionConsumidores.FirstOrDefault().FechaAsambleaSocios)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.DisolucionAsociacionConsumidores.FirstOrDefault().FechaEscrituraPublica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.DisolucionAsociacionConsumidores.FirstOrDefault().FechaPublicacionDiarioOficial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.DisolucionAsociacionConsumidores.FirstOrDefault().NombreNotaria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.DisolucionAsociacionConsumidores.FirstOrDefault().DatosNotario)
+            </th>
+            <th></th>
+        </tr>
+        @for (var i = 0; i < Model.DisolucionAsociacionConsumidores.Count(); i++)
+        {
+        
+            <tr>
+                @Html.EditorFor(m => m.DisolucionAsociacionConsumidores[i])
+                <td>
+                    @Ajax.ActionLink("Eliminar", "DisolucionACDelete", null, new { Model.DisolucionAsociacionConsumidores.ToArray()[i].DisolucionAsociacionConsumidoresId, Model.DisolucionAsociacionConsumidores.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
+                </td>
+            </tr>
+        }
+    </table>
+}

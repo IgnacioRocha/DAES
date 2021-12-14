@@ -1,0 +1,68 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.DisolucionAsociacion>
+@using GridMvc.Html
+
+<div class=" panel panel-default">
+    <div class="panel-heading">Disolución</div>
+    <div class="panel-body">
+        <table class="table table-hover table-striped dataTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroOficio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaOficio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaAsambleaSocios)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaEscrituraPublica)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().NombreNotaria)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().DatosNotario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaDisolucion)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.NumeroOficio)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy}", item.FechaOficio)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy}", item.FechaAsambleaSocios)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy}", item.FechaEscrituraPublica)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy}", item.FechaPublicacionDiarioOficial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model=>item.NombreNotaria)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.DatosNotario)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy}", item.FechaDisolucion)
+                    </td>
+                </tr>}
+            </tbody>
+        </table>
+    </div>
+</div>
