@@ -17,13 +17,7 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "GPHSA";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Index";
             return Redirect();
-        }
-        public ActionResult Disolucion()
-        {
-            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "Disolucion";
-            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Index";
-            return Redirect();
-        }
+        }        
 
         private ActionResult Redirect()
         {
