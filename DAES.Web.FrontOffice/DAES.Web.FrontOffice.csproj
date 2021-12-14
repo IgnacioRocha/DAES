@@ -211,7 +211,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AsambleaExtraOrdinariaAsociacionController.cs" />
     <Compile Include="Controllers\AsociacionConsumidorController.cs" />
-    <Compile Include="Controllers\DisolucionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\GPController.cs" />
     <Compile Include="Controllers\GPDocumentoVerificacionController.cs" />
@@ -219,7 +218,6 @@
     <Compile Include="Controllers\DAESController.cs" />
     <Compile Include="Controllers\InformacionSemestralController.cs" />
     <Compile Include="Controllers\InformacionAnualController.cs" />
-    <Compile Include="Controllers\SweetController.cs" />
     <Compile Include="Controllers\VerificarDocumentoController.cs" />
     <Compile Include="Controllers\PublicacionFinancieraController.cs" />
     <Compile Include="Controllers\Articulo91Controller.cs" />
@@ -242,8 +240,6 @@
     <Compile Include="Controllers\ReformaEstatutosCooperativaController.cs" />
     <Compile Include="Controllers\JuntaGeneralSociosObligatoriaCooperativaController.cs" />
     <Compile Include="Controllers\ActualizacionNumeroSociosAsociacionController.cs" />
-    <Compile Include="Controllers\DisolucionCooperativaController.cs" />
-    <Compile Include="Controllers\DisolucionAsociacionController.cs" />
     <Compile Include="Controllers\ModificacionEstatutoAsociacionController.cs" />
     <Compile Include="Controllers\CertificadoController.cs" />
     <Compile Include="Controllers\ClaveUnicaController.cs" />
@@ -315,18 +311,11 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\CAC\CACsMENSUAL%282de2%29 v5.xls" />
     <Content Include="Content\CAC\Balance, AC01, AC03, AC12.xlsx" />
-    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
-    <Content Include="Content\sweetalert\docs.css" />
-    <Content Include="Content\sweetalert\sweet-alert.css" />
-    <Content Include="Content\sweetalert\sweet-alert.less" />
-    <Content Include="Content\sweetalert\sweet-alert-combine.less" />
-    <Content Include="Content\sweetalert\sweet-alert-animations.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\mixins.less" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Produccion.pubxml" />
     <Content Include="Content\Site.css" />
-    <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -463,7 +452,6 @@
     <Content Include="Views\InformacionSemestral\Index.cshtml" />
     <Content Include="Views\InformacionSemestral\Search.cshtml" />
     <Content Include="Views\AsociacionConsumidor\Index.cshtml" />
-    <Content Include="Views\Sweet\Alert.cshtml" />
     <Content Include="Views\Shared\_ErrorDisolucion.cshtml" />
   </ItemGroup>
   <ItemGroup>

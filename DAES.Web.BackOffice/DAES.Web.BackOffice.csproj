@@ -266,7 +266,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\DocumentoConsultorController.cs" />
     <Compile Include="Controllers\OrganizacionConsultorController.cs" />
-    <Compile Include="Controllers\SweetController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\OrganizacionController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -470,10 +469,6 @@
     <Content Include="Content\8928161-K.png" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\14530378-8.png" />
-    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
-    <Content Include="Content\sweetalert\docs.css" />
-    <Content Include="Content\sweetalert\sweet-alert.css" />
-    <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -538,9 +533,6 @@
     <Content Include="Content\bootstrap-reboot.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\sweetalert\sweet-alert.less" />
-    <Content Include="Content\sweetalert\sweet-alert-combine.less" />
-    <Content Include="Content\sweetalert\sweet-alert-animations.less" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\mixins.less" />
     <None Include="packages.config" />
@@ -930,7 +922,6 @@
     <Content Include="Views\Fiscalizacion\Change.cshtml" />
     <Content Include="Views\Shared\_OrganizacionDisolucionAsociaciones.cshtml" />
     <Content Include="Views\Shared\_OrganizacionDisolucionCooperativa.cshtml" />
-    <Content Include="Views\Sweet\Alert.cshtml" />
     <Content Include="Views\Organizacion\_ComisionLiquidadora.cshtml" />
     <Content Include="Views\Shared\_OrganizacionComision.cshtml" />
     <Content Include="Views\Organizacion\_ComisionEdit.cshtml" />

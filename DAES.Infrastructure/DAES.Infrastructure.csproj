@@ -91,11 +91,7 @@
     <None Include="Connected Services\ServiceReferenceHSM\WSIntercambiaDoc.wsdl" />
     <None Include="Content\bootstrap\mixins.less" />
     <None Include="Content\bootstrap\variables.less" />
-    <None Include="Content\sweetalert\sweet-alert-animations.less" />
-    <None Include="Content\sweetalert\sweet-alert-combine.less" />
-    <None Include="Content\sweetalert\sweet-alert.less" />
     <None Include="packages.config" />
-    <None Include="Views\Sweet\Alert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -117,12 +113,6 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
-    <Content Include="Content\sweetalert\docs.css" />
-    <Content Include="Content\sweetalert\sweet-alert.css" />
-    <Content Include="Content\sweetalert\thumbs-up.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
