@@ -14,7 +14,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Organización</div>
         <div class="panel-body">
-            <div class="form-horizontal">
+            <div class="form-horizontal" style="overflow-x:auto">
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.OrganizacionId)
 
@@ -257,10 +257,10 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.FechaPubliccionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.FechaPublicacionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FechaPubliccionDiarioOficial, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaPublicacionDiarioOficial, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -299,8 +299,6 @@
                         @Html.ValidationMessageFor(model => model.NotaDirectorio, "", new { @class = "text-danger" })
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
@@ -308,7 +306,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Directorio</div>
         <div class="panel-body">
-            <div id="directorio">
+            <div id="directorio" style="overflow-x:auto">
                 @Html.Partial("_DirectorioEdit", Model)
             </div>
             @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" })
@@ -318,7 +316,7 @@
     <div class="panel panel-default">
         <div class="panel-heading">Modificación</div>
         <div class="panel-body">
-            <div id="modificacion">
+            <div id="modificacion" style="overflow-x:auto">
                 @Html.Partial("_ModificacionEdit", Model)
             </div>
             @Ajax.ActionLink("Agregar modificación", "ModificacionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "modificacion" })
@@ -328,12 +326,21 @@
     <div class="panel panel-default">
         <div class="panel-heading">Disolución</div>
         <div class="panel-body">
-            <div id="disolucion">
+            <div id="disolucion" style="overflow-x:auto">
                 @Html.Partial("_DisolucionEdit", Model)
-            </div>
-            @Ajax.ActionLink("Agregar disolución", "DisolucionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
+            </div>            
         </div>
     </div>
+@*
+    if (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading">Comision Liquidadora</div>
+            <div class="panel-body">
+                @Html.Partial("_ComisionEdit", Model)
+            </div>
+        </div>
+    }*@
 
     <input type="submit" value="Guardar" class="btn btn-primary my-3" />
     <p></p>

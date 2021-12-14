@@ -44,6 +44,8 @@ namespace DAES.Web.BackOffice.Controllers
         public List<Directorio> Directorios { get; set; }
         public List<ModificacionEstatuto> ModificacionEstatutos { get; set; }
         public List<Disolucion> Disolucions { get; set; }
+        public List<DisolucionCooperativa> DisolucionCooperativas { get; set; }
+        public List<DisolucionAsociacion> DisolucionAsociacions { get; set; }
         public List<Model.DTO.DTOUser> Users { get; set; }
         public List<Documento> Documentos { get; set; }
         public List<Fiscalizacion> Fiscalizacions { get; set; }
@@ -283,7 +285,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarOrganizacion(TaskModel model)
+        public ActionResult EditarOrganizacion(TaskModel model, Disolucion disolucion)
         {
             if (ModelState.IsValid)
             {
@@ -291,7 +293,9 @@ namespace DAES.Web.BackOffice.Controllers
                 db.SaveChanges();
                 _custom.DirectorioUpdate(model.Directorios);
                 _custom.ModificacionUpdate(model.ModificacionEstatutos);
-                _custom.DisolucionUpdate(model.Disolucions);
+                /*_custom.DisolucionUpdate(model.Disolucions);*/
+                /*_custom.DisolucionUpdate(model.Disolucions, disolucion);*/
+                /*_custom.DisolucionAsociacionUpdate(model.Disolucions);*/
 
                 TempData["Message"] = Properties.Settings.Default.Success;
                 return RedirectToAction("EditarOrganizacion", new { model.Workflow.WorkflowId });

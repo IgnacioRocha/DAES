@@ -46,8 +46,8 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "DisolucionCooperativa";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
 
-            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             //{
             //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
             //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
@@ -157,7 +157,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 TelefonoContacto = model.TelefonoContacto,
                 EmailContacto = model.EmailContacto,
                 FechaCelebracion = model.FechaCelebracion,
-                FechaPubliccionDiarioOficial = model.FechaPubliccionDiarioOficial,
+                FechaPublicacionDiarioOficial = model.FechaPublicacionDiarioOficial,
                 FechaActualizacion = model.FechaActualizacion,
                 EsImportanciaEconomica = model.EsImportanciaEconomica,
                 FechaVigente = model.FechaVigente,
@@ -242,7 +242,7 @@ namespace DAES.Web.FrontOffice.Controllers
                     TelefonoContacto = model.TelefonoContacto,
                     EmailContacto = model.EmailContacto,
                     FechaCelebracion = model.FechaCelebracion,
-                    FechaPubliccionDiarioOficial = model.FechaPubliccionDiarioOficial,
+                    FechaPublicacionDiarioOficial = model.FechaPublicacionDiarioOficial,
                     FechaActualizacion = model.FechaActualizacion,
                     EsImportanciaEconomica = model.EsImportanciaEconomica,
                     FechaVigente = model.FechaVigente,

@@ -243,11 +243,11 @@
                             @String.Format("{0:dd-MM-yyyy}", Model.FechaCelebracion)
                         </div>
                     }
-                    @if (Model.FechaPubliccionDiarioOficial.HasValue)
+                    @if (Model.FechaPublicacionDiarioOficial.HasValue)
                     {
                         <div class="form-group">
-                            @Html.LabelFor(model => model.FechaPubliccionDiarioOficial, new { @class = "font-weight-bold" })<br />
-                            @String.Format("{0:dd-MM-yyyy}", Model.FechaPubliccionDiarioOficial)
+                            @Html.LabelFor(model => model.FechaPublicacionDiarioOficial, new { @class = "font-weight-bold" })<br />
+                            @String.Format("{0:dd-MM-yyyy}", Model.FechaPublicacionDiarioOficial)
                         </div>
                     }
                     @if (Model.FechaActualizacion.HasValue)

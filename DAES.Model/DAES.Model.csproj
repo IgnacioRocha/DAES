@@ -94,8 +94,7 @@
     <Compile Include="DTO\DTOAsambleaExtraOrdinaria.cs" />
     <Compile Include="DTO\DTOAsambleaOrdinaria.cs" />
     <Compile Include="DTO\DTOConstitucion.cs" />
-    <Compile Include="DTO\DTOCooperativaAbierta.cs" />
-    <Compile Include="DTO\DTOEstudioSocioeconomico.cs" />
+    <Compile Include="DTO\DTODisolucion.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
     <Compile Include="DTO\DTORespuestaOficio.cs" />
     <Compile Include="DTO\DTOCreacionOrganizacion.cs" />
@@ -121,8 +120,13 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoLegal.cs" />
-    <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
-    <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />
+    <Compile Include="SistemaIntegrado\ComisionLiquidadora.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionAsociacion.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionAsociacionGremial.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionAsociacionConsumidores.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionCooperativa.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionCooperativaPosterior.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionCooperativaAnterior.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoOficio.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoMateria.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoCriterio.cs" />
@@ -160,6 +164,7 @@
     <Compile Include="SistemaIntegrado\OrganizacionLog.cs" />
     <Compile Include="SistemaIntegrado\Proceso.cs" />
     <Compile Include="SistemaIntegrado\TipoAprobacion.cs" />
+    <Compile Include="SistemaIntegrado\TipoNorma.cs" />
     <Compile Include="SistemaIntegrado\TipoPrivacidad.cs" />
     <Compile Include="SistemaIntegrado\TipoWorkflow.cs" />
     <Compile Include="SistemaIntegrado\Workflow.cs" />
@@ -202,6 +207,11 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Content\bootstrap\mixins.less" />
+    <None Include="Content\bootstrap\variables.less" />
+    <None Include="Content\sweetalert\sweet-alert-animations.less" />
+    <None Include="Content\sweetalert\sweet-alert-combine.less" />
+    <None Include="Content\sweetalert\sweet-alert.less" />
     <None Include="packages.config" />
     <None Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Scripts\jquery-3.3.1.slim.min.map" />
@@ -210,8 +220,13 @@
     <None Include="SistemaIntegrado\Articulo91.cd" />
     <None Include="SistemaIntegrado\Organizacion.cd" />
     <None Include="SistemaIntegrado\Process.cd" />
+    <None Include="Views\Sweet\Alert.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\sweetalert\bootstrap-sweetalert.png" />
+    <Content Include="Content\sweetalert\docs.css" />
+    <Content Include="Content\sweetalert\sweet-alert.css" />
+    <Content Include="Content\sweetalert\thumbs-up.jpg" />
     <Content Include="Scripts\expressive.annotations.validate.js" />
     <Content Include="Scripts\expressive.annotations.validate.min.js" />
     <Content Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -225,7 +240,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

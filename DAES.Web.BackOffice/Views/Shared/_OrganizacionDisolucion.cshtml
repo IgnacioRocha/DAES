@@ -4,43 +4,311 @@
 <div class="panel panel-default">
     <div class="panel-heading">Disolución</div>
     <div class="panel-body">
-
-        <table class="table table-hover table-striped datatable">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FirstOrDefault().Fecha)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroOficio)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaAsamblea)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
+        <table class="table table-hover table-striped">
+            @if (Model.Count() != 0)
+            {
+                if (Model.FirstOrDefault().TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                 {
-                <tr>
-                    <td>
-                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.Fecha)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(model => item.NumeroOficio)
-                    </td>
-                    <td>
-                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaAsamblea)
-                    </td>
-                    <td>
-                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaPublicacionDiarioOficial)
-                    </td>
-                </tr>
+                    if (Model.FirstOrDefault().FechaDisolucion != null)
+                    {
+                        if (Model.FirstOrDefault().FechaDisolucion.Value.Year < 2003)
+                        {
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.FirstOrDefault().TipoNorma.Nombre)
+                                    </th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().NumeroNorma)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaNorma)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Autorizacion)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaJuntaSocios)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaDisolucion)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => model.FirstOrDefault().TipoNorma.Nombre)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.NumeroNorma)
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:dd-MM-yyyy}", item.FechaNorma)
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:dd-MM-yyyy}", item.FechaPublicacionDiarioOficial)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.Autorizacion)
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:dd-MM-yyyy}", item.FechaJuntaSocios)
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:dd-MM-yyyy}", item.FechaDisolucion)
+                                        </td>
+                                    </tr>
+                                    if (item.Comision)
+                                    {
+                                        <table class="table table-striped dataTable">
+                                            <h4>Comisión Liquidadora</h4>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().EsMiembro)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().NombreCompleto)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().Rut)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().Cargo.Nombre)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().Genero.Nombre)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().FechaInicio)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().FechaTermino)
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var aux in item.ComisionLiquidadoras)
+                                            {
+                                                if (aux.EsMiembro)
+                                                {
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>
+                                                                Si
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.NombreCompleto)
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.Rut)
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.Cargo.Nombre)
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.Genero.Nombre)
+                                                            </th>
+                                                            <th>
+                                                                @string.Format("{0:dd-MM-yyyy}", aux.FechaInicio)
+                                                                @*@Html.DisplayFor(model => item.ComisionLiquidadoras.FirstOrDefault().FechaInicio)*@
+                                                            </th>
+                                                            <th>
+                                                                @string.Format("{0:dd-MM-yyyy}", aux.FechaTermino)
+                                                                @*@Html.DisplayFor(model => item.ComisionLiquidadoras.FirstOrDefault().FechaTermino)*@
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                }
+                                            }
+                                        </table>
+                                    }
+                                }
+                            </tbody>
+                        }
+                        else
+                        {
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaJuntaSocios)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaEscrituraPublica)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MinistroDeFe)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().NumeroFojas)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().AñoInscripcion)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().DatosCBR)</th>
+                                    <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaDisolucion)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@string.Format("{0:dd-MM-yyyy}", item.FechaJuntaSocios)</td>
+                                        <td>
+                                            @string.Format("{0:dd-MM-yyyy}", item.FechaEscrituraPublica)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.MinistroDeFe)
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:dd-MM-yyyy}", item.FechaPublicacionDiarioOficial)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.NumeroFojas)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.AñoInscripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => item.DatosCBR)
+                                        </td>
+                                        <td>
+                                            @string.Format("{0:dd-MM-yyyy}", item.FechaDisolucion)
+                                        </td>
+                                    </tr>                                    
+                                    if (item.Comision)
+                                    {
+                                        <table class="table table-striped dataTable">
+                                        <h4>Comisión Liquidadora</h4>
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().EsMiembro)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().NombreCompleto)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().Rut)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().Cargo.Nombre)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().Genero.Nombre)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().FechaInicio)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(m => m.ComisionLiquidadoras.FirstOrDefault().FechaTermino)
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var aux in item.ComisionLiquidadoras)
+                                            {
+                                                if (aux.EsMiembro)
+                                                {
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>
+                                                                Si
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.NombreCompleto)
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.Rut)
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.Cargo.Nombre)
+                                                            </th>
+                                                            <th>
+                                                                @Html.DisplayFor(model => aux.Genero.Nombre)
+                                                            </th>
+                                                            <th>
+                                                                @string.Format("{0:dd-MM-yyyy}", aux.FechaInicio)
+                                                                @*@Html.DisplayFor(model => item.ComisionLiquidadoras.FirstOrDefault().FechaInicio)*@
+                                                            </th>
+                                                            <th>
+                                                                @string.Format("{0:dd-MM-yyyy}", aux.FechaTermino)
+                                                                @*@Html.DisplayFor(model => item.ComisionLiquidadoras.FirstOrDefault().FechaTermino)*@
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                }
+                                            }
+                                        </table>
+                                    }
+                                }
+                            </tbody>
+                        }
+                    }
                 }
-            </tbody>
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroOficio)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().FechaOficio)                                            
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().FechaAsambleaSocios)                                            
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => item.NumeroOficio)
+                                </td>
+                                <td>
+                                    @string.Format("{0:dd-MM-yyyy}", item.FechaOficio)
+                                </td>
+                                <td>
+                                    @string.Format("{0:dd-MM-yyyy}", item.FechaAsambleaSocios)
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().FechaEscrituraPublica)                                            
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)                                            
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().NombreNotaria)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @string.Format("{0:dd-MM-yyyy}", item.FechaPublicacionDiarioOficial)
+                                </td>
+                                <td>
+                                    @string.Format("{0:dd-MM-yyyy}", item.FechaEscrituraPublica)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => item.NombreNotaria)
+                                </td>
+                            </tr>
+                        </tbody>
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().DatosNotario)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().FechaDisolucion)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(model => item.DatosNotario)
+                                </td>
+                                <td>
+                                    @string.Format("{0:dd-MM-yyyy}", item.FechaDisolucion)
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    }
+                }
+            }
         </table>
     </div>
 </div>

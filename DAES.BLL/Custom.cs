@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
 
 namespace DAES.BLL
 {
@@ -27,7 +26,7 @@ namespace DAES.BLL
             {
                 smtpClient.Send(emailMsg);
             }
-            catch
+            catch 
             {
                 return;
             }
@@ -145,28 +144,142 @@ namespace DAES.BLL
                 return returnValue;
             }
         }
-        public List<string> DisolucionUpdate(List<Disolucion> list)
+
+        /*
+         * TODO Crear Funcion Disolucion¬
+         * 
+         * Probar dejando solo una funcion para la disolucion y filtrar datos segun el tipo de organizacion
+         * asi se puede cambiar el estado de dicha organizacion
+         */
+
+        public List<string> DisolucionUpdate(List<Disolucion> listDisolucion, Disolucion disolucionss, List<ComisionLiquidadora> comisionLiquidadoras)
         {
-            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            
+            using(SistemaIntegradoContext context = new SistemaIntegradoContext())
             {
                 var returnValue = new List<string>();
-
-                if (list == null)
+                if (listDisolucion == null)
                 {
                     return returnValue;
                 }
-
-                foreach (var item in list)
+                /*if(liquidadoras == null)
                 {
+                    return returnValue;
+                }*/
+
+                
+                foreach(var item in listDisolucion)
+                {                    
                     var disolucion = context.Disolucions.FirstOrDefault(q => q.DisolucionId == item.DisolucionId);
+                    var org = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == item.OrganizacionId);
+                    var comiLiqui = context.ComisionLiquidadora.FirstOrDefault(q => q.OrganizacionId == org.OrganizacionId);                    
+                    // not Sure
+                    
                     if (disolucion != null)
                     {
-                        disolucion.Fecha = item.Fecha;
+                        disolucion.TipoNormaId = item.TipoNormaId;
+
+                        disolucion.NumeroNorma = item.NumeroNorma;
+                        
+                        disolucion.FechaNorma = item.FechaNorma;
+
+                        disolucion.NumeroFojas = item.NumeroFojas;
+
+                        disolucion.AñoInscripcion = item.AñoInscripcion;
+
+                        disolucion.MinistroDeFe = item.MinistroDeFe;
+                        
+                        if(item.FechaPubliAnterior!= null)
+                        {
+                            disolucion.FechaPublicacionDiarioOficial = item.FechaPubliAnterior;
+                        }
+                        else if(item.FechaPubliPosterior != null)
+                        {
+                            disolucion.FechaPublicacionDiarioOficial = item.FechaPubliPosterior;
+                        }
+                        else
+                        {
+                            disolucion.FechaPublicacionDiarioOficial = item.FechaPublicacionDiarioOficial;
+                        }
+                        
+                        /*disolucion.FechaPublicacionDiarioOficial = item.FechaPublicacionDiarioOficial;*/
+                        
+                        disolucion.Autorizacion = item.Autorizacion;
+                        
+                        if(item.FechaJuntaAnterior != null)
+                        {
+                            disolucion.FechaJuntaSocios = item.FechaJuntaAnterior;
+                        }
+                        else if(item.FechaJuntaPosterior != null)
+                        {
+                            disolucion.FechaJuntaSocios = item.FechaJuntaPosterior;
+                        }
+                        else
+                        {
+                            disolucion.FechaJuntaSocios = item.FechaJuntaSocios;
+                        }
+                        
+                        disolucion.Comision = item.Comision;
+                        
+                        if(item.FechaDisAnterior != null)
+                        {
+                            disolucion.FechaDisolucion = item.FechaDisAnterior;
+                        }
+                        else if(item.FechaDisPost != null)
+                        {
+                            disolucion.FechaDisolucion = item.FechaDisPost;
+                        }
+                        else
+                        {
+                            disolucion.FechaDisolucion = item.FechaDisolucion;
+                        }                        
+
+                        
                         disolucion.NumeroOficio = item.NumeroOficio;
-                        disolucion.FechaAsamblea = item.FechaAsamblea;
-                        disolucion.FechaPublicacionDiarioOficial = item.FechaPublicacionDiarioOficial;
+                        
+                        disolucion.FechaOficio = item.FechaOficio;
+                        
+                        disolucion.FechaAsambleaSocios = item.FechaAsambleaSocios;
+                        
+                        disolucion.FechaEscrituraPublica = item.FechaEscrituraPublica;
+                        
+                        disolucion.NombreNotaria = item.NombreNotaria;
+                        
+                        disolucion.DatosNotario = item.DatosNotario;
+                        
+                        disolucion.DatosCBR = item.DatosCBR;
+
+                        if (item.Comision)
+                        {
+                            foreach(var help in comisionLiquidadoras)
+                            {
+                                var comisionLiqui = context.ComisionLiquidadora.Where(q => q.ComisionLiquidadoraId == help.ComisionLiquidadoraId);
+                                if (help.EsMiembro)
+                                {
+                                    comisionLiqui.FirstOrDefault().DisolucionId=item.DisolucionId;
+                                    comisionLiqui.FirstOrDefault().CargoId = help.CargoId;
+                                    comisionLiqui.FirstOrDefault().Rut = help.Rut;
+                                    comisionLiqui.FirstOrDefault().GeneroId = help.GeneroId;
+                                    comisionLiqui.FirstOrDefault().NombreCompleto = help.NombreCompleto;
+                                    comisionLiqui.FirstOrDefault().FechaInicio = help.FechaInicio;
+                                    comisionLiqui.FirstOrDefault().FechaTermino = help.FechaTermino;
+                                    comisionLiqui.FirstOrDefault().EsMiembro = help.EsMiembro;
+                                }
+                                else
+                                {
+                                    comisionLiqui.FirstOrDefault().DisolucionId = item.DisolucionId;
+                                    comisionLiqui.FirstOrDefault().CargoId = help.CargoId;
+                                    comisionLiqui.FirstOrDefault().Rut = help.Rut;
+                                    comisionLiqui.FirstOrDefault().GeneroId = help.GeneroId;
+                                    comisionLiqui.FirstOrDefault().NombreCompleto = help.NombreCompleto;
+                                    comisionLiqui.FirstOrDefault().FechaInicio = help.FechaInicio;
+                                    comisionLiqui.FirstOrDefault().FechaTermino = help.FechaTermino;
+                                    comisionLiqui.FirstOrDefault().EsMiembro = help.EsMiembro;
+                                }
+                            }
+                        }
                     }
-                }
+                }                
 
                 context.SaveChanges();
                 return returnValue;
@@ -247,6 +360,8 @@ namespace DAES.BLL
                 write.PageEvent = ev;
                 Chunk SaltoLinea = Chunk.NEWLINE;
 
+                var aux = organizacion.Disolucions.FirstOrDefault();
+
                 string parrafo_uno = string.Format(configuracioncertificado.Parrafo1);
                 if (!string.IsNullOrEmpty(organizacion.NumeroRegistro))
                 {
@@ -268,6 +383,66 @@ namespace DAES.BLL
                     parrafo_uno = parrafo_uno.Replace("[DOMICIOSOCIAL]", organizacion.Direccion);
                 }
 
+                if (aux != null && (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest == 103) //TODO Modificar el valor "103" por el correspondiente en fase de produccion
+                {
+                    #region Parrafo 1 Test Rocha
+                                        
+                    parrafo_uno = parrafo_uno.Replace("[SIGLA]", organizacion.Sigla ?? string.Empty);
+                    
+                    parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", aux.NumeroOficio.ToString() ?? string.Empty);
+                                        
+                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICACIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPublicacionDiarioOficial) ?? string.Empty);
+
+                    parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica) ?? string.Empty);
+
+                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios) ?? string.Empty);
+
+                    parrafo_uno = parrafo_uno.Replace("[FECHADISOLUCION]", string.Format("{0:dd-MM-yyyy}", aux.FechaDisolucion) ?? string.Empty);
+
+                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma.ToString() ?? string.Empty);
+                    
+                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) ?? string.Empty);
+
+                    if(!string.IsNullOrEmpty(aux.Autorizacion))
+                    {
+                        parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", "autorizado por: " + aux.Autorizacion);
+                    }
+                    else
+                    {
+                        parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", string.Empty);
+                    }
+
+                    parrafo_uno = parrafo_uno.Replace("[NUMEROFOJAS]", aux.NumeroFojas ?? string.Empty);
+                    
+                    parrafo_uno = parrafo_uno.Replace("[AÑOINSCRIPCION]", aux.AñoInscripcion.ToString() ?? string.Empty);
+                    
+                    parrafo_uno = parrafo_uno.Replace("[DATOSCBR]", aux.DatosCBR ?? string.Empty);
+
+                    if(!string.IsNullOrEmpty(aux.MinistroDeFe))
+                    {
+                        parrafo_uno = parrafo_uno.Replace("[MINISTRODEFE]", "ante el " + aux.MinistroDeFe);
+                    }
+                    else
+                    {
+                        parrafo_uno = parrafo_uno.Replace("[MINISTRODEFE]", string.Empty);
+                    }
+                                        
+                    parrafo_uno = parrafo_uno.Replace("[FECHAOFICIO]", string.Format("{0:dd-MM-yyyy}", aux.FechaOficio) ?? string.Empty);
+                    
+                    parrafo_uno = parrafo_uno.Replace("[FECHAASAMBLEASOCIOS]", string.Format("{0:dd-MM-yyyy}", aux.FechaAsambleaSocios) ?? string.Empty);
+                    
+                    parrafo_uno = parrafo_uno.Replace("[NOMBRENOTARIA]", aux.NombreNotaria ?? string.Empty);
+                    
+                    parrafo_uno = parrafo_uno.Replace("[DATOSNOTARIO]", aux.DatosNotario ?? string.Empty);
+                    
+                    #endregion
+                }
+                else
+                {
+                    throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
+                        "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
+                }
+
                 string parrafo_dos = string.Format(configuracioncertificado.Parrafo2);
                 if (!string.IsNullOrWhiteSpace(parrafo_dos))
                 {
@@ -276,6 +451,29 @@ namespace DAES.BLL
                         parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
                     }
                 }
+
+                if (aux.Comision)
+                {
+                    foreach (var item in organizacion.ComisionLiquidadoras)
+                    {
+                        var last = organizacion.ComisionLiquidadoras.Last();
+                        var comi = context.ComisionLiquidadora.FirstOrDefault(q => q.ComisionLiquidadoraId == item.ComisionLiquidadoraId);
+                        parrafo_dos = parrafo_dos.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                        if (!item.Equals(last))
+                        {
+                            parrafo_dos += item.NombreCompleto + ", ";
+                        }
+                        else
+                        {
+                            parrafo_dos += item.NombreCompleto + ".";
+                        }
+                    }
+                }
+                else
+                {
+                    parrafo_dos = parrafo_dos.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                }
+
 
                 doc.Open();
                 doc.AddTitle(configuracioncertificado.Titulo);
@@ -290,6 +488,7 @@ namespace DAES.BLL
 
                 Paragraph paragraphDOS = new Paragraph(parrafo_dos, _fontStandard);
                 paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
+                
 
                 var logo = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.URLImagenLogo);
                 if (logo == null)
@@ -347,6 +546,8 @@ namespace DAES.BLL
 
                 doc.Add(SaltoLinea);
                 doc.Add(paragraphUNO);
+                doc.Add(SaltoLinea);
+                doc.Add(paragraphDOS);
                 doc.Add(SaltoLinea);
 
                 if (configuracioncertificado.TieneDirectorio)
@@ -722,8 +923,6 @@ namespace DAES.BLL
             }
         }
 
-
-
         public Proceso ProcesoStart(Proceso obj)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
@@ -751,20 +950,14 @@ namespace DAES.BLL
                     }
                 }
 
-                if (
-                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomico &&
-                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
-                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP &&
-                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta
-                )
+                if (obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
+                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP)
                 {
                     if (!context.Organizacion.Any(q => q.OrganizacionId == obj.OrganizacionId))
                     {
                         throw new Exception("No se encontró la organización");
                     }
                 }
-
-
 
                 if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoManual || obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico || obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.Actualizacion)
                 {
@@ -838,7 +1031,6 @@ namespace DAES.BLL
                     }
                 }
 
-
                 //en el caso de un proceso de constitucion, asociar nueva organización
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb)
                 {
@@ -863,7 +1055,6 @@ namespace DAES.BLL
                             EsImportanciaEconomica = false
                         };
                     }
-
                 }
 
                 //en el caso de un proceso de constitucion, asociar nueva organización
@@ -883,95 +1074,11 @@ namespace DAES.BLL
                     };
                 }
 
-
-
-                //en el caso de un proceso de estudio socioeconomico
-                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomico)
-                {
-                    foreach (var item in obj.EstudioSocioEconomicos)
-                    {
-                        proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
-                        {
-                            FechaCreacion = item.FechaCreacion,
-                            DocumentoAdjunto = item.DocumentoAdjunto,
-                            Proceso = proceso
-                        });
-
-                    }
-                    //si viene datos de una organizacion, usarlos para crea la nueva
-                    if (obj.Organizacion != null)
-                    {
-                        proceso.Organizacion = obj.Organizacion;
-                    }
-
-                    //si no vienen datos, crear una nueva organizacion
-                    if (obj.Organizacion == null)
-                    {
-                        proceso.Organizacion = new Organizacion()
-                        {
-                            FechaCreacion = DateTime.Now,
-                            TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida,
-                            EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
-                            NumeroSocios = 0,
-                            NumeroSociosHombres = 0,
-                            NumeroSociosMujeres = 0,
-                            EsGeneroFemenino = false,
-                            EsImportanciaEconomica = false
-                        };
-                    }
-
-                }
-                ////en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
-                //else
-                //{
-                //    proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
-                //}
-
-
-                //cooperativa de vivienda abierta
-                //
-                if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta)
-                {
-
-                    foreach (var item in obj.CooperativaAbiertas)
-                    {
-                        proceso.CooperativaAbiertas.Add(new CooperativaAbierta
-                        {
-                            FechaCreacion = item.FechaCreacion,
-                            DocumentoAdjunto = item.DocumentoAdjunto,
-                            Proceso = proceso
-                        });
-
-                    }
-                    //si viene datos de una organizacion, usarlos para crea la nueva
-                    if (obj.Organizacion != null)
-                    {
-                        proceso.Organizacion = obj.Organizacion;
-                    }
-
-                    //si no vienen datos, crear una nueva organizacion
-                    if (obj.Organizacion == null)
-                    {
-                        proceso.Organizacion = new Organizacion()
-                        {
-                            FechaCreacion = DateTime.Now,
-                            TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida,
-                            EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
-                            NumeroSocios = 0,
-                            NumeroSociosHombres = 0,
-                            NumeroSociosMujeres = 0,
-                            EsGeneroFemenino = false,
-                            EsImportanciaEconomica = false
-                        };
-                    }
-
-                }
+                //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
                 else
                 {
                     proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
                 }
-
-
 
                 //en el caso de que sea certificado automático, generar pdf firmado
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico)
@@ -1004,7 +1111,6 @@ namespace DAES.BLL
                     proceso.Articulo91s.Add(obj.Articulo91s.FirstOrDefault());
                 }
 
-                //revisar
                 //asignar tareas a ejecutar
                 var definicionworkflow = context.DefinicionWorkflow.Where(q => q.Habilitado && q.DefinicionProcesoId == proceso.DefinicionProceso.DefinicionProcesoId).OrderBy(q => q.Secuencia).ThenBy(q => q.DefinicionWorkflowId).FirstOrDefault();
                 if (definicionworkflow != null)
@@ -1559,9 +1665,6 @@ namespace DAES.BLL
                             }
                         }
                     }
-
-
-
 
                     foreach (var item in actaFiscalizacion.ActaFiscalizacionHechoLegals)
                     {

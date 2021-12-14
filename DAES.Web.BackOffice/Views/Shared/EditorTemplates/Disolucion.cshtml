@@ -2,22 +2,125 @@
 @Html.HiddenFor(model => model.DisolucionId)
 @Html.HiddenFor(model => model.OrganizacionId)
 
-    <td>
-        @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
-        @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
-    </td>
+@if (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+        Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+{
+
     <td>
         @Html.EditorFor(model => model.NumeroOficio, new { htmlAttributes = new { @class = "form-control" } })
         @Html.ValidationMessageFor(model => model.NumeroOficio, "", new { @class = "text-danger" })
     </td>
     <td>
-        @Html.EditorFor(model => model.FechaAsamblea, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
-        @Html.ValidationMessageFor(model => model.FechaAsamblea, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.FechaOficio, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FechaOficio, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaAsambleaSocios, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FechaAsambleaSocios, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FechaEscrituraPublica, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FechaPublicacionDiarioOficial, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.NombreNotaria, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.NombreNotaria, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.DatosNotario, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.DatosNotario, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaDisolucion, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.FechaDisolucion, "", new { @class = "text-danger" })
+    </td>
+}
+else
+{
+<tr>
+    <td>
+        @Html.DropDownListFor(model => model.TipoNormaId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.TipoNormaId, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.NumeroNorma, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.NumeroNorma, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaNorma, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+        @Html.ValidationMessageFor(model => model.FechaNorma, "", new { @class = "text-danger" })
     </td>
     <td>
         @Html.EditorFor(model => model.FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
         @Html.ValidationMessageFor(model => model.FechaPublicacionDiarioOficial, "", new { @class = "text-danger" })
     </td>
-    @*<td>
+</tr>
+<tr>
+    <td>
+        @Html.EditorFor(model => model.Autorizacion, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+        @Html.ValidationMessageFor(model => model.Autorizacion, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaJuntaSocios, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+        @Html.ValidationMessageFor(model => model.FechaJuntaSocios, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.EditorFor(model => model.FechaDisolucion, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+        @Html.ValidationMessageFor(model => model.FechaDisolucion, "", new { @class = "text-danger" })
+    </td>
+</tr>
+    @*<tr>
+        <td>
+            @Html.EditorFor(model => model.FechaJuntaSocios, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FechaJuntaSocios, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FechaEscrituraPublica, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.MinistroDeFe, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            @Html.ValidationMessageFor(model => model.MinistroDeFe, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            @Html.ValidationMessageFor(model => model.FechaPublicacionDiarioOficial, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.NumeroFojas, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            @Html.ValidationMessageFor(model => model.NumeroFojas, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.AñoInscripcion, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            @Html.ValidationMessageFor(model => model.AñoInscripcion, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.DatosCBR, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.DatosCBR, "", new { @class = "text-danger" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.FechaDisolucion, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            @Html.ValidationMessageFor(model => model.FechaDisolucion, "", new { @class = "text-danger" })
+        </td>
+    </tr>*@
+}
+@*<td>
         @Ajax.ActionLink("Eliminar", "DisolucionDelete", "Organizacion", new { Model.DisolucionId }, new AjaxOptions { UpdateTargetId = "Disolucion" })
     </td>*@
+@*<script>
+        $(document).ready(function () {
+            $("#anterior").change(function () {
+                if ($("#anterior").is(':checked')) {
+                    $("#divAnterior").show();
+                    $("#divPosterior").hide();
+                } else {
+                    $("#divAnterior").hide();
+                    $("#divPosterior").show()
+                }
+            });
+        });
+    </script>*@
