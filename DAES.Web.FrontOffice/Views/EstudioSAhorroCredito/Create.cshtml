@@ -5,206 +5,252 @@
 
 }
 
-<div class="card">
-    <div class="card-body">
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Estudio SocioEconómico CAC´S</h1>
+        <p>Permite inscribir el estudio socio-económico que deben presentar los interesados en constituir una cooperativa de ahorro y crédito</p>
+    </div>
+</div>
+<div class="container my-3">
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <p style="color:red" class=" alert alert-danger text-center">@ViewBag.ErrorMessage</p>
+    }
 
-        @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.HiddenFor(model => model.RutSolicitante)
-            @Html.HiddenFor(model => model.Apellidos)
-            @Html.HiddenFor(model => model.Nombres)
+    <div class="alert alert-primary" role="alert">
+        <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
+    </div>
+</div>
 
+<div class="container my-3">
+    @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.RutSolicitante)
+        @Html.HiddenFor(model => model.Nombres)
+        @Html.HiddenFor(model => model.Apellidos)
+        @Html.AntiForgeryToken()
 
-            @Html.AntiForgeryToken()
-            <div class="jumbotron" style="background-color:#e9ecef">
-                <div class="container">
-                    <h1>Estudio SocioEconómico CAC´S</h1>
-                    <p>Permite inscribir el estudio socio-económico que deben presentar los interesados en constituir una cooperativa de ahorro y crédito</p>
-                </div>
-            </div>
-            <div class="form-horizontal">
-                <div class="container">
-                    <p style="color:red">@ViewBag.ErrorMessage</p>
-                    <div style="background-color:lightblue">
-                        <p>Importante: Todos los documentos solicitados deben incluir firma electrónica avanzada.</p>
-                    </div>
-                </div>
-
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                            <div class="card">
-                                <h5 class="card-title" align="center">Información de la organización</h5>
-                                <p align="center">Complete los datos de la organización</p>
-                                <hr />
-                                <div class="card-body">
-                                    @Html.LabelFor(model => model.TipoOrganizacionId, "*Tipo de Organización", htmlAttributes: new { @class = "control-label col-md-10" })
-                                    @Html.DropDownList("TipoOrganizacionId", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.TipoOrganizacionId, "", new { @class = "text-danger" })
-
-
-                                    <br />
-                                    @Html.LabelFor(model => model.RazonSocial, "*Razón social", htmlAttributes: new { @class = "control-label col-md-3" })
-                                    @Html.EditorFor(model => model.RazonSocial, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(m => Model.RazonSocial, "", new { @class = "text-danger" })
-                                    <table>
-
-                                        <tr>
-                                            <td>
-                                                @Html.LabelFor(model => model.RubroId, "Rubro", htmlAttributes: new { @class = "control-label col-md-10" })
-                                                @Html.DropDownList("RubroId", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.RubroId, "", new { @class = "text-danger" })
-
-                                            </td>
-                                            <td>
-                                                @Html.LabelFor(model => model.SubRubroId, "SubRubro", htmlAttributes: new { @class = "control-label col-md-10" })
-                                                @Html.DropDownList("SubRubroId", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.SubRubroId, "", new { @class = "text-danger" })
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.LabelFor(model => model.RegionId, "*Region", htmlAttributes: new { @class = "control-label col-md-10" })
-                                                @Html.DropDownList("RegionId", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
-                                            </td>
-                                            <td>
-                                                @Html.LabelFor(model => model.ComunaId, "*Comuna", htmlAttributes: new { @class = "control-label col-md-10" })
-                                                @Html.DropDownList("ComunaId", null, htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.ComunaId, "", new { @class = "text-danger" })
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            @Html.LabelFor(model => model.Direccion, "*Dirección", htmlAttributes: new { @class = "control-label col-md-10" })
-                                            @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
-
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.LabelFor(model => model.Rut, "Rut (Sin punto ni guión)", htmlAttributes: new { @class = "control-label col-md-12" })
-                                                @Html.EditorFor(model => model.Rut, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Rut, "", new { @class = "text-danger" })
-                                            </td>
-                                            <td>
-                                                @Html.LabelFor(model => model.Sigla, "Sigla", htmlAttributes: new { @class = "control-label col-md-12" })
-                                                @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "text-danger" })
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                @Html.LabelFor(model => model.Fono, "*Fono", htmlAttributes: new { @class = "control-label col-md-10" })
-                                                @Html.EditorFor(model => model.Fono, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Fono, "", new { @class = "text-danger" })
-                                            </td>
-                                            <td>
-                                                @Html.LabelFor(model => model.Email, "*Email", htmlAttributes: new { @class = "control-label col-md-10" })
-                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                            <div class="card">
-                                <h5 class="card-title" align="center">Información del solicitante</h5>
-                                <p align="center">Complete los datos del solicitante</p>
+        <p class="text-danger text-center">*Campo Obligatorio</p>
+        <hr />
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-center">Datos Organización</h5>
+                                <p class="card-title text-info text-center">Ingrese los datos pertenecientes a la organización</p>
                                 <hr />
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    @Html.LabelFor(model => model.RutSolicitante, "Rut del solicitante: ", htmlAttributes: new { @class = "font-weight-bold col-md-10" })
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(m => Model.RutSolicitante)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    @Html.LabelFor(model => model.Apellidos, "Nombres del solicitante: ", htmlAttributes: new { @class = "font-weight-bold col-md-12" })
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(m => Model.Apellidos)
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    @Html.LabelFor(model => model.Nombres, "Apellidos del solicitante: ", htmlAttributes: new { @class = "font-weight-bold col-md-12" })
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(m => Model.Nombres)
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <br />
+                                        @Html.LabelFor(model => model.TipoOrganizacionId, new { @class = "font-weight-bold" })
+                                        @Html.DropDownList("TipoOrganizacionId", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.TipoOrganizacionId, "", new { @class = "text-danger" })
+                                    </div>
 
-                                        @Html.LabelFor(model => model.MailSolicitante, "*Email", htmlAttributes: new { @class = "control-label col-md-4" })
-                                        @Html.EditorFor(model => model.MailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.MailSolicitante, "", new { @class = "text-danger" })
-                                        <br />
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.RazonSocial, new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.RazonSocial, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.RazonSocial, "", new { @class = "text-danger" })
+                                    </div>
 
-                                        @Html.LabelFor(model => model.RegionSolicitante, "*Región", htmlAttributes: new { @class = "control-label col-md-3" })
-                                        @Html.DropDownList("RegionSolicitante", null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.RegionSolicitante, "", new { @class = "text-danger" })
-                                        <br />
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Direccion, new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Direccion, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Direccion, "", new { @class = "text-danger" })
+                                    </div>
 
-                                        @Html.LabelFor(model => model.FonoSolicitante, "*Fono (Solo números)", htmlAttributes: new { @class = "control-label col-md-8" })
-                                        @Html.EditorFor(model => model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.FonoSolicitante, "", new { @class = "text-danger" })
-                                        <br />
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.RubroId, new { @class = "font-weight-bold" })
+                                                @Html.DropDownListFor(model => model.RubroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.RubroId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.SubRubroId, new { @class = "font-weight-bold" })
+                                                @Html.DropDownListFor(model => model.SubRubroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.SubRubroId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.RegionId, new { @class = "font-weight-bold" })
+                                                @Html.DropDownListFor(model => model.RegionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.RegionId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.ComunaId, new { @class = "font-weight-bold" })
+                                                @Html.DropDownListFor(model => model.ComunaId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ComunaId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Rut, new { @class = "font-weight-bold" })
+                                                @Html.EditorFor(model => model.Rut, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Rut, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Sigla, new { @class = "font-weight-bold" })
+                                                @Html.EditorFor(model => model.Sigla, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => model.Sigla, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Fono, new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Fono, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Fono, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.Email, new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    *Campos obligatorios
-                </div>
-                <br />
-                <div class="container">
-                    <div class="card">
-                        <div class="input-field col s12 m12 l12">
-                            <h5 class="card-title" align="center">Adjuntar documentos.</h5>
-                            <div class="form-group" background-color:aliceblue" id="inputArchivo">
-                                <div class="input_fields_wrap">
-                                    <small>Puede seleccionar varios archivos para subir. Solo se aceptan archivos pdf, word, excel. </small>
-                                    @Html.LabelFor(m => Model.DocumentoAdjunto, " ", new { @class = "font-weight-bold" })<br /><br />
-                                    <div>@Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @multiple = "multiple", @type = "file" })<br /></div>
-                                    <br />
-                                    @Html.ValidationMessageFor(model => model.DocumentoAdjunto, "", new { @class = "text-danger" })
+            </div>
 
-                                    <br />
-                                </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col">
+                            <h5 class="card-title text-center">Datos Solicitante</h5>
+                            <p class="card-title text-info text-center">Ingrese los datos pertenecientes al solicitante</p>
+                            <hr />
+                            <div class="form-group">
+                                @Html.LabelFor(m => Model.RutSolicitante, new { @class = "font-weight-bold" })
+                                @Html.DisplayFor(m => Model.RutSolicitante)
 
-                                @Html.LabelFor(model => model.Observacion, "Observación", htmlAttributes: new { @class = "control-label col-md-2" })
                                 <br />
+                                @Html.LabelFor(m => Model.Nombres, new { @class = "font-weight-bold" })
+                                @Html.DisplayFor(m => Model.Nombres)
 
-                                @Html.TextAreaFor(model => model.Observacion, 5, 50, new { htmlAttributes = new { @class = "form-control" } })
                                 <br />
+                                @Html.LabelFor(m => Model.Apellidos, new { @class = "font-weight-bold" })
+                                @Html.DisplayFor(m => Model.Apellidos)
 
-                                <button class="btn btn-primary my-3" type="submit" id="sendButton">Enviar estudio</button>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.FonoSolicitante, new { @class = "font-weight-bold" })
+                                @Html.EditorFor(model => model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.FonoSolicitante, "", new { @class = "text-danger" })
+
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.RegionSolicitante, new { @class = "font-weight-bold" })
+                                @Html.DropDownListFor(model => model.RegionSolicitante, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.RegionSolicitante, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.MailSolicitante, new { @class = "font-weight-bold" })
+                                @Html.EditorFor(model => model.MailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.MailSolicitante, "", new { @class = "text-danger" })
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+        <br />
+        <div class="card">
+            <br />
+            <div class="container">
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body" style="min-height: 335px">
+                                <p class="card-title text-center font-weight-bold">Adjuntar Documentos</p>
+                                <hr />
+                                <ul>
+                                    <li class="card-title text-info">
+                                        Adjunte documentos necesarios para este trámite
+                                    </li>
+                                </ul>
+                                <hr />
 
-        }
+                                <div class="input_field">
+                                    <table id="table_field" class="table-bordered">
+                                        @Html.ValidationMessageFor(m => Model.DocumentoAdjunto, "", new { @class = "text-danger" })
+                                        <tr>
+                                            <td style="height:50px; padding-left: 10px">
+                                                @Html.LabelFor(m => Model.DocumentoAdjunto, "Seleccione un documento", new { @class = "font-weight-bold" })
+                                                @Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @type = "file" })
+                                            </td>
+                                            <td style="min-width: 75px" class="text-center">
+                                                <label class="text-danger" name="remove" id="re">Quitar</label>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <hr />
+                                <label class="text-primary" name="add" id="add">Agregar nuevo documento</label>
 
-        <div>
-            @Html.ActionLink("   volver a DAES", "Index", "Home")
+                            </div>
+                            <div class="card-footer">
+                                <small class="text-info">Solo se aceptan archivos en formato: pdf, word o excel</small>
+                                <br />
+                                <small class="text-danger">Tamaño máximo por cada archivo: 50 MB</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body" style="min-height: 335px">
+                                <p class="card-title text-center font-weight-bold">Observaciones</p>
+                                <hr />
+                                <ul>
+                                    <li class="card-title text-info">
+                                        Agregar observaciones
+                                    </li>
+                                </ul>
+                                <hr />
+                                <div class="form-group ">
+                                    @Html.LabelFor(m => m.Observacion, new { @class = "font-weight-bold" })
+                                    @Html.TextAreaFor(m => m.Observacion, 5, 65, new { htmlAtributtes = new { @class = "form-control" } })
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            </div>
+
         </div>
 
-    </div>
+        <button class="btn btn-primary my-3" type="submit">Enviar solicitud</button>
+    }
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
 </div>
 
 
@@ -212,7 +258,7 @@
 <script type="text/javascript">
 
 
-    $('#RubroId').on('change', function () {
+    @*$('#RubroId').on('change', function () {
         var RubroId = $(this).val();
         $.getJSON("/Organizacion/GetSubRubro", { RubroId: RubroId },
             function (classesData) {
@@ -280,5 +326,101 @@
             }
         }
 
+    });*@
+
+
+
+
+
+    $('#TipoOrganizacionId option[value="1"]').attr("selected", true);
+    $("#TipoOrganizacionId").prop("disabled", true);
+
+
+
+    $('#RubroId option[value="6"]').attr("selected", true);
+    $('#RubroId').prop("disabled", true);
+
+
+
+    $('#SubRubroId option[value="15"]').attr("selected", true);
+    $('#SubRubroId').prop("disabled", true);
+
+
+
+    $('#RubroId').on('change', function () {
+    var RubroId = $(this).val();
+    $.getJSON("/Organizacion/GetSubRubro", { RubroId: RubroId },
+    function (classesData) {
+    var select = $("#SubRubroId");
+    select.empty();
+    select.append($('<option/>', {
+    value: 0,
+    text: "Seleccione..."
+    }));
+    $.each(classesData, function (index, itemData) {
+    select.append($('<option/>', {
+    value: itemData.Value,
+    text: itemData.Text
+    }));
+    });
+    });
+    });
+    $('#RegionId').on('change', function () {
+    var RegionId = $(this).val();
+    $.getJSON("/Organizacion/GetComuna", { RegionId: RegionId },
+    function (classesData) {
+    var select = $("#ComunaId");
+    select.empty();
+    $.each(classesData, function (index, itemData) {
+    select.append($('<option/>', {
+    value: itemData.Value,
+    text: itemData.Text
+    }));
+    });
+    });
+    });
+
+
+
+    //Documentos
+    const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file;
+    var max = 10, x = 1, cont = 1;
+    $("#add").click(function () {
+    var wrapper = '<tr><td style="height:50px; padding-left: 10px"><input type="file" name="DocumentoAdjunto" id="DocumentoAdjunto' + cont + '" onChange="validar(' + cont + ')"/>' +
+    '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove"><u>Quitar</u></label></td></tr>';
+
+
+
+    if (x < max) {
+    $("#table_field").append(wrapper);
+    x++, cont++;
+    }
+    })
+    //Eliminar fila cuando se hace click en quitar
+    $("#table_field").on('click', '#remove', function () {
+    $(this).closest('tr').remove();
+    x--;
+    })
+    //Validar tamaño de documento dinamico
+    function validar(conta) {
+    const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjunto' + conta).files[0];
+    if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
+    alert("El tamaño máximo es 50 MB por archivo");
+    document.getElementById('DocumentoAdjunto' + conta).value = "";
+    }
+    }
+    //Limpiar input documento sin quitarlo
+    $('#re').on("click", function () {
+    const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
+    $DocumentoAdjunto.value = "";
+    })
+    //Validar tamaño documento
+    const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
+    $DocumentoAdjunto.addEventListener("change", function () {
+    const archivo = this.files[0];
+    if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+    alert("El tamaño máximo es 50 MB por archivo");
+    $DocumentoAdjunto.value = "";
+    }
     });
 </script>

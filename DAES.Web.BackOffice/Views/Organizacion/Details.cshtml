@@ -14,8 +14,12 @@
 @Html.Partial("_OrganizacionDetails", Model)
 @Html.Partial("_OrganizacionDocumento", Model.DocumentoSinContenidos)
 @Html.Partial("_OrganizacionProceso", Model.Procesos)
-@Html.Partial("_OrganizacionModificacion", Model.ModificacionEstatutos)
 @Html.Partial("_OrganizacionDisolucion", Model.Disolucions)
+@Html.Partial("_OrganizacionModificacion", Model.ExistenciaLegals)
+@Html.Partial("_OrganizacionSaneamiento", Model.Saneamientos)
+@Html.Partial("_OrganizacionReforma", Model.Reformas)
+
+
 
 <p>
     @Html.ActionLink("Editar", "Edit", new { id = Model.OrganizacionId }) |

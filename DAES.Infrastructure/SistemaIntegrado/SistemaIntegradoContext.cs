@@ -71,6 +71,18 @@ namespace DAES.Infrastructure.SistemaIntegrado
 
         public virtual DbSet<EstudioSocioEconomico> EstudioSocioEconomico { get; set; }
 
+        public virtual DbSet<ExistenciaLegal> ExistenciaLegal { get; set; }
+
+        public virtual DbSet<TipoNorma> TipoNorma { get; set; }
+
+        public virtual DbSet<Saneamiento> Saneamiento { get; set; }
+
+        public virtual DbSet<Reforma> Reforma { get; set; }
+
+        public virtual DbSet<Aprobacion> Aprobacion { get; set; }
+
+        public virtual DbSet<AsambleaDeposito> AsambleaDeposito { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer<SistemaIntegradoContext>(null);

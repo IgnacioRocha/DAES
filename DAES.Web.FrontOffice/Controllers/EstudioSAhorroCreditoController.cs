@@ -72,8 +72,28 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Start()
         {
+            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
+            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
-            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
+
+            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            {
+                nombres = new System.Collections.Generic.List<string> { "GIOVANNI", "ANDRES" },
+                apellidos = new System.Collections.Generic.List<string> { "FERNANDEZ", "QUEZADA" },
+            };
+            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            {
+                numero = 18784154,
+                DV = "2",
+                tipo = "RUN"
+            };
+            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+
         }
 
         public ActionResult Finish()
@@ -165,7 +185,7 @@ namespace DAES.Web.FrontOffice.Controllers
                         if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".xlsx" && fileEx != ".doc" && fileEx != ".docx")
                         {
 
-                            ViewBag.errorMessage = "Los archivos no pueden estar vacíos y deben ser archivos de tipo Word, Excel o Pdf";
+                            ViewBag.errorMessage = "Solo se aceptan archivos en formato PDF, Word , Excel (sin macros) y que no estén vacíos";
 
 
                             return View(new Model.DTO.DTOEstudioSocioeconomico()

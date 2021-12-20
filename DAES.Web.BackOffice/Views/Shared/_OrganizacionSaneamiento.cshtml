@@ -1,0 +1,65 @@
+﻿
+
+
+@model IEnumerable<DAES.Model.SistemaIntegrado.Saneamiento>
+@using GridMvc.Html
+
+
+<div class="panel panel-default" style="overflow-x:scroll">
+    <div class="panel-heading">Saneamiento</div>
+    <div class="panel-body">
+        <table class="table table-hover table-striped datatable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaEscrituraPublicaa)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaaPublicacionDiario)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.DatoGeneralesNotario)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Fojass)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FechaaInscripcion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DatossCBR)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.FechaEscrituraPublicaa)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.FechaaPublicacionDiario)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(model => item.DatoGeneralesNotario)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Fojass)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.FechaaInscripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.DatossCBR)
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

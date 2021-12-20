@@ -1,0 +1,33 @@
+﻿@*TODO BORRar*@
+@*@model DAES.Model.SistemaIntegrado.ExistenciaLegal
+
+<div class="form-horizontal">
+    <div class="panel panel-default">
+        <div style="overflow-x:scroll">
+
+            <td>
+                @Html.EditorFor(model => model.FechaConstitutivaSocios, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => Model.ExistenciaId)
+                @Html.HiddenFor(model => Model.OrganizacionId)
+            </td>
+            <td>
+                @Html.EditorFor(model => model.FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.FechaPublicacion, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.DatosGeneralesNotario, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.Fojas, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.FechaInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+            <td>
+                @Html.EditorFor(model => model.DatosCBR, new { htmlAttributes = new { @class = "form-control" } })
+            </td>
+        </div>
+    </div>
+</div>*@
