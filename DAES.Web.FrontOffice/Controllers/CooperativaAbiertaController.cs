@@ -33,6 +33,20 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "CooperativaAbierta";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
 
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
+
+
             //a
             return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
 
@@ -62,6 +76,10 @@ namespace DAES.Web.FrontOffice.Controllers
                 RutSolicitante = "98.7654.321-0",
                 Nombres = "Fulgore",
                 Apellidos = "Cinder"
+
+                //RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
+                //Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                //Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
             });
 
         }
@@ -128,16 +146,6 @@ namespace DAES.Web.FrontOffice.Controllers
                 for (int i = 0; i < Request.Files.Count; i++)
                 {
                     HttpPostedFileBase file = Request.Files[i];
-                    if (file.FileName == "")
-                    {
-                        ViewBag.errorMessage = "*Error al enviar documentos, faltan documentos por adjuntar";
-                        return View(new Model.DTO.DTOCooperativaAbierta()
-                        {
-                            RutSolicitante = "98.7654.321-0",
-                            Nombres = "Fulgore",
-                            Apellidos = "Cinder"
-                        });
-                    }
                     var target = new MemoryStream();
                     using (MemoryStream ms = new MemoryStream())
                     {
@@ -153,26 +161,35 @@ namespace DAES.Web.FrontOffice.Controllers
                             Proceso = proceso
                         });
 
-                        if (ms.Length > 52428800)
+
+                        if (file.FileName == "")
                         {
-                            ViewBag.errorMessage = "*Error al enviar documento, tamaño supera el límite 50 MB.";
+                            ViewBag.errorMessage = "*Error al enviar documentos, faltan documentos por adjuntar";
                             return View(new Model.DTO.DTOCooperativaAbierta()
                             {
                                 RutSolicitante = "98.7654.321-0",
                                 Nombres = "Fulgore",
                                 Apellidos = "Cinder"
+
+                                //RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
+                                //Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                                //Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
                             });
                         }
 
-                        if (fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".xlsx" && fileEx != ".doc" && fileEx != ".docx")
+                        else if (fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".xlsx" && fileEx != ".doc" && fileEx != ".docx")
                         {
 
-                            ViewBag.errorMessage = "*Error al enviar documento, los archivos deben ser archivos de tipo Word, Excel o Pdf";
+                            ViewBag.errorMessage = "*Error al enviar documento(s), los archivos deben ser archivos de tipo Word, Excel o Pdf ";
                             return View(new Model.DTO.DTOCooperativaAbierta()
                             {
                                 RutSolicitante = "98.7654.321-0",
                                 Nombres = "Fulgore",
                                 Apellidos = "Cinder"
+
+                                //RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
+                                //Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                                //Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
                             });
                         }
                         else

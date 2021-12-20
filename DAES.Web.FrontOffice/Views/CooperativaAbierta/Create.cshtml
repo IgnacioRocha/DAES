@@ -190,20 +190,20 @@
 
                                 <div class="input_field">
                                     <table id="table_field" class="table-bordered">
-                                        @Html.ValidationMessageFor(m => Model.DocumentoAdjunto, "", new { @class = "text-danger" })
                                         <tr>
+                                            @Html.LabelFor(m => Model.DocumentoAdjunto, "Seleccione un documento", new { @class = "font-weight-bold" })<br />
+                                            @Html.ValidationMessageFor(m => Model.DocumentoAdjunto, "", new { @class = "text-danger" })
                                             <td style="height:50px; padding-left: 10px">
-                                                @Html.LabelFor(m => Model.DocumentoAdjunto, "Seleccione un documento", new { @class = "font-weight-bold" })
                                                 @Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @type = "file" })
                                             </td>
                                             <td style="min-width: 75px" class="text-center">
-                                                <label class="text-danger" name="remove" id="re">Quitar</label>
+                                                <label class="text-danger" name="remove" id="re"><u>Quitar</u></label>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
-                                <hr />
-                                <label class="text-primary" name="add" id="add">Agregar nuevo documento</label>
+                                <br />
+                                <label class="text-primary" name="add" id="add"><u style="color: #17a2b8">Agregar nuevo documento</u></label>
 
                             </div>
                             <div class="card-footer">
@@ -293,70 +293,39 @@
     const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file;
     var max = 10, x = 1, cont = 1;
     $("#add").click(function () {
-        var wrapper = '<tr><td style="height:50px; padding-left: 10px"><input required="required" type="file" name="DocumentoAdjunto" id="DocumentoAdjunto' + cont + '" onChange="validar(' + cont + ')"/>' +
-            '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove">Quitar</label></td></tr>';
+        var wrapper = '<tr><td style="height:50px; padding-left: 10px"><input type="file" name="DocumentoAdjunto" id="DocumentoAdjunto' + cont + '" onChange="validar(' + cont + ')"/>' +
+            '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove"><u>Quitar</u></label></td></tr>';
 
         if (x < max) {
             $("#table_field").append(wrapper);
-            x++;
-            cont++;
+            x++, cont++;
         }
     })
-
+    //Eliminar fila cuando se hace click en quitar
     $("#table_field").on('click', '#remove', function () {
         $(this).closest('tr').remove();
         x--;
-
     })
-
-    $('#add').hide();
-    $('#remove').hide();
-    $('#re').hide();
-
+    //Validar tamaño de documento dinamico
     function validar(conta) {
-        const archivo = document.getElementById('DocumentoAdjunto' + conta).value;
-        extension = archivo.substring(archivo.lastIndexOf('.'), archivo.length);
-        //dandoll
         const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjunto' + conta).files[0];
-        console.log(DocumentoAdjuntadoDI);
-
         if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
             alert("El tamaño máximo es 50 MB por archivo");
             document.getElementById('DocumentoAdjunto' + conta).value = "";
         }
-        //if (document.getElementById('DocumentoAdjunto' + conta).getAttribute('accept').split(',').indexOf(extension) < 0) {
-        //    alert('Formato Incorrecto ' + extension + ' Solo se acpetan documentos de tipo Word, Excel o Pdf');
-        //    document.getElementById('DocumentoAdjunto' + conta).value = "";
-        //    cont++;
-        //}
     }
-
+    //Limpiar input documento sin quitarlo
     $('#re').on("click", function () {
         const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
         $DocumentoAdjunto.value = "";
-        $('#add').hide();
-        $('#re').hide();
     })
-
+    //Validar tamaño documento
     const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
     $DocumentoAdjunto.addEventListener("change", function () {
-        $('#add').show();
-        $('#remove').show();
-        if (this.files.length <= 0) {
-            $('#re').hide();
-            return;
-        } else {
-            $('#re').show();
-        }
-        for (let i = 0; i < 10; i++) {
-            const archivo = this.files[i];
-            if (archivo.size > MAXIMO_TAMANIO_BYTES) {
-                alert("El tamaño máximo es 50 MB por archivo");
-                $DocumentoAdjunto.value = "";
-                $('#add').hide();
-                $('#re').hide();
-            }
-            console.log(archivo);
+        const archivo = this.files[0];
+        if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+            alert("El tamaño máximo es 50 MB por archivo");
+            $DocumentoAdjunto.value = "";
         }
     });
 </script>

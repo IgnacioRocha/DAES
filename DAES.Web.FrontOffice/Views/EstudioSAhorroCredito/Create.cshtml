@@ -177,7 +177,7 @@
                             <div class="form-group" background-color:aliceblue" id="inputArchivo">
                                 <div class="input_fields_wrap">
                                     <small>Puede seleccionar varios archivos para subir. Solo se aceptan archivos pdf, word, excel. </small>
-                                    @Html.LabelFor(m => Model.DocumentoAdjunto, " ", new { @class = "font-weight-bold" })<br /><br />
+                                    @Html.LabelFor(m => Model.DocumentoAdjunto, " ", new { @class = "font-weight-bold", @onchange="disabled" })<br /><br />
                                     <div>@Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @multiple = "multiple", @type = "file" })<br /></div>
                                     <br />
                                     @Html.ValidationMessageFor(model => model.DocumentoAdjunto, "", new { @class = "text-danger" })

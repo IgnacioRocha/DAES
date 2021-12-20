@@ -1004,7 +1004,6 @@ namespace DAES.BLL
                     proceso.Articulo91s.Add(obj.Articulo91s.FirstOrDefault());
                 }
 
-                //revisar
                 //asignar tareas a ejecutar
                 var definicionworkflow = context.DefinicionWorkflow.Where(q => q.Habilitado && q.DefinicionProcesoId == proceso.DefinicionProceso.DefinicionProcesoId).OrderBy(q => q.Secuencia).ThenBy(q => q.DefinicionWorkflowId).FirstOrDefault();
                 if (definicionworkflow != null)
