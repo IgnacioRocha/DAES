@@ -4,13 +4,10 @@ using DAES.Model.SistemaIntegrado;
 using DAES.Web.FrontOffice.Helper;
 using DAES.Web.FrontOffice.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Text;
 
 
 namespace DAES.Web.FrontOffice.Controllers
@@ -78,6 +75,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
+<<<<<<< HEAD
 
             Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
@@ -93,6 +91,9 @@ namespace DAES.Web.FrontOffice.Controllers
             };
             return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
             //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+=======
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+>>>>>>> 2c6ce966015c2c429d1e11f240ef39bdd8a8d84f
 
         }
 
@@ -132,6 +133,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 //Se crea un solicitante
                 proceso.Solicitante = new Solicitante()
                 {
+
                     Rut = Global.CurrentClaveUnica.RUT,
                     Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
                     Email = model.MailSolicitante.ToUpperNull(),
@@ -139,7 +141,6 @@ namespace DAES.Web.FrontOffice.Controllers
                     RegionId = model.RegionSolicitante.GetValueOrDefault(),
                     Fono = model.FonoSolicitante
                 };
-
 
 
                 //Se crea una organización

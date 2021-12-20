@@ -47,7 +47,7 @@ namespace DAES.Web.FrontOffice.Controllers
             //    DV = "4",
             //    tipo = "RUN"
             //};
-            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            //
 
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
@@ -68,6 +68,7 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.TipoOrganizacionId = new SelectList(_db.TipoOrganizacion.Where(q => q.TipoOrganizacionId < 4).OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.RegionSolicitanteId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
 
+            
             return View(new Model.DTO.DTOConstitucion()
             {
                 RUTSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),

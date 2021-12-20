@@ -95,8 +95,12 @@
     <Compile Include="DTO\DTOAsambleaOrdinaria.cs" />
     <Compile Include="DTO\DTOCEstatutosAnterior.cs" />
     <Compile Include="DTO\DTOConstitucion.cs" />
+<<<<<<< HEAD
     <Compile Include="DTO\DTOEstatutosPos.cs" />
     <Compile Include="DTO\DTOEstatutosRefPos.cs" />
+=======
+    <Compile Include="DTO\DTOCooperativaAbierta.cs" />
+>>>>>>> 2c6ce966015c2c429d1e11f240ef39bdd8a8d84f
     <Compile Include="DTO\DTOEstudioSocioeconomico.cs" />
     <Compile Include="DTO\DTOExistencia.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
@@ -124,8 +128,12 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoLegal.cs" />
+<<<<<<< HEAD
     <Compile Include="SistemaIntegrado\Aprobacion.cs" />
     <Compile Include="SistemaIntegrado\AsambleaDeposito.cs" />
+=======
+    <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
+>>>>>>> 2c6ce966015c2c429d1e11f240ef39bdd8a8d84f
     <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />
     <Compile Include="SistemaIntegrado\ExistenciaLegal.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoOficio.cs" />
