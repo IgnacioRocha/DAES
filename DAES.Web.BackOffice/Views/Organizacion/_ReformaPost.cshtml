@@ -1,0 +1,102 @@
+﻿
+@model DAES.Model.SistemaIntegrado.Organizacion
+@{
+    Model.Reformas = Model.Reformas.ToList().OrderByDescending(q => q.FechaReformaa).ToList();
+    Model.Reformas = Model.Reformas.ToList().OrderByDescending(q => q.FechaAsambleaDep).ToList();
+}
+
+<table class="table table-hover table-striped">
+    @for (var i = 0; i < Model.Reformas.Count; i++)
+    {
+        @Html.HiddenFor(model => model.Reformas[i].IdReforma)
+        @Html.HiddenFor(model => model.Reformas[i].OrganizacionId)
+        <thead>
+
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.Reformas[i].FechaReformaa)
+                    @Html.EditorFor(model => Model.Reformas[i].FechaReformaa, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+                </th>
+                
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.Reformas[i].FechaPublicacion)
+                    @Html.EditorFor(model => Model.Reformas[i].FechaPublicacion, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.Reformas[i].FechaEscrituraPublica)
+                    @Html.EditorFor(model => Model.Reformas[i].FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.Reformas[i].Fojas)
+                    @Html.EditorFor(model => Model.Reformas[i].Fojas, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.Reformas[i].AnoInscripcion)
+                    @Html.EditorFor(model => Model.Reformas[i].AnoInscripcion, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    @Html.DisplayNameFor(model => Model.Reformas[i].DatosCBR)
+                    @Html.EditorFor(model => Model.Reformas[i].DatosCBR, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+                </th>
+            </tr>
+            <tr>
+                <td>
+                   
+                    @Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.Reformas.ToArray()[i].IdReforma, Model.Reformas.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" })
+                </td>
+            </tr>
+        </thead>
+    }
+<tbody>
+
+    @for (var i = 0; i < Model.Reformas.Count; i++)
+    {
+
+        @Html.HiddenFor(model => model.Reformas[i].IdReforma)
+        @Html.HiddenFor(model => model.Reformas[i].OrganizacionId)
+        <tr>
+
+            @if (Model.Reformas[i].FechaReformaa != null && Model.Reformas[i].FechaReformaa.Value.Date.CompareTo(Model.Reformas.Where(q => q.FechaReformaa == q.FechaReformaa).OrderBy(q => q.FechaReformaa).FirstOrDefault().FechaReformaa) > 0)
+            {
+
+                <p class=" alert alert-success text-center">Esta es la última reforma</p>
+                
+                break;
+
+            }
+
+            @if (Model.Reformas.Count == 1 && Model.Reformas[i].FechaReformaa != null)
+            {
+                <p class=" alert alert-success text-center">Esta es la última reforma</p>
+                
+                break;
+            }
+
+            @if (Model.Reformas[i].FechaAsambleaDep != null && Model.Reformas[i].FechaAsambleaDep.Value.Date.CompareTo(Model.Reformas.Where(q => q.FechaAsambleaDep == q.FechaAsambleaDep).OrderBy(q => q.FechaAsambleaDep).FirstOrDefault().FechaAsambleaDep) > 0)
+            {
+
+                <p class=" alert alert-success text-center">Esta es la última reforma</p>
+                
+                break;
+
+            }
+
+            @if (Model.Reformas.Count == 1)
+            {
+                <p class=" alert alert-success text-center">Esta es la última reforma</p>
+               
+                break;
+            }
+
+
+        </tr>
+
+    }
+</tbody>
+</table>
