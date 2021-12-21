@@ -102,5 +102,7 @@ namespace DAES.Model.SistemaIntegrado
         public string Periodo { get; set; }
         public Guid? uniqueid { get; set; }
 
+        
+        
     }
 }

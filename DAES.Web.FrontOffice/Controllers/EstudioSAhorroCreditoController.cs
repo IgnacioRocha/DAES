@@ -72,7 +72,6 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
-
         }
 
         public ActionResult Finish()
@@ -134,8 +133,8 @@ namespace DAES.Web.FrontOffice.Controllers
                     Sigla = model.Sigla.ToUpperNull(),
                     Fono = model.Fono,
                     Email = model.Email.ToUpperNull(),
-                    RubroId = model.RubroId,
-                    SubRubroId = model.SubRubroId,
+                    RubroId = 6,
+                    SubRubroId = 15,
                     ComunaId = model.ComunaId,//== 0?null:model.ComunaId 
                     RegionId = model.RegionId,
                     NumeroRegistro = string.Empty
@@ -159,12 +158,12 @@ namespace DAES.Web.FrontOffice.Controllers
                             DocumentoAdjunto = ms.ToArray(),
                             Proceso = proceso
                         });
-                        
+
 
                         if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".xlsx" && fileEx != ".doc" && fileEx != ".docx")
                         {
 
-                            ViewBag.errorMessage = "Los archivos no pueden estar vacíos y deben ser archivos de tipo Word, Excel o Pdf";
+                            ViewBag.errorMessage = "Solo se aceptan archivos en formato PDF, Word , Excel (sin macros) y que no estén vacíos";
 
 
                             return View(new Model.DTO.DTOEstudioSocioeconomico()
@@ -192,7 +191,6 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     }
                 }
-
                 try
                 {
                     //Se inicia el proceso
@@ -208,7 +206,5 @@ namespace DAES.Web.FrontOffice.Controllers
             }
             return View(model);
         }
-
-
     }
 }

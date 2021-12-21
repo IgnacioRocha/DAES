@@ -1,9 +1,7 @@
 ﻿using DAES.Model.SistemaIntegrado;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using System.Web;
 
 namespace DAES.Model.DTO
@@ -49,6 +47,7 @@ namespace DAES.Model.DTO
 
 
         [Required(ErrorMessage = "Debe especificar la razón social de la organización")]
+        [Display(Name = "Razón social")]
         public string RazonSocial { get; set; }
 
         [Display(Name = "Rubro")]
@@ -60,6 +59,7 @@ namespace DAES.Model.DTO
         public virtual SubRubro SubRubro { get; set; }
 
         [Required(ErrorMessage = "Debe especificar la dirección de la organización")]
+        [Display(Name = "Dirección")]
         public string Direccion { get; set; }
         public string Rut { get; set; }
         public string Sigla { get; set; }
@@ -70,6 +70,7 @@ namespace DAES.Model.DTO
 
         [Required(ErrorMessage = "Debe especificar el Email de la organización")]
         [DataType(DataType.EmailAddress, ErrorMessage = "El formato del correo es invalido")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         //Datos Region - Quitar Display
@@ -85,7 +86,7 @@ namespace DAES.Model.DTO
         public virtual Comuna Comuna { get; set; }
 
         //Dato solicitante - Quitar Display de RegionSolicitante
-
+        [Display(Name = "Rut del Solicitante")]
         public string RutSolicitante { get; set; }
         public string Apellidos { get; set; }
         public string Nombres { get; set; }
@@ -96,10 +97,12 @@ namespace DAES.Model.DTO
 
         [MaxLength(9)]
         [Required(ErrorMessage = "Solo debe ingresar 9 números")]
+        [Display(Name = "Fono Solicitante")]
         public string FonoSolicitante { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar un Email del solicitante")]
         [DataType(DataType.EmailAddress, ErrorMessage = "El formato del correo es invalido")]
+        [Display(Name = "Mail del solicitante")]
         public string MailSolicitante { get; set; }
         public string Observacion { get; set; }
        

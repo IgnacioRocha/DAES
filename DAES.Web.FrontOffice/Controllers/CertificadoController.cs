@@ -32,6 +32,12 @@ namespace DAES.Web.FrontOffice.Controllers
                 query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
             }
 
+            //En el caso de vigencia de estatutos, solo vigentes.
+            if ( TipoDocumentoId ==(int)Infrastructure.Enum.TipoDocumento.VigenciaEstatutos)
+            {
+                query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
+            }
+
             //en el caso de 8 transitorio, solo cooperativas vigentes
             if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.Articulo8voTransitorio)
             {
