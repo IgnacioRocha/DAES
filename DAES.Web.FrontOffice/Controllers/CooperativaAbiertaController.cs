@@ -47,21 +47,19 @@ namespace DAES.Web.FrontOffice.Controllers
             //};
 
 
-            //a
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-
-            //clave unica
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            ////a
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
 
         // GET: Controller/Create
         public ActionResult Create()
         {
-            //if (!Global.CurrentClaveUnica.IsAutenticated)
-            //{
-            //    return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
-            //}
+            if (!Global.CurrentClaveUnica.IsAutenticated)
+            {
+                return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+            }
 
             ViewBag.TipoOrganizacionId = new SelectList(_db.TipoOrganizacion.Where(t => t.TipoOrganizacionId == 1).OrderBy(t => t.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.RegionId = new SelectList(_db.Region, "RegionId", "Nombre");
@@ -73,13 +71,11 @@ namespace DAES.Web.FrontOffice.Controllers
 
             return View(new Model.DTO.DTOCooperativaAbierta()
             {
-                RutSolicitante = "98.7654.321-0",
-                Nombres = "Fulgore",
-                Apellidos = "Cinder"
+               
 
-                //RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
-                //Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
-                //Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
+                RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
+                Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
             });
 
         }
@@ -88,10 +84,10 @@ namespace DAES.Web.FrontOffice.Controllers
         [HttpPost]
         public ActionResult Create(DAES.Model.DTO.DTOCooperativaAbierta model)
         {
-            //if (!Global.CurrentClaveUnica.IsAutenticated)
-            //{
-            //    ModelState.AddModelError(string.Empty, "Usuario no autenticado con clave única");
-            //}
+            if (!Global.CurrentClaveUnica.IsAutenticated)
+            {
+                ModelState.AddModelError(string.Empty, "Usuario no autenticado con clave única");
+            }
 
             ViewBag.TipoOrganizacionId = new SelectList(_db.TipoOrganizacion.Where(t => t.TipoOrganizacionId == 1).OrderBy(t => t.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.RegionId = new SelectList(_db.Region, "RegionId", "Nombre");
@@ -167,13 +163,10 @@ namespace DAES.Web.FrontOffice.Controllers
                             ViewBag.errorMessage = "*Error al enviar documentos, faltan documentos por adjuntar";
                             return View(new Model.DTO.DTOCooperativaAbierta()
                             {
-                                RutSolicitante = "98.7654.321-0",
-                                Nombres = "Fulgore",
-                                Apellidos = "Cinder"
-
-                                //RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
-                                //Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
-                                //Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
+                                
+                                RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
+                                Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                                Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
                             });
                         }
 
@@ -183,13 +176,10 @@ namespace DAES.Web.FrontOffice.Controllers
                             ViewBag.errorMessage = "*Error al enviar documento(s), los archivos deben ser archivos de tipo Word, Excel o Pdf ";
                             return View(new Model.DTO.DTOCooperativaAbierta()
                             {
-                                RutSolicitante = "98.7654.321-0",
-                                Nombres = "Fulgore",
-                                Apellidos = "Cinder"
 
-                                //RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
-                                //Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
-                                //Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
+                                RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
+                                Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                                Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
                             });
                         }
                         else
