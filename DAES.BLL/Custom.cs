@@ -491,7 +491,7 @@ namespace DAES.BLL
                 }
 
 
-                if (organizacion.ExistenciaLegals.Any()&&(int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos == 104)
+                if (organizacion.ExistenciaLegals.Any() && (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos == 104)
                 {
                     if (organizacion.ExistenciaLegals.Any())
                     {
@@ -687,10 +687,11 @@ namespace DAES.BLL
                                     parrafo_tres = parrafo_tres.Replace("[DATOSCBR]", string.Empty);
                                 }
 
-                            }
-
                             Paragraph parr3 = new Paragraph(parrafo_tres, _fontStandard);
                             parr3.Alignment = Element.ALIGN_JUSTIFIED;
+                            doc.Add(parr3);
+                            }
+
                             Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
                             paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
                             Paragraph parrafouno = new Paragraph(parrafo_uno, _fontStandard);
@@ -701,7 +702,6 @@ namespace DAES.BLL
                             doc.Add(SaltoLinea);
                             doc.Add(parrafoDos);
                             doc.Add(SaltoLinea);
-                            doc.Add(parr3);
                             doc.Add(SaltoLinea);
 
                             if (organizacion.Reformas.Any())
@@ -714,7 +714,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().FechaReforma != null)
                                     {
-                                        parrafo = parrafo.Replace("[FECHAREFORMA]", "La fecha de la reforma  " + item.FechaReforma.Value.ToString("dd/MM/yyyy") + ", " );
+                                        parrafo = parrafo.Replace("[FECHAREFORMA]", "La fecha de la reforma  " + item.FechaReforma.Value.ToString("dd/MM/yyyy") + ", ");
                                     }
                                     else
                                     {
@@ -732,7 +732,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().NumeroNormaa != null)
                                     {
-                                        parrafo = parrafo.Replace("[NUMERONORMARREF]", "El N° de reforma  " + item.NumeroNormaa.ToString() + ", " );
+                                        parrafo = parrafo.Replace("[NUMERONORMARREF]", "El N° de reforma  " + item.NumeroNormaa.ToString() + ", ");
                                     }
                                     else
                                     {
@@ -741,7 +741,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().FechaNormaa != null)
                                     {
-                                        parrafo = parrafo.Replace("[FECHANORMAREF]", "La fecha de la norma  " + item.FechaNormaa.Value.ToString("dd/MM/yyyy") + ", " );
+                                        parrafo = parrafo.Replace("[FECHANORMAREF]", "La fecha de la norma  " + item.FechaNormaa.Value.ToString("dd/MM/yyyy") + ", ");
                                     }
                                     else
                                     {
@@ -760,7 +760,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().DatosGeneralNotario != null)
                                     {
-                                        parrafo = parrafo.Replace("[DATOGENERALNOTARIOREF]", "Datos general del notario son: " + item.DatosGeneralNotario.ToString() + ", " );
+                                        parrafo = parrafo.Replace("[DATOGENERALNOTARIOREF]", "Datos general del notario son: " + item.DatosGeneralNotario.ToString() + ", ");
                                     }
                                     else
                                     {
@@ -769,7 +769,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().TipoNormaId != null)
                                     {
-                                        parrafo = parrafo.Replace("[TIPONORMAREF]", "El tipo de norma  " + item.TipoNorma.Nombre.ToString() + ". " );
+                                        parrafo = parrafo.Replace("[TIPONORMAREF]", "El tipo de norma  " + item.TipoNorma.Nombre.ToString() + ". ");
                                     }
                                     else
                                     {
@@ -778,7 +778,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().FechaJuntaGeneral != null)
                                     {
-                                        parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", "La fecha de la junta general de socios  " + item.FechaJuntaGeneral.Value.ToString("dd/MM/yyyy") + ", " );
+                                        parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", "La fecha de la junta general de socios  " + item.FechaJuntaGeneral.Value.ToString("dd/MM/yyyy") + ", ");
                                     }
                                     else
                                     {
@@ -814,7 +814,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().FechaEscrituraPublica != null)
                                     {
-                                        parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", "con fecha de escritura pública  " + item.FechaEscrituraPublica.Value.ToString("dd/MM/yyyy") + ", " );
+                                        parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", "con fecha de escritura pública  " + item.FechaEscrituraPublica.Value.ToString("dd/MM/yyyy") + ", ");
                                     }
                                     else
                                     {
@@ -824,7 +824,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().FechaOficio != null)
                                     {
-                                        parrafo = parrafo.Replace("[FECHAOFICIOREF]", "con fecha de oficio " + item.FechaOficio.Value.ToString("dd/MM/yyyy") + ", " );
+                                        parrafo = parrafo.Replace("[FECHAOFICIOREF]", "con fecha de oficio " + item.FechaOficio.Value.ToString("dd/MM/yyyy") + ", ");
                                     }
                                     else
                                     {
@@ -834,7 +834,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().NumeroOficio != null)
                                     {
-                                        parrafo = parrafo.Replace("[NUMEROOFICIOREF]", "con N° de oficio  " + item.NumeroOficio.ToString() + ", " );
+                                        parrafo = parrafo.Replace("[NUMEROOFICIOREF]", "con N° de oficio  " + item.NumeroOficio.ToString() + ", ");
                                     }
                                     else
                                     {
@@ -843,7 +843,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Reformas.FirstOrDefault().AprobacionId != null)
                                     {
-                                        parrafo = parrafo.Replace("[APROBACION]", "Con aprobación " + item.Aprobacion.Nombre.ToString() + ". " );
+                                        parrafo = parrafo.Replace("[APROBACION]", "Con aprobación " + item.Aprobacion.Nombre.ToString() + ". ");
                                     }
                                     else
                                     {
@@ -880,7 +880,7 @@ namespace DAES.BLL
 
                                 }
 
-                                
+
                             }
 
                         }
@@ -935,7 +935,7 @@ namespace DAES.BLL
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[APROBACION]", string.Empty);
                                 }
-                                
+
                                 Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
                                 parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
 
@@ -964,20 +964,20 @@ namespace DAES.BLL
 
                                     parrafo = parrafo.Replace("[FECHAOFICIO]", "Fecha de oficio, " + item.FechaOficio.Value.ToString("dd/MM/yyyy"));
 
-                                    parrafo = parrafo.Replace("[APROBACION]", "Con aprobación: " + item.Aprobacion.Nombre+ ", ");
+                                    parrafo = parrafo.Replace("[APROBACION]", "Con aprobación: " + item.Aprobacion.Nombre + ", ");
 
                                     var fechaMayor = organizacion.Reformas.OrderByDescending(q => q.FechaAsambleaDep).FirstOrDefault();
 
                                     if (fechaMayor.FechaAsambleaDep == item.FechaAsambleaDep)
                                     {
                                         parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma. ");
-                                        
+
                                     }
                                     else
                                     {
                                         parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
                                     }
-                                   
+
 
                                     Paragraph parrafoss = new Paragraph(parrafo, _fontStandard);
                                     parrafoss.Alignment = Element.ALIGN_JUSTIFIED;
@@ -1221,7 +1221,7 @@ namespace DAES.BLL
                 return memStream.ToArray();
             }
         }
-        
+
 
         public void ReformaCreate(Reforma reforma, Organizacion or)
         {
@@ -1237,7 +1237,7 @@ namespace DAES.BLL
                         OrganizacionId = or.OrganizacionId,
                         FechaReforma = reforma.FechaReforma,
                         FechaReformaa = reforma.FechaReformaa,
-                        UltimaReforma = reforma.UltimaReforma ,
+                        UltimaReforma = reforma.UltimaReforma,
                         TipoNormaId = reforma.TipoNormaId,
                         NumeroNormaa = reforma.NumeroNormaa,
                         FechaNormaa = reforma.FechaNormaa,
@@ -1293,7 +1293,7 @@ namespace DAES.BLL
 
         public void ExistenciaCreate(Organizacion or, ExistenciaLegal existenciaLegals)
         {
-            
+
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
             {
 
@@ -1519,8 +1519,8 @@ namespace DAES.BLL
                 if (
                 obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomico &&
                 obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
-                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP
-
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP &&
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta
                 )
                 {
                     if (!context.Organizacion.Any(q => q.OrganizacionId == obj.OrganizacionId))
@@ -1662,10 +1662,6 @@ namespace DAES.BLL
                             Proceso = proceso
                         });
 
-
-                    
-
-
                     }
                     //si viene datos de una organizacion, usarlos para crea la nueva
                     if (obj.Organizacion != null)
@@ -1691,15 +1687,54 @@ namespace DAES.BLL
 
                 }
                 ////en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
-                //else
-                //{
-                //    proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
-                //}
+                else
+                {
+                    proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
+                }
 
 
                 //cooperativa de vivienda abierta
                 //
-               
+                if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta)
+                {
+                    if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta)
+                    { foreach (var item in obj.CooperativaAbiertas)
+                        {
+                            proceso.CooperativaAbiertas.Add(new CooperativaAbierta
+                            {
+                                FechaCreacion = item.FechaCreacion,
+                                DocumentoAdjunto = item.DocumentoAdjunto,
+                                Proceso = proceso
+                            });
+
+                        }
+                        //si viene datos de una organizacion, usarlos para crea la nueva
+                        if (obj.Organizacion != null)
+                        {
+                            proceso.Organizacion = obj.Organizacion;
+                        }
+
+                        //si no vienen datos, crear una nueva organizacion
+                        if (obj.Organizacion == null)
+                        {
+                            proceso.Organizacion = new Organizacion()
+                            {
+                                FechaCreacion = DateTime.Now,
+                                TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida,
+                                EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
+                                NumeroSocios = 0,
+                                NumeroSociosHombres = 0,
+                                NumeroSociosMujeres = 0,
+                                EsGeneroFemenino = false,
+                                EsImportanciaEconomica = false
+                            };
+                        }
+                    }
+                    else
+                    {
+                        proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
+                    }
+                }
 
 
 

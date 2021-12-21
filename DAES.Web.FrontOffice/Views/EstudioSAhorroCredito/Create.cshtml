@@ -71,8 +71,8 @@
 
                                         <div class="col">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.SubRubroId, new { @class = "font-weight-bold" })
-                                                @Html.DropDownListFor(model => model.SubRubroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                                @Html.LabelFor(model => model.SubRubroId, new { @class = "font-weight-bold"})
+                                                @Html.DropDownListFor(model => model.SubRubroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control"})
                                                 @Html.ValidationMessageFor(model => model.SubRubroId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
@@ -258,128 +258,15 @@
 <script type="text/javascript">
 
 
-    @*$('#RubroId').on('change', function () {
-        var RubroId = $(this).val();
-        $.getJSON("/Organizacion/GetSubRubro", { RubroId: RubroId },
-            function (classesData) {
-                var select = $("#SubRubroId");
-                select.empty();
-                select.append($('<option/>', {
-                    value: 0,
-                    text: "Seleccione..."
-                }));
-                $.each(classesData, function (index, itemData) {
-                    select.append($('<option/>', {
-                        value: itemData.Value,
-                        text: itemData.Text
-                    }));
-                });
-            });
-    });
-
-    $('#RegionId').on('change', function () {
-        var RegionId = $(this).val();
-        $.getJSON("/Organizacion/GetComuna", { RegionId: RegionId },
-            function (classesData) {
-                var select = $("#ComunaId");
-                select.empty();
-                $.each(classesData, function (index, itemData) {
-                    select.append($('<option/>', {
-                        value: itemData.Value,
-                        text: itemData.Text
-                    }));
-                });
-            });
-    });
-
-
-    //Dropdown siempre en cooperativa
-    $('#TipoOrganizacionId option[value="1"]').attr("selected", true);
-    $("#TipoOrganizacionId").prop("disabled", true);
-
-    //Para que el input de FonoSolicitante solo acepte numeros.
-    $('#FonoSolicitante').on('input', function () {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
-
-    //$('#RegionId').prop('selectedIndex', 0);
-
-
-
-    const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file; // en bytes //52428800;
-    // Obtener referencia al elemento
-    const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
-
-    $DocumentoAdjunto.addEventListener("change", function () {
-        // si no hay archivos, regresamos
-        if (this.files.length <= 0) return;
-
-        // Validamos los archivo
-        for (let i = 0; i < 10; i++) {
-            const archivo = this.files[i];
-            if (archivo.size > MAXIMO_TAMANIO_BYTES) {
-                alert("El tamaño máximo es 50 MB por archivo");
-                // Limpiar
-                $DocumentoAdjunto.value = "";
-            }else {
-                //alert('Tamaño del archivo correcto')
-            }
-        }
-
-    });*@
-
-
-
-
-
     $('#TipoOrganizacionId option[value="1"]').attr("selected", true);
     $("#TipoOrganizacionId").prop("disabled", true);
 
 
 
     $('#RubroId option[value="6"]').attr("selected", true);
-    $('#RubroId').prop("disabled", true);
-
-
-
+    $("#RubroId").prop("disabled", true);
     $('#SubRubroId option[value="15"]').attr("selected", true);
-    $('#SubRubroId').prop("disabled", true);
-
-
-
-    $('#RubroId').on('change', function () {
-    var RubroId = $(this).val();
-    $.getJSON("/Organizacion/GetSubRubro", { RubroId: RubroId },
-    function (classesData) {
-    var select = $("#SubRubroId");
-    select.empty();
-    select.append($('<option/>', {
-    value: 0,
-    text: "Seleccione..."
-    }));
-    $.each(classesData, function (index, itemData) {
-    select.append($('<option/>', {
-    value: itemData.Value,
-    text: itemData.Text
-    }));
-    });
-    });
-    });
-    $('#RegionId').on('change', function () {
-    var RegionId = $(this).val();
-    $.getJSON("/Organizacion/GetComuna", { RegionId: RegionId },
-    function (classesData) {
-    var select = $("#ComunaId");
-    select.empty();
-    $.each(classesData, function (index, itemData) {
-    select.append($('<option/>', {
-    value: itemData.Value,
-    text: itemData.Text
-    }));
-    });
-    });
-    });
-
+    $("#SubRubroId").prop("disabled", true);
 
 
     //Documentos
