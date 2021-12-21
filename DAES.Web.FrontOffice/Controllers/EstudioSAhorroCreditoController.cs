@@ -69,31 +69,10 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Start()
         {
-            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
-            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
-
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
-<<<<<<< HEAD
-
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            {
-                nombres = new System.Collections.Generic.List<string> { "GIOVANNI", "ANDRES" },
-                apellidos = new System.Collections.Generic.List<string> { "FERNANDEZ", "QUEZADA" },
-            };
-            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            {
-                numero = 18784154,
-                DV = "2",
-                tipo = "RUN"
-            };
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
-=======
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
->>>>>>> 2c6ce966015c2c429d1e11f240ef39bdd8a8d84f
+
 
         }
 

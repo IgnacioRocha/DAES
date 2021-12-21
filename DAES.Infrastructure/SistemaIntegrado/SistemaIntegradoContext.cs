@@ -71,7 +71,7 @@ namespace DAES.Infrastructure.SistemaIntegrado
 
         public virtual DbSet<EstudioSocioEconomico> EstudioSocioEconomico { get; set; }
 
-<<<<<<< HEAD
+
         public virtual DbSet<ExistenciaLegal> ExistenciaLegal { get; set; }
 
         public virtual DbSet<TipoNorma> TipoNorma { get; set; }
@@ -83,9 +83,9 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<Aprobacion> Aprobacion { get; set; }
 
         public virtual DbSet<AsambleaDeposito> AsambleaDeposito { get; set; }
-=======
-        public virtual DbSet<CooperativaAbierta> CooperativaViviendaAbierta { get; set; }
->>>>>>> 2c6ce966015c2c429d1e11f240ef39bdd8a8d84f
+
+        //public virtual DbSet<CooperativaAbierta> CooperativaViviendaAbierta { get; set; }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
