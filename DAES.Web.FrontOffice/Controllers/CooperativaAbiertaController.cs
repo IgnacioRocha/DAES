@@ -33,23 +33,23 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "CooperativaAbierta";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
 
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            {
-                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            };
-            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            {
-                numero = 44444444,
-                DV = "4",
-                tipo = "RUN"
-            };
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
 
 
             ////a
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
 
