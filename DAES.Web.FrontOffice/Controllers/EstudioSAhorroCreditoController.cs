@@ -72,6 +72,21 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
+
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
         }
 
         public ActionResult Finish()
@@ -110,6 +125,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 //Se crea un solicitante
                 proceso.Solicitante = new Solicitante()
                 {
+
                     Rut = Global.CurrentClaveUnica.RUT,
                     Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
                     Email = model.MailSolicitante.ToUpperNull(),
@@ -117,7 +133,6 @@ namespace DAES.Web.FrontOffice.Controllers
                     RegionId = model.RegionSolicitante.GetValueOrDefault(),
                     Fono = model.FonoSolicitante
                 };
-
 
 
                 //Se crea una organización
@@ -133,8 +148,8 @@ namespace DAES.Web.FrontOffice.Controllers
                     Sigla = model.Sigla.ToUpperNull(),
                     Fono = model.Fono,
                     Email = model.Email.ToUpperNull(),
-                    RubroId = model.RubroId,
-                    SubRubroId = model.SubRubroId,
+                    RubroId = 6,
+                    SubRubroId = 15,
                     ComunaId = model.ComunaId,//== 0?null:model.ComunaId 
                     RegionId = model.RegionId,
                     NumeroRegistro = string.Empty
@@ -158,12 +173,12 @@ namespace DAES.Web.FrontOffice.Controllers
                             DocumentoAdjunto = ms.ToArray(),
                             Proceso = proceso
                         });
-                        
 
-                        if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".xlsx" && fileEx != ".doc" && fileEx != ".docx")
+
+                        if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" && fileEx != ".xls"  && fileEx != ".doc" && fileEx != ".docx")
                         {
 
-                            ViewBag.errorMessage = "Los archivos no pueden estar vacíos y deben ser archivos de tipo Word, Excel o Pdf";
+                            ViewBag.errorMessage = "Solo se aceptan archivos en formato PDF, Word , Excel (sin macros) y que no estén vacíos";
 
 
                             return View(new Model.DTO.DTOEstudioSocioeconomico()
@@ -191,7 +206,6 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     }
                 }
-
                 try
                 {
                     //Se inicia el proceso
@@ -207,7 +221,5 @@ namespace DAES.Web.FrontOffice.Controllers
             }
             return View(model);
         }
-
-
     }
 }

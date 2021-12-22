@@ -93,8 +93,11 @@
     <Compile Include="DTO\DTOArticulo90IncisoPrimero.cs" />
     <Compile Include="DTO\DTOAsambleaExtraOrdinaria.cs" />
     <Compile Include="DTO\DTOAsambleaOrdinaria.cs" />
+    <Compile Include="DTO\DTOCEstatutosAnterior.cs" />
     <Compile Include="DTO\DTOConstitucion.cs" />
+    <Compile Include="DTO\DTOCooperativaAbierta.cs" />
     <Compile Include="DTO\DTOEstudioSocioeconomico.cs" />
+    <Compile Include="DTO\DTOExistencia.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
     <Compile Include="DTO\DTORespuestaOficio.cs" />
     <Compile Include="DTO\DTOCreacionOrganizacion.cs" />
@@ -120,7 +123,13 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoLegal.cs" />
+    <Compile Include="SistemaIntegrado\Aprobacion.cs" />
+    <Compile Include="SistemaIntegrado\AsambleaDeposito.cs" />
+    <Compile Include="SistemaIntegrado\AspNetUsers.cs" />
+    <Compile Include="SistemaIntegrado\Certificado.cs" />
+    <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
     <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />
+    <Compile Include="SistemaIntegrado\ExistenciaLegal.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoOficio.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoMateria.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoCriterio.cs" />
@@ -136,6 +145,7 @@
     <Compile Include="SistemaIntegrado\DocumentoOrganizacion.cs" />
     <Compile Include="SistemaIntegrado\DocumentoWorkflow.cs" />
     <Compile Include="SistemaIntegrado\Periodo.cs" />
+    <Compile Include="SistemaIntegrado\Reforma.cs" />
     <Compile Include="SistemaIntegrado\RespuestaOficio.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionOrganizacionbkp.cs" />
     <Compile Include="SistemaIntegrado\ApplicationUser.cs" />
@@ -143,6 +153,7 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoContable.cs" />
     <Compile Include="SistemaIntegrado\CargaSituacion.cs" />
     <Compile Include="SistemaIntegrado\DefinicionWorkflow.cs" />
+    <Compile Include="SistemaIntegrado\Saneamiento.cs" />
     <Compile Include="SistemaIntegrado\Situacion.cs" />
     <Compile Include="SistemaIntegrado\HechoContable.cs" />
     <Compile Include="SistemaIntegrado\HechoLegal.cs" />
@@ -158,6 +169,7 @@
     <Compile Include="SistemaIntegrado\OrganizacionLog.cs" />
     <Compile Include="SistemaIntegrado\Proceso.cs" />
     <Compile Include="SistemaIntegrado\TipoAprobacion.cs" />
+    <Compile Include="SistemaIntegrado\TipoNorma.cs" />
     <Compile Include="SistemaIntegrado\TipoPrivacidad.cs" />
     <Compile Include="SistemaIntegrado\TipoWorkflow.cs" />
     <Compile Include="SistemaIntegrado\Workflow.cs" />
@@ -195,6 +207,7 @@
     <Compile Include="GestionDocumental\TipoDocumento.cs" />
     <Compile Include="GestionDocumental\TipoProceso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SistemaIntegrado\_RUT.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

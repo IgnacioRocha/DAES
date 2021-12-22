@@ -19,6 +19,8 @@ namespace DAES.Model.SistemaIntegrado
             Articulo91s = new List<Articulo91>();
             ModificacionEstatutos = new List<ModificacionEstatuto>();
             Disolucions = new List<Disolucion>();
+            ExistenciaLegals = new List<ExistenciaLegal>();
+            Saneamientos = new List<Saneamiento>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -29,6 +31,16 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Tipo organización")]
         public int TipoOrganizacionId { get; set; }
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }
+
+        public int? TipoNormaId { get; set; }
+
+        public virtual TipoNorma TipoNorma { get; set; }
+
+        //[Display(Name = "Aprobacion")]
+        //public int? AprobacionId { get; set; }
+
+        //public virtual Aprobacion Aprobacion { get; set; }
+
 
         [Required(ErrorMessage = "Es necesario especificar este dato")]
         [Display(Name = "Estado")]
@@ -46,8 +58,6 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Región")]
         public int? RegionId { get; set; }
         public virtual Region Region { get; set; }
-
-
 
 
         [Display(Name = "Comuna")]
@@ -188,8 +198,9 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Situación")]
         public int? SituacionId { get; set; }
-        public virtual Situacion Situacion { get; set; }
 
+
+        public virtual Situacion Situacion { get; set; }
         public virtual List<Directorio> Directorios { get; set; }
         public virtual List<Proceso> Procesos { get; set; }
         public virtual List<ActaFiscalizacion> ActaFiscalizacions { get; set; }
@@ -198,6 +209,10 @@ namespace DAES.Model.SistemaIntegrado
         public virtual List<Articulo91> Articulo91s { get; set; }
         public virtual List<ModificacionEstatuto> ModificacionEstatutos { get; set; }
         public virtual List<Disolucion> Disolucions { get; set; }
+        public virtual List<ExistenciaLegal> ExistenciaLegals { get; set;}
+        public virtual List<Saneamiento> Saneamientos { get; set; }
+        public virtual List<Reforma> Reformas { get; set; } = new List<Reforma>();
+
 
         [NotMapped]
         public virtual List<Documento> DocumentosConstitucion { get; set; }
@@ -206,5 +221,6 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Nota directorio")]
         [DataType(DataType.MultilineText)]
         public string NotaDirectorio { get; set; }
+
     }
 }

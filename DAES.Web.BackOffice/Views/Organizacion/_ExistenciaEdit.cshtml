@@ -1,0 +1,37 @@
+﻿
+@model DAES.Model.SistemaIntegrado.Organizacion
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().tipoNorma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().NumeroNorma)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaPublicacionn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().AutorizadoPor)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.ExistenciaLegals.Count(); i++)
+        {
+            @Html.HiddenFor(model => model.ExistenciaLegals[i].ExistenciaId)
+            @Html.HiddenFor(model => model.ExistenciaLegals[i].OrganizacionId)
+
+            @Html.HiddenFor(model => model.ExistenciaLegals[i].ExistenciaId)
+            <tr>
+                @Html.EditorFor(m => m.ExistenciaLegals[i])
+                <td>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -96,7 +96,8 @@
             EstadosFinancierosDebidamenteAprobadosPorAsamblea = 99,
             FichaDetalladaFuentesFinancieros = 100,
             FichaDatos = 101,
-            InformeComisionRevisodoraCuentas = 102
+            InformeComisionRevisodoraCuentas = 102,
+            VigenciaEstatutos = 104
         }
 
         public enum TipoOrganizacion
@@ -134,6 +135,7 @@
             EstudioSocioEconomico = 95,
             InformacionACSemestral = 104,
             InformacionACAnual = 105,
+            CooperativaViviendaAbierta = 106
         }
 
         public enum TipoAprobacion
@@ -188,6 +190,13 @@
         public enum Cargo
         {
             Defecto = 135,
+        }
+
+        public enum Norma
+        {
+            Decreto = 1,
+            DecretoSupremo = 2,
+            Resolucion = 3
         }
     }
 }
