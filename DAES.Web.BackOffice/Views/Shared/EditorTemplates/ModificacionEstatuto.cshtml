@@ -1,0 +1,17 @@
+﻿@model DAES.Model.SistemaIntegrado.ModificacionEstatuto
+
+@Html.HiddenFor(model => model.ModificacionEstatutoId)
+@Html.HiddenFor(model => model.OrganizacionId)
+
+<td>
+    @Html.EditorFor(model => model.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.Fecha, "", new { @class = "text-danger" })
+</td>
+<td>
+    @Html.EditorFor(model => model.NumeroOficio, new { htmlAttributes = new { @class = "form-control" } })
+    @Html.ValidationMessageFor(model => model.NumeroOficio, "", new { @class = "text-danger" })
+</td>
+<td>
+    @Html.CheckBoxFor(model => model.Vigente, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+    @Html.ValidationMessageFor(model => model.Vigente, "", new { @class = "text-danger" })
+</td>

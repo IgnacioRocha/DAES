@@ -1,0 +1,293 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Actualizacion de Datos de Supervisores Auxiliar</h1>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+<div class="container my-3" id="supervisor">
+    <div class="alert alert-primary" role="alert">
+        <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @*@Html.HiddenFor(model => model.RUTSolicitante)
+            @Html.HiddenFor(model => model.NombresSolicitante)
+            @Html.HiddenFor(model => model.ApellidosSolicitante)
+            @Html.HiddenFor(model => model.OrganizacionId)
+            @Html.HiddenFor(model => model.NumeroRegistro)
+            @Html.HiddenFor(model => model.RazonSocial)
+            @Html.HiddenFor(model => model.TipoOrganizacionId)
+            @Html.HiddenFor(model => model.EstadoId)
+            @Html.HiddenFor(model => model.EsGeneroFemenino)
+            @Html.HiddenFor(model => model.EsImportanciaEconomica)
+            @Html.HiddenFor(model => model.EsGeneroFemenino)
+            @Html.HiddenFor(model => model.EsImportanciaEconomica)*@
+        @Html.HiddenFor(m => m.SupervisorAuxiliarId)
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" style="text-align:center">Identificación</h5>
+                        <hr />
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>@Html.LabelFor(m => m.RazonSocial, new { @class = "font-weight-bold control-label" })</th>
+                                    <th>@Html.LabelFor(m => m.TipoPersonaJuridica, new { @class = "font-weight-bold" })</th>
+                                    <th>@Html.LabelFor(m => m.Rut, new { @class = "font-weight-bold" })</th>
+                                    <th>@Html.LabelFor(m => m.DomicilioLegal, new { @class = "font-weight-bold" })</th>
+                                    <th>@Html.LabelFor(m => m.Telefono, new { @class = "font-weight-bold" })</th>
+                                    <th>@Html.LabelFor(m => m.CorreoElectronico, new { @class = "font-weight-bold" })</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        @Html.EditorFor(m => m.RazonSocial, new { htmlAttributes = new { @class = "form-control col-11", @disabled = "disabled" } })
+                                    </td>
+                                    <td>
+                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", htmlAttributes: new { @class = "form-control col-11", @disabled = "disabled" })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(m => m.Rut, new { htmlAttributes = new { @class = "form-control col-11", @disabled = "disabled" } })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(m => m.DomicilioLegal, new { htmlAttributes = new { @class = "form-control col-11" } })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(m => m.Telefono, new { htmlAttributes = new { @class = "form-control col-11" } })
+                                    </td>
+                                    <td>
+                                        @Html.EditorFor(m => m.CorreoElectronico, new { htmlAttributes = new { @class = "form-control col-11", @type = "email" } })
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body" id="representantes">
+                        <h5 class="card-title" style="text-align:center">Representantes Legales</h5>
+                        <hr />
+                        @*@if (Model.RepresentanteLegals.Count() != 0 || Model.RepresentanteLegals != null)
+                        {
+                            @Html.Partial("_RepresentantesUpdate", Model)
+                        }
+                        @Ajax.ActionLink("Agregar Representante Legal", "RepresentanteAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body" id="constitucion">
+                        <h5 class="card-title" style="text-align:center">Escritura de Constitución</h5>
+                        <hr />
+                        @*@if (Model.EscrituraConstitucionModificaciones.Count() != 0)
+                        {
+                            @Html.Partial("_Constitucion", Model)
+                        }*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body" id="extracto">
+                        <h5 class="card-title" style="text-align:center">Extracto</h5>
+                        <hr />
+                        <table class="table table-striped">
+                           @* @if (Model.ExtractoAuxiliars.Count() != 0)
+                            {
+                                for (var i = 0; i < Model.ExtractoAuxiliars.Count; i++)
+                                {
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].ConservadorComercio, new { @class = "font-weight-bold" })
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].FechaInscripcion, new { @class = "font-weight-bold" })
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].Foja, new { @class = "font-weight-bold" })
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].Numero, new { @class = "font-weight-bold" })
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].FechaPublicacionDiarioOficial, new { @class = "font-weight-bold" })
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial, new { @class = "font-weight-bold" })
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].ConservadorComercio, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].Foja, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].Numero, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                            <td>
+                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            }*@
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body" id="personasFacultadas">
+                        <h5 class="card-title" style="text-align:center">Personas Facultadas para firmar Informes de supervisión</h5>
+                        <hr />
+                        @*@if (Model.PersonaFacultadas.Count != 0)
+                        {
+                            @Html.Partial("_PersonasFacultadas", Model)
+                        }
+                        @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })*@
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-title text-center font-weight-bold">Adjuntar Documentos</p>
+                        <hr />
+                            <li class="card-title text-info">
+                                Adjunte documentos necesarios para este trámite
+                            </li>
+                        <hr />
+
+                        <div class="input_field">
+                            <table id="table_field" class="table-bordered">
+                                @Html.ValidationMessageFor(m => Model.DocumentoAdjunto, "", new { @class = "text-danger" })
+                                <tr>
+                                    <td style="height:50px; padding-left: 10px">
+                                        @Html.LabelFor(m => Model.DocumentoAdjunto, "Seleccione un documento", new { @class = "font-weight-bold" })
+                                        @Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @type = "file" })
+                                    </td>
+                                    <td style="min-width: 75px" class="text-center">
+                                        <label class="text-danger" name="remove" id="re">Quitar</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <hr />
+                        <label class="text-primary" name="add" id="add">Agregar nuevo documento</label>
+
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-info">Solo se aceptan archivos en formato: pdf, word o excel</small>
+                        <br />
+                        <small class="text-danger">Tamaño máximo por cada archivo: 50 MB</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
+    }
+</div>
+
+<script type="text/javascript">
+    const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file;
+    var max = 10, x = 1, cont = 1;
+
+    $("#add").click(function () {
+        var wrapper = '<tr><td style="height:50px; padding-left: 10px"><input required="required" type="file" name="DocumentoAdjunto" id="DocumentoAdjunto' + cont + '" onChange="validar(' + cont + ')"/>' +
+            '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove">Quitar</label></td></tr>';
+
+        if (x < max) {
+            $("#table_field").append(wrapper);
+            x++;
+            cont++;
+        }
+    });
+
+    $("#table_field").on('click', '#remove', function () {
+        $(this).closest('tr').remove();
+        x--;
+
+    });
+
+    $('#add').hide();
+    $('#remove').hide();
+    $('#re').hide();
+
+    function validar(conta) {
+        const archivo = document.getElementById('DocumentoAdjunto' + conta).value;
+        extension = archivo.substring(archivo.lastIndexOf('.'), archivo.length);
+        
+        const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjunto' + conta).files[0];
+        console.log(DocumentoAdjuntadoDI);
+
+        if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
+            alert("El tamaño máximo es 50 MB por archivo");
+            document.getElementById('DocumentoAdjunto' + conta).value = "";
+        }        
+    }
+
+    $('#re').on("click", function () {
+        const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
+        $DocumentoAdjunto.value = "";
+        $('#add').hide();
+        $('#re').hide();
+    })
+
+    const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
+    $DocumentoAdjunto.addEventListener("change", function () {
+        $('#add').show();
+        $('#remove').show();
+        if (this.files.length <= 0) {
+            $('#re').hide();
+            return;
+        } else {
+            $('#re').show();
+        }
+        for (let i = 0; i < 10; i++) {
+            const archivo = this.files[i];
+            if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+                alert("El tamaño máximo es 50 MB por archivo");
+                $DocumentoAdjunto.value = "";
+                $('#add').hide();
+                $('#re').hide();
+            }
+            console.log(archivo);
+        }
+    });
+</script>

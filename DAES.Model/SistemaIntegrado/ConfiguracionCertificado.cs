@@ -38,10 +38,6 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Párrafo 3")]
         public string Parrafo3 { get; set; }
 
-        [DataType(DataType.MultilineText)]
-        [Display(Name = "Párrafo 4")]
-        public string Parrafo4 { get; set; }
-
         [Required(ErrorMessage = "Es necesario especificar este dato")]
         [DataType(DataType.MultilineText)]
         public string Titulo { get; set; }

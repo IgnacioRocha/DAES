@@ -1,0 +1,47 @@
+﻿@model DAES.Web.FrontOffice.Controllers.SupervisorAuxiliarController.Search
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Registro de Supervisores Auxiliar</h1>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+@using (Html.BeginForm("Update", null, FormMethod.Get))
+{
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">BLAH</h5>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.Query)
+                    @Html.TextBoxFor(m => Model.Query, new { @class = "form-control", @placeholder = "Ingrese Razon Social" })
+                    @Html.ValidationMessageFor(m => Model.Query, "", new { @class = "text-danger" })
+                </div>
+                <input type="submit" value="Buscar Supervisores" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model != null && Model.SupervisoresAuxiliares.Any())
+{
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+            <div class="card-title">Resultados</div>
+                @using GridMvc.Html
+                @Html.Grid(Model.SupervisoresAuxiliares).Columns(columns =>
+           {
+               columns.Add(q => q.Rut).Titled("Rut").Sortable(true).Filterable(true);
+               columns.Add(q => q.RazonSocial).Titled("Razón social").Sortable(true).Filterable(true);
+               columns.Add(q => q.TipoPersonaJuridica.NombrePersonaJuridica).Titled("Persona Juridica").Sortable(true).Filterable(true);
+               columns.Add().Encoded(false).Sanitized(false).RenderValueAs(q => @Html.ActionLink("Editar", "UpdateSupervisor", new { id = q.SupervisorAuxiliarId }));
+           }).WithPaging(15).EmptyText("No se encontraron Supervisores").SetLanguage("es").Selectable(false).WithMultipleFilters()
+            </div>
+        </div>
+    </div>
+}

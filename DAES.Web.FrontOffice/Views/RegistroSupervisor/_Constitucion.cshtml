@@ -1,0 +1,37 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+<table class="table table-striped">
+    @for (var i = 0; i < Model.EscrituraConstitucionModificaciones.Count; i++)
+    {
+        <thead>
+            <tr>
+                <th>
+                    @Html.LabelFor(m => m.EscrituraConstitucionModificaciones[i].Notaria, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.EscrituraConstitucionModificaciones[i].Fecha, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.EscrituraConstitucionModificaciones[i].NumeroRepertorio, new { @class = "font-weight-bold" })
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.EditorFor(m => m.EscrituraConstitucionModificaciones[i].Notaria, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.EscrituraConstitucionModificaciones[i].Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.EscrituraConstitucionModificaciones[i].NumeroRepertorio, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>
+<div class="card-body" id="modificaciones">
+    <h6 class="card-title" style="text-align:center">Modificaciones</h6>
+    <hr />
+    @Ajax.ActionLink("Agregar Modificacion", "ConstitucionAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "modificaciones" })
+</div>

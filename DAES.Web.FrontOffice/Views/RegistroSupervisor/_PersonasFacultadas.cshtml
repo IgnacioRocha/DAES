@@ -1,0 +1,48 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+
+<table class="table table-striped">   
+    @for (var i = 0; i < Model.PersonaFacultadas.Count; i++)
+    {
+        <thead>
+            <tr>
+                <th>
+                    @Html.LabelFor(m => m.PersonaFacultadas[i].NombreCompleto, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.PersonaFacultadas[i].RUN, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.PersonaFacultadas[i].Profesion, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.PersonaFacultadas[i].Domicilio, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.PersonaFacultadas[i].Nacionalidad, new { @class = "font-weight-bold" })
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].NombreCompleto, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].RUN, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].Profesion, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].Domicilio, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].Nacionalidad, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Ajax.ActionLink("Eliminar", "DeleteFacultada", null, new { Model.PersonaFacultadas.ToArray()[i].PersonaFacultadaId, Model.PersonaFacultadas.ToArray()[i].SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })
+                </td>
+            </tr>
+        </tbody>   
+    }    
+</table>

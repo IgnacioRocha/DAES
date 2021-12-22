@@ -27,9 +27,6 @@ namespace DAES.Model.SistemaIntegrado
         public int? TipoOrganizacionId { get; set; }
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }
 
-        //public int? IdTipoNorma { get; set; }
-        //public virtual TipoNorma Tipo { get; set; }
-
         [Display(Name = "Estado")]
         public int? EstadoId { get; set; }
         public virtual Estado Estado { get; set; }
@@ -140,7 +137,7 @@ namespace DAES.Model.SistemaIntegrado
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha publicación")]
         [DataType(DataType.Date)]
-        public DateTime? FechaPubliccionDiarioOficial { get; set; }
+        public DateTime? FechaPublicacionDiarioOficial { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha actualización")]

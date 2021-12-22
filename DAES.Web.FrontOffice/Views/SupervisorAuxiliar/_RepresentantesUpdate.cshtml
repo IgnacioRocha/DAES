@@ -1,0 +1,50 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+
+<table class="table table-striped">
+    @for (var i = 0; i < Model.RepresentanteLegals.Count(); i++)
+    {
+        @Html.HiddenFor(m => m.SupervisorAuxiliarTempId)
+        @Html.HiddenFor(m => Model.RepresentanteLegals[i].RepresentanteLegalId)
+        <thead>
+            <tr>
+                <th>
+                    @Html.LabelFor(m => m.RepresentanteLegals[i].NombreCompleto, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.RepresentanteLegals[i].RUN, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.RepresentanteLegals[i].Profesion, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.RepresentanteLegals[i].Domicilio, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.RepresentanteLegals[i].Nacionalidad, new { @class = "font-weight-bold" })
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Html.EditorFor(m => m.RepresentanteLegals[i].NombreCompleto, new { htmlAttributes = new { @class = "form-control col-11" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.RepresentanteLegals[i].RUN, new { htmlAttributes = new { @class = "form-control col-11" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.RepresentanteLegals[i].Profesion, new { htmlAttributes = new { @class = "form-control col-11" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.RepresentanteLegals[i].Domicilio, new { htmlAttributes = new { @class = "form-control col-11" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.RepresentanteLegals[i].Nacionalidad, new { htmlAttributes = new { @class = "form-control col-11" } })
+                </td>
+                <td>
+                    @Ajax.ActionLink("Eliminar", "DeleteRepresentante", null, new { Model.RepresentanteLegals.ToArray()[i].RepresentanteLegalId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>

@@ -23,8 +23,7 @@
             Disuelta = 3,
             Inexistente = 4,
             Cancelada = 5,
-            RolAsignado = 6,
-            NoConstituida = 7
+            RolAsignado = 6
         }
 
         public enum Situacion
@@ -96,8 +95,7 @@
             EstadosFinancierosDebidamenteAprobadosPorAsamblea = 99,
             FichaDetalladaFuentesFinancieros = 100,
             FichaDatos = 101,
-            InformeComisionRevisodoraCuentas = 102,
-            VigenciaEstatutos = 104
+            InformeComisionRevisodoraCuentas = 102
         }
 
         public enum TipoOrganizacion
@@ -132,10 +130,9 @@
             Articulo91 = 89,
             AsambleaExtraOrdinariaAsociacion = 90,
             Fiscalizacion = 102,
-            EstudioSocioEconomico = 95,
+
             InformacionACSemestral = 104,
             InformacionACAnual = 105,
-            CooperativaViviendaAbierta = 106
         }
 
         public enum TipoAprobacion
@@ -192,11 +189,12 @@
             Defecto = 135,
         }
 
-        public enum Norma
+        public enum TipoPersonaJuridica
         {
-            Decreto = 1,
-            DecretoSupremo = 2,
-            Resolucion = 3
+            EIRL = 1,
+            SociedadAnonima = 2,
+            SociedadPorAcciones = 3,
+            SociedadComercialLtda = 4
         }
     }
 }

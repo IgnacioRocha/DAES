@@ -4,7 +4,6 @@
 @{
     ViewBag.Title = "Editar";
     ViewBag.SubTitle = "Organización";
-
 }
 
 @using (Html.BeginForm())
@@ -87,12 +86,12 @@
                     <div class="col-md-10">
 
                         @Html.CascadingDropDownListFor(m => m.ComunaId,
-                                                         "RegionId",
-                                                         Url.Action("GetComuna", "Organizacion"),
-                                                         "RegionId",
-                                                         "Seleccione...",
-                                                         true,
-                                                         new { @class = "form-control" })
+                        "RegionId",
+                        Url.Action("GetComuna", "Organizacion"),
+                        "RegionId",
+                        "Seleccione...",
+                        true,
+                        new { @class = "form-control" })
 
                         @Html.ValidationMessageFor(model => model.ComunaId, "", new { @class = "text-danger" })
                     </div>
@@ -258,10 +257,10 @@
                 </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(model => model.FechaPubliccionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.FechaPublicacionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.FechaPubliccionDiarioOficial, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaPublicacionDiarioOficial, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -316,91 +315,15 @@
         </div>
     </div>
 
-    <label>Constitución posterior al 2003</label>
-    <br /><div>
-        <input id="Constitucion" name="Constitucion" type="radio" value="Si" /> si
-        <input id="Constitucion" name="Constitucion" type="radio" value="No" /> no
-    </div>
-    <label>Reformas posterior al 2003</label>
-    <br /><div>
-        <input id="FReforma" name="FReforma" type="radio" value="Si" /> si
-        <input id="FReforma" name="FReforma" type="radio" value="No" /> no
-    </div>
-    <div id="divExis" @*name="divExis"*@>
-        @{if (Model.TipoOrganizacionId == 1) 
-            {
-                <div class="panel panel-default">
-                    <div class="panel-heading">Autorización de Existencia Legal</div>
-                    <div class="panel-body">
-                        <div id="existencia">
-                            @Html.Partial("_ModificacionEdit", Model)
-                        </div>
-                    </div>
-                </div>
-            }
-            if (Model.TipoOrganizacionId == 2 || Model.TipoOrganizacionId == 3)
-            {
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">Autorización de Existencia Legal</div>
-                    <div class="panel-body">
-                        <div id="existencia">
-                            @Html.Partial("_ModificacionAG", Model)
-                        </div>
-                    </div>
-                </div>
-            }
-
-        }
-    </div>
-
-    <div class="panel panel-default" id="CPostRPost" name="CPostRPost" style="display:none">
-        <div class="panel-heading">Autorización de Existencia Legal</div>
+    <div class="panel panel-default">
+        <div class="panel-heading">Modificación</div>
         <div class="panel-body">
-            <div id="existencia">
-                @Html.Partial("_ModificacionCPostRPostEdit", Model)
+            <div id="modificacion">
+                @Html.Partial("_ModificacionEdit", Model)
             </div>
+            @Ajax.ActionLink("Agregar modificación", "ModificacionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "modificacion" })
         </div>
     </div>
-
-    <div>
-        @if (Model.TipoOrganizacionId != 2 && Model.TipoOrganizacionId != 3)
-        {
-            <label>Tiene Saneamiento?</label>
-            <input id="Tiene" name="Tiene" type="checkbox">
-            <div class="panel panel-default" id="divSane" name="divSane" style="display:none">
-                <div class="panel-heading">Saneamiento</div>
-                <div id="Saneamiento">
-                    @Html.Partial("_SaneamientoEdit", Model)
-                </div>
-            </div>
-        }
-    </div>
-
-
-    <div class="panel panel-default" id="reformaDiv">
-        <div class="panel-heading">Reforma</div>
-        <div class="panel-body">
-            <div id="reforma">
-                @Html.Partial("_Reforma", Model)
-
-            </div>
-            
-                @Ajax.ActionLink("Agregar reforma", "ReformaAdd", null, new { Model.OrganizacionId}, new AjaxOptions { UpdateTargetId = "reforma" })
-        </div>
-    </div>
-
-    <div class="panel panel-default" id="reformaDivPost" style="display:none">
-        <div class="panel-heading">Reforma</div>
-        <div class="panel-body">
-            <div id="reformas">
-                @Html.Partial("_ReformaPost", Model)
-            </div>
-
-                @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" })
-        </div>
-    </div>
-
 
     <div class="panel panel-default">
         <div class="panel-heading">Disolución</div>
@@ -416,78 +339,8 @@
     <p></p>
 }
 
-@if (Model.Saneamientos.Any())
-{
-    <input name="a" id="a" value="1" style="display:none" />
-}
-else
-{
-    <input name="a" id="a" value="0" style="display:none" />
-}
-
-@if (Model.Reformas.Any(q => q.UltimaReforma == true))
-{
-    <input name="b" id="a" value="1" style="display:none" />
-}
-else
-{
-    <input name="b" id="a" value="0" style="display:none" />
-}
-
 @Html.ActionLink("Volver al listado", "Index")
 
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-
-        if ("#a" == 1) {
-            $("#Tiene").prop("checked", true);
-        } else {
-
-            $("#Tiene").prop("checked", false);
-        }
-
-
-        $("#Tiene").change(function () {
-            if ($("#Tiene").is(':checked')) {
-                $("#divSane").show();
-            } else {
-                $("#divSane").hide();
-            }
-        });
-
-        if ("#b" == 1) {
-            $("#b").show();
-        }
-
-        
-        
-
-           
-        $("input[name=Constitucion]").click(function () {
-            if ($('input:radio[name=Constitucion]:checked').val().toString() == "Si") {
-                $("#CPostRPost").show();
-                $("#divExis").hide();
-            } else {
-                $("#CPostRPost").hide();
-                $("#divExis").show();
-            }
-        });
-
-        $("input[name=FReforma]").click(function () {
-            if ($('input:radio[name=FReforma]:checked').val().toString() == "Si") {
-                $("#reformaDivPost").show();
-                $("#reformaDiv").hide();
-            } else {
-                $("#reformaDivPost").hide();
-                $("#reformaDiv").show();
-            }
-        });
-
-    });
-
-</script>
-
-@*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")*@
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

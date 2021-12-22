@@ -49,7 +49,6 @@ namespace DAES.Web.BackOffice.Controllers
         public List<Fiscalizacion> Fiscalizacions { get; set; }
         public List<HttpPostedFileBase> Archivos { get; set; }
         public List<Proceso> Procesos { get; set; }
-        public List<ExistenciaLegal> ExistenciaLegals { get; set; }
     }
 
     public class FileModel
@@ -293,7 +292,6 @@ namespace DAES.Web.BackOffice.Controllers
                 _custom.DirectorioUpdate(model.Directorios);
                 _custom.ModificacionUpdate(model.ModificacionEstatutos);
                 _custom.DisolucionUpdate(model.Disolucions);
-                //_custom.ExistenciaCreate(model.ExistenciaLegals);
 
                 TempData["Message"] = Properties.Settings.Default.Success;
                 return RedirectToAction("EditarOrganizacion", new { model.Workflow.WorkflowId });

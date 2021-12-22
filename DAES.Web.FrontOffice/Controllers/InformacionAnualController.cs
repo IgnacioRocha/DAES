@@ -41,25 +41,25 @@ namespace DAES.Web.FrontOffice.Controllers
         }
         public ActionResult Start()
         {
-            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "InformacionAnual";
-            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
+            /*Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "InformacionAnual";
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";*/
 
             //activar en desarrollo, bypass de clave única
-            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            //{
-            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            //};
-            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            //{
-            //    numero = 13703244,
-            //    DV = "9",
-            //    tipo = "RUN"
-            //};
-            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            {
+                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            };
+            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            {
+                numero = 44444444,
+                DV = "4",
+                tipo = "RUN"
+            };
+            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
 
-            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
         public ActionResult Finish()
         {
@@ -157,7 +157,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 TelefonoContacto = model.TelefonoContacto,
                 EmailContacto = model.EmailContacto,
                 FechaCelebracion = model.FechaCelebracion,
-                FechaPubliccionDiarioOficial = model.FechaPubliccionDiarioOficial,
+                FechaPublicacionDiarioOficial = model.FechaPublicacionDiarioOficial,
                 FechaActualizacion = model.FechaActualizacion,
                 EsImportanciaEconomica = model.EsImportanciaEconomica,
                 FechaVigente = model.FechaVigente,
@@ -261,7 +261,7 @@ namespace DAES.Web.FrontOffice.Controllers
                     TelefonoContacto = model.TelefonoContacto,
                     EmailContacto = model.EmailContacto,
                     FechaCelebracion = model.FechaCelebracion,
-                    FechaPubliccionDiarioOficial = model.FechaPubliccionDiarioOficial,
+                    FechaPublicacionDiarioOficial = model.FechaPublicacionDiarioOficial,
                     FechaActualizacion = model.FechaActualizacion,
                     EsImportanciaEconomica = model.EsImportanciaEconomica,
                     FechaVigente = model.FechaVigente,

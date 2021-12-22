@@ -52,10 +52,10 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus, Version=4.5.2.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.2.1\lib\net40\EPPlus.dll</HintPath>
@@ -265,6 +265,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\DocumentoConsultorController.cs" />
     <Compile Include="Controllers\OrganizacionConsultorController.cs" />
+    <Compile Include="Controllers\SupervisorAuxiliarController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\OrganizacionController.cs" />
     <Compile Include="Controllers\PerfilController.cs" />
@@ -660,7 +661,7 @@
     <Content Include="Views\Organizacion\_DisolucionEdit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Directorio.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Disolucion.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\ExistenciaLegal.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\ModificacionEstatuto.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Organizacion\_ModificacionEdit.cshtml" />
     <Content Include="Views\Task\EditarOrganizacion.cshtml" />
@@ -916,22 +917,7 @@
     <Content Include="Views\TipoOficio\Index.cshtml" />
     <Content Include="Views\Fiscalizacion\Inbox.cshtml" />
     <Content Include="Views\Fiscalizacion\Change.cshtml" />
-    <Content Include="Views\Organizacion\_SaneamientoEdit.cshtml" />
-    <Content Include="Views\Organizacion\_Reforma.cshtml" />
-    <Content Include="Views\Organizacion\_ModificacionAG.cshtml" />
-    <Content Include="Views\Organizacion\_ModificacionCPostRPostEdit.cshtml" />
-    <Content Include="Views\Shared\_OrganizacionExistencia.cshtml" />
-    <Content Include="Views\Shared\_OrganizacionSaneamiento.cshtml" />
-    <Content Include="Views\Shared\_OrganizacionReforma.cshtml" />
-    <Content Include="Views\Organizacion\_ExistenciaEdit.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DTOExistencia.cshtml" />
-    <Content Include="Views\Organizacion\_ReformaPost.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Content Include="Views\SupervisorAuxiliar\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAES.BLL\DAES.BLL.csproj">
@@ -947,6 +933,13 @@
       <Name>DAES.Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
