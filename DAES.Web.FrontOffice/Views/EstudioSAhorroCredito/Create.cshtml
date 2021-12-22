@@ -154,46 +154,31 @@
 
                             </div>
 
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.FonoSolicitante, new { @class = "font-weight-bold" })
-                                @Html.EditorFor(model => model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.FonoSolicitante, "", new { @class = "text-danger" })
-
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.RegionSolicitante, new { @class = "font-weight-bold" })
-                                @Html.DropDownListFor(model => model.RegionSolicitante, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.RegionSolicitante, "", new { @class = "text-danger" })
-                            </div>
-
-                            <div class="form-group">
-                                @Html.LabelFor(model => model.MailSolicitante, new { @class = "font-weight-bold" })
-                                @Html.EditorFor(model => model.MailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.MailSolicitante, "", new { @class = "text-danger" })
+                                        @Html.LabelFor(model => model.FonoSolicitante, "*Fono (Solo números)", htmlAttributes: new { @class = "control-label col-md-8" })
+                                        @Html.EditorFor(model => model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.FonoSolicitante, "", new { @class = "text-danger" })
+                                        <br />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <br />
-        <div class="card">
-            <br />
-            <div class="container">
+                <div class="container">
+                    *Campos obligatorios
+                </div>
                 <br />
-                <div class="row">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body" style="min-height: 335px">
-                                <p class="card-title text-center font-weight-bold">Adjuntar Documentos</p>
-                                <hr />
-                                <ul>
-                                    <li class="card-title text-info">
-                                        Adjunte documentos necesarios para este trámite
-                                    </li>
-                                </ul>
-                                <hr />
+                <div class="container">
+                    <div class="card">
+                        <div class="input-field col s12 m12 l12">
+                            <h5 class="card-title" align="center">Adjuntar documentos.</h5>
+                            <div class="form-group" background-color:aliceblue" id="inputArchivo">
+                                <div class="input_fields_wrap">
+                                    <small>Puede seleccionar varios archivos para subir. Solo se aceptan archivos pdf, word, excel. </small>
+                                    @Html.LabelFor(m => Model.DocumentoAdjunto, " ", new { @class = "font-weight-bold", @onchange="disabled" })<br /><br />
+                                    <div>@Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @multiple = "multiple", @type = "file" })<br /></div>
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.DocumentoAdjunto, "", new { @class = "text-danger" })
 
                                 <div class="input_field">
                                     <table id="table_field" class="table-bordered">
@@ -269,12 +254,7 @@
     $("#SubRubroId").prop("disabled", true);
 
 
-    //Documentos
-    const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file;
-    var max = 10, x = 1, cont = 1;
-    $("#add").click(function () {
-    var wrapper = '<tr><td style="height:50px; padding-left: 10px"><input type="file" name="DocumentoAdjunto" id="DocumentoAdjunto' + cont + '" onChange="validar(' + cont + ')"/>' +
-    '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove"><u>Quitar</u></label></td></tr>';
+    //$('#RegionId').prop('selectedIndex', 0);
 
 
 
