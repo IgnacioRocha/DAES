@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAES.Model", "DAES.Model\DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAES.Web.BackOffice", "DAES.Web.BackOffice\DAES.Web.BackOffice.csproj", "{F4F9B9AC-195B-40E8-945C-A2BBD5F6D27E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAES.Console", "DAES.Console\DAES.Console.csproj", "{7C7753C4-2A17-467F-A455-EDC07D44F53C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,10 +38,6 @@ Global
 		{F4F9B9AC-195B-40E8-945C-A2BBD5F6D27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4F9B9AC-195B-40E8-945C-A2BBD5F6D27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4F9B9AC-195B-40E8-945C-A2BBD5F6D27E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C7753C4-2A17-467F-A455-EDC07D44F53C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C7753C4-2A17-467F-A455-EDC07D44F53C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C7753C4-2A17-467F-A455-EDC07D44F53C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C7753C4-2A17-467F-A455-EDC07D44F53C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
