@@ -365,7 +365,6 @@ namespace DAES.BLL
                 write.PageEvent = ev;
                 Chunk SaltoLinea = Chunk.NEWLINE;
                 //Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
-                string roe = string.Format(configuracioncertificado.Parrafo3, _fontStandard);
 
 
                 string parrafo_uno = string.Format(configuracioncertificado.Parrafo1);
@@ -390,6 +389,8 @@ namespace DAES.BLL
                 }
 
                 string parrafo_dos = string.Format(configuracioncertificado.Parrafo2);
+                
+
                 if (!string.IsNullOrWhiteSpace(parrafo_dos))
                 {
                     if (organizacion.FechaCelebracion.HasValue)
@@ -401,7 +402,6 @@ namespace DAES.BLL
 
                 string parrafo_cuatro = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
                 string parrafo_tres = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : " ");
-
                 string parrafoone = string.Format(configuracioncertificado.Parrafo1);
                 string parrafos = string.Format(configuracioncertificado.Parrafo1);
 
@@ -424,9 +424,6 @@ namespace DAES.BLL
                 paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
 
 
-
-                //Paragraph paragraphTRES = new Paragraph(roe, _fontStandard);
-                //paragraphTRES.Alignment = Element.ALIGN_JUSTIFIED;
 
                 var logo = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.URLImagenLogo);
                 if (logo == null)
@@ -687,21 +684,23 @@ namespace DAES.BLL
                                     parrafo_tres = parrafo_tres.Replace("[DATOSCBR]", string.Empty);
                                 }
 
-                            Paragraph parr3 = new Paragraph(parrafo_tres, _fontStandard);
-                            parr3.Alignment = Element.ALIGN_JUSTIFIED;
-                            doc.Add(parr3);
                             }
+                            
 
                             Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
                             paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
                             Paragraph parrafouno = new Paragraph(parrafo_uno, _fontStandard);
                             paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
+                            Paragraph parr3 = new Paragraph(parrafo_tres, _fontStandard);
+                            parr3.Alignment = Element.ALIGN_JUSTIFIED;
+                            
 
                             doc.Add(SaltoLinea);
                             doc.Add(parrafouno);
                             doc.Add(SaltoLinea);
                             doc.Add(parrafoDos);
                             doc.Add(SaltoLinea);
+                            doc.Add(parr3);
                             doc.Add(SaltoLinea);
 
                             if (organizacion.Reformas.Any())

@@ -164,10 +164,10 @@ namespace DAES.Web.FrontOffice.Controllers
                             });
                         }
 
-                        if (fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".xlsx" && fileEx != ".doc" && fileEx != ".docx")
+                        if (fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".doc" && fileEx != ".docx")
                         {
 
-                            ViewBag.errorMessage = "*Error al enviar documento, los archivos deben ser archivos de tipo Word, Excel o Pdf";
+                            ViewBag.errorMessage = "*Error al enviar documento, los archivos deben ser archivos de tipo Word, Excel (sin macros) o Pdf";
                             return View(new Model.DTO.DTOCooperativaAbierta()
                             {
                                 RutSolicitante = "98.7654.321-0",
