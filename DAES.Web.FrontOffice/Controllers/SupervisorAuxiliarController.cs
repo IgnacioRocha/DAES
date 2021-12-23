@@ -119,17 +119,17 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             db.SupervisorAuxiliarTemporals.Add(super);
-            /*db.RepresentantesLegals.Add(representante);
-            db.ExtractoAuxiliars.Add(extracto);
-            db.EscrituraConstitucions.Add(escritura);
-            db.PersonaFacultadas.Add(facultadas);
-            db.SaveChanges();*/
 
             super.RepresentanteLegals.Add(representante);
             super.ExtractoAuxiliars.Add(extracto);
             super.EscrituraConstitucionModificaciones.Add(escritura);
             super.PersonaFacultadas.Add(facultadas);
+            /*db.RepresentantesLegals.Add(representante);
+            db.ExtractoAuxiliars.Add(extracto);
+            db.EscrituraConstitucions.Add(escritura);
+            db.PersonaFacultadas.Add(facultadas);*/
 
+            db.SaveChanges();
             return View(super);
         }
 
