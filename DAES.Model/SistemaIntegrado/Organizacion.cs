@@ -21,6 +21,9 @@ namespace DAES.Model.SistemaIntegrado
             Disolucions = new List<Disolucion>();
             ExistenciaLegals = new List<ExistenciaLegal>();
             Saneamientos = new List<Saneamiento>();
+            ComisionLiquidadoras = new List<ComisionLiquidadora>();
+            /*DisolucionCooperativas = new List<DisolucionCooperativa>();
+            DisolucionAsociacions = new List<DisolucionAsociacion>();*/
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -58,7 +61,6 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Región")]
         public int? RegionId { get; set; }
         public virtual Region Region { get; set; }
-
 
         [Display(Name = "Comuna")]
         public int? ComunaId { get; set; }
@@ -156,7 +158,7 @@ namespace DAES.Model.SistemaIntegrado
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha publicación")]
         [DataType(DataType.Date)]
-        public DateTime? FechaPubliccionDiarioOficial { get; set; }
+        public DateTime? FechaPublicacionDiarioOficial { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Fecha actualización")]
@@ -208,11 +210,14 @@ namespace DAES.Model.SistemaIntegrado
         public virtual List<DocumentoSinContenido> DocumentoSinContenidos { get; set; }
         public virtual List<Articulo91> Articulo91s { get; set; }
         public virtual List<ModificacionEstatuto> ModificacionEstatutos { get; set; }
+        /*public virtual List<DisolucionCooperativa> DisolucionCooperativas { get; set; }
+        public virtual List<DisolucionAsociacion> DisolucionAsociacions { get; set; }*/
         public virtual List<Disolucion> Disolucions { get; set; }
         public virtual List<ExistenciaLegal> ExistenciaLegals { get; set;}
         public virtual List<Saneamiento> Saneamientos { get; set; }
         public virtual List<Reforma> Reformas { get; set; } = new List<Reforma>();
 
+        public virtual List<ComisionLiquidadora> ComisionLiquidadoras { get; set; }
 
         [NotMapped]
         public virtual List<Documento> DocumentosConstitucion { get; set; }

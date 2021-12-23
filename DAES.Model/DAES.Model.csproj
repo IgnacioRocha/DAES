@@ -98,6 +98,7 @@
     <Compile Include="DTO\DTOCooperativaAbierta.cs" />
     <Compile Include="DTO\DTOEstudioSocioeconomico.cs" />
     <Compile Include="DTO\DTOExistencia.cs" />
+    <Compile Include="DTO\DTODisolucion.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
     <Compile Include="DTO\DTORespuestaOficio.cs" />
     <Compile Include="DTO\DTOCreacionOrganizacion.cs" />
@@ -130,6 +131,13 @@
     <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
     <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />
     <Compile Include="SistemaIntegrado\ExistenciaLegal.cs" />
+    <Compile Include="SistemaIntegrado\ComisionLiquidadora.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionAsociacion.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionAsociacionGremial.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionAsociacionConsumidores.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionCooperativa.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionCooperativaPosterior.cs" />
+    <Compile Include="SistemaIntegrado\DisolucionCooperativaAnterior.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoOficio.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoMateria.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoCriterio.cs" />
@@ -213,6 +221,8 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Content\bootstrap\mixins.less" />
+    <None Include="Content\bootstrap\variables.less" />
     <None Include="packages.config" />
     <None Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Scripts\jquery-3.3.1.slim.min.map" />
@@ -236,7 +246,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

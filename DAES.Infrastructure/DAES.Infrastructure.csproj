@@ -89,6 +89,8 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
     <None Include="Connected Services\ServiceReferenceHSM\WSIntercambiaDoc.wsdl" />
+    <None Include="Content\bootstrap\mixins.less" />
+    <None Include="Content\bootstrap\variables.less" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -111,6 +113,9 @@
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -13,13 +13,15 @@ using System.Web.Mvc;
 
 namespace DAES.Web.FrontOffice.Controllers
 {
+
     [Audit]
     public class Articulo90IncisoPrimeroController : Controller
     {
-        public class DTOSearch
+
+        public class Search
         {
 
-            public DTOSearch()
+            public Search()
             {
                 Organizacions = new List<Organizacion>();
             }
@@ -39,49 +41,16 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult Start()
-        {
-            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "Articulo90IncisoPrimero";
-            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
-
-            //activar en desarrollo, bypass de clave única
-            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            //{
-            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            //};
-            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            //{
-            //    numero = 44444444,
-            //    DV = "4",
-            //    tipo = "RUN"
-            //};
-            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-
-            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
-        }
-
-        public ActionResult Finish()
-        {
-            return View();
-        }
-
-        public ActionResult Search()
-        {
             if (!Global.CurrentClaveUnica.IsAutenticated)
             {
                 return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
             }
 
-            return View(new DTOSearch());
+            return View(new Search());
         }
 
         [HttpPost]
-        public ActionResult Search(string Filter)
+        public ActionResult Index(string Filter)
         {
             if (!Global.CurrentClaveUnica.IsAutenticated)
             {
@@ -94,7 +63,7 @@ namespace DAES.Web.FrontOffice.Controllers
             query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
             query = query.Where(q => q.RazonSocial.Contains(Filter) || q.NumeroRegistro.Contains(Filter) || q.Sigla.Contains(Filter));
 
-            var model = new DTOSearch();
+            var model = new Search();
             model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
             model.First = false;
 
@@ -208,7 +177,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, proceso.Solicitante.Email);
 
-                    return RedirectToAction("Finish");
+                    return RedirectToAction("Create");
                 }
                 catch (Exception ex)
                 {

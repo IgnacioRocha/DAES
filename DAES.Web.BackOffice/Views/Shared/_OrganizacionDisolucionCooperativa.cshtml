@@ -1,0 +1,99 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Disolucion>
+@using GridMvc.Html
+
+
+<div class="panel panel-defaul"t>
+    <div class="panel-heading"></div>
+    <div class="panel-body">
+        <div id="divAnterior" name="divAnterior">
+            <table class="table table-hover table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.FirstOrDefault().TipoNorma.Nombre)
+                        </th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().NumeroNorma)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaNorma)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Autorizacion)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaJuntaSocios)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Comision)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => model.FirstOrDefault().TipoNorma.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.NumeroNorma)
+                            </td>
+                            <td>
+                                @string.Format("{0:dd-MM-yyyy}", item.FechaNorma)
+                            </td>
+                            <td>
+                                @string.Format("{0:dd-MM-yyyy}", item.FechaPublicacionDiarioOficial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Autorizacion)
+                            </td>
+                            <td>
+                                @string.Format("{0:dd-MM-yyyy}", item.FechaJuntaSocios)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Comision)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div id="divPosterior" name="divPosterior">
+            <table class="table table-hover table-striped dataTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaJuntaSocios)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaEscrituraPublica)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().MinistroDeFe)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FechaPublicacionDiarioOficial)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().NumeroFojas)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().AñoInscripcion)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().DatosCBR)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Comision)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@string.Format("{0:dd-MM-yyyy}", item.FechaJuntaSocios)</td>
+                            <td>
+                                @string.Format("{0:dd-MM-yyyy}", item.FechaEscrituraPublica)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.MinistroDeFe)
+                            </td>
+                            <td>
+                                @string.Format("{0:dd-MM-yyyy}", item.FechaPublicacionDiarioOficial)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.NumeroFojas)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.AñoInscripcion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.DatosCBR)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => item.Comision)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
