@@ -472,8 +472,6 @@ namespace DAES.BLL
                 //Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
 
 
-                var aux = organizacion.Disolucions.FirstOrDefault();
-
                 string parrafo_uno = string.Format(configuracioncertificado.Parrafo1);
                 if (!string.IsNullOrEmpty(organizacion.NumeroRegistro))
                 {
@@ -495,15 +493,17 @@ namespace DAES.BLL
                     parrafo_uno = parrafo_uno.Replace("[DOMICIOSOCIAL]", organizacion.Direccion);
                 }
 
-                if (aux != null && (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest == 103) //TODO Modificar el valor "103" por el correspondiente en fase de produccion
+
+                var aux = organizacion.Disolucions.FirstOrDefault();
+                if (aux != null && (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest == 106) //TODO Modificar el valor "103" por el correspondiente en fase de produccion
                 {
                     #region Parrafo 1 Test Rocha
-                                        
+
                     parrafo_uno = parrafo_uno.Replace("[SIGLA]", organizacion.Sigla ?? string.Empty);
-                    
+
                     parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", aux.NumeroOficio.ToString() ?? string.Empty);
-                                        
-                    parrafo_uno = parrafo_uno.Replace("[FechaPubliccionDiarioOficial]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);
+
+                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICACIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);
 
                     parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica) ?? string.Empty);
 
@@ -512,10 +512,10 @@ namespace DAES.BLL
                     parrafo_uno = parrafo_uno.Replace("[FECHADISOLUCION]", string.Format("{0:dd-MM-yyyy}", aux.FechaDisolucion) ?? string.Empty);
 
                     parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma.ToString() ?? string.Empty);
-                    
+
                     parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) ?? string.Empty);
 
-                    if(!string.IsNullOrEmpty(aux.Autorizacion))
+                    if (!string.IsNullOrEmpty(aux.Autorizacion))
                     {
                         parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", "autorizado por: " + aux.Autorizacion);
                     }
@@ -525,12 +525,12 @@ namespace DAES.BLL
                     }
 
                     parrafo_uno = parrafo_uno.Replace("[NUMEROFOJAS]", aux.NumeroFojas ?? string.Empty);
-                    
+
                     parrafo_uno = parrafo_uno.Replace("[AÑOINSCRIPCION]", aux.AñoInscripcion.ToString() ?? string.Empty);
-                    
+
                     parrafo_uno = parrafo_uno.Replace("[DATOSCBR]", aux.DatosCBR ?? string.Empty);
 
-                    if(!string.IsNullOrEmpty(aux.MinistroDeFe))
+                    if (!string.IsNullOrEmpty(aux.MinistroDeFe))
                     {
                         parrafo_uno = parrafo_uno.Replace("[MINISTRODEFE]", "ante el " + aux.MinistroDeFe);
                     }
@@ -538,15 +538,15 @@ namespace DAES.BLL
                     {
                         parrafo_uno = parrafo_uno.Replace("[MINISTRODEFE]", string.Empty);
                     }
-                                        
+
                     parrafo_uno = parrafo_uno.Replace("[FECHAOFICIO]", string.Format("{0:dd-MM-yyyy}", aux.FechaOficio) ?? string.Empty);
-                    
+
                     parrafo_uno = parrafo_uno.Replace("[FECHAASAMBLEASOCIOS]", string.Format("{0:dd-MM-yyyy}", aux.FechaAsambleaSocios) ?? string.Empty);
-                    
+
                     parrafo_uno = parrafo_uno.Replace("[NOMBRENOTARIA]", aux.NombreNotaria ?? string.Empty);
-                    
+
                     parrafo_uno = parrafo_uno.Replace("[DATOSNOTARIO]", aux.DatosNotario ?? string.Empty);
-                    
+
                     #endregion
                 }
                 else
@@ -555,8 +555,9 @@ namespace DAES.BLL
                         "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
                 }
 
+
                 string parrafo_dos = string.Format(configuracioncertificado.Parrafo2);
-                
+
 
                 if (!string.IsNullOrWhiteSpace(parrafo_dos))
                 {
@@ -565,6 +566,10 @@ namespace DAES.BLL
                         parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
                     }
                 }
+
+
+
+
 
 
                 string parrafo_cuatro = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
@@ -646,7 +651,7 @@ namespace DAES.BLL
                 doc.Add(tableHeader);
                 doc.Add(new Paragraph());
 
-                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos != 104)
+                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos != 103)
                 {
                     doc.Add(SaltoLinea);
                     doc.Add(paragraphUNO);
@@ -655,7 +660,7 @@ namespace DAES.BLL
                 }
 
 
-                if (organizacion.ExistenciaLegals.Any() && (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos == 104)
+                if (organizacion.ExistenciaLegals.Any() && (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos == 103)
                 {
                     if (organizacion.ExistenciaLegals.Any())
                     {
@@ -852,7 +857,7 @@ namespace DAES.BLL
                                 }
 
                             }
-                            
+
 
                             Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
                             paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
@@ -860,7 +865,7 @@ namespace DAES.BLL
                             paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
                             Paragraph parr3 = new Paragraph(parrafo_tres, _fontStandard);
                             parr3.Alignment = Element.ALIGN_JUSTIFIED;
-                            
+
 
                             doc.Add(SaltoLinea);
                             doc.Add(parrafouno);
@@ -878,7 +883,7 @@ namespace DAES.BLL
 
                                     string parrafo = string.Format(configuracioncertificado.Parrafo4);
 
-                                    if (organizacion.Reformas.FirstOrDefault().FechaReforma != null)
+                                    if (item.FechaReforma != null)
                                     {
                                         parrafo = parrafo.Replace("[FECHAREFORMA]", "La fecha de la reforma  " + item.FechaReforma.Value.ToString("dd/MM/yyyy") + ", ");
                                     }
@@ -1312,7 +1317,7 @@ namespace DAES.BLL
                 Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
                 rae.Alignment = Element.ALIGN_JUSTIFIED;
 
-                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos != 104)
+                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos != 103)
                 {
 
                     doc.Add(rae);
@@ -1387,7 +1392,6 @@ namespace DAES.BLL
                 return memStream.ToArray();
             }
         }
-
 
         public void ReformaCreate(Reforma reforma, Organizacion or)
         {
@@ -1680,9 +1684,13 @@ namespace DAES.BLL
                     }
                 }
 
-                if (obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
-                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP)
-                {
+                if (
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos &&
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP &&
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta
+                )
+                { 
                     if (!context.Organizacion.Any(q => q.OrganizacionId == obj.OrganizacionId))
                     {
                         throw new Exception("No se encontró la organización");
