@@ -350,16 +350,12 @@ namespace DAES.Web.BackOffice.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Organizacion model, ExistenciaLegal existenciaLegals, Saneamiento san, Reforma reforma)
-        public ActionResult Edit(Organizacion model, Disolucion disolucion)
+        public ActionResult Edit(Organizacion model, ExistenciaLegal existenciaLegals, Saneamiento san, Reforma reforma, Disolucion disolucion)
         {
             model.FechaActualizacion = DateTime.Now;
 
             if (ModelState.IsValid)
             {
-
-                
-               
                 var mod = db.ExistenciaLegal.Any(q => q.OrganizacionId == model.OrganizacionId);
                 var sane = db.Saneamiento.Any(q => q.OrganizacionId == model.OrganizacionId);
                 var refa = db.Reforma.Any(q => q.OrganizacionId == model.OrganizacionId);
@@ -417,11 +413,11 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.SituacionId);
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
-            ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
-            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
             ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
+
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
+            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaaId", "Nombre");
 
             return View("Edit", model);
         }
@@ -496,7 +492,7 @@ namespace DAES.Web.BackOffice.Controllers
                 worksheet.Cells[fila, 29].Value = organizacion.EmailContacto;
                 worksheet.Cells[fila, 30].Value = organizacion.FechaCreacion;
                 worksheet.Cells[fila, 31].Value = organizacion.FechaCelebracion;
-                worksheet.Cells[fila, 32].Value = organizacion.FechaPublicacionDiarioOficial;
+                worksheet.Cells[fila, 32].Value = organizacion.FechaPubliccionDiarioOficial;
                 worksheet.Cells[fila, 33].Value = organizacion.EsImportanciaEconomica;
                 worksheet.Cells[fila, 34].Value = organizacion.FechaActualizacion;
             }
@@ -621,7 +617,6 @@ namespace DAES.Web.BackOffice.Controllers
         }
         #endregion
 
-        #region Disolucion
         public ActionResult DisolucionAdd(int OrganizacionId)
         {
             var model = db.Organizacion.Find(OrganizacionId);
@@ -651,12 +646,19 @@ namespace DAES.Web.BackOffice.Controllers
                 }
                 /*model.Disolucions.Add(disolucion);*/
 
-            var model = db.Organizacion.Find(OrganizacionId);
-
-            return PartialView("_DisolucionEdit", model);
+                db.SaveChanges();
+                return PartialView("_DisolucionEdit", model);
+            }
+            if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+                model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
+            {
+                db.Disolucions.Add(new Disolucion() { OrganizacionId = OrganizacionId, TipoOrganizacionId = model.TipoOrganizacionId });
+                db.SaveChanges();
+                return PartialView("_DisolucionEdit", model);
+            }
+            return PartialView("_ErrorMessage", model);
         }
 
-        
 
         public ActionResult ReformaAdd(int OrganizacionId)
         {
@@ -671,18 +673,7 @@ namespace DAES.Web.BackOffice.Controllers
             var model = db.Organizacion.Find(OrganizacionId);
             return PartialView("_Reforma", model);
         }
-                db.SaveChanges();
-                return PartialView("_DisolucionEdit", model);
-            }
-            if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
-                model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
-            {
-                db.Disolucions.Add(new Disolucion() { OrganizacionId = OrganizacionId, TipoOrganizacionId = model.TipoOrganizacionId });
-                db.SaveChanges();
-                return PartialView("_DisolucionEdit", model);
-            }
-            return PartialView("_ErrorMessage", model);
-        }
+              
 
         public ActionResult ReformaAddPost(int OrganizacionId)
         {
@@ -796,7 +787,6 @@ namespace DAES.Web.BackOffice.Controllers
             return PartialView("_ComisionEdit", model);
         }
 
-        #endregion
         protected override void Dispose(bool disposing)
         {
             if (disposing)

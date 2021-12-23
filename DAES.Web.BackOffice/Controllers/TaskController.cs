@@ -294,11 +294,7 @@ namespace DAES.Web.BackOffice.Controllers
                 db.SaveChanges();
                 _custom.DirectorioUpdate(model.Directorios);
                 _custom.ModificacionUpdate(model.ModificacionEstatutos);
-                _custom.DisolucionUpdate(model.Disolucions);
-                //_custom.ExistenciaCreate(model.ExistenciaLegals);
-                /*_custom.DisolucionUpdate(model.Disolucions);*/
-                /*_custom.DisolucionUpdate(model.Disolucions, disolucion);*/
-                /*_custom.DisolucionAsociacionUpdate(model.Disolucions);*/
+                //_custom.DisolucionUpdate(model.Disolucions);
 
                 TempData["Message"] = Properties.Settings.Default.Success;
                 return RedirectToAction("EditarOrganizacion", new { model.Workflow.WorkflowId });

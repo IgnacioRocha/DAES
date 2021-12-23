@@ -36,7 +36,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Fecha Publicacion Diario Oficial")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? FechaPublicacionDiarioOficial { get; set; }
+        public DateTime? FechaPubliccionDiarioOficial { get; set; }
 
         [Display(Name = "Fecha Junta General de Socios")]
         [DataType(DataType.Date)]

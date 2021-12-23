@@ -128,7 +128,7 @@ namespace DAES.Model.DTO
 
         [Display(Name = "Fecha publicación")]
         [DataType(DataType.Date)]
-        public DateTime? FechaPublicacionDiarioOficial { get; set; }
+        public DateTime? FechaPubliccionDiarioOficial { get; set; }
 
         [Display(Name = "Fecha actualización")]
         [DataType(DataType.Date)]

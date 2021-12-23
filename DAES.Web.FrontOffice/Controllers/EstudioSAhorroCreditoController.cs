@@ -118,7 +118,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 //Se crea un proceso
                 var proceso = new Proceso()
                 {
-                    DefinicionProcesoId = (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomico,
+                    DefinicionProcesoId = (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos,
                     Observacion = model.Observacion.ToUpperNull()
                 };
 

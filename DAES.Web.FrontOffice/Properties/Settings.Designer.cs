@@ -12,7 +12,7 @@ namespace DAES.Web.FrontOffice.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.1.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -34,7 +34,7 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("44568175e9ff4fdcb98cd4e9d368ce11")]
+        [global::System.Configuration.DefaultSettingValueAttribute("b2d5390a03e642b799ac7dd61c1d453d")]
         public string client_id {
             get {
                 return ((string)(this["client_id"]));
@@ -43,7 +43,7 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3803b17e50314a92972f9dec211df530")]
+        [global::System.Configuration.DefaultSettingValueAttribute("13a684fb85f649fb860171f6714c8a31")]
         public string client_secret {
             get {
                 return ((string)(this["client_secret"]));
@@ -52,7 +52,7 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://tramites.economia.gob.cl/claveunica")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://tramite.economia.cl/claveunica")]
         public string redirect_uri {
             get {
                 return ((string)(this["redirect_uri"]));
@@ -61,10 +61,19 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://gestionprocesos.economia.cl")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://gestionprocesos.economia.cl")]
         public string url_gestion_procesos {
             get {
                 return ((string)(this["url_gestion_procesos"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("52428800")]
+        public string max_tamano_file {
+            get {
+                return ((string)(this["max_tamano_file"]));
             }
         }
     }

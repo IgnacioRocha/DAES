@@ -150,7 +150,7 @@ namespace DAES.Web.FrontOffice.Controllers
                     TelefonoContacto = model.TelefonoContacto.ToUpperNull(),
                     EmailContacto = model.EmailContacto.ToUpperNull(),
                     FechaCelebracion = model.FechaCelebracion,
-                    FechaPublicacionDiarioOficial = model.FechaPublicacionDiarioOficial,
+                    FechaPubliccionDiarioOficial = model.FechaPubliccionDiarioOficial,
                     FechaActualizacion = model.FechaActualizacion,
                     EsImportanciaEconomica = false,
                     FechaVigente = model.FechaVigente,

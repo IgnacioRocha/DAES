@@ -261,7 +261,7 @@ namespace DAES.BLL
             }
         }
 
-        public List<string> DisolucionUpdate(List<Disolucion> list)
+        public List<string> DisolucionUpdate(List<Disolucion> listDisolucion, Disolucion disolucionss, List<ComisionLiquidadora> comisionLiquidadoras)
         {
             
             using(SistemaIntegradoContext context = new SistemaIntegradoContext())
@@ -300,18 +300,18 @@ namespace DAES.BLL
                         
                         if(item.FechaPubliAnterior!= null)
                         {
-                            disolucion.FechaPublicacionDiarioOficial = item.FechaPubliAnterior;
+                            disolucion.FechaPubliccionDiarioOficial = item.FechaPubliAnterior;
                         }
                         else if(item.FechaPubliPosterior != null)
                         {
-                            disolucion.FechaPublicacionDiarioOficial = item.FechaPubliPosterior;
+                            disolucion.FechaPubliccionDiarioOficial = item.FechaPubliPosterior;
                         }
                         else
                         {
-                            disolucion.FechaPublicacionDiarioOficial = item.FechaPublicacionDiarioOficial;
+                            disolucion.FechaPubliccionDiarioOficial = item.FechaPubliccionDiarioOficial;
                         }
                         
-                        /*disolucion.FechaPublicacionDiarioOficial = item.FechaPublicacionDiarioOficial;*/
+                        /*disolucion.FechaPubliccionDiarioOficial = item.FechaPubliccionDiarioOficial;*/
                         
                         disolucion.Autorizacion = item.Autorizacion;
                         
@@ -503,7 +503,7 @@ namespace DAES.BLL
                     
                     parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", aux.NumeroOficio.ToString() ?? string.Empty);
                                         
-                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICACIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPublicacionDiarioOficial) ?? string.Empty);
+                    parrafo_uno = parrafo_uno.Replace("[FechaPubliccionDiarioOficial]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);
 
                     parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica) ?? string.Empty);
 
@@ -1807,7 +1807,7 @@ namespace DAES.BLL
 
 
                 //en el caso de un proceso de estudio socioeconomico
-                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomico)
+                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                 {
                     foreach (var item in obj.EstudioSocioEconomicos)
                     {

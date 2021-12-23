@@ -35,7 +35,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Fecha publicación diario oficial")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? FechaPublicacionDiarioOficial { get; set; }
+        public DateTime? FechaPubliccionDiarioOficial { get; set; }
 
         [Display(Name ="Autorizada por")]
         public string Autorizacion { get; set; }

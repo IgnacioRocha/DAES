@@ -39,8 +39,8 @@ else
                             @Html.EditorFor(m => Model.Disolucions[i].FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                         </th>
                         <th>
-                            @Html.LabelFor(m => m.Disolucions[i].FechaPublicacionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-10" })
-                            @Html.EditorFor(m => Model.Disolucions[i].FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+                            @Html.LabelFor(m => m.Disolucions[i].FechaPubliccionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-10" })
+                            @Html.EditorFor(m => Model.Disolucions[i].FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                         </th>
                         <th>
                             @Html.LabelFor(m => m.Disolucions[i].NombreNotaria, htmlAttributes: new { @class = "control-label col-md-10" })
@@ -123,10 +123,10 @@ else
                             </tr>
                             <tr>
                                 <th>
-                                    @Html.LabelFor(m => Model.Disolucions[i].FechaPublicacionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-10" })
-                                    @if (Model.Disolucions.FirstOrDefault().FechaPublicacionDiarioOficial != null)
+                                    @Html.LabelFor(m => Model.Disolucions[i].FechaPubliccionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-10" })
+                                    @if (Model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial != null)
                                     {
-                                        @Html.EditorFor(m => Model.Disolucions[i].FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+                                        @Html.EditorFor(m => Model.Disolucions[i].FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                                     }
                                     else
                                     {
@@ -206,10 +206,10 @@ else
                             </tr>
                             <tr>
                                 <th>
-                                    @Html.LabelFor(m => Model.Disolucions[i].FechaPublicacionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-10" })
-                                    @if (Model.Disolucions.FirstOrDefault().FechaPublicacionDiarioOficial != null)
+                                    @Html.LabelFor(m => Model.Disolucions[i].FechaPubliccionDiarioOficial, htmlAttributes: new { @class = "control-label col-md-10" })
+                                    @if (Model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial != null)
                                     {
-                                        @Html.EditorFor(m => Model.Disolucions[i].FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+                                        @Html.EditorFor(m => Model.Disolucions[i].FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                                     }
                                     else
                                     {
