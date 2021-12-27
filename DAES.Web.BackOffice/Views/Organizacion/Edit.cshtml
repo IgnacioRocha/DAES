@@ -327,13 +327,19 @@
         <input id="FReforma" name="FReforma" type="radio" value="No" /> no
     </div>
     <div id="divExis" @*name="divExis"*@>
-        @{if (Model.TipoOrganizacionId == 1) 
+        @{if (Model.TipoOrganizacionId == 1)
             {
                 <div class="panel panel-default">
-                    <div class="panel-heading">Autorización de Existencia Legal</div>
+                    <div class="panel-heading">Datos de constitución</div>
                     <div class="panel-body">
                         <div id="existencia">
                             @Html.Partial("_ModificacionEdit", Model)
+                        </div>
+                        <div id="San">
+                            @Html.Partial("_SaneamientoEdit", Model)
+                        </div>
+                        <div id="saneamiento">
+                            @Ajax.ActionLink("Agregar Saneamiento", "SaneamientoAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "saneamiento" })
                         </div>
                     </div>
                 </div>
@@ -342,7 +348,7 @@
             {
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">Autorización de Existencia Legal</div>
+                    <div class="panel-heading">Datos de constitución</div>
                     <div class="panel-body">
                         <div id="existencia">
                             @Html.Partial("_ModificacionAG", Model)
@@ -355,26 +361,12 @@
     </div>
 
     <div class="panel panel-default" id="CPostRPost" name="CPostRPost" style="display:none">
-        <div class="panel-heading">Autorización de Existencia Legal</div>
+        <div class="panel-heading">Datos de constitución</div>
         <div class="panel-body">
             <div id="existencia">
                 @Html.Partial("_ModificacionCPostRPostEdit", Model)
             </div>
         </div>
-    </div>
-
-    <div>
-        @if (Model.TipoOrganizacionId != 2 && Model.TipoOrganizacionId != 3)
-        {
-            <label>Tiene Saneamiento?</label>
-            <input id="Tiene" name="Tiene" type="checkbox">
-            <div class="panel panel-default" id="divSane" name="divSane" style="display:none">
-                <div class="panel-heading">Saneamiento</div>
-                <div id="Saneamiento">
-                    @Html.Partial("_SaneamientoEdit", Model)
-                </div>
-            </div>
-        }
     </div>
 
 
@@ -385,10 +377,12 @@
                 @Html.Partial("_Reforma", Model)
 
             </div>
-            
-                @Ajax.ActionLink("Agregar reforma", "ReformaAdd", null, new { Model.OrganizacionId}, new AjaxOptions { UpdateTargetId = "reforma" })
+
+            @Ajax.ActionLink("Agregar reforma", "ReformaAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" })
         </div>
     </div>
+
+   
 
     <div class="panel panel-default" id="reformaDivPost" style="display:none">
         <div class="panel-heading">Reforma</div>
@@ -397,7 +391,7 @@
                 @Html.Partial("_ReformaPost", Model)
             </div>
 
-                @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" })
+            @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" })
         </div>
     </div>
 
@@ -448,6 +442,13 @@ else
             $("#Tiene").prop("checked", false);
         }
 
+        $("#TieneReforma").change(function () {
+            if ($("#TieneReforma").is(':checked')) {
+                $("#divSane").show();
+            } else {
+                $("#divSane").hide();
+            }
+        });
 
         $("#Tiene").change(function () {
             if ($("#Tiene").is(':checked')) {
@@ -461,10 +462,10 @@ else
             $("#b").show();
         }
 
-        
-        
 
-           
+
+
+
         $("input[name=Constitucion]").click(function () {
             if ($('input:radio[name=Constitucion]:checked').val().toString() == "Si") {
                 $("#CPostRPost").show();

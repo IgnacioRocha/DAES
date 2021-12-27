@@ -168,7 +168,8 @@ namespace DAES.BLL
                         exi.NumeroNorma = item.NumeroNorma;
                         exi.TipoNormaId = item.TipoNormaId;
                         exi.FechaNorma = item.FechaNorma;
-                        exi.FechaPublicacionn = item.FechaPublicacionn != null ? item.FechaPublicacionn : item.FechaPublic;
+                        exi.FechaPublicacionn = item.FechaPublicacionn; 
+                        exi.FechaPubli = item.FechaPubli;
                         exi.AutorizadoPor = item.AutorizadoPor;
                         exi.FechaConstitutivaSocios = item.FechaConstitutivaSocios;
                         exi.NumeroOficio = item.NumeroOficio;
@@ -1309,7 +1310,8 @@ namespace DAES.BLL
                         TipoNormaId = or.TipoNormaId,
                         NumeroNorma = existenciaLegals.NumeroNorma,
                         FechaNorma = existenciaLegals.FechaNorma,
-                        FechaPublicacionn = existenciaLegals.FechaPublic != null ? existenciaLegals.FechaPublic : existenciaLegals.FechaPubli,
+                        FechaPublicacionn = existenciaLegals.FechaPublic,
+                        FechaPubli = existenciaLegals.FechaPubli,
                         AutorizadoPor = existenciaLegals.AutorizadoPor,
                         FechaConstitutivaSocios = existenciaLegals.FechaConstitutivaSocios,
                         NumeroOficio = existenciaLegals.NumeroOficio,

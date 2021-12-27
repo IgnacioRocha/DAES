@@ -110,6 +110,9 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name ="¿Aprobacion?")]
         public int? AprobacionId { get; set; }
 
+        public virtual Saneamiento Saneamiento { get; set; }
 
+        [Display(Name = "Saneamiento")]
+        public int? IdSaneamiento { get; set; }
     }
 }

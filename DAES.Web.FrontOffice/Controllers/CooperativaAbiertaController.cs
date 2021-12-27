@@ -163,17 +163,16 @@ namespace DAES.Web.FrontOffice.Controllers
                             ViewBag.errorMessage = "*Error al enviar documentos, faltan documentos por adjuntar";
                             return View(new Model.DTO.DTOCooperativaAbierta()
                             {
-                                
                                 RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
                                 Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
                                 Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
                             });
                         }
 
-                        else if (fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".xlsx" && fileEx != ".doc" && fileEx != ".docx")
+                        else if (fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".doc" && fileEx != ".docx")
                         {
 
-                            ViewBag.errorMessage = "*Error al enviar documento(s), los archivos deben ser archivos de tipo Word, Excel o Pdf ";
+                            ViewBag.errorMessage = "*Error al enviar documento(s), solo se aceptan archivos en formato PDF, Word y Excel (sin macros)";
                             return View(new Model.DTO.DTOCooperativaAbierta()
                             {
 

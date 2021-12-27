@@ -210,7 +210,7 @@ namespace DAES.Model.SistemaIntegrado
         public virtual List<ModificacionEstatuto> ModificacionEstatutos { get; set; }
         public virtual List<Disolucion> Disolucions { get; set; }
         public virtual List<ExistenciaLegal> ExistenciaLegals { get; set;}
-        public virtual List<Saneamiento> Saneamientos { get; set; }
+        public virtual List<Saneamiento> Saneamientos { get; set; } = new List<Saneamiento>();
         public virtual List<Reforma> Reformas { get; set; } = new List<Reforma>();
 
 

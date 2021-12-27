@@ -601,6 +601,20 @@ namespace DAES.Web.BackOffice.Controllers
             return PartialView("_Reforma", model);
         }
 
+        public ActionResult SaneamientoAdd(int OrganizacionId)
+        {
+            db.Saneamiento.Add(new Saneamiento() { OrganizacionId = OrganizacionId });
+            db.SaveChanges();
+
+            ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
+            ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
+
+            var model = db.Organizacion.Find(OrganizacionId);
+            return PartialView("_SaneamientoEdit", model);
+        }
+
         public ActionResult ReformaAddPost(int OrganizacionId)
         {
             db.Reforma.Add(new Reforma() { OrganizacionId = OrganizacionId });
@@ -629,6 +643,23 @@ namespace DAES.Web.BackOffice.Controllers
 
             var model = db.Organizacion.Find(OrganizacionId);
             return PartialView("_ReformaPost", model);
+        }
+
+        public ActionResult SaneamientoDelete(int IdSaneamiento, int OrganizacionId)
+        {
+            var sane = db.Saneamiento.FirstOrDefault(q => q.IdSaneamiento == IdSaneamiento);
+            if (sane != null)
+            {
+                db.Saneamiento.Remove(sane);
+                db.SaveChanges();
+            }
+            ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
+            ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
+
+            var model = db.Organizacion.Find(OrganizacionId);
+            return PartialView("_SaneamientoEdit", model);
         }
         public ActionResult ReformaDelete(int IdReforma, int OrganizacionId)
         {
