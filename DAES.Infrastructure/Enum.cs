@@ -23,7 +23,8 @@
             Disuelta = 3,
             Inexistente = 4,
             Cancelada = 5,
-            RolAsignado = 6
+            RolAsignado = 6,
+            NoConstituida = 7
         }
 
         public enum Situacion
@@ -130,9 +131,10 @@
             Articulo91 = 89,
             AsambleaExtraOrdinariaAsociacion = 90,
             Fiscalizacion = 102,
-
+            EstudioSocioEconomico = 95,
             InformacionACSemestral = 104,
             InformacionACAnual = 105,
+            CooperativaViviendaAbierta = 106
         }
 
         public enum TipoAprobacion

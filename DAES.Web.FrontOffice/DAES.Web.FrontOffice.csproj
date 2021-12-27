@@ -216,7 +216,9 @@
     <Compile Include="Controllers\ActualizacionSupervisorController.cs" />
     <Compile Include="Controllers\AsambleaExtraOrdinariaAsociacionController.cs" />
     <Compile Include="Controllers\AsociacionConsumidorController.cs" />
+    <Compile Include="Controllers\CooperativaAbiertaController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
+    <Compile Include="Controllers\EstudioSAhorroCreditoController.cs" />
     <Compile Include="Controllers\GPController.cs" />
     <Compile Include="Controllers\GPDocumentoVerificacionController.cs" />
     <Compile Include="Controllers\GPHSAController.cs" />
@@ -490,6 +492,13 @@
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\Update.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\_RepresentantesUpdate.cshtml" />
+    <Content Include="Views\CooperativaAbierta\Confirm.cshtml" />
+    <Content Include="Views\CooperativaAbierta\Create.cshtml" />
+    <Content Include="Views\CooperativaAbierta\Finish.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\Clave.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\Create.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\Finish.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />

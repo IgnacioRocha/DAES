@@ -41,10 +41,11 @@ namespace DAES.Model.SistemaIntegrado
         
         [Display(Name ="Correo Electronico")]
         public string CorreoElectronico { get; set; }
-        [Required(ErrorMessage = "Es necesario adjuntar un documento")]
+
+        /*[Required(ErrorMessage = "Es necesario adjuntar un documento")]*/
         [Display(Name = "Documento")]
         [DataType(DataType.Upload)]
-        public byte[] DocumentoAdjunto { get; set; }
+        public byte?[] DocumentoAdjunto { get; set; }
 
         public bool Aprobado { get; set; }
 

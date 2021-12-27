@@ -35,7 +35,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title" style="text-align:center">Identificación</h5>
+                        <h5 class="card-title font-weight-bold" >Identificación</h5>
                         <hr />
                         <table class="table table-striped">
                             <thead>
@@ -79,7 +79,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body" id="representantes">
-                        <h5 class="card-title" style="text-align:center">Representantes Legales</h5>
+                        <h5 class="card-title font-weight-bold" >Representantes Legales</h5>
                         <hr />
                         @*@if (Model.RepresentanteLegals.Count() != 0 || Model.RepresentanteLegals != null)
                         {
@@ -94,7 +94,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body" id="constitucion">
-                        <h5 class="card-title" style="text-align:center">Escritura de Constitución</h5>
+                        <h5 class="card-title font-weight-bold" >Escritura de Constitución</h5>
                         <hr />
                         @*@if (Model.EscrituraConstitucionModificaciones.Count() != 0)
                         {
@@ -108,7 +108,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body" id="extracto">
-                        <h5 class="card-title" style="text-align:center">Extracto</h5>
+                        <h5 class="card-title font-weight-bold" >Extracto</h5>
                         <hr />
                         <table class="table table-striped">
                            @* @if (Model.ExtractoAuxiliars.Count() != 0)
@@ -171,7 +171,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body" id="personasFacultadas">
-                        <h5 class="card-title" style="text-align:center">Personas Facultadas para firmar Informes de supervisión</h5>
+                        <h5 class="card-title font-weight-bold" >Personas Facultadas para firmar Informes de supervisión</h5>
                         <hr />
                         @*@if (Model.PersonaFacultadas.Count != 0)
                         {
@@ -186,7 +186,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <p class="card-title text-center font-weight-bold">Adjuntar Documentos</p>
+                        <h5 class="card-title font-weight-bold">Adjuntar Documentos</h5>
                         <hr />
                             <li class="card-title text-info">
                                 Adjunte documentos necesarios para este trámite
@@ -222,6 +222,10 @@
         <p></p>
         <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
     }
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
 </div>
 
 <script type="text/javascript">

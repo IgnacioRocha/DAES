@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Web.FrontOffice.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace DAES.Web.FrontOffice.Controllers
 {
@@ -20,6 +21,7 @@ namespace DAES.Web.FrontOffice.Controllers
             {
                 SupervisoresAuxiliares = new List<SupervisorAuxiliar>();
             }
+            [Display(Name="Razon Social")]
             public string Query { get; set; }
             public ICollection<SupervisorAuxiliar> SupervisoresAuxiliares { get; set; }
         }
@@ -103,27 +105,27 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(model);
         }
         public ActionResult Index()
-        {
-            var super = new SupervisorAuxiliar();
-            return View(super);
+        {            
+            return View();
         }
 
         public ActionResult Create()
         {
-            var super = new SupervisorAuxiliarTemporal() { };
-            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = super.SupervisorAuxiliarTempId };
-            var extracto = new ExtractoAuxiliar() { SupervisorAuxiliarId = super.SupervisorAuxiliarTempId };
-            var escritura = new EscrituraConstitucion() { SupervisorAuxiliarId = super.SupervisorAuxiliarTempId };
-            var facultadas = new PersonaFacultada() { SupervisorAuxiliarId = super.SupervisorAuxiliarTempId };
+            /*var super = new SupervisorAuxiliarTemporal() { };
+            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
+            var extracto = new ExtractoAuxiliar() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
+            var escritura = new EscrituraConstitucion() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
+            var facultadas = new PersonaFacultada() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };*/
 
+            var super = new SupervisorAuxiliar() { };
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
-            db.SupervisorAuxiliarTemporals.Add(super);
-
-            super.RepresentanteLegals.Add(representante);
+            /*db.SupervisorAuxiliars.Add(new SupervisorAuxiliarTemporal() { });*/
+            db.SupervisorAuxiliars.Add(super);
+            /*super.RepresentanteLegals.Add(representante);
             super.ExtractoAuxiliars.Add(extracto);
             super.EscrituraConstitucionModificaciones.Add(escritura);
-            super.PersonaFacultadas.Add(facultadas);
+            super.PersonaFacultadas.Add(facultadas);*/
             /*db.RepresentantesLegals.Add(representante);
             db.ExtractoAuxiliars.Add(extracto);
             db.EscrituraConstitucions.Add(escritura);
@@ -133,10 +135,21 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(super);
         }
 
-        public ActionResult RepresentanteAdd(int SuperId)
+        public ActionResult SupervisorAdd()
         {
-            var model = db.SupervisorAuxiliars.Find(SuperId);
-            var repre = db.RepresentantesLegals.Add(new RepresentanteLegal() { SupervisorAuxiliarId = SuperId });
+            var super = new SupervisorAuxiliar() { };
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            db.SupervisorAuxiliars.Add(super);
+
+            db.SaveChanges();
+            return View("Create",super);
+        }
+
+        public ActionResult RepresentanteAdd(int SupervisorAuxiliarId)
+        {
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+            db.RepresentantesLegals.Add(new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId });
 
             db.SaveChanges();
             return PartialView("_Representantes", model);
@@ -154,11 +167,11 @@ namespace DAES.Web.FrontOffice.Controllers
             }
 
 
-            return PartialView("_Representante", super);
+            return PartialView("_Representantes", super);
         }
-        public ActionResult ConstitucionAdd(int SuperId)
+        public ActionResult ConstitucionAdd(int SupervisorAuxiliarId)
         {
-            var model = db.SupervisorAuxiliars.Find(SuperId);
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
             var modificacion = new EscrituraConstitucion() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
             db.EscrituraConstitucions.Add(modificacion);
             db.SaveChanges();
@@ -180,9 +193,9 @@ namespace DAES.Web.FrontOffice.Controllers
             return PartialView("_Constitucion", super);
         }
 
-        public ActionResult PersonaFacultadaAdd(int SuperId)
+        public ActionResult PersonaFacultadaAdd(int SupervisorAuxiliarId)
         {
-            var model = db.SupervisorAuxiliars.Find(SuperId);
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
             var facultada = new PersonaFacultada() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
             db.PersonaFacultadas.Add(facultada);
             db.SaveChanges();

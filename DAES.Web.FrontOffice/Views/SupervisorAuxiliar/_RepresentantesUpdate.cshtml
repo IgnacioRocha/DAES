@@ -3,7 +3,7 @@
 <table class="table table-striped">
     @for (var i = 0; i < Model.RepresentanteLegals.Count(); i++)
     {
-        @Html.HiddenFor(m => m.SupervisorAuxiliarTempId)
+        @Html.HiddenFor(m => m.SupervisorAuxiliarId)
         @Html.HiddenFor(m => Model.RepresentanteLegals[i].RepresentanteLegalId)
         <thead>
             <tr>

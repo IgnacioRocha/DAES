@@ -79,6 +79,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\DAES.Infrastructure\DAES.Infrastructure.csproj">
       <Project>{e8a88bc9-87b2-4574-85ea-57df3c91ac90}</Project>
       <Name>DAES.Infrastructure</Name>
@@ -87,13 +94,6 @@
       <Project>{fb48c751-5f76-4a5c-af8f-f7852d2bdf87}</Project>
       <Name>DAES.Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

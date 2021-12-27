@@ -1,9 +1,8 @@
-﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliarTemporal
-
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
 <table class="table table-striped">
     @for (var i = 0; i < Model.PersonaFacultadas.Count; i++)
     {
-        @Html.HiddenFor(m => m.SupervisorAuxiliarTempId)
+        @Html.HiddenFor(m => m.SupervisorAuxiliarId)
         @Html.HiddenFor(m => Model.PersonaFacultadas[i].PersonaFacultadaId)
         <thead>
             <tr>
@@ -42,7 +41,7 @@
                     @Html.EditorFor(m => m.PersonaFacultadas[i].Nacionalidad, new { htmlAttributes = new { @class = "form-control" } })
                 </td>
                 <td>
-                    @Ajax.ActionLink("Eliminar", "DeleteFacultada", null, new { Model.PersonaFacultadas.ToArray()[i].PersonaFacultadaId, Model.SupervisorAuxiliarTempId }, new AjaxOptions { UpdateTargetId = "representantes" })
+                    @Ajax.ActionLink("Eliminar", "DeleteFacultada", null, new { Model.PersonaFacultadas.ToArray()[i].PersonaFacultadaId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })
                 </td>
             </tr>
         </tbody>

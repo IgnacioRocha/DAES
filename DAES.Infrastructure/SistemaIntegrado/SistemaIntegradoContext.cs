@@ -70,7 +70,6 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<TipoOficio> TipoOficio { get; set; }
         public virtual DbSet<TipoPersonaJuridica> TipoPersonaJuridicas { get; set; }
         public virtual DbSet<SupervisorAuxiliar> SupervisorAuxiliars { get; set; }
-        public virtual DbSet<SupervisorAuxiliarTemporal> SupervisorAuxiliarTemporals { get; set; }
         public virtual DbSet<RepresentanteLegal> RepresentantesLegals { get; set; }
         public virtual DbSet<EscrituraConstitucion> EscrituraConstitucions { get; set; }
         public virtual DbSet<ExtractoAuxiliar> ExtractoAuxiliars { get; set; }
