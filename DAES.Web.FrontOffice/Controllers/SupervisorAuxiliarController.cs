@@ -113,15 +113,18 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             /*var super = new SupervisorAuxiliarTemporal() { };
             var representante = new RepresentanteLegal() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
-            var extracto = new ExtractoAuxiliar() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
             var escritura = new EscrituraConstitucion() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
             var facultadas = new PersonaFacultada() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };*/
 
             var super = new SupervisorAuxiliar() { };
+            var extracto = new ExtractoAuxiliar() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
+
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             /*db.SupervisorAuxiliars.Add(new SupervisorAuxiliarTemporal() { });*/
             db.SupervisorAuxiliars.Add(super);
+            db.ExtractoAuxiliars.Add(extracto);
+            super.ExtractoAuxiliars.Add(extracto);
             /*super.RepresentanteLegals.Add(representante);
             super.ExtractoAuxiliars.Add(extracto);
             super.EscrituraConstitucionModificaciones.Add(escritura);
@@ -135,30 +138,24 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(super);
         }
 
-        public ActionResult SupervisorAdd()
-        {
-            var super = new SupervisorAuxiliar() { };
-            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
-            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
-            db.SupervisorAuxiliars.Add(super);
-
-            db.SaveChanges();
-            return View("Create",super);
-        }
-
         public ActionResult RepresentanteAdd(int SupervisorAuxiliarId)
         {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
-            db.RepresentantesLegals.Add(new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId });
+            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId };
+            db.RepresentantesLegals.Add(representante);
+
+            model.RepresentanteLegals.Add(representante);
 
             db.SaveChanges();
-            return PartialView("_Representantes", model);
+            return View("Create", model);
         }
 
-        public ActionResult DeleteRepresentante(int RepreId, int SuperId)
+        public ActionResult DeleteRepresentante(int RepreId, int SupervisorAuxiliarId)
         {
             var repre = db.RepresentantesLegals.FirstOrDefault(q => q.RepresentanteLegalId == RepreId);
-            var super = db.SupervisorAuxiliars.Find(SuperId);
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
 
             if (repre != null)
             {
@@ -167,7 +164,7 @@ namespace DAES.Web.FrontOffice.Controllers
             }
 
 
-            return PartialView("_Representantes", super);
+            return View("Create", model);
         }
         public ActionResult ConstitucionAdd(int SupervisorAuxiliarId)
         {
@@ -179,10 +176,10 @@ namespace DAES.Web.FrontOffice.Controllers
             return PartialView("_Constitucion", model);
         }
 
-        public ActionResult ConstitucionDelete(int ConstiId, int SuperId)
+        public ActionResult ConstitucionDelete(int ConstiId, int SupervisorAuxiliarId)
         {
             var consti = db.EscrituraConstitucions.FirstOrDefault(q => q.EscrituraConstitucionId == ConstiId);
-            var super = db.SupervisorAuxiliars.Find(SuperId);
+            var super = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
 
             if (consti != null)
             {
@@ -203,10 +200,10 @@ namespace DAES.Web.FrontOffice.Controllers
             return PartialView("_PersonasFacultadas", model);
         }
 
-        public ActionResult DeleteFacultada(int FacultadaId, int SuperId)
+        public ActionResult DeleteFacultada(int FacultadaId, int SupervisorAuxiliarId)
         {
             var facultada = db.PersonaFacultadas.FirstOrDefault(q => q.PersonaFacultadaId == FacultadaId);
-            var super = db.SupervisorAuxiliars.Find(SuperId);
+            var super = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
 
             if (facultada != null)
             {
