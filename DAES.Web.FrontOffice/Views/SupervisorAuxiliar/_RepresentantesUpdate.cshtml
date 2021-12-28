@@ -27,10 +27,10 @@
         <tbody>
             <tr>
                 <td>
-                    @Html.EditorFor(m => m.RepresentanteLegals[i].NombreCompleto, new { htmlAttributes = new { @class = "form-control col-11" } })
+                    @Html.EditorFor(m => m.RepresentanteLegals[i].NombreCompleto, new { htmlAttributes = new { @class = "form-control col-12" } })
                 </td>
                 <td>
-                    @Html.EditorFor(m => m.RepresentanteLegals[i].RUN, new { htmlAttributes = new { @class = "form-control col-11" } })
+                    @Html.EditorFor(m => m.RepresentanteLegals[i].RUN, new { htmlAttributes = new { @class = "form-control col-11", @disabled = "disabled" } })
                 </td>
                 <td>
                     @Html.EditorFor(m => m.RepresentanteLegals[i].Profesion, new { htmlAttributes = new { @class = "form-control col-11" } })

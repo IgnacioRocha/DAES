@@ -36,7 +36,6 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold" >Identificación</h5>
-                        <hr />
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -51,22 +50,22 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        @Html.EditorFor(m => m.RazonSocial, new { htmlAttributes = new { @class = "form-control col-11", @disabled = "disabled" } })
+                                        @Html.EditorFor(m => m.RazonSocial, new { htmlAttributes = new { @class = "form-control col-12", @disabled = "disabled" } })
                                     </td>
                                     <td>
-                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", htmlAttributes: new { @class = "form-control col-11", @disabled = "disabled" })
+                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", htmlAttributes: new { @class = "form-control col-12", @disabled = "disabled" })
                                     </td>
                                     <td>
-                                        @Html.EditorFor(m => m.Rut, new { htmlAttributes = new { @class = "form-control col-11", @disabled = "disabled" } })
+                                        @Html.EditorFor(m => m.Rut, new { htmlAttributes = new { @class = "form-control col-12", @disabled = "disabled" } })
                                     </td>
                                     <td>
-                                        @Html.EditorFor(m => m.DomicilioLegal, new { htmlAttributes = new { @class = "form-control col-11" } })
+                                        @Html.EditorFor(m => m.DomicilioLegal, new { htmlAttributes = new { @class = "form-control col-12" } })
                                     </td>
                                     <td>
                                         @Html.EditorFor(m => m.Telefono, new { htmlAttributes = new { @class = "form-control col-11" } })
                                     </td>
                                     <td>
-                                        @Html.EditorFor(m => m.CorreoElectronico, new { htmlAttributes = new { @class = "form-control col-11", @type = "email" } })
+                                        @Html.EditorFor(m => m.CorreoElectronico, new { htmlAttributes = new { @class = "form-control col-12", @type = "email" } })
                                     </td>
                                 </tr>
                             </tbody>
@@ -78,14 +77,13 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="representantes">
+                    <div class="card-body" id="legales">
                         <h5 class="card-title font-weight-bold" >Representantes Legales</h5>
-                        <hr />
-                        @*@if (Model.RepresentanteLegals.Count() != 0 || Model.RepresentanteLegals != null)
+                        @if (Model.RepresentanteLegals.Count() != 0 || Model.RepresentanteLegals != null)
                         {
                             @Html.Partial("_RepresentantesUpdate", Model)
                         }
-                        @Ajax.ActionLink("Agregar Representante Legal", "RepresentanteAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })*@
+                        @Ajax.ActionLink("Agregar Representante Legal", "RepresentanteAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "legales" })
                     </div>
                 </div>
             </div>
@@ -95,11 +93,10 @@
                 <div class="card">
                     <div class="card-body" id="constitucion">
                         <h5 class="card-title font-weight-bold" >Escritura de Constitución</h5>
-                        <hr />
-                        @*@if (Model.EscrituraConstitucionModificaciones.Count() != 0)
+                        @if (Model.EscrituraConstitucionModificaciones.Count() != 0)
                         {
                             @Html.Partial("_Constitucion", Model)
-                        }*@
+                        }
                     </div>
                 </div>
             </div>
@@ -109,9 +106,8 @@
                 <div class="card">
                     <div class="card-body" id="extracto">
                         <h5 class="card-title font-weight-bold" >Extracto</h5>
-                        <hr />
                         <table class="table table-striped">
-                           @* @if (Model.ExtractoAuxiliars.Count() != 0)
+                            @if (Model.ExtractoAuxiliars.Count() != 0)
                             {
                                 for (var i = 0; i < Model.ExtractoAuxiliars.Count; i++)
                                 {
@@ -160,7 +156,7 @@
                                         </tr>
                                     </tbody>
                                 }
-                            }*@
+                            }
 
                         </table>
                     </div>
@@ -172,12 +168,11 @@
                 <div class="card">
                     <div class="card-body" id="personasFacultadas">
                         <h5 class="card-title font-weight-bold" >Personas Facultadas para firmar Informes de supervisión</h5>
-                        <hr />
-                        @*@if (Model.PersonaFacultadas.Count != 0)
+                        @if (Model.PersonaFacultadas.Count != 0)
                         {
                             @Html.Partial("_PersonasFacultadas", Model)
                         }
-                        @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })*@
+                        @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
                     </div>
                 </div>
             </div>

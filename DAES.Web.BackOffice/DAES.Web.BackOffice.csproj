@@ -918,6 +918,12 @@
     <Content Include="Views\Fiscalizacion\Inbox.cshtml" />
     <Content Include="Views\Fiscalizacion\Change.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\Index.cshtml" />
+    <Content Include="Views\Organizacion\_ExistenciaEdit.cshtml" />
+    <Content Include="Views\Organizacion\_ModificacionAG.cshtml" />
+    <Content Include="Views\Organizacion\_ModificacionCPostRPostEdit.cshtml" />
+    <Content Include="Views\Organizacion\_Reforma.cshtml" />
+    <Content Include="Views\Organizacion\_ReformaPost.cshtml" />
+    <Content Include="Views\Organizacion\_SaneamientoEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAES.BLL\DAES.BLL.csproj">

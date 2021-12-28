@@ -75,9 +75,9 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body">
+                    <div class="card-body" id="representantes" name="representantes">
                         <h5 class="card-title font-weight-bold">Representantes Legales</h5>
-                        <div id="representantes">
+                        <div>
                             @if (Model != null)
                             {
                                 <table class="table table-striped">
@@ -129,8 +129,8 @@
                                     }
                                 </table>
                             }
-                        </div>                            
                         @Ajax.ActionLink("Agregar Representante Legal", "RepresentanteAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })
+                        </div>                            
                     </div>
                 </div>
             </div>
@@ -138,7 +138,7 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="constitucion">
+                    <div class="card-body" id="constitucion" name="constitucion">
                         <h5 class="card-title font-weight-bold">Escritura de Constitución</h5>
                         @if (Model != null)
                         {
@@ -212,7 +212,7 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="personasFacultadas">
+                    <div class="card-body" id="personasFacultadas" name="personasFacultadas">
                         <h5 class="card-title font-weight-bold">Personas Facultadas para firmar Informes de supervisión</h5>
                         <hr />
                         @if (Model != null)

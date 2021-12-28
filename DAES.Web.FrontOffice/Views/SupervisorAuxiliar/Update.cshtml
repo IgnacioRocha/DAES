@@ -1,5 +1,5 @@
 ﻿@model DAES.Web.FrontOffice.Controllers.SupervisorAuxiliarController.Search
-
+@{ Model.SupervisoresAuxiliares = Model.SupervisoresAuxiliares.Where(q => q.Aprobado == true).ToList();}
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-4">Registro de Supervisores Auxiliar</h1>
