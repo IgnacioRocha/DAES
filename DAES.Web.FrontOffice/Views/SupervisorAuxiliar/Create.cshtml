@@ -75,62 +75,15 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="representantes" name="representantes">
+                    <div class="card-body" >
                         <h5 class="card-title font-weight-bold">Representantes Legales</h5>
-                        <div>
-                            @if (Model != null)
-                            {
-                                <table class="table table-striped">
-                                    @for (var i = 0; i < Model.RepresentanteLegals.Count(); i++)
-                                    {
-                                        @Html.HiddenFor(m => m.SupervisorAuxiliarId)
-                                        @Html.HiddenFor(m => Model.RepresentanteLegals[i].RepresentanteLegalId)
-                                        <thead>
-                                            <tr>
-                                                <th>
-                                                    @Html.LabelFor(m => m.RepresentanteLegals[i].NombreCompleto, new { @class = "font-weight-bold" })
-                                                </th>
-                                                <th>
-                                                    @Html.LabelFor(m => m.RepresentanteLegals[i].RUN, new { @class = "font-weight-bold" })
-                                                </th>
-                                                <th>
-                                                    @Html.LabelFor(m => m.RepresentanteLegals[i].Profesion, new { @class = "font-weight-bold" })
-                                                </th>
-                                                <th>
-                                                    @Html.LabelFor(m => m.RepresentanteLegals[i].Domicilio, new { @class = "font-weight-bold" })
-                                                </th>
-                                                <th>
-                                                    @Html.LabelFor(m => m.RepresentanteLegals[i].Nacionalidad, new { @class = "font-weight-bold" })
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    @Html.EditorFor(m => m.RepresentanteLegals[i].NombreCompleto, new { htmlAttributes = new { @class = "form-control col-11" } })
-                                                </td>
-                                                <td>
-                                                    @Html.EditorFor(m => m.RepresentanteLegals[i].RUN, new { htmlAttributes = new { @class = "form-control col-11" } })
-                                                </td>
-                                                <td>
-                                                    @Html.EditorFor(m => m.RepresentanteLegals[i].Profesion, new { htmlAttributes = new { @class = "form-control col-11" } })
-                                                </td>
-                                                <td>
-                                                    @Html.EditorFor(m => m.RepresentanteLegals[i].Domicilio, new { htmlAttributes = new { @class = "form-control col-11" } })
-                                                </td>
-                                                <td>
-                                                    @Html.EditorFor(m => m.RepresentanteLegals[i].Nacionalidad, new { htmlAttributes = new { @class = "form-control col-11" } })
-                                                </td>
-                                                <td>
-                                                    @Ajax.ActionLink("Eliminar", "DeleteRepresentante", null, new { Model.RepresentanteLegals.ToArray()[i].RepresentanteLegalId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    }
-                                </table>
-                            }
+                        @if (Model != null)
+                        {
+                            <div id="representantes">
+                                @Html.Partial("_Representantes", Model)
+                            </div>
+                        }
                         @Ajax.ActionLink("Agregar Representante Legal", "RepresentanteAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "representantes" })
-                        </div>                            
                     </div>
                 </div>
             </div>
@@ -138,11 +91,13 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="constitucion" name="constitucion">
+                    <div class="card-body">
                         <h5 class="card-title font-weight-bold">Escritura de Constitución</h5>
                         @if (Model != null)
                         {
-                            @Html.Partial("_Constitucion", Model)
+                            <div id="constitucion">
+                                @Html.Partial("_Constitucion", Model)
+                            </div>
                         }
                     </div>
                 </div>
@@ -212,14 +167,16 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="personasFacultadas" name="personasFacultadas">
+                    <div class="card-body">
                         <h5 class="card-title font-weight-bold">Personas Facultadas para firmar Informes de supervisión</h5>
                         <hr />
                         @if (Model != null)
                         {
-                            @Html.Partial("_PersonasFacultadas", Model)
+                            <div id="personasFacultadas">
+                                @Html.Partial("_PersonasFacultadas", Model)
+                            </div>
                         }
-                            @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
+                        @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
                     </div>
                 </div>
             </div>

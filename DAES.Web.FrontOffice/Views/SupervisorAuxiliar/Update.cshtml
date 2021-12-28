@@ -11,6 +11,7 @@
 
 @using (Html.BeginForm("Update", null, FormMethod.Get))
 {
+    @Html.AntiForgeryToken()
     <div class="container my-3">
         <div class="card">
             <div class="card-body">
@@ -32,7 +33,7 @@
     <div class="container my-3">
         <div class="card">
             <div class="card-body">
-            <div class="card-title">Resultados</div>
+                <div class="card-title">Resultados</div>
                 @using GridMvc.Html
                 @Html.Grid(Model.SupervisoresAuxiliares).Columns(columns =>
            {

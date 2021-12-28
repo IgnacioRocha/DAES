@@ -146,8 +146,6 @@ namespace DAES.Web.FrontOffice.Controllers
             var representante = new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId };
             db.RepresentantesLegals.Add(representante);
 
-            model.RepresentanteLegals.Add(representante);
-
             db.SaveChanges();
             return PartialView("_Representantes", model);
         }
@@ -165,7 +163,6 @@ namespace DAES.Web.FrontOffice.Controllers
                 db.SaveChanges();
             }
 
-
             return PartialView("_Representantes", model);
         }
         public ActionResult ConstitucionAdd(int SupervisorAuxiliarId)
@@ -175,7 +172,6 @@ namespace DAES.Web.FrontOffice.Controllers
             var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
             var modificacion = new EscrituraConstitucion() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
             db.EscrituraConstitucions.Add(modificacion);
-            model.EscrituraConstitucionModificaciones.Add(modificacion);
             db.SaveChanges();
 
             return PartialView("_Constitucion", model);
@@ -194,7 +190,6 @@ namespace DAES.Web.FrontOffice.Controllers
                 db.SaveChanges();
             }
 
-            /*return PartialView("_Constitucion", super);*/
             return PartialView("_Constitucion", model);
         }
 
@@ -205,10 +200,9 @@ namespace DAES.Web.FrontOffice.Controllers
             var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
             var facultada = new PersonaFacultada() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
             db.PersonaFacultadas.Add(facultada);
-            model.PersonaFacultadas.Add(facultada);
+
             db.SaveChanges();
 
-            /*return PartialView("_PersonasFacultadas", model);*/
             return PartialView("_PersonasFacultadas", model);
         }
 
@@ -224,8 +218,6 @@ namespace DAES.Web.FrontOffice.Controllers
                 db.PersonaFacultadas.Remove(facultada);
                 db.SaveChanges();
             }
-
-            /*return PartialView("_PersonasFacultadas", model);*/
             return PartialView("_PersonasFacultadas", model);
         }
     }
