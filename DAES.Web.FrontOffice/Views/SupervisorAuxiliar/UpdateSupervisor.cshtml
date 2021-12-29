@@ -77,13 +77,15 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="legales">
+                    <div class="card-body">
                         <h5 class="card-title font-weight-bold" >Representantes Legales</h5>
                         @if (Model.RepresentanteLegals.Count() != 0 || Model.RepresentanteLegals != null)
                         {
-                            @Html.Partial("_RepresentantesUpdate", Model)
+                            <div id="legales">
+                                @Html.Partial("_RepresentantesUpdate", Model)
+                            </div>
                         }
-                        @Ajax.ActionLink("Agregar Representante Legal", "RepresentanteAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "legales" })
+                        @Ajax.ActionLink("Agregar Representante Legal", "RepresentanteUpdateAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "legales" })
                     </div>
                 </div>
             </div>
@@ -91,11 +93,13 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="constitucion">
+                    <div class="card-body">
                         <h5 class="card-title font-weight-bold" >Escritura de Constitución</h5>
                         @if (Model.EscrituraConstitucionModificaciones.Count() != 0)
                         {
-                            @Html.Partial("_Constitucion", Model)
+                            <div id="constitucion">
+                                @Html.Partial("_Constitucion", Model)
+                            </div>
                         }
                     </div>
                 </div>
@@ -105,60 +109,8 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body" id="extracto">
-                        <h5 class="card-title font-weight-bold" >Extracto</h5>
-                        <table class="table table-striped">
-                            @if (Model.ExtractoAuxiliars.Count() != 0)
-                            {
-                                for (var i = 0; i < Model.ExtractoAuxiliars.Count; i++)
-                                {
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].ConservadorComercio, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].FechaInscripcion, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].Foja, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].Numero, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].FechaPublicacionDiarioOficial, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial, new { @class = "font-weight-bold" })
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].ConservadorComercio, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaInscripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].Foja, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].Numero, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                }
-                            }
-
-                        </table>
+                        <h5 class="card-title font-weight-bold">Extracto</h5>
+                        @Html.Partial("_Extracto", Model)
                     </div>
                 </div>
             </div>
@@ -166,11 +118,13 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="personasFacultadas">
+                    <div class="card-body">
                         <h5 class="card-title font-weight-bold" >Personas Facultadas para firmar Informes de supervisión</h5>
                         @if (Model.PersonaFacultadas.Count != 0)
                         {
-                            @Html.Partial("_PersonasFacultadas", Model)
+                            <div id="personasFacultadas">
+                                @Html.Partial("_PersonasFacultadas", Model)
+                            </div>
                         }
                         @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
                     </div>

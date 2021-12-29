@@ -134,7 +134,9 @@
             EstudioSocioEconomico = 95,
             InformacionACSemestral = 104,
             InformacionACAnual = 105,
-            CooperativaViviendaAbierta = 106
+            CooperativaViviendaAbierta = 106,
+            IngresoSupervisorAuxiliar = 108,
+            ActualizacionSupervisorAuxiliar = 109
         }
 
         public enum TipoAprobacion

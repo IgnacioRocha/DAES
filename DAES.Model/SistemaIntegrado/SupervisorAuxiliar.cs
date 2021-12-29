@@ -40,14 +40,17 @@ namespace DAES.Model.SistemaIntegrado
         public string Telefono { get; set; }
         
         [Display(Name ="Correo Electronico")]
+        [DataType(DataType.EmailAddress, ErrorMessage = "Debe especificar un correo válido")]
         public string CorreoElectronico { get; set; }
 
         /*[Required(ErrorMessage = "Es necesario adjuntar un documento")]*/
         [Display(Name = "Documento")]
         [DataType(DataType.Upload)]
-        public byte?[] DocumentoAdjunto { get; set; }
+        public byte[] DocumentoAdjunto { get; set; }
 
         public bool Aprobado { get; set; }
+        public int? ProcesoId { get; set; }
+        public virtual Proceso Proceso { get; set; }
 
         /*Lista Representante Legal*/
         public virtual List<RepresentanteLegal> RepresentanteLegals { get; set; }

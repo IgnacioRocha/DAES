@@ -14,19 +14,12 @@
     </div>
     @using (Html.BeginForm())
     {
-        @Html.AntiForgeryToken()
-        @*@Html.HiddenFor(model => model.RUTSolicitante)
-            @Html.HiddenFor(model => model.NombresSolicitante)
-            @Html.HiddenFor(model => model.ApellidosSolicitante)
-            @Html.HiddenFor(model => model.OrganizacionId)
-            @Html.HiddenFor(model => model.NumeroRegistro)
-            @Html.HiddenFor(model => model.RazonSocial)
-            @Html.HiddenFor(model => model.TipoOrganizacionId)
-            @Html.HiddenFor(model => model.EstadoId)
-            @Html.HiddenFor(model => model.EsGeneroFemenino)
-            @Html.HiddenFor(model => model.EsImportanciaEconomica)
-            @Html.HiddenFor(model => model.EsGeneroFemenino)
-            @Html.HiddenFor(model => model.EsImportanciaEconomica)*@
+        @*@Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.RutSolicitante)
+        @Html.HiddenFor(model => model.NombresSolicitante)
+        @Html.HiddenFor(model => model.ApellidosSolicitante)
+        @Html.HiddenFor(model => model.RazonSocial)*@
+
         @Html.HiddenFor(m => m.SupervisorAuxiliarId)
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         <div class="row">

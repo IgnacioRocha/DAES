@@ -117,6 +117,7 @@
     <Compile Include="DTO\DTOInformacionAnual.cs" />
     <Compile Include="DTO\DTOSupervisionCAC.cs" />
     <Compile Include="DTO\DTOSupervisionNOCAC.cs" />
+    <Compile Include="DTO\DTOSupervisorAuxiliar.cs" />
     <Compile Include="DTO\DTOTask.cs" />
     <Compile Include="DTO\DTOTransformacionCooperativa.cs" />
     <Compile Include="SistemaIntegrado\AccountViewModels.cs" />

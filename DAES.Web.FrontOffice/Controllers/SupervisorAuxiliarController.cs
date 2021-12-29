@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Web.FrontOffice.Models;
 using System.ComponentModel.DataAnnotations;
+using DAES.Infrastructure;
+using System.IO;
 
 namespace DAES.Web.FrontOffice.Controllers
 {
@@ -15,6 +17,7 @@ namespace DAES.Web.FrontOffice.Controllers
     public class SupervisorAuxiliarController : Controller
     {
         private SistemaIntegradoContext db = new SistemaIntegradoContext();
+        private BLL.Custom _custom = new BLL.Custom();
         public class Search
         {
             public Search()
@@ -138,6 +141,91 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(super);
         }
 
+        /*[HttpPost]
+        public ActionResult Create(DAES.Model.DTO.DTOSupervisorAuxiliar model)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            *//*if (!Global.CurrentClaveUnica.IsAutenticated)
+            {
+                ModelState.AddModelError(string.Empty, "Usuario no autenticado con clave única");
+            }*//*
+
+            if(ModelState.IsValid)
+            {
+                var proceso = new Proceso()
+                {
+                    DefinicionProcesoId = (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar
+                };
+
+                proceso.Solicitante = new Solicitante()
+                {
+                    Rut = Global.CurrentClaveUnica.RUT,
+                    Nombres = string.Join(" ",Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                    Apellidos = string.Join(" ",Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull(),
+                    Email = model.CorreoElectronico
+                };
+
+                for(var i=0;i<Request.Files.Count;i++)
+                {
+                    HttpPostedFileBase file = Request.Files[i];
+                    var target = new MemoryStream();
+                    using (MemoryStream ms = new MemoryStream())
+                    {
+                        file.InputStream.CopyTo(ms);
+                        string fileName = Path.GetFileName(file.FileName);
+                        string fileEx = System.IO.Path.GetExtension(fileName);
+
+                        proceso.SupervisorAuxiliars.Add(new SupervisorAuxiliar
+                        {
+                            DocumentoAdjunto = ms.ToArray(),
+                            Proceso = proceso
+                        });
+
+                        if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".doc" && fileEx != ".docx")
+                        {
+
+                            ViewBag.errorMessage = "Solo se aceptan archivos en formato PDF, Word , Excel (sin macros) y que no estén vacíos";
+
+
+                            return View(new Model.DTO.DTOEstudioSocioeconomico()
+                            {
+                                RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, "-", Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
+                                Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
+                                Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
+                            });
+                        }
+                        else
+                        {
+                            proceso.Documentos.Add(new Documento()
+                            {
+                                FechaCreacion = DateTime.Now,
+                                Autor = model.CorreoElectronico,
+                                Content = ms.ToArray(),
+                                FileName = file.FileName,
+                                TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.SinClasificar,
+                                TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Privado
+                            });
+
+                        }
+                    }
+                }
+                try
+                {
+                    //Se inicia el proceso
+                    var p = _custom.ProcesoStart(proceso);
+                    TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, model.CorreoElectronico);
+                    return RedirectToAction("Finish");
+                }
+                catch (Exception ex)
+                {
+                    return View("_Error", ex);
+                }
+            }
+
+            return View(model);
+        }*/
+
         public ActionResult RepresentanteAdd(int SupervisorAuxiliarId)
         {
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
@@ -148,6 +236,17 @@ namespace DAES.Web.FrontOffice.Controllers
 
             db.SaveChanges();
             return PartialView("_Representantes", model);
+        }
+        public ActionResult RepresentanteUpdateAdd(int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId };
+            db.RepresentantesLegals.Add(representante);
+
+            db.SaveChanges();
+            return PartialView("_RepresentantesUpdate", model);
         }
 
         public ActionResult DeleteRepresentante(int RepresentanteLegalId, int SupervisorAuxiliarId)
@@ -164,6 +263,20 @@ namespace DAES.Web.FrontOffice.Controllers
             }
 
             return PartialView("_Representantes", model);
+        }public ActionResult DeleteRepresentanteUpdate(int RepresentanteLegalId, int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var repre = db.RepresentantesLegals.FirstOrDefault(q => q.RepresentanteLegalId == RepresentanteLegalId);
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+
+            if (repre != null)
+            {
+                db.RepresentantesLegals.Remove(repre);
+                db.SaveChanges();
+            }
+
+            return PartialView("_RepresentantesUpdate", model);
         }
         public ActionResult ConstitucionAdd(int SupervisorAuxiliarId)
         {

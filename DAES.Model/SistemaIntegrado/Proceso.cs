@@ -17,6 +17,7 @@ namespace DAES.Model.SistemaIntegrado
             Fiscalizacions = new HashSet<Fiscalizacion>();
             EstudioSocioEconomicos = new HashSet<EstudioSocioEconomico>();
             CooperativaAbiertas = new HashSet<CooperativaAbierta>();
+            SupervisorAuxiliars = new HashSet<SupervisorAuxiliar>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -78,6 +79,7 @@ namespace DAES.Model.SistemaIntegrado
 
         public virtual ICollection<EstudioSocioEconomico> EstudioSocioEconomicos { get; set; }
         public virtual ICollection<CooperativaAbierta> CooperativaAbiertas { get; }
+        public virtual ICollection<SupervisorAuxiliar> SupervisorAuxiliars { get; set; }
 
         [Display(Name = "Fiscalizaciones")]
         public virtual ICollection<Fiscalizacion> Fiscalizacions { get; set; }
