@@ -316,30 +316,20 @@
         </div>
     </div>
 
-    <label>Constitución posterior al 2003</label>
-    <br /><div>
+    <br /><div id="DivConsti">
+        <label>Constitución posterior al 2003</label><br />
         <input id="Constitucion" name="Constitucion" type="radio" value="Si" /> si
         <input id="Constitucion" name="Constitucion" type="radio" value="No" /> no
     </div>
-    <label>Reformas posterior al 2003</label>
-    <br /><div>
-        <input id="FReforma" name="FReforma" type="radio" value="Si" /> si
-        <input id="FReforma" name="FReforma" type="radio" value="No" /> no
-    </div>
+
     <div id="divExis" @*name="divExis"*@>
         @{if (Model.TipoOrganizacionId == 1)
             {
                 <div class="panel panel-default">
-                    <div class="panel-heading">Datos de constitución</div>
+                    <div class="panel-heading">Autorización de Existencia Legal</div>
                     <div class="panel-body">
                         <div id="existencia">
                             @Html.Partial("_ModificacionEdit", Model)
-                        </div>
-                        <div id="San">
-                            @Html.Partial("_SaneamientoEdit", Model)
-                        </div>
-                        <div id="saneamiento">
-                            @Ajax.ActionLink("Agregar Saneamiento", "SaneamientoAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "saneamiento" })
                         </div>
                     </div>
                 </div>
@@ -348,7 +338,7 @@
             {
 
                 <div class="panel panel-default">
-                    <div class="panel-heading">Datos de constitución</div>
+                    <div class="panel-heading">Autorización de Existencia Legal</div>
                     <div class="panel-body">
                         <div id="existencia">
                             @Html.Partial("_ModificacionAG", Model)
@@ -361,7 +351,7 @@
     </div>
 
     <div class="panel panel-default" id="CPostRPost" name="CPostRPost" style="display:none">
-        <div class="panel-heading">Datos de constitución</div>
+        <div class="panel-heading">Autorización de Existencia Legal</div>
         <div class="panel-body">
             <div id="existencia">
                 @Html.Partial("_ModificacionCPostRPostEdit", Model)
@@ -369,6 +359,26 @@
         </div>
     </div>
 
+    <div>
+        @if (Model.TipoOrganizacionId != 2 && Model.TipoOrganizacionId != 3)
+        {
+            <label>Tiene Saneamiento?</label>
+            <input id="Tiene" name="Tiene" type="checkbox">
+            <hr>
+            <div class="panel panel-default" id="divSane" name="divSane" style="display:none">
+                <div class="panel-heading">Saneamiento</div>
+                <div id="Saneamiento">
+                    @Html.Partial("_SaneamientoEdit", Model)
+                </div>
+            </div>
+        }
+    </div>
+
+    <label>Reformas posterior al 2003</label>
+    <br /><div id="DivRef">
+        <input id="FReforma" name="FReforma" type="radio" value="Si" /> si
+        <input id="FReforma" name="FReforma" type="radio" value="No" /> no
+    </div>
 
     <div class="panel panel-default" id="reformaDiv">
         <div class="panel-heading">Reforma</div>
@@ -382,8 +392,6 @@
         </div>
     </div>
 
-   
-
     <div class="panel panel-default" id="reformaDivPost" style="display:none">
         <div class="panel-heading">Reforma</div>
         <div class="panel-body">
@@ -391,7 +399,7 @@
                 @Html.Partial("_ReformaPost", Model)
             </div>
 
-            @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" })
+            @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" }, new { onclick = "actualizarr()" })
         </div>
     </div>
 
@@ -402,7 +410,6 @@
             <div id="disolucion">
                 @Html.Partial("_DisolucionEdit", Model)
             </div>
-            @Ajax.ActionLink("Agregar disolución", "DisolucionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
         </div>
     </div>
 
@@ -412,61 +419,105 @@
 
 @if (Model.Saneamientos.Any())
 {
-    <input name="a" id="a" value="1" style="display:none" />
+    <input type="hidden" id="a" value="1" />
 }
 else
 {
-    <input name="a" id="a" value="0" style="display:none" />
+    <input id="a" value="0" type="hidden" />
 }
 
-@if (Model.Reformas.Any(q => q.UltimaReforma == true))
+@if (Model.ExistenciaLegals.Any())
 {
-    <input name="b" id="a" value="1" style="display:none" />
+    <input type="hidden" id="tieneExis" value="1" />
 }
 else
 {
-    <input name="b" id="a" value="0" style="display:none" />
+    <input id="tieneExis" value="0" type="hidden" />
 }
+
+@if (Model.Reformas.Any())
+{
+    <input type="hidden" id="tieneRef" value="1" />
+}
+else
+{
+    <input id="tieneRef" value="0" type="hidden" />
+}
+
 
 @Html.ActionLink("Volver al listado", "Index")
 
 
 
 <script type="text/javascript">
+
+    $("#Tiene").change(function () {
+        if ($("#Tiene").is(':checked')) {
+            $("#divSane").show();
+        } else {
+            $("#divSane").hide();
+        }
+    });
+
+    function actualizar() {
+        $('#reformaDiv').load('\Views\Organizacion\Edit.cshtml');
+
+        }
+
+    function actualizarr() {
+        location.reload(true);
+    }
+
+
     $(document).ready(function () {
 
-        if ("#a" == 1) {
-            $("#Tiene").prop("checked", true);
+        if ("#a".val == 1) {
+            $("#Tiene").prop("checked", true)
+            $("#divSane").show();
         } else {
-
-            $("#Tiene").prop("checked", false);
-        }
-
-        $("#TieneReforma").change(function () {
-            if ($("#TieneReforma").is(':checked')) {
-                $("#divSane").show();
-            } else {
-                $("#divSane").hide();
-            }
-        });
-
-        $("#Tiene").change(function () {
-            if ($("#Tiene").is(':checked')) {
-                $("#divSane").show();
-            } else {
-                $("#divSane").hide();
-            }
-        });
-
-        if ("#b" == 1) {
-            $("#b").show();
+            $("#divSane").hide();
         }
 
 
+        var objeto = document.getElementById('a').value;
+        if (objeto > 0) {
+            $("#divSane").show();
+            $("#Tiene").prop("checked", true)
+        }
+        else {
+            $("#divSane").hide();
+
+        }
+
+        var objetos = document.getElementById('tieneExis').value;
+        if (objetos > 0) {
+            if (ExistenciaLegals_0__FechaPublicacionn > "1/1/2003") {
+                $("#CPostRPost").show();
+                $("#divExis").hide();
+                
+            } else {
+                $("#CPostRPost").hide();
+                $("#divExis").show();
+            }
+        }
+       
+        //var objetoss = document.getElementById('tieneRef').value;
+        //var fechar = document.getElementById('Reformas_0__FechaReforma').value;
+        //if (objetoss > 0) {
+        //    if (fechar > "1/1/2003") {
+        //        $("#reformaDivPost").show();
+        //        $("#reformaDiv").hide();
+        //    } else {
+        //        $("#reformaDivPost").hide();
+        //        $("#reformaDiv").show();
+        //    }
+        //}
 
 
 
-        $("input[name=Constitucion]").click(function () {
+
+        
+        $("input[name=Constitucion]").click(function () {;
             if ($('input:radio[name=Constitucion]:checked').val().toString() == "Si") {
                 $("#CPostRPost").show();
                 $("#divExis").hide();

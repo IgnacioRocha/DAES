@@ -16,6 +16,13 @@
             RepresentanteOrganizacion = 10
         }
 
+        public enum TipoNorma
+        {
+            Decreto = 1,
+            DecretoSupremo = 2,
+            Resolucion = 3
+        }
+
         public enum Estado
         {
             EnConstitucion = 1,
@@ -96,8 +103,9 @@
             EstadosFinancierosDebidamenteAprobadosPorAsamblea = 99,
             FichaDetalladaFuentesFinancieros = 100,
             FichaDatos = 101,
+            VigenciaEstatutos = 103,
             InformeComisionRevisodoraCuentas = 102,
-            VigenciaEstatutos = 104
+            CertificadoDisolucionTest = 106
         }
 
         public enum TipoOrganizacion
@@ -132,10 +140,10 @@
             Articulo91 = 89,
             AsambleaExtraOrdinariaAsociacion = 90,
             Fiscalizacion = 102,
-            EstudioSocioEconomico = 95,
             InformacionACSemestral = 104,
             InformacionACAnual = 105,
-            CooperativaViviendaAbierta = 106
+            CooperativaViviendaAbierta = 106,
+            EstudioSocioEconomicos = 95
         }
 
         public enum TipoAprobacion

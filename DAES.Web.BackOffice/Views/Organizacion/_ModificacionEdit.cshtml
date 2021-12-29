@@ -1,60 +1,78 @@
 ﻿@model DAES.Model.SistemaIntegrado.Organizacion
 
+@Html.HiddenFor(model => model.OrganizacionId)
 
 
+    <div class="panel panel-default">
 
-<table class="table table-hover table-striped ">
-@for (var i = 0; i < Model.ExistenciaLegals.Count(); i++)
-{
-    <thead>
-        <tr>
-            <th>
-                @Html.LabelFor(model => model.TipoNormaId, "Tipo de Norma", htmlAttributes: new { @class = "control-label col-md-12" })
-                @Html.DropDownListFor(model => Model.ExistenciaLegals[i].TipoNormaId, new SelectList(ViewBag.TipoNormaaId, "Value", "Text", Model.ExistenciaLegals[i].TipoNormaId), "Seleccione...", new { @class = "form-control", @style = "width: 190px;" })
+        <table class="table table-hover table-striped ">
+            @if (!Model.ExistenciaLegals.Any())
+            {
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.LabelFor(model => model.TipoNormaId, "Tipo de Norma", htmlAttributes: new { @class = "control-label col-md-12" })
+                            @Html.DropDownListFor(model => model.TipoNormaId, null,"Seleccione...", htmlAttributes: new { @class = "form-control col-md-10" })
+                            
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().NumeroNorma)
+                            @Html.EditorFor(model => model.ExistenciaLegals.FirstOrDefault().NumeroNorma, new { htmlAttributes = new { min = 0, @class = "form-control col-md-10" } })
 
-            </th>
-            <th>
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaNorma)
+                            @Html.EditorFor(model => model.ExistenciaLegals.FirstOrDefault().FechaNorma, new { htmlAttributes = new { @class = "form-control col-md-10" } })
 
-                @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].NumeroNorma)
-                @Html.EditorFor(model => model.ExistenciaLegals[i].NumeroNorma, new { htmlAttributes = new { min = 0, @class = "form-control col-md-10" } })
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaPubli)
+                            @Html.EditorFor(model => model.ExistenciaLegals.FirstOrDefault().FechaPubli, new { htmlAttributes = new { @class = "form-control col-md-10" } })
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].FechaNorma)
-                @Html.EditorFor(model => model.ExistenciaLegals[i].FechaNorma, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().AutorizadoPor)
+                            @Html.EditorFor(model => model.ExistenciaLegals.FirstOrDefault().AutorizadoPor, new { htmlAttributes = new { @class = "form-control col-md-10" } })
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].FechaPubli)
-                @Html.EditorFor(model => model.ExistenciaLegals[i].FechaPubli, new { htmlAttributes = new { @class = "form-control col-md-10" } })
+                         </th>
 
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].AutorizadoPor)
-                @Html.EditorFor(model => model.ExistenciaLegals[i].AutorizadoPor, new { htmlAttributes = new { @class = "form-control col-md-10" } })
-            </th>
+                    </tr>
 
-        </tr>
-       
+                </thead>
+            }
+            else
+            {
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.LabelFor(model => model.TipoNormaId, "Tipo de Norma", htmlAttributes: new { @class = "control-label col-md-12" })
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().NumeroNorma)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaNorma)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaPublicacionn)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().AutorizadoPor)
+                        </th>
+                    </tr>
 
+                </thead>
+            <tbody>
+                @for (var i = 0; i < Model.ExistenciaLegals.Count(); i++)
+                {
+                    @Html.EditorFor(m => m.ExistenciaLegals[i])
+                }
+            </tbody>
+            }
+        </table>
 
-    </thead>
-}
-  
-
-<tbody>
-    @for (var i = 0; i < Model.ExistenciaLegals.Count; i++)
-    {
-        @Html.HiddenFor(model => model.ExistenciaLegals[i].ExistenciaId)
-        @Html.HiddenFor(model => model.ExistenciaLegals[i].OrganizacionId)
-        @Html.HiddenFor(model => model.ExistenciaLegals[i].IdSaneamiento)
-    }
-    </tbody>
-</table>
-    <br />
-
-
-
+        <br />
+    </div>
 
 
 

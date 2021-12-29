@@ -176,7 +176,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 {
                     var p = _custom.ProcesoStart(proceso);
                     TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, proceso.Solicitante.Email);
-                    return RedirectToAction("Finish");
+                    return RedirectToAction("Create");
                 }
                 catch (Exception ex)
                 {

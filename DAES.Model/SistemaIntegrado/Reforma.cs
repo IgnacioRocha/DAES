@@ -78,6 +78,7 @@ namespace DAES.Model.SistemaIntegrado
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? AnoInscripcion { get; set; }
 
+        [Display(Name = "Datos CBR")]
         public string DatosCBR { get; set; }
 
         [Display(Name ="Fecha de la escritura Pública")]
@@ -86,7 +87,7 @@ namespace DAES.Model.SistemaIntegrado
         public DateTime? FechaEscrituraPublica { get; set; }
 
         [Display(Name ="Fojas;Número")]
-        public int? Fojas { get; set; }
+        public string Fojas { get; set; }
 
         [Display(Name = "Asamblea/Deposito")]
         public int? AsambleaDepId { get; set; }
@@ -105,14 +106,12 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name ="Número de Oficio")]
         public int? NumeroOficio { get; set; }
 
+
         public virtual Aprobacion Aprobacion { get; set; }
 
         [Display(Name ="¿Aprobacion?")]
         public int? AprobacionId { get; set; }
 
-        public virtual Saneamiento Saneamiento { get; set; }
 
-        [Display(Name = "Saneamiento")]
-        public int? IdSaneamiento { get; set; }
     }
 }

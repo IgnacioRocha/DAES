@@ -6,18 +6,18 @@
       <Value Profile="(Default)">Operación completada correctamente</Value>
     </Setting>
     <Setting Name="client_id" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">44568175e9ff4fdcb98cd4e9d368ce11</Value>
+      <Value Profile="(Default)">b2d5390a03e642b799ac7dd61c1d453d</Value>
     </Setting>
     <Setting Name="client_secret" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">3803b17e50314a92972f9dec211df530</Value>
+      <Value Profile="(Default)">13a684fb85f649fb860171f6714c8a31</Value>
     </Setting>
     <Setting Name="redirect_uri" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://tramites.economia.gob.cl/claveunica</Value>
+      <Value Profile="(Default)">https://tramite.economia.cl/claveunica</Value>
     </Setting>
     <Setting Name="url_gestion_procesos" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://gestionprocesos.economia.cl</Value>
     </Setting>
-    <Setting Name="max_tamano_file" Type="System.Int64" Scope="Application">
+    <Setting Name="max_tamano_file" Type="System.String" Scope="Application">
       <Value Profile="(Default)">52428800</Value>
     </Setting>
   </Settings>

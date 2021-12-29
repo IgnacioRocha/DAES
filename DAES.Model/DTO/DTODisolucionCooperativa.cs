@@ -16,6 +16,10 @@ namespace DAES.Model.DTO
         public int OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
+        [Display(Name = "Tipo de Norma")]
+        public int TipoNormaId { get; set; }
+        public virtual TipoNorma TipoNorma { get; set; }
+
         [Display(Name = "Tipo organización")]
         public int TipoOrganizacionId { get; set; }
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }

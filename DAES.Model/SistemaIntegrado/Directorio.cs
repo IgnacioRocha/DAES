@@ -19,7 +19,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Organización")]
         public int OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
-
+            
         [Required(ErrorMessage = "Es necesario especificar este dato")]
         [Display(Name = "Nombre completo")]
         public string NombreCompleto { get; set; }

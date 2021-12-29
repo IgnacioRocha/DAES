@@ -250,6 +250,7 @@
     <Compile Include="Controllers\DefinicionProcesoController.cs" />
     <Compile Include="Controllers\DefinicionWorkflowController.cs" />
     <Compile Include="Controllers\DirectorioController.cs" />
+    <Compile Include="Controllers\DisolucionController.cs" />
     <Compile Include="Controllers\ModeloSupervisionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\FiscalizacionController.cs" />
@@ -531,6 +532,8 @@
     <Content Include="Content\bootstrap-reboot.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Produccion.pubxml" />
     <None Include="Properties\PublishProfiles\Testing.pubxml" />
@@ -932,6 +935,11 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Content Include="Views\Shared\_OrganizacionDisolucionAsociaciones.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionDisolucionCooperativa.cshtml" />
+    <Content Include="Views\Organizacion\_ComisionLiquidadora.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionComision.cshtml" />
+    <Content Include="Views\Organizacion\_ComisionEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAES.BLL\DAES.BLL.csproj">
