@@ -482,9 +482,9 @@ namespace DAES.BLL
                 PdfWriter write = PdfWriter.GetInstance(doc, memStream);
                 write.PageEvent = ev;
                 Chunk SaltoLinea = Chunk.NEWLINE;
-                
-                //Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
 
+                //Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
+                string parrafo_dos = string.Format(configuracioncertificado.Parrafo2);
 
 
 
@@ -572,39 +572,38 @@ namespace DAES.BLL
                         throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
                             "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
                     }
-                }
+
+                    
 
 
-                string parrafo_dos = string.Format(configuracioncertificado.Parrafo2);
-
-
-                if (!string.IsNullOrWhiteSpace(parrafo_dos))
-                {
-                    if (organizacion.FechaCelebracion.HasValue)
+                    if (!string.IsNullOrWhiteSpace(parrafo_dos))
                     {
-                        parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
-                    }
-                }
-                if (aux.Comision)
-                {
-                    foreach (var item in organizacion.ComisionLiquidadoras)
-                    {
-                        var last = organizacion.ComisionLiquidadoras.Last();
-                        var comi = context.ComisionLiquidadora.FirstOrDefault(q => q.ComisionLiquidadoraId == item.ComisionLiquidadoraId);
-                        parrafo_dos = parrafo_dos.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
-                        if (!item.Equals(last))
+                        if (organizacion.FechaCelebracion.HasValue)
                         {
-                            parrafo_dos += item.NombreCompleto + ", ";
-                        }
-                        else
-                        {
-                            parrafo_dos += item.NombreCompleto + ".";
+                            parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
                         }
                     }
-                }
-                else
-                {
-                    parrafo_dos = parrafo_dos.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                    if (aux.Comision)
+                    {
+                        foreach (var item in organizacion.ComisionLiquidadoras)
+                        {
+                            var last = organizacion.ComisionLiquidadoras.Last();
+                            var comi = context.ComisionLiquidadora.FirstOrDefault(q => q.ComisionLiquidadoraId == item.ComisionLiquidadoraId);
+                            parrafo_dos = parrafo_dos.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                            if (!item.Equals(last))
+                            {
+                                parrafo_dos += item.NombreCompleto + ", ";
+                            }
+                            else
+                            {
+                                parrafo_dos += item.NombreCompleto + ".";
+                            }
+                        }
+                    }
+                    else
+                    {
+                        parrafo_dos = parrafo_dos.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                    }
                 }
 
 
@@ -821,7 +820,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaLegals.Any(q => q.FechaInscripcion != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]", "Con fecha de inscripción " + organizacion.ExistenciaLegals.FirstOrDefault().FechaInscripcion.Value.ToString("dd/MM/yyyy") + ", ");
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]", "Con fecha de inscripción " + organizacion.ExistenciaLegals.FirstOrDefault().FechaInscripcion + ", ");
                                 }
                                 else
                                 {
