@@ -464,8 +464,18 @@ else
 
         }
 
-    function actualizarr() {
-        location.reload(true);
+    function actualizarForm() {
+        
+        var fechar = document.getElementById('Reformas_0__FechaReforma').value;
+        var fecharePost = document.getElementById('Reformas_0__FechaReformaa').value;
+        if (fechar > "1/1/2003" && fechar != null) {
+            $("#reformaDiv").show();
+            $("#reformaDivPost").hide();
+        } else if (fecharePost > "1/1/2003" && fecharePost != null) {
+            $("#reformaDiv").hide();
+            $("#reformaDivPost").show();
+        }
+
     }
 
 
@@ -501,22 +511,11 @@ else
             }
         }
        
-        //var objetoss = document.getElementById('tieneRef').value;
-        //var fechar = document.getElementById('Reformas_0__FechaReforma').value;
-        //if (objetoss > 0) {
-        //    if (fechar > "1/1/2003") {
-        //        $("#reformaDivPost").show();
-        //        $("#reformaDiv").hide();
-        //    } else {
-        //        $("#reformaDivPost").hide();
-        //        $("#reformaDiv").show();
-        //    }
-        //}
+        var objetoss = document.getElementById('tieneRef').value;
+        if (objetoss > 0) {
+            actualizarForm();
+        } 
 
-
-
-
-        
         $("input[name=Constitucion]").click(function () {;
             if ($('input:radio[name=Constitucion]:checked').val().toString() == "Si") {
                 $("#CPostRPost").show();
