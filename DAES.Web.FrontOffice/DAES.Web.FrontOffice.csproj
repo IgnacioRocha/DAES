@@ -502,6 +502,7 @@
     <Content Include="Views\Shared\_GridPager.cshtml" />
     <Content Include="Views\Shared\_Grid.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\_Extracto.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_PersonasFacultadasUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />

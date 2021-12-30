@@ -32,7 +32,7 @@
                 <td>
                     @if (Model.RepresentanteLegals[i].RUN != null)
                     {
-                        @Html.EditorFor(m => m.RepresentanteLegals[i].RUN, new { htmlAttributes = new { @class = "form-control col-11", @disabled = "disabled" } })
+                        @Html.EditorFor(m => m.RepresentanteLegals[i].RUN, new { htmlAttributes = new { @class = "form-control col-11", @readonly = "readonly" } })
                     }
                     else
                     {

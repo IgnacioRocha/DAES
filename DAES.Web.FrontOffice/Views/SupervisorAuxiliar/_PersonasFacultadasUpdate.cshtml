@@ -1,0 +1,57 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+<table class="table table-striped">
+    @Html.AntiForgeryToken()
+    <thead>
+        <tr>
+            <th>
+                @Html.LabelFor(m => m.PersonaFacultadas.FirstOrDefault().NombreCompleto, new { @class = "font-weight-bold" })
+            </th>
+            <th>
+                @Html.LabelFor(m => m.PersonaFacultadas.FirstOrDefault().RUN, new { @class = "font-weight-bold" })
+            </th>
+            <th>
+                @Html.LabelFor(m => m.PersonaFacultadas.FirstOrDefault().Profesion, new { @class = "font-weight-bold" })
+            </th>
+            <th>
+                @Html.LabelFor(m => m.PersonaFacultadas.FirstOrDefault().Domicilio, new { @class = "font-weight-bold" })
+            </th>
+            <th>
+                @Html.LabelFor(m => m.PersonaFacultadas.FirstOrDefault().Nacionalidad, new { @class = "font-weight-bold" })
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.PersonaFacultadas.Count; i++)
+        {
+            @Html.HiddenFor(m => m.SupervisorAuxiliarId)
+            @Html.HiddenFor(m => Model.PersonaFacultadas[i].PersonaFacultadaId)
+            <tr>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].NombreCompleto, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @if (Model.PersonaFacultadas[i].RUN != null)
+                    {
+                        @Html.EditorFor(m => m.PersonaFacultadas[i].RUN, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    }
+                    else
+                    {
+                        @Html.EditorFor(m => m.PersonaFacultadas[i].RUN, new { htmlAttributes = new { @class = "form-control" } })
+                    }
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].Profesion, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].Domicilio, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.PersonaFacultadas[i].Nacionalidad, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Ajax.ActionLink("Eliminar", "DeleteFacultadaUpdate", null, new { Model.PersonaFacultadas.ToArray()[i].PersonaFacultadaId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

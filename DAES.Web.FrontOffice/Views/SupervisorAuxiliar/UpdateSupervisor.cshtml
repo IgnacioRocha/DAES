@@ -13,7 +13,7 @@
     <div class="alert alert-primary" role="alert">
         <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
     </div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Update", "SupervisorAuxiliar", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @*@Html.HiddenFor(model => model.RUTSolicitante)
@@ -50,13 +50,13 @@
                             <tbody>
                                 <tr>
                                     <td>
-                                        @Html.EditorFor(m => m.RazonSocial, new { htmlAttributes = new { @class = "form-control col-12", @disabled = "disabled" } })
+                                        @Html.EditorFor(m => m.RazonSocial, new { htmlAttributes = new { @class = "form-control col-12", @readonly = "readonly" } })
                                     </td>
                                     <td>
-                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", htmlAttributes: new { @class = "form-control col-12", @disabled = "disabled" })
+                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", htmlAttributes: new { @class = "form-control col-12", @readonly = "readonly" })
                                     </td>
                                     <td>
-                                        @Html.EditorFor(m => m.Rut, new { htmlAttributes = new { @class = "form-control col-12", @disabled = "disabled" } })
+                                        @Html.EditorFor(m => m.Rut, new { htmlAttributes = new { @class = "form-control col-12", @readonly = "readonly" } })
                                     </td>
                                     <td>
                                         @Html.EditorFor(m => m.DomicilioLegal, new { htmlAttributes = new { @class = "form-control col-12" } })
@@ -123,10 +123,10 @@
                         @if (Model.PersonaFacultadas.Count != 0)
                         {
                             <div id="personasFacultadas">
-                                @Html.Partial("_PersonasFacultadas", Model)
+                                @Html.Partial("_PersonasFacultadasUpdate", Model)
                             </div>
                         }
-                        @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
+                        @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaUpdateAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
                     </div>
                 </div>
             </div>

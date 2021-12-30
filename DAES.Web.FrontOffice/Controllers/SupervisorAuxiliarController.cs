@@ -318,7 +318,7 @@ namespace DAES.Web.FrontOffice.Controllers
             {
                 var proceso = new Proceso()
                 {
-                    DefinicionProcesoId = (int)DAES.Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar
+                    DefinicionProcesoId = (int)DAES.Infrastructure.Enum.DefinicionProceso.ActualizacionSupervisorAuxiliar
                 };
 
                 proceso.Solicitante = new Solicitante()
@@ -504,6 +504,33 @@ namespace DAES.Web.FrontOffice.Controllers
             return PartialView("_PersonasFacultadas", model);
         }
 
+        public ActionResult PersonaFacultadaUpdateAdd(int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+            var facultada = new PersonaFacultada() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
+            db.PersonaFacultadas.Add(facultada);
+
+            db.SaveChanges();
+
+            return PartialView("_PersonasFacultadasUpdate", model);
+        }
+
+        public ActionResult DeleteFacultadaUpdate(int PersonaFacultadaId, int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var facultada = db.PersonaFacultadas.FirstOrDefault(q => q.PersonaFacultadaId == PersonaFacultadaId);
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+
+            if (facultada != null)
+            {
+                db.PersonaFacultadas.Remove(facultada);
+                db.SaveChanges();
+            }
+            return PartialView("_PersonasFacultadasUpdate", model);
+        }
         #endregion
         public ActionResult Finish()
         {
