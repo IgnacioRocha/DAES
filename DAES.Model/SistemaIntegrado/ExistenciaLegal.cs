@@ -86,7 +86,7 @@ namespace DAES.Model.SistemaIntegrado
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime? FechaPubli { get; set; }
 
-    [NotMapped]
+   
     [Display(Name = "Fecha Publicación (Diario Oficial)")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

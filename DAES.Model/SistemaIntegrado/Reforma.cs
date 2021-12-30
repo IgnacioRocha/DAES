@@ -74,9 +74,7 @@ namespace DAES.Model.SistemaIntegrado
 
 
         [Display(Name = "Año de inscripción")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? AnoInscripcion { get; set; }
+        public int? AnoInscripcion { get; set; }
 
         [Display(Name = "Datos CBR")]
         public string DatosCBR { get; set; }
