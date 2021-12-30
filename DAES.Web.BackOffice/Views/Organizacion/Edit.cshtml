@@ -1,11 +1,8 @@
 ﻿@using Mvc.CascadeDropDown
 @model DAES.Model.SistemaIntegrado.Organizacion
 
-@{
-    ViewBag.Title = "Editar";
-    ViewBag.SubTitle = "Organización";
-
-}
+@{ ViewBag.Title = "Editar";
+   ViewBag.SubTitle = "Organización"; }
 
 @using (Html.BeginForm())
 {
@@ -87,12 +84,12 @@
                     <div class="col-md-10">
 
                         @Html.CascadingDropDownListFor(m => m.ComunaId,
-                                                         "RegionId",
-                                                         Url.Action("GetComuna", "Organizacion"),
-                                                         "RegionId",
-                                                         "Seleccione...",
-                                                         true,
-                                                         new { @class = "form-control" })
+                     "RegionId",
+                     Url.Action("GetComuna", "Organizacion"),
+                     "RegionId",
+                     "Seleccione...",
+                     true,
+                     new { @class = "form-control" })
 
                         @Html.ValidationMessageFor(model => model.ComunaId, "", new { @class = "text-danger" })
                     </div>
@@ -306,33 +303,33 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Directorio</div>
-        <div class="panel-body">
-            <div id="directorio">
-                @Html.Partial("_DirectorioEdit", Model)
+        <div class="panel panel-default">
+            <div class="panel-heading">Directorio</div>
+            <div class="panel-body">
+                <div id="directorio">
+                    @Html.Partial("_DirectorioEdit", Model)
+                </div>
+                @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" })
             </div>
-            @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" })
         </div>
-    </div>
 
-    <br /><div id="DivConsti">
-        <label>Constitución posterior al 2003</label><br />
-        <input id="Constitucion" name="Constitucion" type="radio" value="Si" /> si
-        <input id="Constitucion" name="Constitucion" type="radio" value="No" /> no
-    </div>
+        <br /><div id="DivConsti">
+            <label>Constitución posterior al 2003</label><br />
+            <input id="Constitucion" name="Constitucion" type="radio" value="Si" /> si
+            <input id="Constitucion" name="Constitucion" type="radio" value="No" /> no
+        </div>
 
     <div id="divExis" @*name="divExis"*@>
         @{if (Model.TipoOrganizacionId == 1)
             {
-                <div class="panel panel-default">
-                    <div class="panel-heading">Autorización de Existencia Legal</div>
-                    <div class="panel-body">
-                        <div id="existencia">
-                            @Html.Partial("_ModificacionEdit", Model)
-                        </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Autorización de Existencia Legal</div>
+                <div class="panel-body">
+                    <div id="existencia">
+                        @Html.Partial("_ModificacionEdit", Model)
                     </div>
                 </div>
+            </div>
             }
             if (Model.TipoOrganizacionId == 2 || Model.TipoOrganizacionId == 3)
             {
@@ -344,10 +341,7 @@
                             @Html.Partial("_ModificacionAG", Model)
                         </div>
                     </div>
-                </div>
-            }
-
-        }
+                </div> } }
     </div>
 
     <div class="panel panel-default" id="CPostRPost" name="CPostRPost" style="display:none">
@@ -362,16 +356,15 @@
     <div>
         @if (Model.TipoOrganizacionId != 2 && Model.TipoOrganizacionId != 3)
         {
-            <label>Tiene Saneamiento?</label>
-            <input id="Tiene" name="Tiene" type="checkbox">
-            <hr>
-            <div class="panel panel-default" id="divSane" name="divSane" style="display:none">
-                <div class="panel-heading">Saneamiento</div>
-                <div id="Saneamiento">
-                    @Html.Partial("_SaneamientoEdit", Model)
-                </div>
+        <label>Tiene Saneamiento?</label>
+        <input id="Tiene" name="Tiene" type="checkbox">
+        <hr>
+        <div class="panel panel-default" id="divSane" name="divSane" style="display:none">
+            <div class="panel-heading">Saneamiento</div>
+            <div id="Saneamiento">
+                @Html.Partial("_SaneamientoEdit", Model)
             </div>
-        }
+        </div>}
     </div>
 
     <label>Reformas posterior al 2003</label>
@@ -402,47 +395,36 @@
             @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" }, new { onclick = "actualizarr()" })
         </div>
     </div>
-
-
-    <div class="panel panel-default">
-        <div class="panel-heading">Disolución</div>
-        <div class="panel-body">
-            <div id="disolucion">
-                @Html.Partial("_DisolucionEdit", Model)
-            </div>
-        </div>
-    </div>
-
     <input type="submit" value="Guardar" class="btn btn-primary my-3" />
     <p></p>
-}
+            }
 
-@if (Model.Saneamientos.Any())
-{
+    @if (Model.Saneamientos.Any())
+    {
     <input type="hidden" id="a" value="1" />
-}
-else
-{
+     }
+    else
+    {
     <input id="a" value="0" type="hidden" />
-}
+    }
 
-@if (Model.ExistenciaLegals.Any())
-{
+    @if (Model.ExistenciaLegals.Any())
+    {
     <input type="hidden" id="tieneExis" value="1" />
-}
-else
-{
+     }
+    else
+    {
     <input id="tieneExis" value="0" type="hidden" />
-}
+    }
 
-@if (Model.Reformas.Any())
-{
+    @if (Model.Reformas.Any())
+    {
     <input type="hidden" id="tieneRef" value="1" />
-}
-else
-{
+     }
+    else
+    {
     <input id="tieneRef" value="0" type="hidden" />
-}
+    }
 
 
 @Html.ActionLink("Volver al listado", "Index")
@@ -459,13 +441,20 @@ else
         }
     });
 
-    function actualizar() {
-        $('#reformaDiv').load('\Views\Organizacion\Edit.cshtml');
+    
 
+    function actualizarForm() {
+
+        var fechar = document.getElementById('Reformas_0__FechaReforma').value;
+        var fecharePost = document.getElementById('Reformas_0__FechaReformaa').value;
+        if (fechar > "1/1/2003" && fechar != null) {
+            $("#reformaDiv").show();
+            $("#reformaDivPost").hide();
+        } else if (fecharePost > "1/1/2003" && fecharePost != null) {
+            $("#reformaDiv").hide();
+            $("#reformaDivPost").show();
         }
 
-    function actualizarr() {
-        location.reload(true);
     }
 
 
@@ -494,30 +483,20 @@ else
             if (ExistenciaLegals_0__FechaPublicacionn > "1/1/2003") {
                 $("#CPostRPost").show();
                 $("#divExis").hide();
-                
+
             } else {
                 $("#CPostRPost").hide();
                 $("#divExis").show();
             }
         }
-       
-        //var objetoss = document.getElementById('tieneRef').value;
-        //var fechar = document.getElementById('Reformas_0__FechaReforma').value;
-        //if (objetoss > 0) {
-        //    if (fechar > "1/1/2003") {
-        //        $("#reformaDivPost").show();
-        //        $("#reformaDiv").hide();
-        //    } else {
-        //        $("#reformaDivPost").hide();
-        //        $("#reformaDiv").show();
-        //    }
-        //}
 
+        var objetoss = document.getElementById('tieneRef').value;
+        if (objetoss > 0) {
+            actualizarForm();
+        }
 
-
-
-        
-        $("input[name=Constitucion]").click(function () {;
+        $("input[name=Constitucion]").click(function () {
+            ;
             if ($('input:radio[name=Constitucion]:checked').val().toString() == "Si") {
                 $("#CPostRPost").show();
                 $("#divExis").hide();
