@@ -30,6 +30,8 @@ namespace DAES.Web.BackOffice.Controllers
         public Fiscalizacion Fiscalizacion { get; set; }
         public Hallazgo Hallazgo { get; set; }
 
+        public SupervisorAuxiliar SupervisorAuxiliar { get; set; }
+
         public int? OrganizacionId { get; set; }
         public int? TipoOrganizacionId { get; set; }
         public int? ProcesoId { get; set; }
@@ -459,7 +461,10 @@ namespace DAES.Web.BackOffice.Controllers
                 model.Fecha = DateTime.Now;
                 model.FechaFiscalizacionInSitu = DateTime.Now;
                 model.FechaSalidaOficioAcreditacionRequerimientos = DateTime.Now;
-                model.OrganizacionId = workflow.Proceso.OrganizacionId;
+                if(workflow.Proceso.OrganizacionId.HasValue)
+                {
+                    model.OrganizacionId = workflow.Proceso.OrganizacionId.Value;
+                }
 
                 foreach (var item in db.Users.Where(q => q.Habilitado).OrderBy(q => q.Nombre))
                 {

@@ -388,6 +388,7 @@
     <Content Include="Views\FusionCooperativa\Create.cshtml" />
     <Content Include="Views\FusionCooperativa\Search.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\Finish.cshtml" />
     <Content Include="Views\TransformacionCooperativa\Create.cshtml" />
     <Content Include="Views\TransformacionCooperativa\Search.cshtml" />
     <Content Include="Views\Actualizacion\Search.cshtml" />

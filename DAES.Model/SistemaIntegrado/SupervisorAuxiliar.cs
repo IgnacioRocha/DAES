@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DAES.Model.SistemaIntegrado
 {
@@ -44,9 +45,23 @@ namespace DAES.Model.SistemaIntegrado
         public string CorreoElectronico { get; set; }
 
         /*[Required(ErrorMessage = "Es necesario adjuntar un documento")]*/
+        [NotMapped]
+        [Display(Name = "Documento")]
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase DocumentoAdjuntoTest { get; set; }
+
         [Display(Name = "Documento")]
         [DataType(DataType.Upload)]
         public byte[] DocumentoAdjunto { get; set; }
+
+        [NotMapped]
+        public string RutSolicitante { get; set; }
+        [NotMapped]
+        public string NombreSolicitante { get; set; }
+        [NotMapped]
+        public string ApellidosSolicitante { get; set; }
+        [NotMapped]
+        public string MailSolicitante { get; set; }
 
         public bool Aprobado { get; set; }
         public int? ProcesoId { get; set; }

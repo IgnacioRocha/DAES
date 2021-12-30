@@ -135,8 +135,11 @@
             InformacionACSemestral = 104,
             InformacionACAnual = 105,
             CooperativaViviendaAbierta = 106,
-            IngresoSupervisorAuxiliar = 108,
-            ActualizacionSupervisorAuxiliar = 109
+            IngresoSupervisorAuxiliar = 1108,
+            ActualizacionSupervisorAuxiliar = 1109,
+            /* Numeros en Testing
+             * IngresoSupervisorAuxiliar = 110,
+            ActualizacionSupervisorAuxiliar = 111*/
         }
 
         public enum TipoAprobacion

@@ -62,7 +62,7 @@ namespace DAES.Model.SistemaIntegrado
         public string Correlativo { get; set; }
 
         [Display(Name = "Organización")]
-        public int OrganizacionId { get; set; }
+        public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
         [Display(Name = "Solicitante")]
