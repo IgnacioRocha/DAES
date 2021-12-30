@@ -587,17 +587,20 @@ namespace DAES.BLL
                     {
                         foreach (var item in organizacion.ComisionLiquidadoras)
                         {
-                            var last = organizacion.ComisionLiquidadoras.Last();
-                            var comi = context.ComisionLiquidadora.FirstOrDefault(q => q.ComisionLiquidadoraId == item.ComisionLiquidadoraId);
-                            parrafo_dos = parrafo_dos.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
-                            if (!item.Equals(last))
+                            if (item.EsMiembro)
                             {
-                                parrafo_dos += item.NombreCompleto + ", ";
-                            }
-                            else
-                            {
-                                parrafo_dos += item.NombreCompleto + ".";
-                            }
+                                var last = organizacion.ComisionLiquidadoras.Last();
+                                var comi = context.ComisionLiquidadora.FirstOrDefault(q => q.ComisionLiquidadoraId == item.ComisionLiquidadoraId);
+                                parrafo_dos = parrafo_dos.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                                if (!item.Equals(last))
+                                {
+                                    parrafo_dos += item.NombreCompleto + ", ";
+                                }
+                                else
+                                {
+                                    parrafo_dos += item.NombreCompleto + ".";
+                                }
+                            }                            
                         }
                     }
                     else
