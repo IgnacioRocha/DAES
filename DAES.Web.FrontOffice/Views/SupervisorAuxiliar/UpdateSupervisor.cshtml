@@ -13,7 +13,7 @@
     <div class="alert alert-primary" role="alert">
         <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
     </div>
-    @using (Html.BeginForm("Update", "SupervisorAuxiliar", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("UpdateSupervisor", "SupervisorAuxiliar", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         @*@Html.HiddenFor(model => model.RUTSolicitante)
@@ -144,11 +144,11 @@
 
                         <div class="input_field">
                             <table id="table_field" class="table-bordered">
-                                @Html.ValidationMessageFor(m => Model.DocumentoAdjunto, "", new { @class = "text-danger" })
+                                @Html.ValidationMessageFor(m => Model.DocumentoAdjuntoTest, "", new { @class = "text-danger" })
                                 <tr>
                                     <td style="height:50px; padding-left: 10px">
-                                        @Html.LabelFor(m => Model.DocumentoAdjunto, "Seleccione un documento", new { @class = "font-weight-bold" })
-                                        @Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @type = "file" })
+                                        @Html.LabelFor(m => Model.DocumentoAdjuntoTest, "Seleccione un documento", new { @class = "font-weight-bold" })
+                                        @Html.TextBoxFor(m => Model.DocumentoAdjuntoTest, null, new { @type = "file" })
                                     </td>
                                     <td style="min-width: 75px" class="text-center">
                                         <label class="text-danger" name="remove" id="re">Quitar</label>
@@ -182,7 +182,7 @@
     var max = 10, x = 1, cont = 1;
 
     $("#add").click(function () {
-        var wrapper = '<tr><td style="height:50px; padding-left: 10px"><input required="required" type="file" name="DocumentoAdjunto" id="DocumentoAdjunto' + cont + '" onChange="validar(' + cont + ')"/>' +
+        var wrapper = '<tr><td style="height:50px; padding-left: 10px"><input required="required" type="file" name="DocumentoAdjuntoTest" id="DocumentoAdjuntoTest' + cont + '" onChange="validar(' + cont + ')"/>' +
             '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove">Quitar</label></td></tr>';
 
         if (x < max) {
@@ -203,27 +203,27 @@
     $('#re').hide();
 
     function validar(conta) {
-        const archivo = document.getElementById('DocumentoAdjunto' + conta).value;
+        const archivo = document.getElementById('DocumentoAdjuntoTest' + conta).value;
         extension = archivo.substring(archivo.lastIndexOf('.'), archivo.length);
         
-        const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjunto' + conta).files[0];
+        const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjuntoTest' + conta).files[0];
         console.log(DocumentoAdjuntadoDI);
 
         if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
             alert("El tamaño máximo es 50 MB por archivo");
-            document.getElementById('DocumentoAdjunto' + conta).value = "";
+            document.getElementById('DocumentoAdjuntoTest' + conta).value = "";
         }        
     }
 
     $('#re').on("click", function () {
-        const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
-        $DocumentoAdjunto.value = "";
+        const $DocumentoAdjuntoTest = document.querySelector("#DocumentoAdjuntoTest");
+        $DocumentoAdjuntoTest.value = "";
         $('#add').hide();
         $('#re').hide();
     })
 
-    const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
-    $DocumentoAdjunto.addEventListener("change", function () {
+    const $DocumentoAdjuntoTest = document.querySelector("#DocumentoAdjuntoTest");
+    $DocumentoAdjuntoTest.addEventListener("change", function () {
         $('#add').show();
         $('#remove').show();
         if (this.files.length <= 0) {
@@ -236,7 +236,7 @@
             const archivo = this.files[i];
             if (archivo.size > MAXIMO_TAMANIO_BYTES) {
                 alert("El tamaño máximo es 50 MB por archivo");
-                $DocumentoAdjunto.value = "";
+                $DocumentoAdjuntoTest.value = "";
                 $('#add').hide();
                 $('#re').hide();
             }

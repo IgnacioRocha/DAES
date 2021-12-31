@@ -22,7 +22,7 @@
 
     <div class="tab-pane fade" id="Do">
         <br />
-        @using (Html.BeginForm("ActualizarOrganizacion", null, FormMethod.Post))
+        @using (Html.BeginForm("ActualizarSupervisor", null, FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             @Html.HiddenFor(model => model.Workflow.WorkflowId)
@@ -68,7 +68,7 @@
 
             <div class="row">
                 <div class="col-md-5">
-                    @if (Model.ActualizacionOrganizacion != null)
+                    @if (Model.SupervisorAuxiliar == null)
                     {
                         <div class="panel panel-default">
                             <div class="panel-heading">Solicitud de actualización de datos</div>
@@ -77,167 +77,39 @@
 
                                     <div class="form-group">
                                         @Html.LabelFor(model => model.SupervisorAuxiliar.SupervisorAuxiliarId)
-                                        @Html.EditorFor(model => model.Organizacion.OrganizacionId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.SupervisorAuxiliarId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.NumeroRegistro)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.NumeroRegistro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.RazonSocial)
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.RazonSocial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.TipoOrganizacionId, "Tipo organización")
-                                        @Html.DropDownListFor(model => model.ActualizacionOrganizacion.TipoOrganizacionId, (SelectList)ViewBag.TipoOrganizacionId, "Seleccione...", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.Rut, "Tipo organización")
+                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.Rut, (SelectList)ViewBag.TipoOrganizacionId, "Seleccione...", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.RazonSocial)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.RazonSocial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.Telefono)
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.Telefono, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.EstadoId, "Estado")
-                                        @Html.DropDownListFor(model => model.ActualizacionOrganizacion.EstadoId, (SelectList)ViewBag.EstadoId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.TipoPersonaJuridica, "Estado")
+                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.Organizacion.SituacionId, "Situacion")
-                                        @Html.DropDownListFor(model => model.Organizacion.SituacionId, (SelectList)ViewBag.SituacionId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.DomicilioLegal)
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.DomicilioLegal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.RubroId, "Rubro")
-                                        @Html.DropDownListFor(model => model.ActualizacionOrganizacion.RubroId, (SelectList)ViewBag.RubroId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.CorreoElectronico)
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.CorreoElectronico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.SubRubroId, "SubRubro")
-                                        @Html.DropDownListFor(model => model.ActualizacionOrganizacion.SubRubroId, (SelectList)ViewBag.SubRubroId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.RegionId, "Región")
-                                        @Html.DropDownListFor(model => model.ActualizacionOrganizacion.RegionId, (SelectList)ViewBag.RegionId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.ComunaId, "Comuna")
-                                        @Html.DropDownListFor(model => model.ActualizacionOrganizacion.ComunaId, (SelectList)ViewBag.ComunaId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.Direccion)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.Direccion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.RUT)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.RUT, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.Sigla)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.Sigla, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.Fono)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.Fono, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.Fax)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.Fax, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.Email)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.URL)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.URL, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.NumeroSociosConstituyentes)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.NumeroSociosConstituyentes, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.NumeroSocios)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.NumeroSocios, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.NumeroSociosHombres)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.NumeroSociosHombres, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.NumeroSociosMujeres)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.NumeroSociosMujeres, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.MinistroDeFe)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.MinistroDeFe, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.CiudadAsamblea)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.CiudadAsamblea, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.NombreContacto)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.NombreContacto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.DireccionContacto)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.DireccionContacto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.TelefonoContacto)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.TelefonoContacto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.EmailContacto)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.EmailContacto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.FechaCreacion)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.FechaCreacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.FechaCelebracion)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.FechaCelebracion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.FechaPublicacionDiarioOficial)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.FechaPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.LabelFor(model => model.ActualizacionOrganizacion.FechaActualizacion)
-                                        @Html.EditorFor(model => model.ActualizacionOrganizacion.FechaActualizacion, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                                    </div>
-
-                                    <div class="form-group">
-                                        @Html.EditorFor(model => model.Organizacion.EsGeneroFemenino, new { htmlAttributes = new { @readonly = "readonly" } })
-                                        @Html.LabelFor(model => model.Organizacion.EsGeneroFemenino)
-                                    </div>
-                                    <div class="form-group">
-                                        @Html.EditorFor(model => model.Organizacion.EsImportanciaEconomica, new { htmlAttributes = new { @readonly = "readonly" } })
-                                        @Html.LabelFor(model => model.Organizacion.EsImportanciaEconomica)
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -270,26 +142,26 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var item in Model.ActualizacionOrganizacion.Directorio)
+                                            @foreach (var item in Model.SupervisorAuxiliar.RepresentanteLegals)
                                             {
                                                 <tr>
                                                     <td>
                                                         @Html.DisplayFor(modelItem => item.NombreCompleto)
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.Rut)
+                                                        @Html.DisplayFor(modelItem => item.RUN)
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.Cargo.Nombre)
+                                                        @Html.DisplayFor(modelItem => item.Profesion)
                                                     </td>
                                                     <td>
-                                                        @Html.DisplayFor(modelItem => item.Genero.Nombre)
+                                                        @Html.DisplayFor(modelItem => item.Profesion)
                                                     </td>
                                                     <td>
-                                                        @String.Format("{0:dd-MM-yyyy}", item.FechaInicio)
+                                                        @Html.DisplayFor(modelItem => item.Domicilio)
                                                     </td>
                                                     <td>
-                                                        @String.Format("{0:dd-MM-yyyy}", item.FechaTermino)
+                                                        @Html.DisplayFor(modelItem => item.Nacionalidad)
                                                     </td>
                                                 </tr>
                                             }
@@ -515,17 +387,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Directorio</div>
-                            <div class="panel-body">
-                                <div id="directorio">
-                                    @Html.Partial("_DirectorioEdit", Model)
-                                </div>
-                                @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", "Task", new { Model.Workflow.WorkflowId, Model.Organizacion.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" })
-                            </div>
-                        </div>
+                        </div>                        
                     }
                 </div>
             </div>

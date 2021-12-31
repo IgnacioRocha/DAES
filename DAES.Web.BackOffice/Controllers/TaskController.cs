@@ -228,7 +228,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
 
             return View(model);
-        }
+        }        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -258,6 +258,58 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
+        //TODO Implementar funcionalidad
+        #region Actualizar Supervisor 
+        /*public ActionResult ActualizarSupervisor(int WorkflowId)
+        {
+            var model = new TaskModel();
+            model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            model.SupervisorAuxiliar =db.SupervisorAuxiliars.FirstOrDefault()
+            model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre");
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre");
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre");
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActualizarSupervisor(TaskModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(model.SupervisorAuxiliar).State = EntityState.Modified;
+                db.SaveChanges();
+
+                TempData["Message"] = Properties.Settings.Default.Success;
+                return RedirectToAction("ActualizarOrganizacion", new { model.Workflow.WorkflowId });
+            }
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre", model.Organizacion.CiudadId);
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre", model.Organizacion.ComunaId);
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.Organizacion.EstadoId);
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.Organizacion.SituacionId);
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.Organizacion.RegionId);
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre", model.Organizacion.RubroId);
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre", model.Organizacion.SubRubroId);
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.Organizacion.TipoOrganizacionId);
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+
+            return View(model);
+        }*/
+
+        #endregion
         public ActionResult EditarOrganizacion(int WorkflowId)
         {
 

@@ -309,7 +309,7 @@ namespace DAES.Web.FrontOffice.Controllers
         }
 
         [HttpPost]
-        public ActionResult Update(SupervisorAuxiliar model)
+        public ActionResult UpdateSupervisor(SupervisorAuxiliar model)
         {
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
