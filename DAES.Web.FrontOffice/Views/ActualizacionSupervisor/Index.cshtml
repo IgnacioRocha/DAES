@@ -1,0 +1,26 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Actualizacion Datos de Supervisor Auxiliar</h1>
+        <p class="lead">Aviso: Para proceder con este trámite es necesario confirmar lectura de la "Resolución 1321 Exenta"</p>
+        <a href="https://asociatividad.economia.cl/wp-content/uploads/2019/04/RAE-1321.pdf" target="_blank" class="btn btn-primary btn-rounded">Ver RAE 1321</a>
+        Confirmar Lectura <input type="checkbox" name="confirmar" id="confirmar" style="height:20px; width:20px;" />
+        <p class="lead">Todos los trámites de esta sección requiren <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+        <a id="linkGo" name="linkGo" href="@Url.Action("UpdateSearch","SupervisorAuxiliar")" class="btn btn-primary btn-rounded" @*style="pointer-events:none"*@>Iniciar trámite</a>
+    </div>
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#confirmar").change(function () {
+            if ($("#confirmar").is(':checked')) {
+                $("#linkGo").attr('style', 'pointer-events:auto')
+            } else {
+                $("#linkGo").css('pointer-events', 'none')
+            }
+        });
+    });
+</script>

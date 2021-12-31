@@ -61,13 +61,13 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://gestionprocesos.economia.cl")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://gestionprocesos.economia.cl")]
         public string url_gestion_procesos {
             get {
                 return ((string)(this["url_gestion_procesos"]));
             }
         }
-        
+
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("52428800")]

@@ -82,7 +82,12 @@ namespace DAES.Infrastructure.SistemaIntegrado
 
         public virtual DbSet<CooperativaAbierta> CooperativaViviendaAbierta { get; set; }
         public virtual DbSet<ComisionLiquidadora> ComisionLiquidadora { get; set; }
-
+        public virtual DbSet<TipoPersonaJuridica> TipoPersonaJuridicas { get; set; }
+        public virtual DbSet<SupervisorAuxiliar> SupervisorAuxiliars { get; set; }
+        public virtual DbSet<RepresentanteLegal> RepresentantesLegals { get; set; }
+        public virtual DbSet<EscrituraConstitucion> EscrituraConstitucions { get; set; }
+        public virtual DbSet<ExtractoAuxiliar> ExtractoAuxiliars { get; set; }
+        public virtual DbSet<PersonaFacultada> PersonaFacultadas { get; set; }
         public virtual DbSet<Aprobacion> Aprobacion { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

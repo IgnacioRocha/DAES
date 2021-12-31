@@ -1,0 +1,43 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+<table class="table table-striped">
+    @Html.AntiForgeryToken()    
+    <thead>
+        <tr>
+            <th>
+                @Html.LabelFor(m => m.EscrituraConstitucionModificaciones.FirstOrDefault().Notaria, new { @class = "font-weight-bold" })
+            </th>
+            <th>
+                @Html.LabelFor(m => m.EscrituraConstitucionModificaciones.FirstOrDefault().Fecha, new { @class = "font-weight-bold" })
+            </th>
+            <th>
+                @Html.LabelFor(m => m.EscrituraConstitucionModificaciones.FirstOrDefault().NumeroRepertorio, new { @class = "font-weight-bold" })
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (var i = 0; i < Model.EscrituraConstitucionModificaciones.Count; i++)
+        {
+            @Html.HiddenFor(m => m.SupervisorAuxiliarId)
+            @Html.HiddenFor(m => Model.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId)
+            <tr>
+                <td>
+                    @Html.EditorFor(m => m.EscrituraConstitucionModificaciones[i].Notaria, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.EscrituraConstitucionModificaciones[i].Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(m => m.EscrituraConstitucionModificaciones[i].NumeroRepertorio, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Ajax.ActionLink("Eliminar", "ConstitucionDelete", null, new { Model.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="card-body" id="modificaciones">
+    <h5 class="card-title font-weight-bold">Modificaciones</h5>
+    <hr />
+    @Ajax.ActionLink("Agregar Modificacion", "ConstitucionAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
+</div>
