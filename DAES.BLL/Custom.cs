@@ -571,9 +571,11 @@ namespace DAES.BLL
                             parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
                         }
                     }
+                    parrafo_dos = parrafo_dos.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
                     if (aux.Comision)
                     {
-                        foreach (var item in organizacion.ComisionLiquidadoras)
+                        
+                        /*foreach (var item in organizacion.ComisionLiquidadoras)
                         {
                             if (item.EsMiembro)
                             {
@@ -589,7 +591,7 @@ namespace DAES.BLL
                                     parrafo_dos += item.NombreCompleto + ".";
                                 }
                             }                            
-                        }
+                        }*/
                     }
                     else
                     {
@@ -678,10 +680,36 @@ namespace DAES.BLL
 
                 if(organizacion.Documentos.FirstOrDefault().TipoDocumentoId==106)
                 {
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphUNO);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphDOS);
+                    if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                    {
+                        PdfPTable table = new PdfPTable(2);
+                        table.WidthPercentage = 100.0f;
+                        table.HorizontalAlignment = Element.ALIGN_CENTER;
+                        table.DefaultCell.BorderColor = BaseColor.LIGHT_GRAY;
+                        table.AddCell(new PdfPCell(new Phrase("Cargo", _fontStandardBold)));
+                        table.AddCell(new PdfPCell(new Phrase("Nombre", _fontStandardBold)));
+
+                        foreach (var item in aux.ComisionLiquidadoras)
+                        {
+                            if(item.EsMiembro)
+                            {
+                                var cargo = context.Cargo.FirstOrDefault(q => q.CargoId == item.CargoId);
+                                if (cargo != null)
+                                    table.AddCell(new PdfPCell(new Phrase(cargo.Nombre, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });
+
+                                table.AddCell(new PdfPCell(new Phrase(item.NombreCompleto, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });
+                            }                            
+                        }
+                        
+                        table.SpacingBefore = 15f;
+                        doc.Add(SaltoLinea);
+                        doc.Add(paragraphUNO);
+                        doc.Add(SaltoLinea);
+                        doc.Add(paragraphDOS);
+                        doc.Add(table);
+                    }
+                    
+                    /*doc.Add(paragraphDOS);*/
                 }
 
                 if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId != 103 && organizacion.Documentos.FirstOrDefault().TipoDocumentoId != 106)
@@ -1541,14 +1569,9 @@ namespace DAES.BLL
                         DatosCBR = existenciaLegals.DatosCBR,
                         AprobacionId = existenciaLegals.AprobacionId
 
-
                     });
                     context.SaveChanges();
-
                 }
-
-
-
             }
         }
 
