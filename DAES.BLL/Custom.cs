@@ -777,7 +777,7 @@ namespace DAES.BLL
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", string.Empty);
                                 }
-                                if (organizacion.ExistenciaLegals.Any(q => q.FechaPublicacionn != null))
+                                if (organizacion.ExistenciaLegals.Any(q => q.FechaPublic != null))
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[FECHAPUBLIC]", "publicada en el Diario Oficial de fecha " + organizacion.ExistenciaLegals.FirstOrDefault().FechaPublic.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
                                 }
