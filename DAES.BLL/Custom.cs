@@ -310,6 +310,8 @@ namespace DAES.BLL
                         disolucion.AñoInscripcion = item.AñoInscripcion;
 
                         disolucion.MinistroDeFe = item.MinistroDeFe;
+
+                        disolucion.Posterior = item.Posterior;
                         
                         if(item.FechaPubliAnterior!= null)
                         {
@@ -371,34 +373,19 @@ namespace DAES.BLL
                         
                         disolucion.DatosCBR = item.DatosCBR;
 
-                        if (item.Comision)
+                        disolucion.Comision = true;
+
+                        foreach(var help in comisionLiquidadoras)
                         {
-                            foreach(var help in comisionLiquidadoras)
-                            {
-                                var comisionLiqui = context.ComisionLiquidadora.Where(q => q.ComisionLiquidadoraId == help.ComisionLiquidadoraId);
-                                if (help.EsMiembro)
-                                {
-                                    comisionLiqui.FirstOrDefault().DisolucionId=item.DisolucionId;
-                                    comisionLiqui.FirstOrDefault().CargoId = help.CargoId;
-                                    comisionLiqui.FirstOrDefault().Rut = help.Rut;
-                                    comisionLiqui.FirstOrDefault().GeneroId = help.GeneroId;
-                                    comisionLiqui.FirstOrDefault().NombreCompleto = help.NombreCompleto;
-                                    comisionLiqui.FirstOrDefault().FechaInicio = help.FechaInicio;
-                                    comisionLiqui.FirstOrDefault().FechaTermino = help.FechaTermino;
-                                    comisionLiqui.FirstOrDefault().EsMiembro = help.EsMiembro;
-                                }
-                                else
-                                {
-                                    comisionLiqui.FirstOrDefault().DisolucionId = item.DisolucionId;
-                                    comisionLiqui.FirstOrDefault().CargoId = help.CargoId;
-                                    comisionLiqui.FirstOrDefault().Rut = help.Rut;
-                                    comisionLiqui.FirstOrDefault().GeneroId = help.GeneroId;
-                                    comisionLiqui.FirstOrDefault().NombreCompleto = help.NombreCompleto;
-                                    comisionLiqui.FirstOrDefault().FechaInicio = help.FechaInicio;
-                                    comisionLiqui.FirstOrDefault().FechaTermino = help.FechaTermino;
-                                    comisionLiqui.FirstOrDefault().EsMiembro = help.EsMiembro;
-                                }
-                            }
+                            var comisionLiqui = context.ComisionLiquidadora.Where(q => q.ComisionLiquidadoraId == help.ComisionLiquidadoraId);
+                            comisionLiqui.FirstOrDefault().DisolucionId=item.DisolucionId;
+                            comisionLiqui.FirstOrDefault().CargoId = help.CargoId;
+                            comisionLiqui.FirstOrDefault().Rut = help.Rut;
+                            comisionLiqui.FirstOrDefault().GeneroId = help.GeneroId;
+                            comisionLiqui.FirstOrDefault().NombreCompleto = help.NombreCompleto;
+                            comisionLiqui.FirstOrDefault().FechaInicio = help.FechaInicio;
+                            comisionLiqui.FirstOrDefault().FechaTermino = help.FechaTermino;
+                            comisionLiqui.FirstOrDefault().EsMiembro = help.EsMiembro;                            
                         }
                     }
                 }                

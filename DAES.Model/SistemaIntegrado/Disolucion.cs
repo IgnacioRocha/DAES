@@ -44,12 +44,14 @@ namespace DAES.Model.SistemaIntegrado
         public DateTime? FechaJuntaSocios { get; set; }
 
         [Display(Name = "¿Tiene Comision Liquidadora?")]
-        public bool Comision { get; set; } = false;
+        public bool Comision { get; set; } = true;
 
         [Display(Name = "Fecha Disolución")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? FechaDisolucion { get; set; }
+
+        public bool? Posterior { get; set; }
 
         #region Datos Cooperativa Anterior
         [Display(Name = "Tipo Documento")]
