@@ -95,15 +95,15 @@ else
                     <td>
                         @for (var i = 0; i < Model.Disolucions.Count(); i++)
                         {
-                            if (Model.Disolucions[i].Posterior == true)
+                            if (Model.Disolucions[i].Anterior == true)
                             {
-                                @Html.RadioButtonFor(model => model.Disolucions[i].Posterior, "true", htmlAttributes: new { @id = "anterior", @checked="checked" })<label>Si</label>
-                                @Html.RadioButtonFor(model => model.Disolucions[i].Posterior, "false", htmlAttributes: new { @id = "posterior" })<label>No</label>
+                                @Html.RadioButtonFor(model => model.Disolucions[i].Anterior, "true", htmlAttributes: new { @id = "anterior", @checked="checked" })<label>Si</label>
+                                @Html.RadioButtonFor(model => model.Disolucions[i].Anterior, "false", htmlAttributes: new { @id = "posterior" })<label>No</label>
                             }
                             else
                             {
-                                @Html.RadioButtonFor(model => model.Disolucions[i].Posterior, "true", htmlAttributes: new { @id = "anterior" })<label>Si</label>
-                                @Html.RadioButtonFor(model => model.Disolucions[i].Posterior, "false", htmlAttributes: new { @id = "posterior", @checked="checked" })<label>No</label>
+                                @Html.RadioButtonFor(model => model.Disolucions[i].Anterior, "true", htmlAttributes: new { @id = "anterior" })<label>Si</label>
+                                @Html.RadioButtonFor(model => model.Disolucions[i].Anterior, "false", htmlAttributes: new { @id = "posterior", @checked="checked" })<label>No</label>
                             }
 
                         }
@@ -192,7 +192,7 @@ else
                                 </th>
                                 <th>
                                     @Html.LabelFor(m => Model.Disolucions[i].Comision, htmlAttributes: new { @class = "control-label col-md-10" })
-                                    @Html.EditorFor(m => Model.Disolucions[i].Comision, new { htmlAttributes = new { @id = "comisionAnterior", @class = "form-control", @style = "height: 20px;", @disabled="disabled"} })
+                                    @Html.EditorFor(m => Model.Disolucions[i].Comision, new { htmlAttributes = new { @id = "comisionAnterior", @class = "form-control", @style = "height: 20px;"} })
                                 </th>
                                 <td>
                                     @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
@@ -270,7 +270,7 @@ else
                                 </th>
                                 <th>
                                     @Html.LabelFor(m => Model.Disolucions[i].Comision, htmlAttributes: new { @class = "control-label col-md-10" })
-                                    @Html.EditorFor(m => Model.Disolucions[i].Comision, new { htmlAttributes = new { @id = "comisionPosterior", @class = "form-control", @style = "height: 20px;", @disabled = "disabled" } })
+                                    @Html.EditorFor(m => Model.Disolucions[i].Comision, new { htmlAttributes = new { @id = "comisionPosterior", @class = "form-control", @style = "height: 20px;" } })
                                 </th>
                                 <th>
                                     @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })

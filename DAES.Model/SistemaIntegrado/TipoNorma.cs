@@ -23,11 +23,7 @@ namespace DAES.Model.SistemaIntegrado
         public int TipoNormaId { get; set; }
 
       
-        [Display(Name = "Tipo organización")]
+        [Display(Name = "Tipo de Norma")]
         public string Nombre { get; set; }
-
-        
-
-
     }
 }
