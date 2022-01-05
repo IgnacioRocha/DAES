@@ -27,9 +27,6 @@ namespace DAES.Model.SistemaIntegrado
         public int? TipoOrganizacionId { get; set; }
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }
 
-        //public int? IdTipoNorma { get; set; }
-        //public virtual TipoNorma Tipo { get; set; }
-
         [Display(Name = "Estado")]
         public int? EstadoId { get; set; }
         public virtual Estado Estado { get; set; }

@@ -1,0 +1,66 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+
+@if (Model.ExtractoAuxiliars.Count() != 0)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>
+                    @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().ConservadorComercio, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().FechaInscripcion, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().Foja, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().Numero, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().FechaPubliccionDiarioOficial, new { @class = "font-weight-bold" })
+                </th>
+                <th>
+                    @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().NumeroPublicacionDiarioOficial, new { @class = "font-weight-bold" })
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.ExtractoAuxiliars.Count; i++)
+            {
+                @Html.HiddenFor(m => m.SupervisorAuxiliarId)
+                @Html.HiddenFor(m => m.ExtractoAuxiliars[i].ExtractoAuxiliarId)
+                <tr>
+                    <td>
+                        @Html.EditorFor(m => m.ExtractoAuxiliars[i].ConservadorComercio, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.ExtractoAuxiliars[i].Foja, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.ExtractoAuxiliars[i].Numero, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Ajax.ActionLink("Eliminar", "DeleteExtracto", null, new { Model.ExtractoAuxiliars.ToArray()[i].ExtractoAuxiliarId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "extracto" })
+                    </td>
+                </tr>
+            }
+
+
+
+        </tbody>
+    </table>
+}
+else
+{
+    @Ajax.ActionLink("Agregar Extracto", "ExtractoAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "extracto" })
+}

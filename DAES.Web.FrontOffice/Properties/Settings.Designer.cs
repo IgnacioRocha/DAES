@@ -32,6 +32,7 @@ namespace DAES.Web.FrontOffice.Properties {
             }
         }
         
+        //Tokens Clave Unica
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("b2d5390a03e642b799ac7dd61c1d453d")]
@@ -61,13 +62,13 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://gestionprocesos.economia.cl")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://gestionprocesos.economia.cl")]
         public string url_gestion_procesos {
             get {
                 return ((string)(this["url_gestion_procesos"]));
             }
         }
-        
+
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("52428800")]

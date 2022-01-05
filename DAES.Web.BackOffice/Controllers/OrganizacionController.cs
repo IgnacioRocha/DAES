@@ -39,7 +39,7 @@ namespace DAES.Web.BackOffice.Controllers
             public int? ComunaId { get; set; }
 
             public int? TipoNormaId { get; set; }
-            
+
 
             public ICollection<Organizacion> Organizacions { get; set; }
             //public ICollection<TipoNorma> TipoNormas { get; set; }
@@ -105,7 +105,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         public ActionResult Index(SearchViewModel model)
         {
-            
+
             ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.TipoOrganizacionId);
             ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.EstadoId);
             ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.SituacionId);
@@ -153,8 +153,8 @@ namespace DAES.Web.BackOffice.Controllers
             {
                 query = query.Where(q => q.TipoNormaId == model.TipoNormaId.Value);
             }
-            
-           
+
+
 
             if (!string.IsNullOrEmpty(model.Query))
             {
@@ -241,7 +241,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre");
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
             //ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
-            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");  
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
             return View();
         }
 
@@ -307,10 +307,10 @@ namespace DAES.Web.BackOffice.Controllers
 
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
 
-            
+
 
             return View(organizacion);
-            
+
         }
 
         [HttpPost]
@@ -386,7 +386,7 @@ namespace DAES.Web.BackOffice.Controllers
 
                 if (sane == false && san.FechaaInscripcion != null)
                 {
-                  _custom.SaneamientoCreate(san, model);
+                    _custom.SaneamientoCreate(san, model);
                 }
                 else
                 {
@@ -438,7 +438,7 @@ namespace DAES.Web.BackOffice.Controllers
 
             if (ModelState.IsValid)
             {
-               
+
 
                 //model.Reformas = null;
                 db.Entry(model).State = EntityState.Modified;
@@ -587,18 +587,18 @@ namespace DAES.Web.BackOffice.Controllers
             return PartialView("_DirectorioEdit", model);
         }
 
-        
+
         public ActionResult ExistenciaAdd(int OrganizacionId, Organizacion models)
         {
 
-                db.ExistenciaLegal.Add(new ExistenciaLegal()
-                {
-                    OrganizacionId = OrganizacionId,
-                    TipoNormaId = models.TipoNormaId,
-                   
-                });
-                db.SaveChanges();
-            
+            db.ExistenciaLegal.Add(new ExistenciaLegal()
+            {
+                OrganizacionId = OrganizacionId,
+                TipoNormaId = models.TipoNormaId,
+
+            });
+            db.SaveChanges();
+
 
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
@@ -712,7 +712,7 @@ namespace DAES.Web.BackOffice.Controllers
         {
             db.ReformaAnterior.Add(new ReformaAnterior() { OrganizacionId = OrganizacionId}) ;
             db.SaveChanges();
-            
+
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
             //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
@@ -868,9 +868,9 @@ namespace DAES.Web.BackOffice.Controllers
 
             var model = db.Organizacion.Find(OrganizacionId);
             var comi = db.ComisionLiquidadora.Add(new ComisionLiquidadora() { OrganizacionId = OrganizacionId });
-            
+
             db.SaveChanges();
-                        
+
             return PartialView("_ComisionEdit", model);
         }
 
@@ -881,7 +881,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
             var comision = db.ComisionLiquidadora.FirstOrDefault(q => q.ComisionLiquidadoraId == ComisionLiquidadoraId);
 
-            if(comision != null)
+            if (comision != null)
             {
                 db.ComisionLiquidadora.Remove(comision);
                 db.SaveChanges();

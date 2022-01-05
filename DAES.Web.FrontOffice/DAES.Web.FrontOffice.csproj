@@ -61,6 +61,9 @@
     <Reference Include="ErrorHandlerMvc, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ErrorHandlerMvc.1.1.5\lib\net451\ErrorHandlerMvc.dll</HintPath>
     </Reference>
+    <Reference Include="GridMvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Grid.Mvc.3.1.0-ci1036\lib\net40\GridMvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -206,9 +209,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActualizacionSupervisorController.cs" />
     <Compile Include="Controllers\AsambleaExtraOrdinariaAsociacionController.cs" />
     <Compile Include="Controllers\AsociacionConsumidorController.cs" />
     <Compile Include="Controllers\CooperativaAbiertaController.cs" />
@@ -220,6 +225,8 @@
     <Compile Include="Controllers\DAESController.cs" />
     <Compile Include="Controllers\InformacionSemestralController.cs" />
     <Compile Include="Controllers\InformacionAnualController.cs" />
+    <Compile Include="Controllers\RegistroSupervisorController.cs" />
+    <Compile Include="Controllers\SupervisorAuxiliarController.cs" />
     <Compile Include="Controllers\VerificarDocumentoController.cs" />
     <Compile Include="Controllers\PublicacionFinancieraController.cs" />
     <Compile Include="Controllers\Articulo91Controller.cs" />
@@ -275,6 +282,7 @@
     <Content Include="Content\btn_claveunica_172px.png" />
     <Content Include="Content\btn_claveunica_202px.png" />
     <Content Include="Content\claveunica-medium.png" />
+    <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\header-social-sprite.png" />
     <Content Include="Content\logo-pagina-web3.png" />
     <Content Include="Content\GUIA_AC.pdf" />
@@ -313,12 +321,12 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="Content\CAC\CACsMENSUAL%282de2%29 v5.xls" />
     <Content Include="Content\CAC\Balance, AC01, AC03, AC12.xlsx" />
+    <Content Include="Grid.mvc.readme" />
     <Content Include="Content\bootstrap\variables.less" />
     <Content Include="Content\bootstrap\mixins.less" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Produccion.pubxml" />
     <Content Include="Content\Site.css" />
-    <Content Include="scriptGio\script.sql" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -330,6 +338,10 @@
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\expressive.annotations.validate.js" />
     <Content Include="Scripts\expressive.annotations.validate.min.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.fr.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -347,8 +359,10 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Views\Articulo90IncisoPrimero\Index.cshtml" />
-    <Content Include="Views\Articulo90IncisoSegundo\Index.cshtml" />
+    <Content Include="Views\Articulo90IncisoPrimero\Search.cshtml" />
+    <Content Include="Views\Articulo90IncisoSegundo\Search.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\cacFactor.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\cacArea.cshtml" />
     <Content Include="Views\Constitucion\Create.cshtml" />
     <Content Include="Views\ClaveUnica\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -369,6 +383,7 @@
     <Content Include="Views\FusionCooperativa\Create.cshtml" />
     <Content Include="Views\FusionCooperativa\Search.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\Finish.cshtml" />
     <Content Include="Views\TransformacionCooperativa\Create.cshtml" />
     <Content Include="Views\TransformacionCooperativa\Search.cshtml" />
     <Content Include="Views\Actualizacion\Search.cshtml" />
@@ -453,6 +468,16 @@
     <Content Include="Views\InformacionSemestral\Index.cshtml" />
     <Content Include="Views\InformacionSemestral\Search.cshtml" />
     <Content Include="Views\AsociacionConsumidor\Index.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\Index.cshtml" />
+    <Content Include="Views\ActualizacionSupervisor\Index.cshtml" />
+    <Content Include="Views\RegistroSupervisor\Index.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\Create.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_Constitucion.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_PersonasFacultadas.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_Representantes.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\UpdateSupervisor.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\Update.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_RepresentantesUpdate.cshtml" />
     <Content Include="Views\Shared\_ErrorDisolucion.cshtml" />
     <Content Include="Views\CooperativaAbierta\Confirm.cshtml" />
     <Content Include="Views\CooperativaAbierta\Create.cshtml" />
@@ -461,6 +486,15 @@
     <Content Include="Views\EstudioSAhorroCredito\Create.cshtml" />
     <Content Include="Views\EstudioSAhorroCredito\Finish.cshtml" />
     <Content Include="Views\EstudioSAhorroCredito\index.cshtml" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_Extracto.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_PersonasFacultadasUpdate.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\Clave.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\Create.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\Finish.cshtml" />
+    <Content Include="Views\EstudioSAhorroCredito\index.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_ConstitucionUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />

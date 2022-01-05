@@ -15,7 +15,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Id")]
         public int ModificacionEstatutoId { get; set; }
 
-        [Display(Name = "Organización")] 
+        [Display(Name = "Organización")]
         public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
@@ -29,11 +29,5 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Vigente?")]
         public bool Vigente { get; set; } = false;
-
-        
-        
-
-
-
     }
 }

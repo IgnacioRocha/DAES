@@ -143,7 +143,9 @@
             InformacionACSemestral = 104,
             InformacionACAnual = 105,
             CooperativaViviendaAbierta = 106,
-            EstudioSocioEconomicos = 95
+            EstudioSocioEconomicos = 95,
+            IngresoSupervisorAuxiliar = 110,
+            ActualizacionSupervisorAuxiliar = 111
         }
 
         public enum TipoAprobacion
@@ -200,11 +202,12 @@
             Defecto = 135,
         }
 
-        public enum Norma
+        public enum TipoPersonaJuridica
         {
-            Decreto = 1,
-            DecretoSupremo = 2,
-            Resolucion = 3
+            EIRL = 1,
+            SociedadAnonima = 2,
+            SociedadPorAcciones = 3,
+            SociedadComercialLtda = 4
         }
     }
 }
