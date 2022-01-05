@@ -925,6 +925,9 @@
     <Content Include="Views\Organizacion\_ModificacionCPostRPostEdit.cshtml" />
     <Content Include="Views\Organizacion\_Reforma.cshtml" />
     <Content Include="Views\Organizacion\_ReformaPost.cshtml" />
+    <Content Include="Views\Organizacion\_AsociacionesEdit.cshtml" />
+    <Content Include="Views\Organizacion\_CoopAnterior.cshtml" />
+    <Content Include="Views\Organizacion\_CoopPosterior.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
