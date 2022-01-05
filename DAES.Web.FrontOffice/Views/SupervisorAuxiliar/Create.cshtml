@@ -92,6 +92,11 @@
                                 @Html.Partial("_Constitucion", Model)
                             </div>
                         }
+                        <div class="card-body" id="modificaciones">
+                            <h5 class="card-title font-weight-bold">Modificaciones</h5>
+                            <hr />
+                            @Ajax.ActionLink("Agregar Modificacion", "ConstitucionAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
+                        </div>
                     </div>
                 </div>
             </div>

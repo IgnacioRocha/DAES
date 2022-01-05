@@ -1,6 +1,6 @@
 ﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
 <table class="table table-striped">
-    @Html.AntiForgeryToken()    
+    @Html.AntiForgeryToken()
     <thead>
         <tr>
             <th>
@@ -30,7 +30,7 @@
                     @Html.EditorFor(m => m.EscrituraConstitucionModificaciones[i].NumeroRepertorio, new { htmlAttributes = new { @class = "form-control" } })
                 </td>
                 <td>
-                    @Ajax.ActionLink("Eliminar", "ConstitucionDelete", null, new { Model.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
+                    @Ajax.ActionLink("Eliminar", "ConstitucionUpdateDelete", null, new { Model.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId, Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
                 </td>
             </tr>
         }

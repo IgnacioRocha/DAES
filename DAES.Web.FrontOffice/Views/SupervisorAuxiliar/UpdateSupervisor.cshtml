@@ -94,13 +94,18 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Escritura de Constitución</h5>
+                        <h5 class="card-title font-weight-bold">Escritura de Constitución</h5>
                         @if (Model.EscrituraConstitucionModificaciones.Count() != 0)
                         {
                             <div id="constitucion">
-                                @Html.Partial("_Constitucion", Model)
+                                @Html.Partial("_ConstitucionUpdate", Model)
                             </div>
                         }
+                        <div class="card-body" id="modificaciones">
+                            <h5 class="card-title font-weight-bold">Modificaciones</h5>
+                            <hr />
+                            @Ajax.ActionLink("Agregar Modificacion", "ConstitucionUpdateAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
+                        </div>
                     </div>
                 </div>
             </div>
@@ -108,9 +113,11 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="extracto">
-                        <h5 class="card-title font-weight-bold">Extracto</h5>
-                        @Html.Partial("_Extracto", Model)
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Extracto</h5>                        
+                        <div id="extracto">
+                            @Html.Partial("_Extracto", Model)
+                        </div>                    
                     </div>
                 </div>
             </div>
