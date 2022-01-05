@@ -315,7 +315,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Organizacion model, ExistenciaLegal existenciaLegals, Saneamiento san, Reforma reforma, Disolucion disolucion)
+        public ActionResult Edit(Organizacion model, ExistenciaLegal existenciaLegals, Saneamiento san, ReformaAnterior refAnt, ReformaPosterior refPost, Disolucion disolucion, ExistenciaAnterior ExiAnt, ExistenciaPosterior ExiPost, ReformaAGAC refAG)
         {
             model.FechaActualizacion = DateTime.Now;
 
@@ -323,9 +323,59 @@ namespace DAES.Web.BackOffice.Controllers
             {
                 var mod = db.ExistenciaLegal.Any(q => q.OrganizacionId == model.OrganizacionId);
                 var sane = db.Saneamiento.Any(q => q.OrganizacionId == model.OrganizacionId);
-                var refa = db.Reforma.Any(q => q.OrganizacionId == model.OrganizacionId);
+                var exiAnterior = db.ExistenciaLegalAnterior.Any(q => q.OrganizacionId == model.OrganizacionId);
+                var exisPosterior = db.ExistenciaPosterior.Any(q => q.OrganizacionId == model.OrganizacionId);
+                var refAnterior = db.ReformaAnterior.Any(q => q.OrganizacionId == model.OrganizacionId);
+                var refoPost = db.ReformaPosterior.Any(q => q.OrganizacionId == model.OrganizacionId);
+                var refoAG = db.ReformaAGAC.Any(q => q.OrganizacionId == model.OrganizacionId);
+                var exoAG = db.ExistenciaLegal.Any(q => q.OrganizacionId == model.OrganizacionId);
 
-                if (mod == false && existenciaLegals.FechaPubli != null || existenciaLegals.FechaPublic != null)
+                if (exiAnterior == false && ExiAnt.FNorma != null)
+                {
+                    _custom.ExistenciaAnteriorCreate(model, ExiAnt);
+                }
+                else
+                {
+                    _custom.ExistenciaAnteriorUpdate(model.ExistenciaAnteriors);
+                }
+
+                if (exisPosterior == false && ExiPost.FechaConstitutivaSocios != null)
+                {
+                    _custom.ExistenciaPostCreate(model, ExiPost);
+                }
+                else
+                {
+                    _custom.ExistenciaPostUpdate(model.ExistenciaPosteriors);
+                }
+
+                if (refAnterior == false && refAnt.FechaNorma != null)
+                {
+                    _custom.ReformaAnteriorCreate(refAnt, model);
+                }
+                else
+                {
+                    _custom.ReformaUpdateAnt(model.ReformaAnteriors);
+                }
+
+                if (refoPost == false && refPost.FechaJuntGeneralSocios != null)
+                {
+                    _custom.ReformaPosteriorCreate(refPost, model);
+                }
+                else
+                {
+                    _custom.ReformaUpdatePost(model.ReformaPosteriors);
+                }
+
+                if (refoAG != false && refAG.FechaAsambleaDep != null)
+                {
+                    _custom.ReformaAGCreate(refAG, model);
+                }
+                else
+                {
+                    _custom.ReformaUpdateAG(model.ReformaAGACs);
+                }
+
+                if (exoAG == false && existenciaLegals.FechaConstitutivaSocios != null)
                 {
                     _custom.ExistenciaCreate(model, existenciaLegals);
                 }
@@ -343,14 +393,7 @@ namespace DAES.Web.BackOffice.Controllers
                     _custom.SaneamientoUpdate(model.Saneamientos);
                 }
 
-                if (refa == false || reforma.FechaReforma != null || reforma.FechaReformaa != null)
-                {
-                    _custom.ReformaCreate(reforma, model);
-                }
-                else 
-                {
-                    _custom.ReformaUpdate(model.Reformas, model);
-                }
+               
 
 
                 _custom.DirectorioUpdate(model.Directorios);
@@ -419,6 +462,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
             ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
+
 
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
             ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaaId", "Nombre");
@@ -666,60 +710,115 @@ namespace DAES.Web.BackOffice.Controllers
 
         public ActionResult ReformaAdd(int OrganizacionId)
         {
-            db.Reforma.Add(new Reforma() { OrganizacionId = OrganizacionId}) ;
+            db.ReformaAnterior.Add(new ReformaAnterior() { OrganizacionId = OrganizacionId}) ;
             db.SaveChanges();
             
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
-            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
+
+
+            var model = db.Organizacion.Find(OrganizacionId);
+            return PartialView("_Reforma", model);
+        }
+        
+        public ActionResult ReformaAddAGAC(int OrganizacionId)
+        {
+            db.ReformaAGAC.Add(new ReformaAGAC() { OrganizacionId = OrganizacionId}) ;
+            db.SaveChanges();
+            
+            ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
+            ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
+            //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
             ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
             
 
             var model = db.Organizacion.Find(OrganizacionId);
-            return PartialView("_Reforma", model);
+            return PartialView("_ReformaAGAC", model);
         }
               
 
         public ActionResult ReformaAddPost(int OrganizacionId)
         {
-            db.Reforma.Add(new Reforma() { OrganizacionId = OrganizacionId });
+            db.ReformaPosterior.Add(new ReformaPosterior() { OrganizacionId = OrganizacionId });
             db.SaveChanges();
 
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
-            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
             ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
 
             var model = db.Organizacion.Find(OrganizacionId);
             return PartialView("_ReformaPost", model);
         }
-        public ActionResult ReformaDeletePost(int IdReforma, int OrganizacionId)
+
+        public ActionResult ReformaDeletePost(int IdReformaPost, int OrganizacionId)
         {
-            var reforma = db.Reforma.FirstOrDefault(q => q.IdReforma == IdReforma);
+            var reforma = db.ReformaPosterior.FirstOrDefault(q => q.IdReformaPost == IdReformaPost);
             if (reforma != null)
             {
-                db.Reforma.Remove(reforma);
+                db.ReformaPosterior.Remove(reforma);
                 db.SaveChanges();
             }
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
-            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
             ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
 
             var model = db.Organizacion.Find(OrganizacionId);
             return PartialView("_ReformaPost", model);
         }
-        public ActionResult ReformaDelete(int IdReforma, int OrganizacionId)
+        //public ActionResult ReformaDelete(int IdReforma, int OrganizacionId)
+        //{
+        //    var reforma = db.Reforma.FirstOrDefault(q => q.IdReforma == IdReforma);
+        //    if (reforma != null)
+        //    {
+        //        db.Reforma.Remove(reforma);
+        //        db.SaveChanges();
+        //    }
+        //    ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
+        //    ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
+        //    ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+        //    ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
+
+        //    var model = db.Organizacion.Find(OrganizacionId);
+        //    return PartialView("_Reforma", model);
+        //}
+        
+        public ActionResult ReformaDeleteAGAC(int IdReformaAGAC, int OrganizacionId)
         {
-            var reforma = db.Reforma.FirstOrDefault(q => q.IdReforma == IdReforma);
+            var reforma = db.ReformaAGAC.FirstOrDefault(q => q.IdReformaAGAC == IdReformaAGAC);
             if (reforma != null)
             {
-                db.Reforma.Remove(reforma);
+                db.ReformaAGAC.Remove(reforma);
                 db.SaveChanges();
             }
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
+            //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
             ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+
+            var model = db.Organizacion.Find(OrganizacionId);
+            return PartialView("_ReformaAGAC", model);
+        }
+        public ActionResult ReformaDeleteAnterior(int IdReformaAnterior, int OrganizacionId)
+        {
+            var reforma = db.ReformaAnterior.FirstOrDefault(q => q.IdReformaAnterior == IdReformaAnterior);
+            if (reforma != null)
+            {
+                db.ReformaAnterior.Remove(reforma);
+                db.SaveChanges();
+            }
+            ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
+            ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
+            //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
             ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
 
             var model = db.Organizacion.Find(OrganizacionId);

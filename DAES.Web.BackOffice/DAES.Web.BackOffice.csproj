@@ -929,6 +929,12 @@
     <Content Include="Views\Organizacion\_ExistenciaEdit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\DTOExistencia.cshtml" />
     <Content Include="Views\Organizacion\_ReformaPost.cshtml" />
+    <Content Include="Views\Organizacion\_ReformaAGAC.cshtml" />
+    <Content Include="Views\Organizacion\_ExistenciaAnterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionModificacionAnterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionModificacionPosterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionReformaPost.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionReformaAnterior.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

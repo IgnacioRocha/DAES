@@ -1,7 +1,7 @@
 ﻿@model DAES.Model.SistemaIntegrado.Organizacion
 
 @{ ViewBag.Title = "Detalles";
-                ViewBag.SubTitle = "Organización"; }
+    ViewBag.SubTitle = "Organización"; }
 <h1>@Model.RazonSocial</h1>
 
 <p>
@@ -14,6 +14,7 @@
 @Html.Partial("_OrganizacionProceso", Model.Procesos)
 @Html.Partial("_OrganizacionDisolucion", Model.Disolucions)
 @Html.Partial("_OrganizacionModificacion", Model.ExistenciaLegals)
+@Html.Partial("_OrganizacionModificacionAnterior", Model.ExistenciaAnteriors)
 @Html.Partial("_OrganizacionSaneamiento", Model.Saneamientos)
 @Html.Partial("_OrganizacionReforma", Model.Reformas)
 

@@ -1,142 +1,92 @@
 ﻿@model DAES.Model.SistemaIntegrado.Organizacion
-@{ Model.Reformas = Model.Reformas.ToList().OrderByDescending(q => q.FechaReforma).ToList();
-    Model.Reformas = Model.Reformas.ToList().OrderByDescending(q => q.FechaAsambleaDep).ToList(); }
+@{ Model.ReformaAnteriors = Model.ReformaAnteriors.ToList().OrderByDescending(q => q.FechaReforma).ToList(); }
 
 
 
 <table class="table table-hover table-striped ">
 
-    @for (var i = 0; i < Model.Reformas.Count; i++)
+    @for (var i = 0; i < Model.ReformaAnteriors.Count; i++)
     {
 
-@Html.HiddenFor(model => model.Reformas[i].IdReforma) if (Model.TipoOrganizacionId == 1)
-{
-<thead>
+        @Html.HiddenFor(model => model.ReformaAnteriors[i].IdReformaAnterior) 
+        @Html.HiddenFor(model => model.ReformaAnteriors[i].OrganizacionId)
 
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].FechaReforma)
-            @Html.EditorFor(model => Model.Reformas[i].FechaReforma, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
-        </th>
+        if (Model.TipoOrganizacionId == 1)
+        {
+            <thead>
 
-    </tr>
-    <tr>
-        <th>
-            @Html.LabelFor(model => model.TipoNormaId, "Tipo de Norma", htmlAttributes: new { @class = "control-label col-md-10" })
-            @Html.DropDownListFor(model => Model.Reformas[i].TipoNormaId, new SelectList(ViewBag.TipoNormaaId, "Value", "Text", Model.Reformas[i].TipoNormaId), "Seleccione...", new { @class = "form-control", @style = "width: 180px;" })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].NumeroNormaa)
-            @Html.EditorFor(model => Model.Reformas[i].NumeroNormaa, new { htmlAttributes = new { @class = "form-control", @style = "width: 180px;" } })
-        </th>
-    </tr>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].FechaNormaa)
-            @Html.EditorFor(model => Model.Reformas[i].FechaNormaa, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].FechaPublicacionDiario)
-            @Html.EditorFor(model => Model.Reformas[i].FechaPublicacionDiario, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
-        </th>
-    </tr>
-    <tr>
-        <th colspan="2">
-            @Html.DisplayNameFor(model => Model.Reformas[i].DatosGeneralNotario)
-            @Html.EditorFor(model => Model.Reformas[i].DatosGeneralNotario, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
-        </th>
-    </tr>
-    <tr>
-        <td>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ReformaAnteriors[i].FechaReforma)
+                        @Html.EditorFor(model => Model.ReformaAnteriors[i].FechaReforma, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+                    </th>
 
-            @Ajax.ActionLink("Eliminar", "ReformaDelete", null, new { Model.Reformas.ToArray()[i].IdReforma, Model.Reformas.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" }, new { @style = "Text-Decoration : none" })
+                </tr>
+                <tr>
+                    <th>
+                        @Html.LabelFor(model => model.TipoNormaId, "Tipo de Norma", htmlAttributes: new { @class = "control-label col-md-10" })
+                        @Html.DropDownListFor(model => Model.ReformaAnteriors[i].TipoNormaId, new SelectList(ViewBag.TipoNormaaId, "Value", "Text", Model.ReformaAnteriors[i].TipoNormaId), "Seleccione...", new { @class = "form-control", @style = "width: 180px;" })
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ReformaAnteriors[i].NNorma)
+                        @Html.EditorFor(model => Model.ReformaAnteriors[i].NNorma, new { htmlAttributes = new { @class = "form-control", @style = "width: 180px;" } })
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ReformaAnteriors[i].FechaNorma)
+                        @Html.EditorFor(model => Model.ReformaAnteriors[i].FechaNorma, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ReformaAnteriors[i].FechaPublicDiario)
+                        @Html.EditorFor(model => Model.ReformaAnteriors[i].FechaPublicDiario, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        @Html.DisplayNameFor(model => Model.ReformaAnteriors[i].DatosNotario)
+                        @Html.EditorFor(model => Model.ReformaAnteriors[i].DatosNotario, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+                    </th>
+                </tr>
+                <tr>
+                    <td>
 
-        </td>
-    </tr>
-</thead>
- }
-else if (Model.TipoOrganizacionId == 2 || Model.TipoOrganizacionId == 3)
-{
-<thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].AsambleaDepId)
-            @Html.DropDownListFor(model => Model.Reformas[i].AsambleaDepId, new SelectList(ViewBag.AsambleaDepId, "Value", "Text", Model.Reformas[i].AsambleaDepId), "Seleccione...", new { @class = "form-control", @style = "width: 190px;" })
-        </th>
+                        @Ajax.ActionLink("Eliminar", "ReformaDeleteAnterior", null, new { Model.ReformaAnteriors.ToArray()[i].IdReformaAnterior, Model.ReformaAnteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" }, new { @style = "Text-Decoration : none" })
 
-    </tr>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].FechaAsambleaDep)
-            @Html.EditorFor(model => Model.Reformas[i].FechaAsambleaDep, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].NumeroOficio)
-            @Html.EditorFor(model => Model.Reformas[i].NumeroOficio, new { htmlAttributes = new { min = 0, @class = "form-control min='1'", @style = "width: 190px;" } })
-        </th>
-    </tr>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].FechaOficio)
-            @Html.EditorFor(model => Model.Reformas[i].FechaOficio, new { htmlAttributes = new { @class = "form-control ", @style = "width: 190px;" } })
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => Model.Reformas[i].AprobacionId)
-            @*@Html.DropDownListFor(model => Model.Reformas[i].AprobacionId, new SelectList(ViewBag.AprobacionId, "Value", "Text", Model.Reformas[i].AprobacionId), "Seleccione...", new { @class = "form-control", @style = "width: 180px;" })*@
-            @Html.DropDownListFor(model => Model.Reformas[i].AprobacionId, new SelectList(ViewBag.AprobacionId, "Value", "Text", Model.Reformas[i].AprobacionId), "Seleccione...", new { @class = "form-control", @style = "width: 190px;" })
-        </th>
+                    </td>
+                </tr>
+            </thead>
+        
+            }
 
-    </tr>
-    <tr>
-        <td>
-            @Ajax.ActionLink("Eliminar", "ReformaDelete", null, new { Model.Reformas.ToArray()[i].IdReforma, Model.Reformas.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" }, new { @style = "Text-Decoration : none" })
-        </td>
 
-    </tr>
-</thead>
-}
-
-}
+        }
     <tbody>
 
-        @for (var i = 0; i < Model.Reformas.Count; i++)
+        @for (var i = 0; i < Model.ReformaAnteriors.Count; i++)
         {
 
-@Html.HiddenFor(model => model.Reformas[i].IdReforma)
-                @Html.HiddenFor(model => model.Reformas[i].OrganizacionId)
-                                <tr>
+                @Html.HiddenFor(model => model.ReformaAnteriors[i].IdReformaAnterior)
+                @Html.HiddenFor(model => model.ReformaAnteriors[i].OrganizacionId)
+             <tr>
 
-                                    @if (Model.Reformas[i].FechaReforma != null && Model.Reformas[i].FechaReforma.Value.Date.CompareTo(Model.Reformas.Where(q => q.FechaReforma == q.FechaReforma).OrderBy(q => q.FechaReforma).FirstOrDefault().FechaReforma) > 0)
-                                    {
+                    @if (Model.ReformaAnteriors[i].FechaReforma != null && Model.ReformaAnteriors[i].FechaReforma.Value.Date.CompareTo(Model.ReformaAnteriors.Where(q => q.FechaReforma == q.FechaReforma).OrderBy(q => q.FechaReforma).FirstOrDefault().FechaReforma) > 0)
+                    {
 
-                    <p class=" alert alert-success text-center">Esta es la última reforma</p>
-break;
+                         <p class=" alert alert-success text-center">Esta es la última reforma</p>                    
+                         break;
 
-                }
+                    }
 
-                                    @if (Model.Reformas.Count == 1 && Model.Reformas[i].FechaReforma != null)
-                                    {
-                    <p class=" alert alert-success text-center">Esta es la última reforma</p>
-break;
-                }
-
-                                    @if (Model.Reformas[i].FechaAsambleaDep != null && Model.Reformas[i].FechaAsambleaDep.Value.Date.CompareTo(Model.Reformas.Where(q => q.FechaAsambleaDep == q.FechaAsambleaDep).OrderBy(q => q.FechaAsambleaDep).FirstOrDefault().FechaAsambleaDep) > 0)
-                                    {
-
-                    <p class=" alert alert-success text-center">Esta es la última reforma</p>
-break;
-
-                }
-
-                                    @if (Model.Reformas.Count == 1)
-                                    {
-                    <p class=" alert alert-success text-center">Esta es la última reforma</p>
-break;
-                }
+                    @if (Model.ReformaAnteriors.Count == 1 && Model.ReformaAnteriors[i].FechaReforma != null)
+                    {
+                        <p class=" alert alert-success text-center">Esta es la última reforma</p>                   
+                        break;
+                    }
 
 
-                                </tr>
-}
+            </tr>
+            }
     </tbody>
 </table>
 

@@ -301,10 +301,10 @@
 
             </div>
         </div>
-    <input type="submit" value="Guardar datos organización" class="btn btn-primary my-3" style="margin-bottom: 15px; margin-left:5px" />
+        <input type="submit" value="Guardar datos organización" class="btn btn-primary my-3" style="margin-bottom: 15px; margin-left:5px" />
 
     </div>
-    
+
 
 }
 
@@ -327,47 +327,52 @@
 
     <br /><div id="DivConsti">
         <label>Constitución posterior al 2003</label><br />
-        <input id="Constitucion" name="Constitucion" type="radio" value="Si" /> si
-        <input id="Constitucion" name="Constitucion" type="radio" value="No" /> no
+        <input id="Constitucion1" name="Constitucion" type="radio" onclick="PresentarViewPost()" /> si
+        <input id="Constitucion2" name="Constitucion" type="radio" onclick="PresentarViewAnt()" /> no
     </div>
 
-    <div id="divExis" @*name="divExis"*@>
-        @{if (Model.TipoOrganizacionId == 1)
-            {
-                <div class="panel panel-default">
-                    <div class="panel-heading">Autorización de Existencia Legal</div>
-                    <div class="panel-body">
-                        <div id="existencia">
-                            @Html.Partial("_ModificacionEdit", Model)
-                        </div>
-                        <br />
-                        <input type="button" value="Limpiar campos" id="limpiar" class="btn btn-primary" />
+    <div @*name="divExis"*@>
+        @if (Model.TipoOrganizacionId == 1)
+        {
+
+
+            <div class="panel panel-default" id="divExis" style="display:none">
+                <div class="panel-heading">Autorización de Existencia Legal</div>
+                <div class="panel-body">
+                    <div id="existenciaAnterior">
+                        @Html.Partial("_ExistenciaAnterior", Model)
+                    </div>
+                    <br />
+                    <input type="button" value="Limpiar campos" id="limpiar" class="btn btn-primary" />
+                </div>
+            </div>
+
+            <div class="panel panel-default" id="CPostRPost" name="CPostRPost" style="display:none">
+                <div class="panel-heading">Autorización de Existencia Legal</div>
+                <div class="panel-body">
+                    <div id="existencia">
+                        @Html.Partial("_ModificacionCPostRPostEdit", Model)
+                    </div>
+                    <br />
+                    <input type="button" value="Limpiar campos" id="limpiarExiPost" class="btn btn-primary" />
+                </div>
+            </div>
+        }
+        @if (Model.TipoOrganizacionId == 2 || Model.TipoOrganizacionId == 3)
+        {
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Autorización de Existencia Legal</div>
+                <div class="panel-body">
+                    <div id="existencia">
+                        @Html.Partial("_ModificacionAG", Model)
                     </div>
                 </div>
-            }
-            if (Model.TipoOrganizacionId == 2 || Model.TipoOrganizacionId == 3)
-            {
-
-                <div class="panel panel-default">
-                    <div class="panel-heading">Autorización de Existencia Legal</div>
-                    <div class="panel-body">
-                        <div id="existencia">
-                            @Html.Partial("_ModificacionAG", Model)
-                        </div>
-                    </div>
-                </div> } }
-    </div>
-
-    <div class="panel panel-default" id="CPostRPost" name="CPostRPost" style="display:none">
-        <div class="panel-heading">Autorización de Existencia Legal</div>
-        <div class="panel-body">
-            <div id="existencia">
-                @Html.Partial("_ModificacionCPostRPostEdit", Model)
             </div>
-            <br />
-            <input type="button" value="Limpiar campos" id="limpiarExiPost" class="btn btn-primary" />
-        </div>
+        }
     </div>
+
+
 
     <div>
         @if (Model.TipoOrganizacionId != 2 && Model.TipoOrganizacionId != 3)
@@ -382,37 +387,59 @@
                 </div>
                 <br />
                 <input type="button" value="Limpiar campos" id="limpiarSan" class="btn btn-primary" />
-            </div>}
+            </div>
+        }
     </div>
+
 
     <label>Reformas posterior al 2003</label>
     <br /><div id="DivRef">
-        <input id="FReforma" name="FReforma" type="radio" value="Si" /> si
-        <input id="FReforma" name="FReforma" type="radio" value="No" /> no
+        <input id="FReforma1" name="FReformaa" type="radio" onclick="PresentarView()" /> si
+        <input id="FReforma2" name="FReformaa" type="radio" onclick="PresentarViewAnterior()" /> no
     </div>
 
-    <div class="panel panel-default" id="reformaDiv">
-        <div class="panel-heading">Reforma</div>
-        <div class="panel-body">
-            <div id="reforma">
-                @Html.Partial("_Reforma", Model)
 
+    if (Model.TipoOrganizacionId == 1)
+    {
+
+
+        <div class="panel panel-default" id="reformaDiv" style="display:none">
+            <div class="panel-heading">Reforma</div>
+            <div class="panel-body">
+                <div id="reforma">
+                    @Html.Partial("_Reforma", Model)
+                </div>
+                @Ajax.ActionLink("Agregar reforma", "ReformaAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" })
             </div>
-
-            @Ajax.ActionLink("Agregar reforma", "ReformaAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" })
         </div>
-    </div>
 
-    <div class="panel panel-default" id="reformaDivPost" style="display:none">
-        <div class="panel-heading">Reforma</div>
-        <div class="panel-body">
-            <div id="reformas">
-                @Html.Partial("_ReformaPost", Model)
+        <div class="panel panel-default" id="reformaDivPost" style="display:none">
+            <div class="panel-heading">Reforma</div>
+            <div class="panel-body">
+                <div id="reformaPost">
+                    @Html.Partial("_ReformaPost", Model)
+                </div>
+
+                @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" })
             </div>
-
-            @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" }, new { onclick = "actualizarr()" })
         </div>
-    </div>
+    }
+
+    if (Model.TipoOrganizacionId == 3 || Model.TipoOrganizacionId == 2)
+    {
+        <div class="panel panel-default" id="reformaDivPostt">
+            <div class="panel-heading">Reforma</div>
+            <div class="panel-body">
+                <div id="reformaAGAC">
+                    @Html.Partial("_ReformaAGAC", Model)
+                </div>
+
+                @Ajax.ActionLink("Agregar reforma", "ReformaAddAGAC", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaAGAC" })
+            </div>
+        </div>
+
+
+    }
     <div class="panel panel-default">
         <div class="panel-heading">Disolución</div>
         <div class="panel-body">
@@ -436,7 +463,7 @@ else
     <input id="a" value="0" type="hidden" />
 }
 
-@if (Model.ExistenciaLegals.Any())
+@if (Model.ExistenciaAnteriors.Any())
 {
     <input type="hidden" id="tieneExis" value="1" />
 }
@@ -445,15 +472,32 @@ else
     <input id="tieneExis" value="0" type="hidden" />
 }
 
-@if (Model.Reformas.Any())
+@if (Model.ExistenciaPosteriors.Any())
 {
-    <input type="hidden" id="tieneRef" value="1" />
+    <input type="hidden" id="tieneExisPost" value="1" />
 }
 else
 {
-    <input id="tieneRef" value="0" type="hidden" />
+    <input id="tieneExisPost" value="0" type="hidden" />
 }
 
+@if (Model.ReformaPosteriors.Any())
+{
+    <input type="hidden" id="tieneRefP" value="1" />
+}
+else
+{
+    <input id="tieneRefP" value="0" type="hidden" />
+}
+
+@if (Model.ReformaAnteriors.Any())
+{
+    <input type="hidden" id="tieneRefA" value="1" />
+}
+else
+{
+    <input id="tieneRefA" value="0" type="hidden" />
+}
 
 @Html.ActionLink("Volver al listado", "Index")
 
@@ -469,34 +513,39 @@ else
         }
     });
 
-    function actualizarForm() {
+    
 
-        var fechar = document.getElementById('Reformas_0__FechaReforma').value;
-        var fecharePost = document.getElementById('Reformas_0__FechaReformaa').value;
-        if (fecharePost > "2003/01/01" && fecharePost != null) {
-            $("#reformaDiv").hide();
-            $("#reformaDivPost").show();
-        } else  {
-            $("#reformaDiv").show();
-            $("#reformaDivPost").hide();
-        }
+    function actualizarRefA() {
+        $("#reformaDiv").show();
+        $("#FReforma1").prop("checked", false);
+        $("#FReforma2").prop("checked", true);
+        $("#reformaDivPost").hide();
+
+    }
+
+    function actualizarRefP() {
+        $("#reformaDiv").hide();
+        $("#FReforma1").prop("checked", true);
+        $("#FReforma2").prop("checked", false);
+        $("#reformaDivPost").show();
 
     }
 
     function actualizarExis() {
-        var fecharrr = document.getElementById('ExistenciaLegals_0__FechaPublicacionn').value;
-        var fecharposterior = document.getElementById('ExistenciaLegals_0__FechaPublic').value;
-        console.log(fecharposterior);
-        if (fecharposterior > "2003/01/01" && fecharrr != null) {
-            $("#divExis").hide();
-            $("#CPostRPost").show();
-        } else {
-            $("#divExis").show();
-            $("#CPostRPost").hide();
-        }
+        $("#divExis").show();
+        $("#Constitucion1").prop("checked", false);
+        $("#Constitucion2").prop("checked", true);
+        $("#CPostRPost").hide();
     }
 
-    
+    function actualizarExisPost() {
+        $("#divExis").hide();
+        $("#Constitucion1").prop("checked", true);
+        $("#Constitucion2").prop("checked", false);
+        $("#CPostRPost").show();
+    }
+
+
 
     function LimpiarCampos() {
 
@@ -509,24 +558,45 @@ else
 
     function LimpiarCampoExisPosterior() {
 
-        document.getElementById("ExistenciaLegals_0__FechaConstitutivaSocios").value = "";
-        document.getElementById("ExistenciaLegals_0__FechaEscrituraPublica").value = "";
-        document.getElementById("ExistenciaLegals_0__FechaPublic").value = "";
-        document.getElementById("ExistenciaLegals_0__DatosGeneralesNotario").value = "";
-        document.getElementById("ExistenciaLegals_0__Fojas").value = "";
-        document.getElementById("ExistenciaLegals_0__FechaInscripcion").value = "";
-        document.getElementById("ExistenciaLegals_0__DatosCBR").value = "";
-    } 
+        document.getElementById("ExistenciaPosteriors_0__FechaConstitutivaSocios").value = "";
+        document.getElementById("ExistenciaPosteriors_0__FechaPublicacionn").value = "";
+        document.getElementById("ExistenciaPosteriors_0__FechaEscrituraPublica").value = "";
+        document.getElementById("ExistenciaPosteriors_0__DatosGeneralesNotario").value = "";
+        document.getElementById("ExistenciaPosteriors_0__Fojas").value = "";
+        document.getElementById("ExistenciaPosteriors_0__AnoInscripcion").value = "";
+        document.getElementById("ExistenciaPosteriors_0__DatosCBR").value = "";
+    }
 
     function LimpiarCamposSanemiento() {
 
-        document.getElementById("FechaEscrituraPublicaa").value = "";
-        document.getElementById("FechaaPublicacionDiario").value = "";
-        document.getElementById("DatoGeneralesNotario").value = "";
-        document.getElementById("Fojass").value = "";
-        document.getElementById("FechaaInscripcion").value = "";
-        document.getElementById("DatossCBR").value = "";
+        document.getElementById("Saneamientos_0__FechaEscrituraPublicaa").value = "";
+        document.getElementById("Saneamientos_0__FechaaPublicacionDiario").value = "";
+        document.getElementById("Saneamientos_0__DatoGeneralesNotario").value = "";
+        document.getElementById("Saneamientos_0__Fojass").value = "";
+        document.getElementById("Saneamientos_0__FechaaInscripcion").value = "";
+        document.getElementById("Saneamientos_0__DatossCBR").value = "";
     }
+
+    function PresentarView() {
+        $("#reformaDivPost").show();
+        $("#reformaDiv").hide();
+    }
+    function PresentarViewAnterior() {
+        $("#reformaDivPost").hide();
+        $("#reformaDiv").show();
+    }
+
+    function PresentarViewPost() {
+        $("#divExis").hide();
+        $("#CPostRPost").show();
+
+    }
+
+    function PresentarViewAnt() {
+        $("#divExis").show();
+        $("#CPostRPost").hide();
+    }
+
 
     $(document).ready(function () {
 
@@ -550,6 +620,12 @@ else
             $("#divSane").hide();
         }
 
+        //if (document.getElementById('ExistenciaPosteriors_0__FechaPublicacion').value != null) {
+        //    alert("entro al posterior")
+        //} else {
+        //    alert()
+        //}
+
 
         var objeto = document.getElementById('a').value;
         if (objeto > 0) {
@@ -563,39 +639,28 @@ else
 
         var objetos = document.getElementById('tieneExis').value;
         if (objetos > 0) {
-            actualizarExis()
+            actualizarExis();
+        }
+
+        var objetos = document.getElementById('tieneExisPost').value;
+        if (objetos > 0) {
+            actualizarExisPost();
         }
 
 
-        var objetoss = document.getElementById('tieneRef').value;
+
+        var objetoss = document.getElementById('tieneRefP').value;
         if (objetoss > 0) {
-            actualizarForm();
+            actualizarRefP();
         }
 
-        $("input[name=Constitucion]").click(function () {
-            ;
-            if ($('input:radio[name=Constitucion]:checked').val().toString() == "Si") {
-                $("#CPostRPost").show();
-                $("#divExis").hide();
-            } else {
-                $("#CPostRPost").hide();
-                $("#divExis").show();
-            }
-        });
+        var objetoss = document.getElementById('tieneRefA').value;
+        if (objetoss > 0) {
+            actualizarRefA();
+        }
 
-        $("input[name=FReforma]").click(function () {
-            if ($('input:radio[name=FReforma]:checked').val().toString() == "Si") {
-                $("#reformaDivPost").show();
-                $("#reformaDiv").hide();
-            } else {
-                $("#reformaDivPost").hide();
-                $("#reformaDiv").show();
-            }
-        });
 
     });
 
 </script>
 
-@*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")*@
