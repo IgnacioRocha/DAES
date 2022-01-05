@@ -471,10 +471,6 @@
     <Content Include="Views\SupervisorAuxiliar\Index.cshtml" />
     <Content Include="Views\ActualizacionSupervisor\Index.cshtml" />
     <Content Include="Views\RegistroSupervisor\Index.cshtml" />
-    <Content Include="Views\RegistroSupervisor\Create.cshtml" />
-    <Content Include="Views\RegistroSupervisor\_Representantes.cshtml" />
-    <Content Include="Views\RegistroSupervisor\_Constitucion.cshtml" />
-    <Content Include="Views\RegistroSupervisor\_PersonasFacultadas.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\Create.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\_Constitucion.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\_PersonasFacultadas.cshtml" />

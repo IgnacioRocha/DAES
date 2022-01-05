@@ -55,7 +55,7 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             //TODO Aplicar Clave unica en modo produccion
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Update";
-            /*Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisorAuxiliar";*/
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisorAuxiliar";
 
             /*Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
@@ -69,8 +69,8 @@ namespace DAES.Web.FrontOffice.Controllers
                 DV = "4",
                 tipo = "RUN"
             };*/
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            /*return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);*/
+            /*return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);*/
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }        
 
         /*Funcion para gestionar la vista del Actualizar Supervisor*/
