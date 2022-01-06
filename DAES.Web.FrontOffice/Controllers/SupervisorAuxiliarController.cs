@@ -69,8 +69,8 @@ namespace DAES.Web.FrontOffice.Controllers
                 DV = "4",
                 tipo = "RUN"
             };*/
-            /*return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);*/
-            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }        
 
         /*Funcion para gestionar la vista del Actualizar Supervisor*/
@@ -311,6 +311,7 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            ViewBag.errorMessage = string.Empty;
 
             if (ModelState.IsValid)
             {

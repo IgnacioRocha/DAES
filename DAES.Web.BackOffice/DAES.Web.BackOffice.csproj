@@ -931,6 +931,12 @@
     <Content Include="Views\Shared\_OrganizacionModificacionPosterior.cshtml" />
     <Content Include="Views\Shared\_OrganizacionReformaPost.cshtml" />
     <Content Include="Views\Shared\_OrganizacionReformaAnterior.cshtml" />
+    <Content Include="Views\Organizacion\_AsociacionesEdit.cshtml" />
+    <Content Include="Views\Organizacion\_CoopAnterior.cshtml" />
+    <Content Include="Views\Organizacion\_CoopPosterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionExistencia.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionReforma.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionSaneamiento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

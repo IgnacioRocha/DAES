@@ -13,6 +13,12 @@
     <div class="alert alert-primary" role="alert">
         <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
     </div>
+    @if (ViewBag.errorMessage != null)
+    {
+        <div class="alert-danger alert alert-primary">
+            @ViewBag.errorMessage
+        </div>
+    }
     @using (Html.BeginForm("UpdateSupervisor", "SupervisorAuxiliar", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -35,7 +41,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Identificación</h5>
+                        <h5 class="card-title font-weight-bold">Identificación</h5>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
@@ -78,7 +84,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Representantes Legales</h5>
+                        <h5 class="card-title font-weight-bold">Representantes Legales</h5>
                         @if (Model.RepresentanteLegals.Count() != 0 || Model.RepresentanteLegals != null)
                         {
                             <div id="legales">
@@ -114,10 +120,10 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold">Extracto</h5>                        
+                        <h5 class="card-title font-weight-bold">Extracto</h5>
                         <div id="extracto">
                             @Html.Partial("_Extracto", Model)
-                        </div>                    
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,7 +132,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Personas Facultadas para firmar Informes de supervisión</h5>
+                        <h5 class="card-title font-weight-bold">Personas Facultadas para firmar Informes de supervisión</h5>
                         @if (Model.PersonaFacultadas.Count != 0)
                         {
                             <div id="personasFacultadas">
@@ -137,16 +143,16 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold">Adjuntar Documentos</h5>
                         <hr />
-                            <li class="card-title text-info">
-                                Adjunte documentos necesarios para este trámite
-                            </li>
+                        <li class="card-title text-info">
+                            Adjunte documentos necesarios para este trámite
+                        </li>
                         <hr />
 
                         <div class="input_field">

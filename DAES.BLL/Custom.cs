@@ -2208,7 +2208,8 @@ namespace DAES.BLL
                 obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
                 obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP &&
                 obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta &&
-                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar &&
+                obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ActualizacionSupervisorAuxiliar
                 )
                 {
                     if (!context.Organizacion.Any(q => q.OrganizacionId == obj.OrganizacionId))
@@ -2348,22 +2349,32 @@ namespace DAES.BLL
 
                     }
                     //si viene datos de una organizacion, usarlos para crea la nueva
-                    if (obj.Organizacion != null)
-                    {
-                        proceso.Organizacion = obj.Organizacion;
-                    }
+                    //if (obj.Organizacion != null)
+                    //{
+                    //    proceso.Organizacion = obj.Organizacion;
+                    //}
 
                     //si no vienen datos, crear una nueva organizacion
                     proceso.Organizacion = new Organizacion()
                     {
+                        RazonSocial = obj.Organizacion.RazonSocial,
+                        RubroId = obj.Organizacion.RubroId,
+                        SubRubroId = obj.Organizacion.SubRubroId,
+                        RUT = obj.Organizacion.RUT,
+                        Sigla = obj.Organizacion.Sigla,
+                        Fono = obj.Organizacion.Fono,
+                        Email = obj.Organizacion.Email,
+                        Direccion = obj.Organizacion.Direccion,     
+                        RegionId = obj.Organizacion.RegionId,
+                        ComunaId = obj.Organizacion.ComunaId,
                         FechaCreacion = DateTime.Now,
+                        SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
                         TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida,
                         EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
-                        NumeroSocios = 0,
-                        NumeroSociosHombres = 0,
-                        NumeroSociosMujeres = 0,
                         EsGeneroFemenino = false,
                         EsImportanciaEconomica = false
+                        
+
                     };
                 }
 
@@ -2371,6 +2382,51 @@ namespace DAES.BLL
                 else
                 {
                     proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
+                }
+
+
+                //cooperativa de vivienda abierta
+                //
+                if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta)
+                {
+                    if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta)
+                    {
+                        foreach (var item in obj.CooperativaAbiertas)
+                        {
+                            proceso.CooperativaAbiertas.Add(new CooperativaAbierta
+                            {
+                                FechaCreacion = item.FechaCreacion,
+                                DocumentoAdjunto = item.DocumentoAdjunto,
+                                Proceso = proceso
+                            });
+
+                        }
+                        //si viene datos de una organizacion, usarlos para crea la nueva
+                        if (obj.Organizacion != null)
+                        {
+                            proceso.Organizacion = obj.Organizacion;
+                        }
+
+                        //si no vienen datos, crear una nueva organizacion
+                        if (obj.Organizacion == null)
+                        {
+                            proceso.Organizacion = new Organizacion()
+                            {
+                                FechaCreacion = DateTime.Now,
+                                TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida,
+                                EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
+                                NumeroSocios = 0,
+                                NumeroSociosHombres = 0,
+                                NumeroSociosMujeres = 0,
+                                EsGeneroFemenino = false,
+                                EsImportanciaEconomica = false
+                            };
+                        }
+                    }
+                    else
+                    {
+                        proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
+                    }
                 }
 
                 //en el caso de que sea certificado automático, generar pdf firmado
