@@ -324,12 +324,15 @@
             @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" })
         </div>
     </div>
-
-    <br /><div id="DivConsti">
-        <label>Constitución posterior al 2003</label><br />
-        <input id="Constitucion1" name="Constitucion" type="radio" onclick="PresentarViewPost()" /> si
-        <input id="Constitucion2" name="Constitucion" type="radio" onclick="PresentarViewAnt()" /> no
-    </div>
+    if (Model.TipoOrganizacionId == 1)
+    {
+        <br />
+        <div id="DivConsti">
+            <label>Constitución posterior al 2003</label><br />
+            <input id="Constitucion1" name="Constitucion" type="radio" onclick="PresentarViewPost()" /> si
+            <input id="Constitucion2" name="Constitucion" type="radio" onclick="PresentarViewAnt()" /> no
+        </div>
+    }
 
     <div @*name="divExis"*@>
         @if (Model.TipoOrganizacionId == 1)
@@ -391,13 +394,14 @@
         }
     </div>
 
-
-    <label>Reformas posterior al 2003</label>
-    <br /><div id="DivRef">
-        <input id="FReforma1" name="FReformaa" type="radio" onclick="PresentarView()" /> si
-        <input id="FReforma2" name="FReformaa" type="radio" onclick="PresentarViewAnterior()" /> no
-    </div>
-
+    if (Model.TipoOrganizacionId == 1)
+    {
+        <label>Reformas posterior al 2003</label>
+        <br /><div id="DivRef">
+            <input id="FReforma1" name="FReformaa" type="radio" onclick="PresentarView()" /> si
+            <input id="FReforma2" name="FReformaa" type="radio" onclick="PresentarViewAnterior()" /> no
+        </div>
+    }
 
     if (Model.TipoOrganizacionId == 1)
     {
@@ -513,7 +517,7 @@ else
         }
     });
 
-    
+
 
     function actualizarRefA() {
         $("#reformaDiv").show();

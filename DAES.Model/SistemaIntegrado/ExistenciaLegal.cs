@@ -69,7 +69,7 @@ namespace DAES.Model.SistemaIntegrado
     public string DatosCBR { get; set; }
 
     [Display(Name = "Número de Oficio")]
-    public int? NumeroOficio { get; set; }
+    public string NumeroOficio { get; set; }
 
     [Display(Name = "Fecha Oficio")]
     [DataType(DataType.Date)]

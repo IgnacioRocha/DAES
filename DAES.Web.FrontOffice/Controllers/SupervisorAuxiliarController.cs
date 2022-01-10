@@ -47,7 +47,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 DV = "4",
                 tipo = "RUN"
             };*/
-            /*return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);*/
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
@@ -69,8 +69,8 @@ namespace DAES.Web.FrontOffice.Controllers
                 DV = "4",
                 tipo = "RUN"
             };*/
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }        
 
         /*Funcion para gestionar la vista del Actualizar Supervisor*/
@@ -246,6 +246,8 @@ namespace DAES.Web.FrontOffice.Controllers
                         file.InputStream.CopyTo(ms);
                         string fileName = Path.GetFileName(file.FileName);
                         string fileEx = System.IO.Path.GetExtension(fileName);
+
+                        model.ProcesoId = proceso.ProcesoId;
 
                         proceso.SupervisorAuxiliars.Add(model);
 

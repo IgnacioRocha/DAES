@@ -34,7 +34,7 @@ namespace DAES.Model.SistemaIntegrado
         public DateTime? FechaOficio { get; set; }
 
         [Display(Name = "Número de Oficio")]
-        public int? NumeroOficio { get; set; }
+        public string NumeroOficio { get; set; }
 
         public virtual Aprobacion Aprobacion { get; set; }
 

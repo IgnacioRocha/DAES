@@ -1,6 +1,6 @@
 ﻿
 
-@model IEnumerable<DAES.Model.SistemaIntegrado.Reforma>
+@model IEnumerable<DAES.Model.SistemaIntegrado.ReformaAGAC>
 @using GridMvc.Html
 
 
@@ -47,39 +47,39 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    
-                    @if (item.AsambleaDepId != null)
-                    {
-                        <th>
-                            @Html.DisplayFor(model => item.AsambleaDeposito.Descripcion)
-                        </th>
-                    }
-                    @if (item.FechaAsambleaDep != null)
-                    {
-                        <th>
-                            @Html.DisplayFor(model => item.FechaAsambleaDep)
-                        </th>
-                    }
-                    @if (item.FechaOficio != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaOficio)
-                        </td>
-                    }
-                    @if (item.NumeroOficio != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.NumeroOficio)
-                        </td>
-                    }
-                    @if (item.AprobacionId != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.Aprobacion.Nombre)
-                        </td>
-                    }
-                </tr>
+                    <tr>
+
+                        @if (item.AsambleaDepId != null)
+                        {
+                            <th>
+                                @Html.DisplayFor(model => item.AsambleaDeposito.Descripcion)
+                            </th>
+                        }
+                        @if (item.FechaAsambleaDep != null)
+                        {
+                            <th>
+                                @Html.DisplayFor(model => item.FechaAsambleaDep)
+                            </th>
+                        }
+                        @if (item.FechaOficio != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.FechaOficio)
+                            </td>
+                        }
+                        @if (item.NumeroOficio != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.NumeroOficio)
+                            </td>
+                        }
+                        @if (item.AprobacionId != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.Aprobacion.Nombre)
+                            </td>
+                        }
+                    </tr>
                 }
             </tbody>
         </table>

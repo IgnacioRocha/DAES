@@ -1480,22 +1480,11 @@ namespace DAES.BLL
                                     doc.Add(SaltoLinea);
 
                                 }
-                                if (organizacion.Reformas.Any())
+                                if (organizacion.ReformaAGACs.Any())
                                 {
-
                                     foreach (var item in organizacion.ReformaAGACs.ToList().OrderByDescending(q => q.FechaAsambleaDep).ToList())
                                     {
                                         string parrafo = string.Format(configuracioncertificado.Parrafo4);
-
-                                        parrafo = parrafo.Replace("[ASAMBLEA]", "Asamblea/Depósito: " + item.AsambleaDeposito.Descripcion);
-
-                                        parrafo = parrafo.Replace("[FECHAASAMBLEA]", "Fecha de asamblea, " + item.FechaAsambleaDep.Value.ToString("dd/MM/yyyy"));
-
-                                        parrafo = parrafo.Replace("[NUMEROOFICIO]", "N° de oficio, " + item.NumeroOficio);
-
-                                        parrafo = parrafo.Replace("[FECHAOFICIO]", "Fecha de oficio, " + item.FechaOficio.Value.ToString("dd/MM/yyyy"));
-
-                                        parrafo = parrafo.Replace("[APROBACION]", "Con aprobación: " + item.Aprobacion.Nombre + ", ");
 
                                         var fechaMayor = organizacion.ReformaAGACs.OrderByDescending(q => q.FechaAsambleaDep).FirstOrDefault();
 
@@ -1508,6 +1497,15 @@ namespace DAES.BLL
                                         {
                                             parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
                                         }
+                                        parrafo = parrafo.Replace("[ASAMBLEA]", item.AsambleaDeposito.Descripcion);
+
+                                        parrafo = parrafo.Replace("[FECHAASAMBLEA]", item.FechaAsambleaDep.Value.ToString("dd/MM/yyyy"));
+
+                                        parrafo = parrafo.Replace("[NUMEROOFICIO]", item.NumeroOficio);
+
+                                        parrafo = parrafo.Replace("[FECHAOFICIO]", item.FechaOficio.Value.ToString("dd/MM/yyyy"));
+
+                                        parrafo = parrafo.Replace("[APROBACION]", item.Aprobacion.Nombre + ", ");                                        
 
 
                                         Paragraph parrafoss = new Paragraph(parrafo, _fontStandard);
@@ -2245,7 +2243,7 @@ namespace DAES.BLL
 
                     if (!context.Firmante.Any(q => q.EsActivo))
                     {
-                        throw new Exception("No se encontró un firmante de certificadoa habilitado");
+                        throw new Exception("No se encontró un firmante de certificado habilitado");
                     }
 
                     if (obj.Documentos.Any())
@@ -2333,7 +2331,66 @@ namespace DAES.BLL
                     };
                 }
 
+                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar)
+                {
+                    var aux = obj.SupervisorAuxiliars.ToList();
+                    var repre = new RepresentanteLegal();
+                    var extracto = new ExtractoAuxiliar();
+                    var facul = new PersonaFacultada();
+                    var escritura = new EscrituraConstitucion();
 
+                    foreach (var item in aux)
+                    {
+                        proceso.SupervisorAuxiliars.Add(new SupervisorAuxiliar()
+                        {
+                            ProcesoId = obj.ProcesoId,
+                            RazonSocial= item.RazonSocial,
+                            Rut= item.Rut,
+                            DomicilioLegal=item.DomicilioLegal,
+                            Telefono=item.Telefono,
+                            CorreoElectronico=item.CorreoElectronico,
+                            TipoPersonaJuridicaId=item.TipoPersonaJuridica.TipoPersonaJuridicaId,
+                            Aprobado=item.Aprobado,                            
+                        });
+
+                        foreach (var halp in item.RepresentanteLegals)
+                        {
+                            repre.Domicilio = halp.Domicilio;
+                            repre.Nacionalidad=halp.Nacionalidad;
+                            repre.NombreCompleto=halp.NombreCompleto;
+                            repre.Profesion=halp.Profesion;
+                            repre.RUN=halp.RUN;
+                        }
+
+                        foreach (var ext in item.ExtractoAuxiliars)
+                        {
+                            extracto.Año = ext.Año;
+                            extracto.ConservadorComercio=ext.ConservadorComercio;
+                            extracto.FechaInscripcion=ext.FechaInscripcion;
+                            extracto.FechaPubliccionDiarioOficial = ext.FechaPubliccionDiarioOficial;
+                            extracto.Foja=ext.Foja;
+                            extracto.Numero=ext.Numero;
+                            extracto.NumeroPublicacionDiarioOficial = ext.NumeroPublicacionDiarioOficial;
+                        }
+
+                        foreach (var esc in item.EscrituraConstitucionModificaciones)
+                        {
+                            escritura.Fecha = esc.Fecha;
+                            escritura.Notaria=esc.Notaria;
+                            escritura.NumeroRepertorio=esc.NumeroRepertorio;
+                            escritura.Notaria = esc.Notaria;
+                        }
+
+                        foreach(var perso in item.PersonaFacultadas)
+                        {
+                            facul.Domicilio = perso.Domicilio;
+                            facul.Nacionalidad = perso.Nacionalidad;
+                            facul.NombreCompleto = perso.NombreCompleto;
+                            facul.Profesion=perso.Profesion;
+                            facul.RUN=perso.RUN;
+                        }
+                    }                   
+                }
 
                 //en el caso de un proceso de estudio socioeconomico
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
@@ -2631,6 +2688,23 @@ namespace DAES.BLL
                 if (workflow.DefinicionWorkflow.TipoWorkflow.Nombre.ToUpper() == "ARCHIVAR")
                 {
                     NotificarArchivo(workflow.WorkflowId);
+                }
+
+                // Si la tarea es de registro de supervisor auxiliar y es archivar documentos, cambiar estado para que pase al flujo de actualizar
+                if(workflow.Proceso.DefinicionProcesoId == (int)DAES.Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar)
+                {
+                    var Defwork = context.DefinicionWorkflow.Find(workflow.DefinicionWorkflowId);
+                    var proc = context.Proceso.Find(workflow.ProcesoId);
+                    var super = context.SupervisorAuxiliars.Where(q => q.ProcesoId == proc.ProcesoId).ToList();
+
+                    if (Defwork.TipoWorkflowId == 28)
+                    {
+                        foreach (var item in super)
+                        {
+                            item.Aprobado = true;
+                        }
+                        context.SaveChanges();
+                    }
                 }
 
                 //si hay tareas paralelas pendientes de aprobacion, guardar y salir
