@@ -965,13 +965,12 @@ namespace DAES.BLL
                             doc.Add(parrafouno);
                             doc.Add(SaltoLinea);
 
-
                             if (organizacion.ExistenciaPosteriors.Any() && organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn != null)
                             {
 
-                                if (organizacion.ExistenciaLegals.Any(q => q.FechaConstitutivaSocios != null))
+                                if (organizacion.ExistenciaPosteriors.Any(q => q.FechaConstitutivaSocios != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", "el acta de la junta general constitutiva de la cooperativa, celebrada con fecha " + organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", organizacion.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
@@ -980,7 +979,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.FechaEscrituraPublica != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", "fue reducida a escritura pública con fecha " + organizacion.ExistenciaPosteriors.FirstOrDefault().FechaEscrituraPublica.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]",organizacion.ExistenciaPosteriors.FirstOrDefault().FechaEscrituraPublica.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
@@ -990,7 +989,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.FechaPublicacionn != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", "publicada en el Diario Oficial de fecha " + organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1000,7 +999,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.DatosGeneralesNotario != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSGENERALNOTARIO]", "ante el" + organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[DATOSGENERALNOTARIO]", organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1009,7 +1008,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.Fojas != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FOJAS]", "Fojas N° " + organizacion.ExistenciaPosteriors.FirstOrDefault().Fojas.ToString() + ", ");
+                                    parrafo_dos = parrafo_dos.Replace("[FOJAS]", organizacion.ExistenciaPosteriors.FirstOrDefault().Fojas.ToString());
                                 }
                                 else
                                 {
@@ -1019,7 +1018,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.AnoInscripcion != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]", "Con fecha de inscripción " + organizacion.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion + ", ");
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]", organizacion.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion.ToString());
                                 }
                                 else
                                 {
@@ -1028,7 +1027,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.DatosCBR != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", "Datos del conservador de bienes raíces " + organizacion.ExistenciaPosteriors.FirstOrDefault().DatosCBR.ToString() + ".");
+                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", organizacion.ExistenciaPosteriors.FirstOrDefault().DatosCBR.ToString());
                                 }
                                 else
                                 {
@@ -1037,7 +1036,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.TipoNormaId != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[TIPONORMA]", "El tipo de la norma es " + organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[TIPONORMA]",organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1046,7 +1045,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.NNorma != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", "N° " + organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1055,7 +1054,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.FNorma != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHANORMA]", "de fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHANORMA]", organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1064,7 +1063,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.FechaPublicacion != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", "publicada en el Diario Oficial de fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1073,7 +1072,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.Autorizado != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[AUTORIZADOPOR]", "del " + organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() + ". " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[AUTORIZADOPOR]", organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1095,7 +1094,7 @@ namespace DAES.BLL
                             {
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.TipoNormaId != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[TIPONORMA]", "El tipo de la norma es " + organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[TIPONORMA]", organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1104,16 +1103,16 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.NNorma != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", "N° " + organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() ?? string.Empty);
                                 }
-                                else
+                                else 
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", string.Empty);
                                 }
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.FNorma != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHANORMA]", "de fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHANORMA]", organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1122,7 +1121,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.FechaPublicacion != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", "publicada en el Diario Oficial de fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1131,7 +1130,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.Autorizado != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[AUTORIZADOPOR]", "del " + organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() + ". " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[AUTORIZADOPOR]", organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1161,7 +1160,7 @@ namespace DAES.BLL
                                 {
                                     if (organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa != null)
                                     {
-                                        parrafo_tres = parrafo_tres.Replace("[FECHAESCRITURAPUBLICA]", "Fecha de escritura pública: " + organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa.Value.ToString("dd/MM/yyyy") + ", ");
+                                        parrafo_tres = parrafo_tres.Replace("[FECHAESCRITURAPUBLICA]", organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa.Value.ToString("dd/MM/yyyy"));
                                     }
                                     else
                                     {
@@ -1170,7 +1169,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario != null)
                                     {
-                                        parrafo_tres = parrafo_tres.Replace("[FECHAPUBLICACIONDIARIO]", "Fecha de publicación en diario oficial: " + organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario.Value.ToString("dd/MM/yyyy") + ", ");
+                                        parrafo_tres = parrafo_tres.Replace("[FECHAPUBLICACIONDIARIO]", organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario.Value.ToString("dd/MM/yyyy"));
                                     }
                                     else
                                     {
@@ -1179,7 +1178,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario != null)
                                     {
-                                        parrafo_tres = parrafo_tres.Replace("[DATOSGENERALESNOTARIO]", "Los datos generales del notario: " + organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString() + ", ");
+                                        parrafo_tres = parrafo_tres.Replace("[DATOSGENERALESNOTARIO]", organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString());
                                     }
                                     else
                                     {
@@ -1188,7 +1187,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Saneamientos.FirstOrDefault().Fojass != null)
                                     {
-                                        parrafo_tres = parrafo_tres.Replace("[FOJAS]", "Fojas N° " + organizacion.Saneamientos.FirstOrDefault().Fojass + ", ");
+                                        parrafo_tres = parrafo_tres.Replace("[FOJAS]", organizacion.Saneamientos.FirstOrDefault().Fojass);
                                     }
                                     else
                                     {
@@ -1197,7 +1196,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion != null)
                                     {
-                                        parrafo_tres = parrafo_tres.Replace("[FECHAINSCRIPCION]", "Con año de inscripción: " + organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() + ", ");
+                                        parrafo_tres = parrafo_tres.Replace("[FECHAINSCRIPCION]", organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString());
                                     }
                                     else
                                     {
@@ -1206,7 +1205,7 @@ namespace DAES.BLL
 
                                     if (organizacion.Saneamientos.FirstOrDefault().DatossCBR != null)
                                     {
-                                        parrafo_tres = parrafo_tres.Replace("[DATOSCBR]", "Los datos del conservador de bienes raices: " + organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString() + ".");
+                                        parrafo_tres = parrafo_tres.Replace("[DATOSCBR]", organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString());
                                     }
                                     else
                                     {
@@ -1226,6 +1225,17 @@ namespace DAES.BLL
                                 foreach (var item in organizacion.ReformaAnteriors.ToList().OrderByDescending(q => q.FechaReforma).ToList())
                                 {
                                     string parrafo = string.Format(configuracioncertificado.Parrafo4);
+
+                                    var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
+
+                                    if (item.FechaReforma != null && fechaMayorr.FechaReforma == item.FechaReforma)
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma anterior al 2003");
+                                    }
+                                    else
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
+                                    }
 
                                     if (item.FechaReforma != null)
                                     {
@@ -1295,21 +1305,7 @@ namespace DAES.BLL
                                         parrafo = parrafo.Replace("[APROBACION]", string.Empty);
                                         parrafo = parrafo.Replace("[FECHAREFORMAA]", string.Empty);
 
-                                    }
-
-
-                                    var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
-
-                                    if (item.FechaReforma != null && fechaMayorr.FechaReforma == item.FechaReforma)
-                                    {
-                                        parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma anterior al 2003");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                    }
-
-
+                                    }                                  
 
                                     Paragraph parro = new Paragraph(parrafo, _fontStandard);
                                     parro.Alignment = Element.ALIGN_JUSTIFIED;
@@ -1325,6 +1321,18 @@ namespace DAES.BLL
                                 foreach (var item in organizacion.ReformaPosteriors.ToList().OrderByDescending(q => q.FReforma).ToList())
                                 {
                                     string parrafo = string.Format(configuracioncertificado.Parrafo4);
+
+                                    var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
+
+                                    if (item.FReforma != null && fechaMayorr.FReforma == item.FReforma)
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma posterior al 2003");
+                                    }
+                                    else
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
+                                    }
+
 
                                     if (item.FReforma != null)
                                     {
@@ -1389,17 +1397,6 @@ namespace DAES.BLL
                                         parrafo = parrafo.Replace("[anoinscripcion]", string.Empty);
                                     }
 
-
-                                    var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
-
-                                    if (item.FReforma != null && fechaMayorr.FReforma == item.FReforma)
-                                    {
-                                        parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma posterior al 2003");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                    }
 
 
 
@@ -1666,7 +1663,8 @@ namespace DAES.BLL
                     if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
                     {
                         string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa." +
-                            " Saluda atentamente a ustedes.";
+                            " Saluda atentamente a ustedes."+ "\n"+
+                            "DECRETO TRAN N° 119247/1/2021, DEL 01 DE FEBRERO DE 2021.";
 
                         Paragraph porOrden = new Paragraph(orden, _fontStandard);
                         porOrden.Alignment = Element.ALIGN_JUSTIFIED;

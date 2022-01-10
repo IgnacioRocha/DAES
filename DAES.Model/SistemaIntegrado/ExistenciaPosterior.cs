@@ -36,7 +36,7 @@ namespace DAES.Model.SistemaIntegrado
         public string DatosGeneralesNotario { get; set; }
 
         [Display(Name = "Fojas/N°")]
-        public int? Fojas { get; set; }
+        public string Fojas { get; set; }
 
         [Display(Name = "Año de inscripción")]
         public int? AnoInscripcion { get; set; }
