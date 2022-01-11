@@ -83,7 +83,7 @@ namespace DAES.Model.DTO
         public string Sigla { get; set; }
 
         [Display(Name = "*Fono")]
-        [MaxLength(9, ErrorMessage = "El fono debe tener un máximo de 9")]
+        [MaxLength(12, ErrorMessage = "El fono debe tener un máximo de 12")]
         [Required(ErrorMessage = "Debe especificar el fono")]
         public string Fono { get; set; }
 
@@ -111,7 +111,7 @@ namespace DAES.Model.DTO
         public int? RegionSolicitante { get; set; }
 
         [Display(Name = "*Fono Solicitante")]
-        [MaxLength(9, ErrorMessage = "El fono debe tener un máximo de 9")]
+        [MaxLength(12, ErrorMessage = "El fono debe tener un máximo de 12")]
         [Required(ErrorMessage = "Debe especificar el fono del solicitante")]
         public string FonoSolicitante { get; set; }
 

@@ -1,101 +1,16 @@
 ﻿
 
-@model IEnumerable<DAES.Model.SistemaIntegrado.Reforma>
+@model IEnumerable<DAES.Model.SistemaIntegrado.ReformaAGAC>
 @using GridMvc.Html
 
 
 <div class="panel panel-default" style="overflow-x:scroll">
-    <div class="panel-heading">Reforma</div>
+    <div class="panel-heading">Reformas Asociación de consumidores y asociacion gremial</div>
     <div class="panel-body">
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
-                    @if (Model.Any(q => q.FechaReforma != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.FechaReforma)
-                        </th>
-                    }
 
-                    @if (Model.Any(q => q.FechaReformaa != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.FechaReformaa)
-                        </th>
-                    }
-
-                    <th>
-                        @Html.DisplayNameFor(model => model.UltimaReforma)
-                    </th>
-
-
-
-                    @if (Model.Any(q => q.NumeroNormaa != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.NumeroNormaa)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.FechaNormaa != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.FechaNormaa)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.FechaPublicacionDiario != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.FechaPublicacionDiario)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.DatosGeneralNotario != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.DatosGeneralNotario)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.TipoNormaId != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.TipoNormaId)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.FechaJuntaGeneral != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.FechaJuntaGeneral)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.FechaPublicacion != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.FechaPublicacion)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.AnoInscripcion != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.AnoInscripcion)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.DatosCBR != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.DatosCBR)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.FechaEscrituraPublica != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.FechaEscrituraPublica)
-                        </th>
-                    }
-                    @if (Model.Any(q => q.Fojas != null))
-                    {
-                        <th>
-                            @Html.DisplayNameFor(model => model.Fojas)
-                        </th>
-                    }
                     @if (Model.Any(q => q.AsambleaDepId != null))
                     {
                         <th>
@@ -132,133 +47,39 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    @if (item.FechaReforma != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaReforma)
-                        </td>
-                    }
-                    @if (item.FechaReformaa != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaReformaa)
-                        </td>
-                    }
-                    <td>
-                        @if (item.FechaReformaa != null || item.FechaReforma != null)
+                    <tr>
+
+                        @if (item.AsambleaDepId != null)
                         {
-                            var fechaMayorr = Model.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
-                            var fechaMayor = Model.OrderByDescending(q => q.FechaReformaa).FirstOrDefault();
-                            if (item.FechaReformaa != null && fechaMayor.FechaReformaa == item.FechaReformaa)
-                            {
-                                <p> Esta es la última reforma </p>
-                            }
-                            if (item.FechaReforma != null && fechaMayorr.FechaReforma == item.FechaReforma)
-                            {
-                                <p> Esta es la última reforma </p>
-                            }
+                            <th>
+                                @Html.DisplayFor(model => item.AsambleaDeposito.Descripcion)
+                            </th>
                         }
-                    </td>
-
-                    @if (item.NumeroNormaa != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.NumeroNormaa)
-                        </td>
-                    }
-                    @if (item.FechaNormaa != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaNormaa)
-                        </td>
-                    }
-                    @if (item.FechaPublicacionDiario != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaPublicacionDiario)
-                        </td>
-                    }
-                    @if (item.DatosGeneralNotario != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.DatosGeneralNotario)
-                        </td>
-                    }
-
-                    @if (item.TipoNormaId != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.TipoNorma.Nombre)
-                        </td>
-                    }
-                    @if (item.FechaJuntaGeneral != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaJuntaGeneral)
-                        </td>
-                    }
-                    @if (item.FechaPublicacion != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaPublicacion)
-                        </td>
-                    }
-                    @if (item.AnoInscripcion != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.AnoInscripcion)
-                        </td>
-                    }
-                    @if (item.DatosCBR != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.DatosCBR)
-                        </td>
-                    }
-                    @if (item.FechaEscrituraPublica != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaEscrituraPublica)
-                        </td>
-                    }
-                    @if (item.Fojas != null)
-                    {
-                        <th>
-                            @Html.DisplayFor(model => item.Fojas)
-                        </th>
-                    }
-                    @if (item.AsambleaDepId != null)
-                    {
-                        <th>
-                            @Html.DisplayFor(model => item.AsambleaDeposito.Descripcion)
-                        </th>
-                    }
-                    @if (item.FechaAsambleaDep != null)
-                    {
-                        <th>
-                            @Html.DisplayFor(model => item.FechaAsambleaDep)
-                        </th>
-                    }
-                    @if (item.FechaOficio != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.FechaOficio)
-                        </td>
-                    }
-                    @if (item.NumeroOficio != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.NumeroOficio)
-                        </td>
-                    }
-                    @if (item.AprobacionId != null)
-                    {
-                        <td>
-                            @Html.DisplayFor(model => item.Aprobacion.Nombre)
-                        </td>
-                    }
-                </tr>
+                        @if (item.FechaAsambleaDep != null)
+                        {
+                            <th>
+                                @Html.DisplayFor(model => item.FechaAsambleaDep)
+                            </th>
+                        }
+                        @if (item.FechaOficio != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.FechaOficio)
+                            </td>
+                        }
+                        @if (item.NumeroOficio != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.NumeroOficio)
+                            </td>
+                        }
+                        @if (item.AprobacionId != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.Aprobacion.Nombre)
+                            </td>
+                        }
+                    </tr>
                 }
             </tbody>
         </table>

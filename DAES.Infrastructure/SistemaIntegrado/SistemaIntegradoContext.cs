@@ -90,6 +90,18 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<PersonaFacultada> PersonaFacultadas { get; set; }
         public virtual DbSet<Aprobacion> Aprobacion { get; set; }
 
+        public virtual DbSet<ReformaAnterior> ReformaAnterior { get; set; }
+
+        public virtual DbSet<ReformaPosterior> ReformaPosterior { get; set; }
+
+        public virtual DbSet<ReformaAGAC> ReformaAGAC { get; set; }
+
+        public virtual DbSet<ExistenciaAnterior> ExistenciaLegalAnterior { get; set; }
+
+        public virtual DbSet<ExistenciaPosterior> ExistenciaPosterior { get; set; }
+
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer<SistemaIntegradoContext>(null);

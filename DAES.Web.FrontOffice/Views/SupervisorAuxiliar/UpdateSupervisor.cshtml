@@ -13,6 +13,12 @@
     <div class="alert alert-primary" role="alert">
         <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
     </div>
+    @if (ViewBag.errorMessage != null)
+    {
+        <div class="alert-danger alert alert-primary">
+            @ViewBag.errorMessage
+        </div>
+    }
     @using (Html.BeginForm("UpdateSupervisor", "SupervisorAuxiliar", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
@@ -35,12 +41,12 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Identificación</h5>
+                        <h5 class="card-title font-weight-bold">Identificación</h5>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>@Html.LabelFor(m => m.RazonSocial, new { @class = "font-weight-bold control-label" })</th>
-                                    <th>@Html.LabelFor(m => m.TipoPersonaJuridica, new { @class = "font-weight-bold" })</th>
+                                    <th>@Html.LabelFor(m => m.TipoPersonaJuridicaId, new { @class = "font-weight-bold" })</th>
                                     <th>@Html.LabelFor(m => m.Rut, new { @class = "font-weight-bold" })</th>
                                     <th>@Html.LabelFor(m => m.DomicilioLegal, new { @class = "font-weight-bold" })</th>
                                     <th>@Html.LabelFor(m => m.Telefono, new { @class = "font-weight-bold" })</th>
@@ -78,7 +84,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Representantes Legales</h5>
+                        <h5 class="card-title font-weight-bold">Representantes Legales</h5>
                         @if (Model.RepresentanteLegals.Count() != 0 || Model.RepresentanteLegals != null)
                         {
                             <div id="legales">
@@ -94,23 +100,18 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Escritura de Constitución</h5>
+                        <h5 class="card-title font-weight-bold">Escritura de Constitución</h5>
                         @if (Model.EscrituraConstitucionModificaciones.Count() != 0)
                         {
                             <div id="constitucion">
-                                @Html.Partial("_Constitucion", Model)
+                                @Html.Partial("_ConstitucionUpdate", Model)
                             </div>
                         }
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body" id="extracto">
-                        <h5 class="card-title font-weight-bold">Extracto</h5>
-                        @Html.Partial("_Extracto", Model)
+                        <div class="card-body" id="modificaciones">
+                            <h5 class="card-title font-weight-bold">Modificaciones</h5>
+                            <hr />
+                            @Ajax.ActionLink("Agregar Modificacion", "ConstitucionUpdateAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
+                        </div>
                     </div>
                 </div>
             </div>
@@ -119,7 +120,19 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title font-weight-bold" >Personas Facultadas para firmar Informes de supervisión</h5>
+                        <h5 class="card-title font-weight-bold">Extracto</h5>
+                        <div id="extracto">
+                            @Html.Partial("_Extracto", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">Personas Facultadas para firmar Informes de supervisión</h5>
                         @if (Model.PersonaFacultadas.Count != 0)
                         {
                             <div id="personasFacultadas">
@@ -130,16 +143,16 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title font-weight-bold">Adjuntar Documentos</h5>
                         <hr />
-                            <li class="card-title text-info">
-                                Adjunte documentos necesarios para este trámite
-                            </li>
+                        <li class="card-title text-info">
+                            Adjunte documentos necesarios para este trámite
+                        </li>
                         <hr />
 
                         <div class="input_field">

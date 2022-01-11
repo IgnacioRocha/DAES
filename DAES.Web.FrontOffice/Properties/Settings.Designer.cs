@@ -32,6 +32,7 @@ namespace DAES.Web.FrontOffice.Properties {
             }
         }
         
+        //Tokens Clave Unica
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("b2d5390a03e642b799ac7dd61c1d453d")]

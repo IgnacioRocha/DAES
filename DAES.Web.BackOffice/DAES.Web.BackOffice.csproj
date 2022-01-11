@@ -920,12 +920,23 @@
     <Content Include="Views\TipoOficio\Index.cshtml" />
     <Content Include="Views\Fiscalizacion\Inbox.cshtml" />
     <Content Include="Views\Fiscalizacion\Change.cshtml" />
-    <Content Include="Views\SupervisorAuxiliar\Index.cshtml" />
     <Content Include="Views\Organizacion\_ExistenciaEdit.cshtml" />
     <Content Include="Views\Organizacion\_ModificacionAG.cshtml" />
     <Content Include="Views\Organizacion\_ModificacionCPostRPostEdit.cshtml" />
     <Content Include="Views\Organizacion\_Reforma.cshtml" />
     <Content Include="Views\Organizacion\_ReformaPost.cshtml" />
+    <Content Include="Views\Organizacion\_ReformaAGAC.cshtml" />
+    <Content Include="Views\Organizacion\_ExistenciaAnterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionModificacionAnterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionModificacionPosterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionReformaPost.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionReformaAnterior.cshtml" />
+    <Content Include="Views\Organizacion\_AsociacionesEdit.cshtml" />
+    <Content Include="Views\Organizacion\_CoopAnterior.cshtml" />
+    <Content Include="Views\Organizacion\_CoopPosterior.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionExistencia.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionReforma.cshtml" />
+    <Content Include="Views\Shared\_OrganizacionSaneamiento.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

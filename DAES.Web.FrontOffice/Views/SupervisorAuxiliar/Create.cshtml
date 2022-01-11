@@ -46,7 +46,7 @@
                             <thead>
                                 <tr>
                                     <th>@Html.LabelFor(m => m.RazonSocial, new { @class = "font-weight-bold control-label" })</th>
-                                    <th>@Html.LabelFor(m => m.TipoPersonaJuridica, new { @class = "font-weight-bold" })</th>
+                                    <th>@Html.LabelFor(m => m.TipoPersonaJuridicaId, new { @class = "font-weight-bold" })</th>
                                     <th>@Html.LabelFor(m => m.Rut, new { @class = "font-weight-bold" })</th>
                                     <th>@Html.LabelFor(m => m.DomicilioLegal, new { @class = "font-weight-bold" })</th>
                                     <th>@Html.LabelFor(m => m.Telefono, new { @class = "font-weight-bold" })</th>
@@ -109,6 +109,11 @@
                                 @Html.Partial("_Constitucion", Model)
                             </div>
                         }
+                        <div class="card-body" id="modificaciones">
+                            <h5 class="card-title font-weight-bold">Modificaciones</h5>
+                            <hr />
+                            @Ajax.ActionLink("Agregar Modificacion", "ConstitucionAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "constitucion" })
+                        </div>
                     </div>
                 </div>
             </div>

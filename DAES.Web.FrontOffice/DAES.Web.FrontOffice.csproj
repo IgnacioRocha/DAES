@@ -471,11 +471,6 @@
     <Content Include="Views\SupervisorAuxiliar\Index.cshtml" />
     <Content Include="Views\ActualizacionSupervisor\Index.cshtml" />
     <Content Include="Views\RegistroSupervisor\Index.cshtml" />
-    <Content Include="Views\RegistroSupervisor\Create.cshtml" />
-    <Content Include="Views\RegistroSupervisor\_Representantes.cshtml" />
-    <Content Include="Views\RegistroSupervisor\_Constitucion.cshtml" />
-    <Content Include="Views\RegistroSupervisor\_PersonasFacultadas.cshtml" />
-    <Content Include="Views\ActualizacionSupervisor\Update.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\Create.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\_Constitucion.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\_PersonasFacultadas.cshtml" />
@@ -499,6 +494,7 @@
     <Content Include="Views\EstudioSAhorroCredito\Create.cshtml" />
     <Content Include="Views\EstudioSAhorroCredito\Finish.cshtml" />
     <Content Include="Views\EstudioSAhorroCredito\index.cshtml" />
+    <Content Include="Views\SupervisorAuxiliar\_ConstitucionUpdate.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />

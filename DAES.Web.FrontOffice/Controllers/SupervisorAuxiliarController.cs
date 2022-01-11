@@ -33,46 +33,44 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             //TODO Aplicar Clave unica en modo produccion
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
-            /*Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisionAuxiliar";*/
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisorAuxiliar";
 
-            /*Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+           /* Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
             {
-                nombres = new System.Collections.Generic.List<string> { "IGNACIO", "ALFREDO" },
-                apellidos = new System.Collections.Generic.List<string> { "ROCHA", "PAVEZ" }
+                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
             };
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-
             Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
             {
-                numero = 17957898,
-                DV = "0",
+                numero = 44444444,
+                DV = "4",
                 tipo = "RUN"
             };*/
             return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            /*return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);*/
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
         public ActionResult UpdateSearch()
         {
             //TODO Aplicar Clave unica en modo produccion
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Update";
-            /*Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisionAuxiliar";*/
+            Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisorAuxiliar";
 
-            /*Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            /*Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
             {
-                nombres = new System.Collections.Generic.List<string> { "IGNACIO", "ALFREDO" },
-                apellidos = new System.Collections.Generic.List<string> { "ROCHA", "PAVEZ" }
+                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
             };
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-
             Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
             {
-                numero = 17957898,
-                DV = "0",
+                numero = 44444444,
+                DV = "4",
                 tipo = "RUN"
             };*/
             return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            /*return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);*/
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }        
 
         /*Funcion para gestionar la vista del Actualizar Supervisor*/
@@ -249,6 +247,8 @@ namespace DAES.Web.FrontOffice.Controllers
                         string fileName = Path.GetFileName(file.FileName);
                         string fileEx = System.IO.Path.GetExtension(fileName);
 
+                        model.ProcesoId = proceso.ProcesoId;
+
                         proceso.SupervisorAuxiliars.Add(model);
 
                         if (file.FileName == "")
@@ -313,6 +313,7 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            ViewBag.errorMessage = string.Empty;
 
             if (ModelState.IsValid)
             {
@@ -473,6 +474,34 @@ namespace DAES.Web.FrontOffice.Controllers
 
             return PartialView("_Constitucion", model);
         }
+
+        public ActionResult ConstitucionUpdateAdd(int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+            var modificacion = new EscrituraConstitucion() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
+            db.EscrituraConstitucions.Add(modificacion);
+            db.SaveChanges();
+
+            return PartialView("_ConstitucionUpdate", model);
+        }
+        public ActionResult ConstitucionUpdateDelete(int EscrituraConstitucionId, int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var consti = db.EscrituraConstitucions.FirstOrDefault(q => q.EscrituraConstitucionId == EscrituraConstitucionId);
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+
+            if (consti != null)
+            {
+                db.EscrituraConstitucions.Remove(consti);
+                db.SaveChanges();
+            }
+
+            return PartialView("_ConstitucionUpdate", model);
+        }
+
         #endregion
 
         #region Funciones Personas Facultadas
@@ -532,6 +561,35 @@ namespace DAES.Web.FrontOffice.Controllers
             return PartialView("_PersonasFacultadasUpdate", model);
         }
         #endregion
+        
+        public ActionResult ExtractoAdd(int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+            var extracto = new ExtractoAuxiliar() { SupervisorAuxiliarId = SupervisorAuxiliarId };
+            db.ExtractoAuxiliars.Add(extracto);
+            db.SaveChanges();
+
+            return PartialView("_Extracto", model);
+        }
+
+        public ActionResult DeleteExtracto(int ExtractoAuxiliarId, int SupervisorAuxiliarId)
+        {
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
+            var extracto = db.ExtractoAuxiliars.FirstOrDefault(q => q.ExtractoAuxiliarId == ExtractoAuxiliarId);
+            var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
+
+            if (extracto != null)
+            {
+                db.ExtractoAuxiliars.Remove(extracto);
+                db.SaveChanges();
+            }
+
+            return PartialView("_Extracto", model);
+        }
+
         public ActionResult Finish()
         {
             return View();

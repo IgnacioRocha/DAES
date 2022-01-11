@@ -268,6 +268,39 @@
     $('#SubRubroId option[value="15"]').attr("selected", true);
     $("#SubRubroId").prop("disabled", true);
 
+    $('#RubroId').on('change', function () {
+        var RubroId = $(this).val();
+        $.getJSON("/Organizacion/GetSubRubro", { RubroId: RubroId },
+            function (classesData) {
+                var select = $("#SubRubroId");
+                select.empty();
+                select.append($('<option/>', {
+                    value: 0,
+                    text: "Seleccione..."
+                }));
+                $.each(classesData, function (index, itemData) {
+                    select.append($('<option/>', {
+                        value: itemData.Value,
+                        text: itemData.Text
+                    }));
+                });
+            });
+    });
+    $('#RegionId').on('change', function () {
+        var RegionId = $(this).val();
+        $.getJSON("/Organizacion/GetComuna", { RegionId: RegionId },
+            function (classesData) {
+                var select = $("#ComunaId");
+                select.empty();
+                $.each(classesData, function (index, itemData) {
+                    select.append($('<option/>', {
+                        value: itemData.Value,
+                        text: itemData.Text
+                    }));
+                });
+            });
+    });
+
 
     //Documentos
     const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file;

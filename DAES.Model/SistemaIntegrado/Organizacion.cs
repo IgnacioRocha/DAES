@@ -23,6 +23,8 @@ namespace DAES.Model.SistemaIntegrado
             Saneamientos = new List<Saneamiento>();
             ComisionLiquidadoras = new List<ComisionLiquidadora>();
             Reformas = new List<Reforma>();
+            ExistenciaAnteriors = new List<ExistenciaAnterior>();
+            
             /*DisolucionCooperativas = new List<DisolucionCooperativa>();
             DisolucionAsociacions = new List<DisolucionAsociacion>();*/
         }
@@ -207,6 +209,16 @@ namespace DAES.Model.SistemaIntegrado
         public virtual List<ExistenciaLegal> ExistenciaLegals { get; set;}
         public virtual List<Saneamiento> Saneamientos { get; set; }
         public virtual List<Reforma> Reformas { get; set; }
+
+        public virtual List<ReformaAnterior> ReformaAnteriors { get; set; }
+
+        public virtual List<ReformaPosterior> ReformaPosteriors { get; set; }
+
+        public virtual List<ReformaAGAC> ReformaAGACs { get; set; }
+
+        public virtual List<ExistenciaAnterior> ExistenciaAnteriors { get; set; }
+
+        public virtual List<ExistenciaPosterior> ExistenciaPosteriors { get; set; }
 
         public virtual List<ComisionLiquidadora> ComisionLiquidadoras { get; set; }
 

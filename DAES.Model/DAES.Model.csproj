@@ -132,11 +132,12 @@
     <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
     <Compile Include="SistemaIntegrado\EscrituraConstitucion.cs" />
     <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />
+    <Compile Include="SistemaIntegrado\ExistenciaAGAC.cs" />
+    <Compile Include="SistemaIntegrado\ExistenciaAnterior.cs" />
     <Compile Include="SistemaIntegrado\ExistenciaLegal.cs" />
     <Compile Include="SistemaIntegrado\ExtractoAuxiliar.cs" />
     <Compile Include="SistemaIntegrado\FileAttach.cs" />
     <Compile Include="SistemaIntegrado\PersonaFacultada.cs" />
-    <Compile Include="SistemaIntegrado\Reforma.cs" />
     <Compile Include="SistemaIntegrado\RepresentanteLegal.cs" />
     <Compile Include="SistemaIntegrado\Saneamiento.cs" />
     <Compile Include="SistemaIntegrado\SupervisorAuxiliar.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="SistemaIntegrado\DisolucionCooperativa.cs" />
     <Compile Include="SistemaIntegrado\DisolucionCooperativaPosterior.cs" />
     <Compile Include="SistemaIntegrado\DisolucionCooperativaAnterior.cs" />
+    <Compile Include="SistemaIntegrado\ExistenciaPosterior.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoOficio.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoMateria.cs" />
     <Compile Include="SistemaIntegrado\Fiscalizacion\TipoCriterio.cs" />
@@ -162,6 +164,10 @@
     <Compile Include="SistemaIntegrado\DocumentoOrganizacion.cs" />
     <Compile Include="SistemaIntegrado\DocumentoWorkflow.cs" />
     <Compile Include="SistemaIntegrado\Periodo.cs" />
+    <Compile Include="SistemaIntegrado\Reforma.cs" />
+    <Compile Include="SistemaIntegrado\ReformaAnterior.cs" />
+    <Compile Include="SistemaIntegrado\ReformaPosterior.cs" />
+    <Compile Include="SistemaIntegrado\ReformaAGAC.cs" />
     <Compile Include="SistemaIntegrado\RespuestaOficio.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionOrganizacionbkp.cs" />
     <Compile Include="SistemaIntegrado\ApplicationUser.cs" />

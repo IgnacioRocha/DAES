@@ -1,0 +1,114 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.ReformaPosterior>
+@using GridMvc.Html
+
+
+<div class="panel panel-default" style="overflow-x:scroll">
+    <div class="panel-heading">Reforma posterior al 2003</div>
+    <div class="panel-body">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    @if (Model.Any(q => q.FReforma != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.FReforma)
+                        </th>
+                    }
+
+                    @if (Model.Any(q => q.FechaJuntGeneralSocios != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaJuntGeneralSocios)
+                        </th>
+                    }
+
+
+                    @if (Model.Any(q => q.FechaEscrituraPublica != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaEscrituraPublica)
+                        </th>
+                    }
+                    @if (Model.Any(q => q.FojasNumero != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.FojasNumero)
+                        </th>
+                    }
+                    @if (Model.Any(q => q.AnoInscripcion != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.AnoInscripcion)
+                        </th>
+                    }
+                    @if (Model.Any(q => q.DatosCBR != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.DatosCBR)
+                        </th>
+                    }
+                    <th>
+                        <p>Última Reforma?</p>
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    @if (item.FReforma != null)
+                    {
+                <td>
+                    @Html.DisplayFor(model => item.FReforma)
+                </td>}
+                    @if (item.FechaJuntGeneralSocios != null)
+                    {
+                <td>
+                    @Html.DisplayFor(model => item.FechaJuntGeneralSocios)
+                </td>}
+
+
+                    @if (item.FechaEscrituraPublica != null)
+                    {
+                <td>
+                    @Html.DisplayFor(model => item.FechaEscrituraPublica)
+                </td>}
+                    @if (item.FojasNumero != null)
+                    {
+                <td>
+                    @Html.DisplayFor(model => item.FojasNumero)
+                </td>}
+                    @if (item.AnoInscripcion != null)
+                    {
+                <td>
+                    @Html.DisplayFor(model => item.AnoInscripcion)
+                </td>}
+                    @if (item.DatosCBR != null)
+                    {
+                <td>
+                    @Html.DisplayFor(model => item.DatosCBR)
+                </td>}
+                    <td>
+                    
+                        @if (item.FReforma != null || item.FReforma != null)
+                        {
+                            var fechaMayorr = Model.OrderByDescending(q => q.FReforma).FirstOrDefault();
+                            var fechaMayor = Model.OrderByDescending(q => q.FReforma).FirstOrDefault();
+                            if (item.FReforma != null && fechaMayor.FReforma == item.FReforma)
+                            {
+                                <p> Esta es la última reforma </p> 
+                            }
+                         }
+                    
+                    </td>
+
+
+                </tr>
+                 }
+            </tbody>
+        </table>
+    </div>
+</div>
+

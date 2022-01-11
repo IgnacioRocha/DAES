@@ -590,6 +590,22 @@ namespace DAES.Web.BackOffice.Controllers
             {
                 try
                 {
+                    //if(DefinicionWorkflowId!=null)
+                    //{
+                    //    var Defwork = db.DefinicionWorkflow.Find(DefinicionWorkflowId);
+                    //    var proc = db.Proceso.Find(workflow.ProcesoId);
+                    //    var super = db.SupervisorAuxiliars.Where(q => q.ProcesoId == proc.ProcesoId).ToList();
+
+                    //    if (Defwork.TipoWorkflowId == 28)
+                    //    {
+                    //        foreach (var item in super)
+                    //        {
+                    //            item.Aprobado = true;
+                    //        }
+                    //        db.SaveChanges();
+                    //    }
+                    //}
+                    
                     _custom.ProcesoUpdate(workflow, DefinicionWorkflowId);
                     TempData["Message"] = Properties.Settings.Default.Success;
                     return RedirectToAction("Index", "Inbox");
