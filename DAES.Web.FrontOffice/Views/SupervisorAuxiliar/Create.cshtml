@@ -1,16 +1,4 @@
 ﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
-<style>
-    label {
-        color: green;
-        font-family: 'Century Gothic';
-    }
-    textarea {
-        min-width: 100%;
-        min-height: 100%;
-        resize: none;
-    }
-</style>
-
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-4">Registro de Supervisores Auxiliar</h1>
@@ -239,29 +227,7 @@
             </div>
         </div>
         <br />
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="font-weight-bold card-title">Hola Mundo</h5>
-                        <hr />
-
-                        <input type="text" id="texto" oninput="Funcionando(this)" />
-                        <div id="content">
-
-                        </div>
-
-                        <hr />
-                        <h5>Hola mundo</h5>
-                        <textarea>
-    
-                        </textarea>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <p></p>
+        
         <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
 
 
@@ -342,28 +308,5 @@
             }
             console.log(archivo);
         }
-    });
-
-    function Funcionando() {
-        var x = document.getElementById("texto").value;
-        console.log(x);
-        document.getElementById("content").innerHTML = "<p>Hola: " + x + "</p>"
-    }
-
-    $(document).ready(function () {
-
-        var content = document.getElementById("content");
-
-        var para = document.createElement("label");
-        para.setAttribute("class", "font-weight-bold align-center");
-        para.setAttribute("id", "parrafo_di");
-        para.setAttribute("style", "color: red")
-
-        para.innerHTML = "Hola mundo mundial";
-
-        document.body.appendChild(para);
-        content.append(para);
-
-    })
-
+    });    
 </script>

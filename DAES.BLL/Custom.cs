@@ -2332,6 +2332,8 @@ namespace DAES.BLL
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar)
                 {
                     var aux = obj.SupervisorAuxiliars.ToList();
+
+                    
                     var repre = new RepresentanteLegal();
                     var extracto = new ExtractoAuxiliar();
                     var facul = new PersonaFacultada();
@@ -2348,7 +2350,8 @@ namespace DAES.BLL
                             Telefono=item.Telefono,
                             CorreoElectronico=item.CorreoElectronico,
                             TipoPersonaJuridicaId=item.TipoPersonaJuridica.TipoPersonaJuridicaId,
-                            Aprobado=item.Aprobado,                            
+                            Aprobado=item.Aprobado,
+                            TipoOrganizacionId = (int)DAES.Infrastructure.Enum.TipoOrganizacion.AunNoDefinida
                         });
 
                         foreach (var halp in item.RepresentanteLegals)
@@ -2412,6 +2415,7 @@ namespace DAES.BLL
                     //si no vienen datos, crear una nueva organizacion
                     proceso.Organizacion = new Organizacion()
                     {
+                        
                         RazonSocial = obj.Organizacion.RazonSocial,
                         RubroId = obj.Organizacion.RubroId,
                         SubRubroId = obj.Organizacion.SubRubroId,
@@ -2424,7 +2428,7 @@ namespace DAES.BLL
                         ComunaId = obj.Organizacion.ComunaId,
                         FechaCreacion = DateTime.Now,
                         SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
-                        TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida,
+                        TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa,
                         EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
                         EsGeneroFemenino = false,
                         EsImportanciaEconomica = false

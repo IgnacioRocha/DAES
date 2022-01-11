@@ -677,8 +677,13 @@ namespace DAES.Web.BackOffice.Controllers
             if (ModelState.IsValid)
             {
                 var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == documento.WorkflowId);
-
-                _custom.SignPDF(documento.DocumentoId, workflow.Proceso.Organizacion.TipoOrganizacionId, null);
+                if(workflow.Proceso.SupervisorAuxiliars.Count() != 0)
+                {
+                    //_custom.SignPDF(documento.DocumentoId, workflow.Proceso.SupervisorAuxiliars.FirstOrDefault().TipoOrganizacionId, null);
+                }else
+                {
+                    _custom.SignPDF(documento.DocumentoId, workflow.Proceso.Organizacion.TipoOrganizacionId, null);
+                }                
                 TempData["Message"] = Properties.Settings.Default.Success;
             }
 

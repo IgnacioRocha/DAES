@@ -99,10 +99,10 @@ namespace DAES.Web.FrontOffice.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(DAES.Model.DTO.DTOEstudioSocioeconomico model)
         {
-            if (!Global.CurrentClaveUnica.IsAutenticated)
-            {
-                ModelState.AddModelError(string.Empty, "Usuario no autenticado con clave única");
-            }
+            //if (!Global.CurrentClaveUnica.IsAutenticated)
+            //{
+            //    ModelState.AddModelError(string.Empty, "Usuario no autenticado con clave única");
+            //}
 
             ViewBag.TipoOrganizacionId = new SelectList(_db.TipoOrganizacion.Where(q => q.TipoOrganizacionId == 1).OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.RegionId = new SelectList(_db.Region, "RegionId", "nombre");
@@ -165,6 +165,7 @@ namespace DAES.Web.FrontOffice.Controllers
                         // Verifica la extensión del archivo
                         string filename = Path.GetFileName(file.FileName);
                         string fileEx = System.IO.Path.GetExtension(filename); // Obtenga el nombre del sufijo requerido
+                        fileEx = fileEx.ToLower();
 
                         //Se crea un estudio SocioEconomico
                         proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico

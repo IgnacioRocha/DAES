@@ -47,7 +47,7 @@ namespace DAES.Web.FrontOffice.Controllers
             //};
 
 
-            ////a
+            //a
             //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
@@ -56,10 +56,10 @@ namespace DAES.Web.FrontOffice.Controllers
         // GET: Controller/Create
         public ActionResult Create()
         {
-            if (!Global.CurrentClaveUnica.IsAutenticated)
-            {
-                return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
-            }
+            //if (!Global.CurrentClaveUnica.IsAutenticated)
+            //{
+            //    return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+            //}
 
             ViewBag.TipoOrganizacionId = new SelectList(_db.TipoOrganizacion.Where(t => t.TipoOrganizacionId == 1).OrderBy(t => t.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.RegionId = new SelectList(_db.Region, "RegionId", "Nombre");
@@ -148,6 +148,7 @@ namespace DAES.Web.FrontOffice.Controllers
                         file.InputStream.CopyTo(ms);
                         string filename = Path.GetFileName(file.FileName);
                         string fileEx = System.IO.Path.GetExtension(filename);
+                        fileEx = fileEx.ToLower();
 
                         //Se crea un estudio SocioEconomico Cooperativa Abierta
                         proceso.CooperativaAbiertas.Add(new CooperativaAbierta
