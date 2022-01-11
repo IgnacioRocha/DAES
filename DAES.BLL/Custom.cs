@@ -1757,7 +1757,8 @@ namespace DAES.BLL
                     obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos &&
                     obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
                     obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP &&
-                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta
+                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.CooperativaViviendaAbierta &&
+                    obj.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar
                     )
                     {
                         if (!context.Organizacion.Any(q => q.OrganizacionId == obj.OrganizacionId))
@@ -1952,6 +1953,12 @@ namespace DAES.BLL
                     {
                         proceso.Articulo91s.Add(obj.Articulo91s.FirstOrDefault());
                     }
+
+                //proceso registro supervisores auxiliares
+                //if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar)
+                //{
+                //    proceso.SupervisorAuxiliars = obj.SupervisorAuxiliars
+                //}
 
                     //asignar tareas a ejecutar
                     var definicionworkflow = context.DefinicionWorkflow.Where(q => q.Habilitado && q.DefinicionProcesoId == proceso.DefinicionProceso.DefinicionProcesoId).OrderBy(q => q.Secuencia).ThenBy(q => q.DefinicionWorkflowId).FirstOrDefault();
