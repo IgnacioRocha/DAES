@@ -802,6 +802,8 @@ namespace DAES.BLL
 
                 string parrafo_cuatro = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
 
+                string parrafo_cinco = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
+
                 string parrafoone = string.Format(configuracioncertificado.Parrafo1);
                 string parrafos = string.Format(configuracioncertificado.Parrafo1);
 
@@ -1026,6 +1028,7 @@ namespace DAES.BLL
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", string.Empty);
                                 }
+
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.AnoInscripcion != null))
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]","correspondiente al año "+ organizacion.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion.ToString()+".");
@@ -1036,16 +1039,6 @@ namespace DAES.BLL
                                 }
 
                                
-                                if (organizacion.TipoOrganizacionId == 1)
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[AUTORIZADOPOR]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[FECHANORMA]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[TIPONORMA]", string.Empty);
-                                }
-
-
                                 Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
                                 paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
 
@@ -1060,64 +1053,52 @@ namespace DAES.BLL
                             {
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.TipoNormaId != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[TIPONORMA]", "Según se acreditó en los antecedentes legales acompañados para su inscripción, se autorizó la existencia legal por " + organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString()+" " ?? string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[TIPONORMA]", "Según se acreditó en los antecedentes legales acompañados para su inscripción, se autorizó la existencia legal por " + organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString()+" " ?? string.Empty);
                                 }
                                 else
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[TIPONORMA]", string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[TIPONORMA]", string.Empty);
                                 }
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.NNorma != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", " N° " + organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() ?? string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[NUMERONORMA]", " N° " + organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMERONORMA]", string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[NUMERONORMA]", string.Empty);
                                 }
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.FNorma != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHANORMA]", " de fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value.ToString("dd/MM/yyyy") ?? string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[FECHANORMA]", " de fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value.ToString("dd/MM/yyyy") ?? string.Empty);
                                 }
                                 else
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHANORMA]", string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[FECHANORMA]", string.Empty);
                                 }
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.Autorizado != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[AUTORIZADOPOR]", " del " + organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString()+" "  ?? string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[AUTORIZADOPOR]", " del " + organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString()+" "  ?? string.Empty);
                                 }
                                 else
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[AUTORIZADOPOR]", string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[AUTORIZADOPOR]", string.Empty);
                                 }
 
                                 if (organizacion.ExistenciaAnteriors.Any(q => q.FechaPublicacion != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", "publicada en el Diario Oficial con fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value.ToString("dd/MM/yyyy") + "." ?? string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[FECHAPUBLICACIONN]", "publicada en el Diario Oficial con fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value.ToString("dd/MM/yyyy") + "." ?? string.Empty);
                                 }
                                 else
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", string.Empty);
+                                    parrafo_cinco = parrafo_cinco.Replace("[FECHAPUBLICACIONN]", string.Empty);
                                 }
 
-
-                                if (organizacion.TipoOrganizacionId == 1)
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSGENERALNOTARIO]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[FOJAS]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", string.Empty);
-                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", string.Empty);
-                                    
-                                }
-
-                                Paragraph parrafoDoss = new Paragraph(parrafo_dos, _fontStandard);
-                                paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
-                                doc.Add(parrafoDoss);
+                                Paragraph parrafoCinco = new Paragraph(parrafo_cinco, _fontStandard);
+                                parrafoCinco.Alignment = Element.ALIGN_JUSTIFIED;
+                                doc.Add(parrafoCinco);
                                 doc.Add(SaltoLinea);
 
                             }
