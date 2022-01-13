@@ -35,18 +35,18 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisorAuxiliar";
 
-           /* Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            {
-                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            };
-            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            {
-                numero = 44444444,
-                DV = "4",
-                tipo = "RUN"
-            };*/
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
             return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
             //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
@@ -57,21 +57,21 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Update";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisorAuxiliar";
 
-            /*Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            {
-                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            };
-            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            {
-                numero = 44444444,
-                DV = "4",
-                tipo = "RUN"
-            };*/
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
             return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
             //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
-        }        
+        }
 
         /*Funcion para gestionar la vista del Actualizar Supervisor*/
         public ActionResult UpdateSupervisor(int id)
@@ -133,88 +133,6 @@ namespace DAES.Web.FrontOffice.Controllers
         [HttpPost]
         public ActionResult Create(SupervisorAuxiliar model)
         {
-            //TODO Mejorar proceso con DTO 
-            #region Prueba DTO
-            /*ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
-            ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
-            if (!Global.CurrentClaveUnica.IsAutenticated)
-            {
-                ModelState.AddModelError(string.Empty, "Usuario no autenticado con clave única");
-            }
-
-            if (ModelState.IsValid)
-            {
-                var proceso = new Proceso()
-                {
-                    DefinicionProcesoId = (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar
-                };
-
-                proceso.Solicitante = new Solicitante()
-                {
-                    Rut = Global.CurrentClaveUnica.RUT,
-                    Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
-                    Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull(),
-                    Email = model.CorreoElectronico
-                };
-
-                for (var i = 0; i < Request.Files.Count; i++)
-                {
-                    HttpPostedFileBase file = Request.Files[i];
-                    var target = new MemoryStream();
-                    using (MemoryStream ms = new MemoryStream())
-                    {
-                        file.InputStream.CopyTo(ms);
-                        string fileName = Path.GetFileName(file.FileName);
-                        string fileEx = System.IO.Path.GetExtension(fileName);
-
-                        proceso.SupervisorAuxiliars.Add(new SupervisorAuxiliar
-                        {
-                            DocumentoAdjunto = ms.ToArray(),
-                            Proceso = proceso
-                        });
-
-                        if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" && fileEx != ".xls" && fileEx != ".doc" && fileEx != ".docx")
-                        {
-
-                            ViewBag.errorMessage = "Solo se aceptan archivos en formato PDF, Word , Excel (sin macros) y que no estén vacíos";
-
-
-                            return View(new Model.DTO.DTOEstudioSocioeconomico()
-                            {
-                                RutSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, "-", Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
-                                Apellidos = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.nombres).ToUpperNull(),
-                                Nombres = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull()
-                            });
-                        }
-                        else
-                        {
-                            proceso.Documentos.Add(new Documento()
-                            {
-                                FechaCreacion = DateTime.Now,
-                                Autor = model.CorreoElectronico,
-                                Content = ms.ToArray(),
-                                FileName = file.FileName,
-                                TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.SinClasificar,
-                                TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Privado
-                            });
-
-                        }
-                    }
-                }
-                try
-                {
-                    //Se inicia el proceso
-                    var p = _custom.ProcesoStart(proceso);
-                    TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, model.CorreoElectronico);
-                    return RedirectToAction("Finish");
-                }
-                catch (Exception ex)
-                {
-                    return View("_Error", ex);
-                }
-            }*/
-            #endregion
-
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             if(ModelState.IsValid)
@@ -246,6 +164,7 @@ namespace DAES.Web.FrontOffice.Controllers
                         file.InputStream.CopyTo(ms);
                         string fileName = Path.GetFileName(file.FileName);
                         string fileEx = System.IO.Path.GetExtension(fileName);
+                        fileEx = fileEx.ToLower();
 
                         model.ProcesoId = proceso.ProcesoId;
 
@@ -274,7 +193,6 @@ namespace DAES.Web.FrontOffice.Controllers
                                 TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.SinClasificar,
                                 TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Privado
                             });
-
                         }
                     }
                 }
@@ -344,6 +262,7 @@ namespace DAES.Web.FrontOffice.Controllers
                         file.InputStream.CopyTo(ms);
                         string fileName = Path.GetFileName(file.FileName);
                         string fileEx = System.IO.Path.GetExtension(fileName);
+                        fileEx = fileEx.ToLower();
 
                         proceso.SupervisorAuxiliars.Add(model);
 

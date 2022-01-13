@@ -2343,6 +2343,8 @@ namespace DAES.BLL
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar)
                 {
                     var aux = obj.SupervisorAuxiliars.ToList();
+
+                    
                     var repre = new RepresentanteLegal();
                     var extracto = new ExtractoAuxiliar();
                     var facul = new PersonaFacultada();
@@ -2353,13 +2355,14 @@ namespace DAES.BLL
                         proceso.SupervisorAuxiliars.Add(new SupervisorAuxiliar()
                         {
                             ProcesoId = obj.ProcesoId,
-                            RazonSocial = item.RazonSocial,
-                            Rut = item.Rut,
-                            DomicilioLegal = item.DomicilioLegal,
-                            Telefono = item.Telefono,
-                            CorreoElectronico = item.CorreoElectronico,
-                            TipoPersonaJuridicaId = item.TipoPersonaJuridica.TipoPersonaJuridicaId,
-                            Aprobado = item.Aprobado,
+                            RazonSocial= item.RazonSocial,
+                            Rut= item.Rut,
+                            DomicilioLegal=item.DomicilioLegal,
+                            Telefono=item.Telefono,
+                            CorreoElectronico=item.CorreoElectronico,
+                            TipoPersonaJuridicaId=item.TipoPersonaJuridica.TipoPersonaJuridicaId,
+                            Aprobado=item.Aprobado,
+                            TipoOrganizacionId = (int)DAES.Infrastructure.Enum.TipoOrganizacion.AunNoDefinida
                         });
 
                         foreach (var halp in item.RepresentanteLegals)
@@ -2423,6 +2426,7 @@ namespace DAES.BLL
                     //si no vienen datos, crear una nueva organizacion
                     proceso.Organizacion = new Organizacion()
                     {
+                        
                         RazonSocial = obj.Organizacion.RazonSocial,
                         RubroId = obj.Organizacion.RubroId,
                         SubRubroId = obj.Organizacion.SubRubroId,

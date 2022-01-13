@@ -44,6 +44,9 @@ namespace DAES.Model.SistemaIntegrado
         [DataType(DataType.EmailAddress, ErrorMessage = "Debe especificar un correo válido")]
         public string CorreoElectronico { get; set; }
 
+        public int? TipoOrganizacionId { get; set; }
+        public virtual TipoOrganizacion TipoOrganizacion { get; set; }
+
         /*[Required(ErrorMessage = "Es necesario adjuntar un documento")]*/
         [NotMapped]
         [Display(Name = "Documento")]

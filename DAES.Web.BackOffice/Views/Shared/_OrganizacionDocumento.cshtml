@@ -59,7 +59,7 @@
                             @Html.DisplayFor(model => item.Autor)
                         </td>
                         <td style="width:300px">
-                            @if (item.HasContent && item.FileName.Contains(".pdf"))
+                            @if (item.HasContent && item.FileName.Contains(".pdf") || item.FileName.Contains(".PDF"))
                             {
                                 <embed src="@Url.Action("ShowPDF", "Documento", new { id = item.DocumentoId })" width="100%" height="300" type="application/pdf">
                             }

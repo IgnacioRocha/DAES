@@ -26,7 +26,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Profesión")]
         public string Profesion { get; set; }
 
-        [Display(Name = "Domilio")]
+        [Display(Name = "Domicilio")]
         public string Domicilio { get; set; }
 
         [Display(Name = "Nacionalidad")]

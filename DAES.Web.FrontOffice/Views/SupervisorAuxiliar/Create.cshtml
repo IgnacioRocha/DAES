@@ -8,6 +8,7 @@
     @Html.Partial("_Message")
 </div>
 
+
 <div class="container my-3" id="supervisor">
     <div class="alert alert-primary" role="alert">
         <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
@@ -15,10 +16,12 @@
     @using (Html.BeginForm("Create", "SupervisorAuxiliar", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @*@Html.AntiForgeryToken()
-        @Html.HiddenFor(model => model.RutSolicitante)
-        @Html.HiddenFor(model => model.NombresSolicitante)
-        @Html.HiddenFor(model => model.ApellidosSolicitante)
-        @Html.HiddenFor(model => model.RazonSocial)*@
+            @Html.HiddenFor(model => model.RutSolicitante)
+            @Html.HiddenFor(model => model.NombresSolicitante)
+            @Html.HiddenFor(model => model.ApellidosSolicitante)
+            @Html.HiddenFor(model => model.RazonSocial)*@
+
+
 
         @Html.HiddenFor(m => m.SupervisorAuxiliarId)
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
@@ -65,10 +68,11 @@
                 </div>
             </div>
         </div>
+        <br />
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" >
+                    <div class="card-body">
                         <h5 class="card-title font-weight-bold">Representantes Legales</h5>
                         @if (Model != null)
                         {
@@ -81,6 +85,7 @@
                 </div>
             </div>
         </div>
+        <br />
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -101,6 +106,7 @@
                 </div>
             </div>
         </div>
+        <br />
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -162,6 +168,7 @@
                 </div>
             </div>
         </div>
+        <br />
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -177,6 +184,7 @@
                         @Ajax.ActionLink("Agregar Persona Facultada", "PersonaFacultadaAdd", null, new { Model.SupervisorAuxiliarId }, new AjaxOptions { UpdateTargetId = "personasFacultadas" })
                     </div>
                 </div>
+                <br />
             </div>
         </div>
         <div class="row">
@@ -218,9 +226,10 @@
                 </div>
             </div>
         </div>
-        <p></p>
-        <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
+        <br />
         
+        <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
+
 
     }
 </div>
@@ -299,5 +308,5 @@
             }
             console.log(archivo);
         }
-    });
+    });    
 </script>
