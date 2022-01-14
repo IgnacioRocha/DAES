@@ -49,6 +49,9 @@ namespace DAES.Web.BackOffice.Controllers
         [Display(Name = "Tipo privacidad")]
         public int TipoPrivacidadId { get; set; }
 
+        public int? TipoPersonaJuridicaId { get; set; }
+        public virtual TipoPersonaJuridica TipoPersonaJuridica { get; set; }
+
         public List<SupervisorAuxiliar> SupervisoresAuxiliares { get; set; }
 
         public List<Directorio> Directorios { get; set; }
@@ -275,10 +278,10 @@ namespace DAES.Web.BackOffice.Controllers
         {
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
-            model.SupervisoresAuxiliares = db.SupervisorAuxiliars.Where(q=>q.ProcesoId==model.ProcesoId).ToList();
-            model.SupervisorAuxiliar = db.SupervisorAuxiliars.FirstOrDefault(q=>q.ProcesoId==model.ProcesoId);/*
-            model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q=>q.ProcesoId==model.ProcesoId);*/
-            
+            model.SupervisoresAuxiliares = db.SupervisorAuxiliars.Where(q=>q.ProcesoId==model.Workflow.ProcesoId).ToList();            
+            var UpSuper = model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q => q.ProcesoId == model.Workflow.ProcesoId).FirstOrDefault();
+            model.SupervisorAuxiliar = db.SupervisorAuxiliars.FirstOrDefault(q => q.SupervisorAuxiliarId == UpSuper.SupervisorAuxiliarId);
+
             //model.SupervisorAuxiliar = db.SupervisorAuxiliars.Find(model.Workflow.Proceso.SupervisorAuxiliar.SupervisorAuxiliarId);
             /*model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);*/
 

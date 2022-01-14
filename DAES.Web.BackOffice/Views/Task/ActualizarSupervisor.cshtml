@@ -68,7 +68,7 @@
 
             <div class="row">
                 <div class="col-md-5">
-                    @if (Model.SupervisorAuxiliar == null)
+                    @if (Model.ActualizacionSupervisor != null)
                     {
                         <div class="panel panel-default">
                             <div class="panel-heading">Solicitud de actualización de datos</div>
@@ -76,38 +76,39 @@
                                 <div class="form">
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.SupervisorAuxiliarId)
-                                        @Html.EditorFor(model => model.SupervisorAuxiliar.SupervisorAuxiliarId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.LabelFor(model => model.ActualizacionSupervisor.SupervisorAuxiliarId)
+                                        @Html.EditorFor(model => model.ActualizacionSupervisor.SupervisorAuxiliarId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.RazonSocial)
-                                        @Html.EditorFor(model => model.SupervisorAuxiliar.RazonSocial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.LabelFor(model => model.ActualizacionSupervisor.RazonSocial)
+                                        @Html.EditorFor(model => model.ActualizacionSupervisor.RazonSocial, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.Rut, "Tipo organización")
-                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.Rut, (SelectList)ViewBag.TipoOrganizacionId, "Seleccione...", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.LabelFor(model => model.ActualizacionSupervisor.Rut)
+                                        @Html.EditorFor(model => model.ActualizacionSupervisor.Rut, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.Telefono)
-                                        @Html.EditorFor(model => model.SupervisorAuxiliar.Telefono, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.LabelFor(model => model.ActualizacionSupervisor.Telefono)
+                                        @Html.EditorFor(model => model.ActualizacionSupervisor.Telefono, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.TipoPersonaJuridica, "Estado")
-                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.TipoPersonaJuridicaId)
+                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", htmlAttributes: new { @class = "form-control", @readonly = "readonly" })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.DomicilioLegal)
-                                        @Html.EditorFor(model => model.SupervisorAuxiliar.DomicilioLegal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.LabelFor(model => model.ActualizacionSupervisor.DomicilioLegal)
+                                        @Html.EditorFor(model => model.ActualizacionSupervisor.DomicilioLegal, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.CorreoElectronico)
-                                        @Html.EditorFor(model => model.SupervisorAuxiliar.CorreoElectronico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                        @Html.LabelFor(model => model.ActualizacionSupervisor.CorreoElectronico)
+                                        @Html.EditorFor(model => model.ActualizacionSupervisor.CorreoElectronico, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                                     </div>
                                     
                                 </div>
@@ -134,9 +135,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.TipoPersonaJuridicaId, "Tipo organización")
-                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoOrganizacionId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.SupervisorAuxiliar.TipoPersonaJuridicaId, "", new { @class = "text-danger" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.TipoPersonaJuridicaId)
+                                        @Html.DropDownListFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, (SelectList)ViewBag.TipoPersonaJuridicaId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.TipoPersonaJuridica.TipoPersonaJuridicaId, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group">
@@ -146,20 +147,20 @@
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.DomicilioLegal, "Estado")
-                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.DomicilioLegal, (SelectList)ViewBag.EstadoId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.DomicilioLegal)
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.DomicilioLegal,new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.SupervisorAuxiliar.DomicilioLegal, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.Telefono, "Situacion")
-                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.Telefono, (SelectList)ViewBag.SituacionId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.Telefono)
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.Telefono,new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.SupervisorAuxiliar.Telefono, "", new { @class = "text-danger" })
                                     </div>
 
                                     <div class="form-group">
-                                        @Html.LabelFor(model => model.SupervisorAuxiliar.CorreoElectronico, "Rubro")
-                                        @Html.DropDownListFor(model => model.SupervisorAuxiliar.CorreoElectronico, (SelectList)ViewBag.RubroId, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                        @Html.LabelFor(model => model.SupervisorAuxiliar.CorreoElectronico)
+                                        @Html.EditorFor(model => model.SupervisorAuxiliar.CorreoElectronico, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(model => model.SupervisorAuxiliar.CorreoElectronico, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
@@ -175,7 +176,7 @@
 </div>
 
 @{
-    ViewBag.Title = "_ActualizarSupervisor";
+    ViewBag.Title = "Actualizacion de Supervisor Auxiliar";
 }
 
 
