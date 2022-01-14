@@ -110,60 +110,11 @@
         <div class="row">
             <div class="col">
                 <div class="card">
-                    <div class="card-body" id="extracto">
+                    <div class="card-body">
                         <h5 class="card-title font-weight-bold">Extracto</h5>
-                        <table class="table table-striped">
-                            @if (Model != null)
-                            {
-                                for (var i = 0; i < Model.ExtractoAuxiliars.Count; i++)
-                                {
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].ConservadorComercio, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].FechaInscripcion, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].Foja, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].Numero, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial, new { @class = "font-weight-bold" })
-                                            </th>
-                                            <th>
-                                                @Html.LabelFor(m => m.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial, new { @class = "font-weight-bold" })
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].ConservadorComercio, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaInscripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].Foja, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].Numero, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                            <td>
-                                                @Html.EditorFor(m => m.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                }
-                            }
-                        </table>
+                        <div id="extracto">
+                            @Html.Partial("_Extracto", Model)
+                        </div>
                     </div>
                 </div>
             </div>

@@ -2332,117 +2332,199 @@ namespace DAES.BLL
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar)
                 {
                     var aux = obj.SupervisorAuxiliars.ToList();
-
+                    var super = context.SupervisorAuxiliars.Find(aux.FirstOrDefault().SupervisorAuxiliarId);
                     
-                    var repre = new RepresentanteLegal();
-                    var extracto = new ExtractoAuxiliar();
-                    var facul = new PersonaFacultada();
-                    var escritura = new EscrituraConstitucion();
-
                     foreach (var item in aux)
                     {
-                        proceso.SupervisorAuxiliars.Add(new SupervisorAuxiliar()
+                        proceso.SupervisorAuxiliars.Add(super);
                         {
-                            ProcesoId = obj.ProcesoId,
-                            RazonSocial= item.RazonSocial,
-                            Rut= item.Rut,
-                            DomicilioLegal=item.DomicilioLegal,
-                            Telefono=item.Telefono,
-                            CorreoElectronico=item.CorreoElectronico,
-                            TipoPersonaJuridicaId=item.TipoPersonaJuridica.TipoPersonaJuridicaId,
-                            Aprobado=item.Aprobado,
-                            TipoOrganizacionId = (int)DAES.Infrastructure.Enum.TipoOrganizacion.AunNoDefinida
-                        });
+                            super.ProcesoId = obj.ProcesoId;
+                            super.RazonSocial = item.RazonSocial;
+                            super.Rut= item.Rut;
+                            super.DomicilioLegal=item.DomicilioLegal;
+                            super.Telefono=item.Telefono;
+                            super.CorreoElectronico=item.CorreoElectronico;
+                            super.TipoPersonaJuridicaId=item.TipoPersonaJuridica.TipoPersonaJuridicaId;
+                            super.Aprobado=item.Aprobado;
+                            super.TipoOrganizacionId = (int)DAES.Infrastructure.Enum.TipoOrganizacion.AunNoDefinida;
+                        };
+                        for(var i = 0; i<item.RepresentanteLegals.Count();i++)
+                        {
+                            var repre = context.RepresentantesLegals.Find(item.RepresentanteLegals[i].RepresentanteLegalId);                            
 
-                        foreach (var halp in item.RepresentanteLegals)
+                            //repre.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+
+                            repre.Domicilio = item.RepresentanteLegals[i].Domicilio;
+                            repre.Nacionalidad = item.RepresentanteLegals[i].Nacionalidad;
+                            repre.NombreCompleto = item.RepresentanteLegals[i].NombreCompleto;
+                            repre.Profesion = item.RepresentanteLegals[i].Profesion;
+                            repre.RUN = item.RepresentanteLegals[i].RUN;
+                        }
+                        for (var i= 0;i < item.ExtractoAuxiliars.Count();i++)
                         {
-                            repre.Domicilio = halp.Domicilio;
-                            repre.Nacionalidad=halp.Nacionalidad;
-                            repre.NombreCompleto=halp.NombreCompleto;
-                            repre.Profesion=halp.Profesion;
-                            repre.RUN=halp.RUN;
+                            var extracto = context.ExtractoAuxiliars.Find(item.ExtractoAuxiliars[i].ExtractoAuxiliarId);
+
+                            //extracto.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+                            
+                            extracto.Año = item.ExtractoAuxiliars[i].Año;
+                            extracto.ConservadorComercio=item.ExtractoAuxiliars[i].ConservadorComercio;
+                            extracto.FechaInscripcion=item.ExtractoAuxiliars[i].FechaInscripcion;
+                            extracto.FechaPubliccionDiarioOficial = item.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial;
+                            extracto.Foja=item.ExtractoAuxiliars[i].Foja;
+                            extracto.Numero=item.ExtractoAuxiliars[i].Numero;
+                            extracto.NumeroPublicacionDiarioOficial = item.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial;
                         }
 
-                        foreach (var ext in item.ExtractoAuxiliars)
+                        for (var i =0; i<item.EscrituraConstitucionModificaciones.Count();i++)
                         {
-                            extracto.Año = ext.Año;
-                            extracto.ConservadorComercio=ext.ConservadorComercio;
-                            extracto.FechaInscripcion=ext.FechaInscripcion;
-                            extracto.FechaPubliccionDiarioOficial = ext.FechaPubliccionDiarioOficial;
-                            extracto.Foja=ext.Foja;
-                            extracto.Numero=ext.Numero;
-                            extracto.NumeroPublicacionDiarioOficial = ext.NumeroPublicacionDiarioOficial;
-                        }
+                            var escritura = context.EscrituraConstitucions.Find(item.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId);
 
-                        foreach (var esc in item.EscrituraConstitucionModificaciones)
-                        {
-                            escritura.Fecha = esc.Fecha;
-                            escritura.Notaria=esc.Notaria;
-                            escritura.NumeroRepertorio=esc.NumeroRepertorio;
-                            escritura.Notaria = esc.Notaria;
+                            //escritura.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+                            escritura.Fecha = item.EscrituraConstitucionModificaciones[i].Fecha;
+                            escritura.Notaria=item.EscrituraConstitucionModificaciones[i].Notaria;
+                            escritura.NumeroRepertorio = item.EscrituraConstitucionModificaciones[i].NumeroRepertorio;
                         }
-
-                        foreach(var perso in item.PersonaFacultadas)
+                        for(var i =0; i < item.PersonaFacultadas.Count();i++)
                         {
-                            facul.Domicilio = perso.Domicilio;
-                            facul.Nacionalidad = perso.Nacionalidad;
-                            facul.NombreCompleto = perso.NombreCompleto;
-                            facul.Profesion=perso.Profesion;
-                            facul.RUN=perso.RUN;
+                            var facul = context.PersonaFacultadas.Find(item.PersonaFacultadas[i].PersonaFacultadaId);
+                            //facul.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+                            facul.Domicilio = item.PersonaFacultadas[i].Domicilio;
+                            facul.Nacionalidad = item.PersonaFacultadas[i].Nacionalidad;
+                            facul.NombreCompleto = item.PersonaFacultadas[i].NombreCompleto;
+                            facul.Profesion=item.PersonaFacultadas[i].Profesion;
+                            facul.RUN=item.PersonaFacultadas[i].RUN;
                         }
                     }                   
+                }
+
+                if(proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.ActualizacionSupervisorAuxiliar)
+                {
+                    var aux = obj.SupervisorAuxiliars.ToList();
+                    var super = context.SupervisorAuxiliars.Find(aux.FirstOrDefault().SupervisorAuxiliarId);
+                    
+                    
+                    foreach (var item in aux)
+                    {
+                        context.ActualizacionSupervisors.Add(new ActualizacionSupervisor()
+                        {
+                            SupervisorAuxiliarId = item.SupervisorAuxiliarId,
+                            Rut = item.Rut,
+                            RazonSocial=item.RazonSocial,
+                            CorreoElectronico = item.CorreoElectronico,
+                            Aprobado = item.Aprobado,
+                            Telefono = item.Telefono,
+                            TipoPersonaJuridicaId = item.TipoPersonaJuridicaId,
+                            DomicilioLegal = item.DomicilioLegal,
+                            ProcesoId = obj.ProcesoId,
+                            TipoOrganizacionId=item.TipoOrganizacionId
+                        });
+
+                        for(var i =0;i<item.RepresentanteLegals.Count();i++)
+                        {
+                            context.ActualizacionRepresentantes.Add(new ActualizacionRepresentante()
+                            {
+                                Domicilio = item.RepresentanteLegals[i].Domicilio,
+                                NombreCompleto = item.RepresentanteLegals[i].NombreCompleto,
+                                Nacionalidad = item.RepresentanteLegals[i].Nacionalidad,
+                                Profesion = item.RepresentanteLegals[i].Profesion,
+                                RUN = item.RepresentanteLegals[i].RUN,
+                                RepresentanteLegalId = item.RepresentanteLegals[i].RepresentanteLegalId
+                            });
+                        }
+
+                        for (var i = 0; i < item.ExtractoAuxiliars.Count(); i++)
+                        {
+                            context.ActualizacionExtractoAuxiliars.Add(new ActualizacionExtractoAuxiliar()
+                            {
+                                Año = item.ExtractoAuxiliars[i].Año,
+                                ConservadorComercio = item.ExtractoAuxiliars[i].ConservadorComercio,
+                                FechaInscripcion = item.ExtractoAuxiliars[i].FechaInscripcion,
+                                FechaPubliccionDiarioOficial = item.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial,
+                                Foja = item.ExtractoAuxiliars[i].Foja,
+                                Numero = item.ExtractoAuxiliars[i].Numero,
+                                NumeroPublicacionDiarioOficial = item.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial,
+                                ExtractoAuxiliarId=item.ExtractoAuxiliars[i].ExtractoAuxiliarId
+                            });
+                        }
+
+                        for (var i = 0; i < item.EscrituraConstitucionModificaciones.Count(); i++)
+                        {
+                            context.ActualizacionEscrituraConstitucions.Add(new ActualizacionEscrituraConstitucion()
+                            {
+                                Fecha = item.EscrituraConstitucionModificaciones[i].Fecha,
+                                Notaria = item.EscrituraConstitucionModificaciones[i].Notaria,
+                                NumeroRepertorio = item.EscrituraConstitucionModificaciones[i].NumeroRepertorio,
+                                EscrituraConstitucionId=item.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId
+                            });                         
+                        }
+
+                        for (var i = 0; i < item.PersonaFacultadas.Count(); i++)
+                        {
+                            context.ActualizacionPersonaFacultadas.Add(new ActualizacionPersonaFacultada()
+                            {
+                                Domicilio = item.PersonaFacultadas[i].Domicilio,
+                                Nacionalidad = item.PersonaFacultadas[i].Nacionalidad,
+                                NombreCompleto = item.PersonaFacultadas[i].NombreCompleto,
+                                Profesion = item.PersonaFacultadas[i].Profesion,
+                                RUN = item.PersonaFacultadas[i].RUN,
+                                PersonaFacultadaId=item.PersonaFacultadas[i].PersonaFacultadaId
+                            });
+                        }
+                    }
+                    //proceso.ActualizacionSupervisors.Add(obj.ActualizacionSupervisors.FirstOrDefault());
                 }
 
                 //en el caso de un proceso de estudio socioeconomico
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                 {
-                    foreach (var item in obj.EstudioSocioEconomicos)
+                    if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                     {
-                        proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
+                        foreach (var item in obj.EstudioSocioEconomicos)
                         {
-                            FechaCreacion = item.FechaCreacion,
-                            DocumentoAdjunto = item.DocumentoAdjunto,
-                            Proceso = proceso
-                        });
+                            proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
+                            {
+                                FechaCreacion = item.FechaCreacion,
+                                DocumentoAdjunto = item.DocumentoAdjunto,
+                                Proceso = proceso
+                            });
 
+                        }
+                        //si viene datos de una organizacion, usarlos para crea la nueva
+                        //if (obj.Organizacion != null)
+                        //{
+                        //    proceso.Organizacion = obj.Organizacion;
+                        //}
+
+                        //si no vienen datos, crear una nueva organizacion
+                        proceso.Organizacion = new Organizacion()
+                        {
+
+                            RazonSocial = obj.Organizacion.RazonSocial,
+                            RubroId = obj.Organizacion.RubroId,
+                            SubRubroId = obj.Organizacion.SubRubroId,
+                            RUT = obj.Organizacion.RUT,
+                            Sigla = obj.Organizacion.Sigla,
+                            Fono = obj.Organizacion.Fono,
+                            Email = obj.Organizacion.Email,
+                            Direccion = obj.Organizacion.Direccion,
+                            RegionId = obj.Organizacion.RegionId,
+                            ComunaId = obj.Organizacion.ComunaId,
+                            FechaCreacion = DateTime.Now,
+                            SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
+                            TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa,
+                            EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
+                            EsGeneroFemenino = false,
+                            EsImportanciaEconomica = false
+
+
+                        };
                     }
-                    //si viene datos de una organizacion, usarlos para crea la nueva
-                    //if (obj.Organizacion != null)
-                    //{
-                    //    proceso.Organizacion = obj.Organizacion;
-                    //}
-
-                    //si no vienen datos, crear una nueva organizacion
-                    proceso.Organizacion = new Organizacion()
+                    //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
+                    else
                     {
-                        
-                        RazonSocial = obj.Organizacion.RazonSocial,
-                        RubroId = obj.Organizacion.RubroId,
-                        SubRubroId = obj.Organizacion.SubRubroId,
-                        RUT = obj.Organizacion.RUT,
-                        Sigla = obj.Organizacion.Sigla,
-                        Fono = obj.Organizacion.Fono,
-                        Email = obj.Organizacion.Email,
-                        Direccion = obj.Organizacion.Direccion,     
-                        RegionId = obj.Organizacion.RegionId,
-                        ComunaId = obj.Organizacion.ComunaId,
-                        FechaCreacion = DateTime.Now,
-                        SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
-                        TipoOrganizacionId = (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa,
-                        EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
-                        EsGeneroFemenino = false,
-                        EsImportanciaEconomica = false
-                        
-
-                    };
-                }
-
-                //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
-                else
-                {
-                    proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
-                }
-
+                        proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
+                    }
+                }              
 
                 //cooperativa de vivienda abierta
                 //

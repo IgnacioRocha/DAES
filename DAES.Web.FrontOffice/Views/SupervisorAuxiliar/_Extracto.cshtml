@@ -18,6 +18,9 @@
                     @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().Numero, new { @class = "font-weight-bold" })
                 </th>
                 <th>
+                    @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().Año, new { @class = "font-weight-bold" })
+                </th>
+                <th>
                     @Html.LabelFor(m => m.ExtractoAuxiliars.FirstOrDefault().FechaPubliccionDiarioOficial, new { @class = "font-weight-bold" })
                 </th>
                 <th>
@@ -42,6 +45,9 @@
                     </td>
                     <td>
                         @Html.EditorFor(m => m.ExtractoAuxiliars[i].Numero, new { htmlAttributes = new { @class = "form-control" } })
+                    </td>
+                    <td>
+                        @Html.EditorFor(m => m.ExtractoAuxiliars[i].Año, new { htmlAttributes = new { @class = "form-control" } })
                     </td>
                     <td>
                         @Html.EditorFor(m => m.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial, new { htmlAttributes = new { @class = "form-control" } })

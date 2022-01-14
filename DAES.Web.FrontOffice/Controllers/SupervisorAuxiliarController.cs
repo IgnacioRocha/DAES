@@ -115,8 +115,6 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             /*db.SupervisorAuxiliars.Add(new SupervisorAuxiliarTemporal() { });*/
             db.SupervisorAuxiliars.Add(super);
-            db.ExtractoAuxiliars.Add(extracto);
-            super.ExtractoAuxiliars.Add(extracto);
             /*super.RepresentanteLegals.Add(representante);
             super.ExtractoAuxiliars.Add(extracto);
             super.EscrituraConstitucionModificaciones.Add(escritura);

@@ -30,6 +30,12 @@ namespace DAES.Web.BackOffice.Controllers
         public Fiscalizacion Fiscalizacion { get; set; }
         public Hallazgo Hallazgo { get; set; }
 
+        public ActualizacionEscrituraConstitucion ActualizacionEscrituraConstitucion { get; set; }
+        public ActualizacionExtractoAuxiliar ActualizacionExtractoAuxiliar { get; set; }
+        public ActualizacionPersonaFacultada ActualizacionPersonaFacultada { get; set; }
+        public ActualizacionRepresentante ActualizacionRepresentante { get; set; }
+        public ActualizacionSupervisor ActualizacionSupervisor { get; set; }
+
         public SupervisorAuxiliar SupervisorAuxiliar { get; set; }
 
         public int? OrganizacionId { get; set; }
@@ -42,6 +48,8 @@ namespace DAES.Web.BackOffice.Controllers
 
         [Display(Name = "Tipo privacidad")]
         public int TipoPrivacidadId { get; set; }
+
+        public List<SupervisorAuxiliar> SupervisoresAuxiliares { get; set; }
 
         public List<Directorio> Directorios { get; set; }
         public List<ModificacionEstatuto> ModificacionEstatutos { get; set; }
@@ -217,6 +225,7 @@ namespace DAES.Web.BackOffice.Controllers
             model.Organizacion = db.Organizacion.Find(model.Workflow.Proceso.OrganizacionId);
             model.Directorios = db.Directorio.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
             model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
+            
 
             ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
             ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
@@ -262,12 +271,16 @@ namespace DAES.Web.BackOffice.Controllers
 
         //TODO Implementar funcionalidad
         #region Actualizar Supervisor 
-        /*public ActionResult ActualizarSupervisor(int WorkflowId)
+        public ActionResult ActualizarSupervisor(int WorkflowId)
         {
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
-            model.SupervisorAuxiliar =db.SupervisorAuxiliars.FirstOrDefault()
-            model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
+            model.SupervisoresAuxiliares = db.SupervisorAuxiliars.Where(q=>q.ProcesoId==model.ProcesoId).ToList();
+            model.SupervisorAuxiliar = db.SupervisorAuxiliars.FirstOrDefault(q=>q.ProcesoId==model.ProcesoId);/*
+            model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q=>q.ProcesoId==model.ProcesoId);*/
+            
+            //model.SupervisorAuxiliar = db.SupervisorAuxiliars.Find(model.Workflow.Proceso.SupervisorAuxiliar.SupervisorAuxiliarId);
+            /*model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);*/
 
             ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
             ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
@@ -309,7 +322,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
 
             return View(model);
-        }*/
+        }
 
         #endregion
         public ActionResult EditarOrganizacion(int WorkflowId)
@@ -590,21 +603,21 @@ namespace DAES.Web.BackOffice.Controllers
             {
                 try
                 {
-                    //if(DefinicionWorkflowId!=null)
-                    //{
-                    //    var Defwork = db.DefinicionWorkflow.Find(DefinicionWorkflowId);
-                    //    var proc = db.Proceso.Find(workflow.ProcesoId);
-                    //    var super = db.SupervisorAuxiliars.Where(q => q.ProcesoId == proc.ProcesoId).ToList();
+                    if(DefinicionWorkflowId!=null)
+                    {
+                        var Defwork = db.DefinicionWorkflow.Find(DefinicionWorkflowId);
+                        var proc = db.Proceso.Find(workflow.ProcesoId);
+                        var super = db.SupervisorAuxiliars.Where(q => q.ProcesoId == proc.ProcesoId).ToList();
 
-                    //    if (Defwork.TipoWorkflowId == 28)
-                    //    {
-                    //        foreach (var item in super)
-                    //        {
-                    //            item.Aprobado = true;
-                    //        }
-                    //        db.SaveChanges();
-                    //    }
-                    //}
+                        if (Defwork.TipoWorkflowId == 28)
+                        {
+                            foreach (var item in super)
+                            {
+                                item.Aprobado = true;
+                            }
+                            db.SaveChanges();
+                        }
+                    }
                     
                     _custom.ProcesoUpdate(workflow, DefinicionWorkflowId);
                     TempData["Message"] = Properties.Settings.Default.Success;
@@ -677,9 +690,12 @@ namespace DAES.Web.BackOffice.Controllers
             if (ModelState.IsValid)
             {
                 var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == documento.WorkflowId);
+                var super = db.SupervisorAuxiliars.Where(q => q.ProcesoId == workflow.ProcesoId);
+
+                
                 if(workflow.Proceso.SupervisorAuxiliars.Count() != 0)
-                {
-                    //_custom.SignPDF(documento.DocumentoId, workflow.Proceso.SupervisorAuxiliars.FirstOrDefault().TipoOrganizacionId, null);
+                {                    
+                    _custom.SignPDF(documento.DocumentoId, super.FirstOrDefault().ProcesoId.GetValueOrDefault(), null);
                 }else
                 {
                     _custom.SignPDF(documento.DocumentoId, workflow.Proceso.Organizacion.TipoOrganizacionId, null);
