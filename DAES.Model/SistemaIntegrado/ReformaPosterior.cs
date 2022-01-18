@@ -33,7 +33,12 @@ namespace DAES.Model.SistemaIntegrado
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? FechaEscrituraPublica { get; set; }
-        
+
+        [Display(Name = "Fecha de públicacion (diario oficial)")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? FechaPubliDiario { get; set; }
+
         [Display(Name = "Año inscripción")]
         public int? AnoInscripcion { get; set; }
 
@@ -49,7 +54,6 @@ namespace DAES.Model.SistemaIntegrado
         public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
-        [NotMapped]
-        public string lala { get; set; }
+        
     }
 }
