@@ -20,6 +20,11 @@ namespace DAES.Model.SistemaIntegrado
         public int? PersonaFacultadaId { get; set; }
         public virtual PersonaFacultada PersonaFacultada { get; set; }
 
+        public int? ActualizacionSupervisorId { get; set; }
+        public virtual ActualizacionSupervisor ActualizacionSupervisor { get; set; }
+
+        public int? ProcesoId { get; set; }
+
         [Display(Name = "Nombre Completo")]
         public string NombreCompleto { get; set; }
 
@@ -34,5 +39,7 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Nacionalidad")]
         public string Nacionalidad { get; set; }
+
+        public bool Eliminado { get; set; }
     }
 }

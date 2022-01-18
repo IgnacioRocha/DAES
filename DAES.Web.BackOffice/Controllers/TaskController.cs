@@ -52,7 +52,7 @@ namespace DAES.Web.BackOffice.Controllers
         public int? TipoPersonaJuridicaId { get; set; }
         public virtual TipoPersonaJuridica TipoPersonaJuridica { get; set; }
 
-        public List<SupervisorAuxiliar> SupervisoresAuxiliares { get; set; }
+        public List<ActualizacionSupervisor> ActualizacionSupervisors { get; set; }
 
         public List<Directorio> Directorios { get; set; }
         public List<ModificacionEstatuto> ModificacionEstatutos { get; set; }
@@ -278,9 +278,110 @@ namespace DAES.Web.BackOffice.Controllers
         {
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
-            model.SupervisoresAuxiliares = db.SupervisorAuxiliars.Where(q=>q.ProcesoId==model.Workflow.ProcesoId).ToList();            
+            //Variable para almacenar el Update de un Supervisor
             var UpSuper = model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q => q.ProcesoId == model.Workflow.ProcesoId).FirstOrDefault();
+            //Variable para almacenar el Update de una lista de Representantes Legales
+            /*var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == UpSuper.SupervisorAuxiliarId).ToList();*/
+            //Variable para almacenar el Update de una lista de Personas Facultadas
+            /*var UpFacultada = db.ActualizacionPersonaFacultadas.Where(q => q.ActualizacionPersonaFacultadaId == UpSuper.SupervisorAuxiliarId).ToList();*/            
             model.SupervisorAuxiliar = db.SupervisorAuxiliars.FirstOrDefault(q => q.SupervisorAuxiliarId == UpSuper.SupervisorAuxiliarId);
+            
+            /*for (int i = 0;i<UpRepre.Count;i++)
+            {
+                UpSuper.Representantes.Add(UpRepre[i]);
+            }
+
+            for (int i = 0; i < UpFacultada.Count; i++)
+            {
+                UpSuper.Facultada.Add(UpFacultada[i]);
+            }*/
+
+
+            //model.SupervisorAuxiliar = db.SupervisorAuxiliars.Find(model.Workflow.Proceso.SupervisorAuxiliar.SupervisorAuxiliarId);
+            /*model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);*/
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre");
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre");
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre");
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActualizarSupervisor(TaskModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(model.SupervisorAuxiliar).State = EntityState.Modified;
+                var super = model.ActualizacionSupervisors = new List<ActualizacionSupervisor>();                
+                var help = model.ActualizacionSupervisor;
+                var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == help.ActualizacionSupervisorId).ToList();
+                var UpFacu = db.ActualizacionPersonaFacultadas.Where(q=>q.ActualizacionSupervisorId == help.ActualizacionSupervisorId).ToList();
+                
+                foreach(var facultada in UpFacu)
+                {
+                    help.Facultada.Add(facultada);
+                }
+
+                foreach(var repre in UpRepre)
+                {
+                    help.Representantes.Add(repre);
+                }
+                super.Add(help);
+
+                _custom.SupervisorUpdate(model.ActualizacionSupervisors);
+                db.SaveChanges();
+
+                TempData["Message"] = Properties.Settings.Default.Success;
+                return RedirectToAction("ActualizarSupervisor", new { model.Workflow.WorkflowId });
+            }
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre", model.Organizacion.CiudadId);
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre", model.Organizacion.ComunaId);
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.Organizacion.EstadoId);
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.Organizacion.SituacionId);
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.Organizacion.RegionId);
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre", model.Organizacion.RubroId);
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre", model.Organizacion.SubRubroId);
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.Organizacion.TipoOrganizacionId);
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+
+            return View(model);
+        }
+
+        public ActionResult EliminarRepresentante(int WorkflowId , int ActualizacionRepresentanteId)
+        {
+            var model=new TaskModel();
+            model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            var repre = db.ActualizacionRepresentantes.Find(ActualizacionRepresentanteId);
+            var UpSuper = model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q => q.ProcesoId == model.Workflow.ProcesoId).FirstOrDefault();
+            //Variable para almacenar el Update de una lista de Representantes Legales
+            var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == UpSuper.SupervisorAuxiliarId).ToList();
+            //Variable para almacenar el Update de una lista de Personas Facultadas
+            var UpFacultada = db.ActualizacionPersonaFacultadas.Where(q => q.ActualizacionPersonaFacultadaId == UpSuper.SupervisorAuxiliarId).ToList();
+            model.SupervisorAuxiliar = db.SupervisorAuxiliars.FirstOrDefault(q => q.SupervisorAuxiliarId == UpSuper.SupervisorAuxiliarId);
+
+            for (int i = 0; i < UpRepre.Count; i++)
+            {
+                UpSuper.Representantes.Add(UpRepre[i]);
+            }
+
+            for (int i = 0; i < UpFacultada.Count; i++)
+            {
+                UpSuper.Facultada.Add(UpFacultada[i]);
+            }
+
+            model.ActualizacionSupervisors.Add(UpSuper);
 
             //model.SupervisorAuxiliar = db.SupervisorAuxiliars.Find(model.Workflow.Proceso.SupervisorAuxiliar.SupervisorAuxiliarId);
             /*model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);*/
@@ -297,34 +398,60 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
 
-            return View(model);
+            if (repre != null)
+            {
+                repre.Eliminado = true;
+            }
+            db.SaveChanges();
+
+            return PartialView("_RepresentantesLegales",model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ActualizarSupervisor(TaskModel model)
+        public ActionResult EliminarFacultadas(int WorkflowId,int ActualizacionPersonaFacultadaId)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(model.SupervisorAuxiliar).State = EntityState.Modified;
-                db.SaveChanges();
+            var model = new TaskModel();
+            model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            var facultada = db.ActualizacionPersonaFacultadas.Find(ActualizacionPersonaFacultadaId );
+            var UpSuper = model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q => q.ProcesoId == model.Workflow.ProcesoId).FirstOrDefault();
+            //Variable para almacenar el Update de una lista de Representantes Legales
+            var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == UpSuper.SupervisorAuxiliarId).ToList();
+            //Variable para almacenar el Update de una lista de Personas Facultadas
+            var UpFacultada = db.ActualizacionPersonaFacultadas.Where(q => q.ActualizacionPersonaFacultadaId == UpSuper.SupervisorAuxiliarId).ToList();
+            model.SupervisorAuxiliar = db.SupervisorAuxiliars.FirstOrDefault(q => q.SupervisorAuxiliarId == UpSuper.SupervisorAuxiliarId);
 
-                TempData["Message"] = Properties.Settings.Default.Success;
-                return RedirectToAction("ActualizarOrganizacion", new { model.Workflow.WorkflowId });
+            for (int i = 0; i < UpRepre.Count; i++)
+            {
+                UpSuper.Representantes.Add(UpRepre[i]);
             }
 
-            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre", model.Organizacion.CiudadId);
-            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre", model.Organizacion.ComunaId);
-            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.Organizacion.EstadoId);
-            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.Organizacion.SituacionId);
-            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.Organizacion.RegionId);
-            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre", model.Organizacion.RubroId);
-            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre", model.Organizacion.SubRubroId);
-            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.Organizacion.TipoOrganizacionId);
+            for (int i = 0; i < UpFacultada.Count; i++)
+            {
+                UpSuper.Facultada.Add(UpFacultada[i]);
+            }
+
+            model.ActualizacionSupervisors.Add(UpSuper);
+            //model.SupervisorAuxiliar = db.SupervisorAuxiliars.Find(model.Workflow.Proceso.SupervisorAuxiliar.SupervisorAuxiliarId);
+            /*model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);*/
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre");
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre");
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre");
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
 
-            return View(model);
+            if (facultada != null)
+            {
+                facultada.Eliminado = true;
+            }
+            db.SaveChanges();
+
+            return PartialView("_PersonasFacultadas", model);
         }
 
         #endregion
@@ -382,8 +509,6 @@ namespace DAES.Web.BackOffice.Controllers
 
             return View(model);
         }
-
-
 
         public ActionResult DirectorioAdd(int WorkflowId, int OrganizacionId)
         {

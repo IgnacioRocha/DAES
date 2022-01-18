@@ -89,6 +89,88 @@ namespace DAES.BLL
             }
         }
 
+        public List<string> SupervisorUpdate(List<ActualizacionSupervisor> list)
+        {
+            using(SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var returnValue = new List<string>();
+                if (list == null)
+                {
+                    return returnValue;
+                }
+
+                foreach (var item in list)
+                {
+                    var supervisor = context.SupervisorAuxiliars.FirstOrDefault(q => q.SupervisorAuxiliarId == item.SupervisorAuxiliarId);
+                    if (item != null)
+                    {
+                        supervisor.TipoPersonaJuridicaId=item.TipoPersonaJuridicaId;
+                        supervisor.DomicilioLegal = item.DomicilioLegal;
+                        supervisor.Telefono=item.Telefono;
+                        supervisor.CorreoElectronico=item.CorreoElectronico;
+
+                        foreach(var UpRepre in item.Representantes)
+                        {
+                            if(!UpRepre.Eliminado)
+                            {
+                                var repre = context.RepresentantesLegals.Find(UpRepre.RepresentanteLegalId);
+                                if (repre != null)
+                                {
+                                    repre.NombreCompleto = UpRepre.NombreCompleto;
+                                    repre.RUN = UpRepre.RUN;
+                                    repre.Profesion = UpRepre.Profesion;
+                                    repre.Domicilio = UpRepre.Domicilio;
+                                    repre.Nacionalidad = UpRepre.Nacionalidad;
+                                }
+                                else
+                                {
+                                    new RepresentanteLegal()
+                                    {
+                                        NombreCompleto = UpRepre.NombreCompleto,
+                                        RUN = UpRepre.RUN,
+                                        Profesion = UpRepre.Profesion,
+                                        Domicilio = UpRepre.Domicilio,
+                                        Nacionalidad = UpRepre.Nacionalidad,
+                                        SupervisorAuxiliarId = supervisor.SupervisorAuxiliarId
+                                    };
+                                }
+                            }                            
+                        }
+
+                        foreach(var UpFacultada in item.Facultada)
+                        {
+                            if(!UpFacultada.Eliminado)
+                            {
+                                var facultada = context.PersonaFacultadas.Find(UpFacultada.PersonaFacultadaId);
+                                if (facultada != null)
+                                {
+                                    facultada.NombreCompleto = UpFacultada.NombreCompleto;
+                                    facultada.RUN = UpFacultada.RUN;
+                                    facultada.Profesion = UpFacultada.Profesion;
+                                    facultada.Domicilio = UpFacultada.Domicilio;
+                                    facultada.Nacionalidad = UpFacultada.Nacionalidad;
+                                }
+                                else
+                                {
+                                    new PersonaFacultada()
+                                    {
+                                        NombreCompleto = UpFacultada.NombreCompleto,
+                                        RUN = UpFacultada.RUN,
+                                        Profesion = UpFacultada.Profesion,
+                                        Domicilio = UpFacultada.Domicilio,
+                                        Nacionalidad = UpFacultada.Nacionalidad,
+                                        SupervisorAuxiliarId = supervisor.SupervisorAuxiliarId
+                                    };
+                                }
+                            }                            
+                        }
+                    }
+                    context.SaveChanges();
+                }                
+                return returnValue;
+            }
+        }
+
         public List<string> DirectorioUpdate(List<Directorio> list)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())

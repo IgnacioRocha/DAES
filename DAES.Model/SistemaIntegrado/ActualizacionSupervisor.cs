@@ -14,13 +14,15 @@ namespace DAES.Model.SistemaIntegrado
     {
         public ActualizacionSupervisor()
         {
-
+            Representantes = new List<ActualizacionRepresentante>();
+            Facultada = new List<ActualizacionPersonaFacultada>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "Id")]
         public int ActualizacionSupervisorId { get; set; }
 
+        [Display(Name ="Id")]
         public int? SupervisorAuxiliarId { get; set; }
         public virtual SupervisorAuxiliar SupervisorAuxiliar { get; set; }
 
@@ -52,6 +54,9 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Documento")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase DocumentoAdjuntoTest { get; set; }
+
+        public virtual List<ActualizacionRepresentante> Representantes { get; set; }
+        public virtual List<ActualizacionPersonaFacultada> Facultada { get; set; } 
 
         [Display(Name = "Documento")]
         [DataType(DataType.Upload)]
