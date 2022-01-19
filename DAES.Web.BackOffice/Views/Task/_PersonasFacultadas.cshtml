@@ -37,7 +37,7 @@
                                 <td>@Html.EditorFor(model => item.Profesion, new { htmlAttributes = new { @class = "form-control" } })</td>
                                 <td>@Html.EditorFor(model => item.Domicilio, new { htmlAttributes = new { @class = "form-control" } })</td>
                                 <td>@Html.EditorFor(model => item.Nacionalidad, new { htmlAttributes = new { @class = "form-control" } })</td>
-                                <td>@Ajax.ActionLink("Eliminar", "EliminarFacultadas", null, new { Model.Workflow.WorkflowId, item.ActualizacionPersonaFacultadaId }, new AjaxOptions { UpdateTargetId = "facultadas" })</td>
+                                @*<td>@Ajax.ActionLink("Eliminar", "EliminarFacultadas", null, new { Model.Workflow.WorkflowId, item.ActualizacionPersonaFacultadaId }, new AjaxOptions { UpdateTargetId = "facultadas" })</td>*@
                             </tr>
                         }
                     }

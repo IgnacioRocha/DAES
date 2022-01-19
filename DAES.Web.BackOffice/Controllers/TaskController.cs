@@ -339,7 +339,7 @@ namespace DAES.Web.BackOffice.Controllers
                 super.Add(help);
 
                 _custom.SupervisorUpdate(model.ActualizacionSupervisors);
-                db.SaveChanges();
+                //db.SaveChanges();
 
                 TempData["Message"] = Properties.Settings.Default.Success;
                 return RedirectToAction("ActualizarSupervisor", new { model.Workflow.WorkflowId });

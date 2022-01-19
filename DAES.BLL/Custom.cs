@@ -743,11 +743,10 @@ namespace DAES.BLL
 
                 #region Certificado Disolucion
 
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 106) //TODO Modificar el valor "103" por el correspondiente en fase de produccion
+                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
-                    if (aux != null) //TODO Modificar el valor "103" por el correspondiente en fase de produccion
+                    if (aux != null)
                     {
-
                         if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                         {
                             if (aux.Anterior == true)
@@ -764,12 +763,12 @@ namespace DAES.BLL
 
                                 if (!string.IsNullOrEmpty(aux.FechaNorma.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", " de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) + " se declaró la disolución de la ");
+                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", " de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) + " se declaró la disolución de la "+organizacion.RazonSocial);
                                 }
 
                                 if (!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", cuyo extracto fue publicado en el Diario Oficial de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) + ".");
+                                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", cuyo extracto fue publicado en el Diario Oficial con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
                                 }
 
                                 if (!string.IsNullOrEmpty(aux.FechaJuntaSocios.ToString()))
@@ -779,11 +778,11 @@ namespace DAES.BLL
 
                                 if (!string.IsNullOrEmpty(aux.Autorizacion))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", ", autorizado por: " + aux.Autorizacion);
+                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", ", autorizado por: " + aux.Autorizacion + ".");
                                 }
                                 else
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", string.Empty);
+                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", string.Empty + ".");
                                 }
                             }
                             else
@@ -808,9 +807,9 @@ namespace DAES.BLL
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", la que fue publicada en el Diario Oficial con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
                                 }
-                                if (!string.IsNullOrEmpty(aux.NumeroFojas.ToString()))
+                                if (!string.IsNullOrEmpty(aux.NumeroFojas))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", " e inscrita a fojas " + aux.NumeroFojas.ToString());
+                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", " e inscrita a fojas " + aux.NumeroFojas);
                                 }
                                 if (!string.IsNullOrEmpty(aux.DatosCBR))
                                 {
@@ -821,27 +820,6 @@ namespace DAES.BLL
                                     parrafo_dos = parrafo_dos.Replace("[AÑOINSCRIPCION]", ", correspondiente al año " + aux.AñoInscripcion.ToString() + ".");
                                 }
                             }
-
-                            /*parrafo_uno = parrafo_uno.Replace("[TIPONORMA]", aux.TipoNorma.Nombre ?? string.Empty);*/
-
-
-                            /*parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma.ToString() ?? string.Empty);*/
-
-
-
-                            /*parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);*/
-
-                            /*                            
-                            parrafo_uno = parrafo_uno.Replace("[FECHADISOLUCION]", string.Format("{0:dd-MM-yyyy}", aux.FechaDisolucion) ?? string.Empty);
-                            
-                            
-                            parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[NUMEROFOJAS]", aux.NumeroFojas ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[AÑOINSCRIPCION]", aux.AñoInscripcion.ToString() ?? string.Empty);
-                            
-                            parrafo_uno = parrafo_uno.Replace("[DATOSCBR]", aux.DatosCBR ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[FECHADISOLUCION]", string.Format("{0:dd-MM-yyyy}", aux.FechaDisolucion) ?? string.Empty);*/
-
                         }
                         else if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
                           aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
@@ -1013,12 +991,18 @@ namespace DAES.BLL
                         {
                             doc.Add(table);
                         }
+                    }else if(aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                        aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                    {
+                        doc.Add(paragraphUNO);
+                        doc.Add(SaltoLinea);
                     }
 
                     /*doc.Add(paragraphDOS);*/
                 }
 
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId != 103 && organizacion.Documentos.FirstOrDefault().TipoDocumentoId != 106)
+                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId != (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                    organizacion.Documentos.FirstOrDefault().TipoDocumentoId != (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
                     doc.Add(SaltoLinea);
                     doc.Add(paragraphUNO);
@@ -1026,7 +1010,7 @@ namespace DAES.BLL
 
                 }
 
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
+                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos)
                 {
                     if (organizacion.ExistenciaLegals.Any() || organizacion.Reformas.Any() || organizacion.Saneamientos.Any() || organizacion.ExistenciaAnteriors.Any() || organizacion.ExistenciaPosteriors.Any() || organizacion.ReformaAGACs.Any() || organizacion.ReformaAnteriors.Any() || organizacion.ReformaPosteriors.Any())
                     {
@@ -1586,10 +1570,7 @@ namespace DAES.BLL
 
                                 }
                             }
-
                         }
-
-
                     }
 
                     else
@@ -1733,7 +1714,7 @@ namespace DAES.BLL
                 {
                     //string orden = "Por orden del Subsecretario";
                     doc.Add(SaltoLinea);
-                    if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
+                    if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos)
                     {
                         string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa." +
                             " Saluda atentamente a ustedes." + "\n" +
@@ -1760,7 +1741,7 @@ namespace DAES.BLL
                 //    orden = "Por orden del Ministro";
                 //}
 
-                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos != 103)
+                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos != (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos)
                 {
 
                     doc.Add(rae);
@@ -2548,8 +2529,7 @@ namespace DAES.BLL
                 }
 
                 //en el caso de un proceso de estudio socioeconomico
-                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
-                {
+                
                     if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                     {
                         foreach (var item in obj.EstudioSocioEconomicos)
@@ -2596,8 +2576,7 @@ namespace DAES.BLL
                     else
                     {
                         proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
-                    }
-                }              
+                    }           
 
                 //cooperativa de vivienda abierta
                 //
