@@ -30,7 +30,7 @@ namespace DAES.Model.SistemaIntegrado
         public int? Numero { get; set; }
 
         [Display(Name = "Año")]
-        public int? Año { get; set; }
+        public int? Año { get; set; }        
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Date)]

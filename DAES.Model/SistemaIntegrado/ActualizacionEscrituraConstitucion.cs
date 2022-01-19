@@ -28,6 +28,8 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Fecha")]
         public DateTime? Fecha { get; set; }
 
+        [NotMapped]
+        public int? ProcesoId { get; set; }
 
         [Display(Name = "Numero de Repertorio")]
         public int? NumeroRepertorio { get; set; }

@@ -2502,7 +2502,7 @@ namespace DAES.BLL
                             });
                         }
 
-                        for (var i = 0; i < item.EscrituraConstitucionModificaciones.Count(); i++)
+                        /*for (var i = 0; i < item.EscrituraConstitucionModificaciones.Count(); i++)
                         {
                             context.ActualizacionEscrituraConstitucions.Add(new ActualizacionEscrituraConstitucion()
                             {
@@ -2511,7 +2511,7 @@ namespace DAES.BLL
                                 NumeroRepertorio = item.EscrituraConstitucionModificaciones[i].NumeroRepertorio,
                                 EscrituraConstitucionId=item.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId
                             });                         
-                        }
+                        }*/
 
                         for (var i = 0; i < item.PersonaFacultadas.Count(); i++)
                         {
@@ -2529,7 +2529,8 @@ namespace DAES.BLL
                 }
 
                 //en el caso de un proceso de estudio socioeconomico
-                
+                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
+                {
                     if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                     {
                         foreach (var item in obj.EstudioSocioEconomicos)
@@ -2576,7 +2577,8 @@ namespace DAES.BLL
                     else
                     {
                         proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
-                    }           
+                    }
+                }
 
                 //cooperativa de vivienda abierta
                 //
