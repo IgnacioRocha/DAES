@@ -176,7 +176,7 @@ namespace DAES.Web.FrontOffice.Controllers
                         });
 
 
-                        if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" || fileEx != ".PDF" && fileEx != ".xls"  && fileEx != ".doc" && fileEx != ".docx")
+                        if (file == null || ms.Length > 52428800 || file.ContentLength < 0 || file.FileName == "" || fileEx != ".pdf" && fileEx != ".xls"  && fileEx != ".doc" && fileEx != ".docx")
                         {
 
                             ViewBag.errorMessage = "Solo se aceptan archivos en formato PDF, Word , Excel (sin macros) y que no estén vacíos";
