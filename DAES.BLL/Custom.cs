@@ -726,9 +726,9 @@ namespace DAES.BLL
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", la que fue publicada en el Diario Oficial con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
                                 }
-                                if (!string.IsNullOrEmpty(aux.NumeroFojas.ToString()))
+                                if (!string.IsNullOrEmpty(aux.NumeroFojas))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", " e inscrita a fojas " + aux.NumeroFojas.ToString());
+                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", " e inscrita a fojas " + aux.NumeroFojas);
                                 }
                                 if (!string.IsNullOrEmpty(aux.DatosCBR))
                                 {
@@ -1177,16 +1177,16 @@ namespace DAES.BLL
                                 {
                                     string parrafo = string.Format(configuracioncertificado.Parrafo4);
 
-                                    //var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
+                                    var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
 
-                                    //if (item.FechaReforma != null && fechaMayorr.FechaReforma == item.FechaReforma)
-                                    //{
-                                    //    parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma anterior al 2003");
-                                    //}
-                                    //else
-                                    //{
-                                    //    parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                    //}
+                                    if (item.FechaReforma != null && fechaMayorr.FechaReforma == item.FechaReforma)
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma anterior al 2003");
+                                    }
+                                    else
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
+                                    }
                                     contRef++;
 
                                     if (contRef != 0)
@@ -1280,16 +1280,16 @@ namespace DAES.BLL
                                 {
                                     string parrafo = string.Format(configuracioncertificado.Parrafo4);
 
-                                    //var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
+                                    var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
 
-                                    //if (item.FReforma != null && fechaMayorr.FReforma == item.FReforma)
-                                    //{
-                                    //    parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma posterior al 2003");
-                                    //}
-                                    //else
-                                    //{
-                                    //    parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                    //}
+                                    if (item.FReforma != null && fechaMayorr.FReforma == item.FReforma)
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma posterior al 2003");
+                                    }
+                                    else
+                                    {
+                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
+                                    }
 
                                     contRefPost++;
 

@@ -553,13 +553,13 @@ else
 
 
 
-    function LimpiarCampos() {
+    function LimpiarCamposAnt() {
 
-        document.getElementById("ExistenciaLegals_0__AutorizadoPor").value = "";
-        document.getElementById("ExistenciaLegals_0__FechaPublicacionn").value = "";
-        document.getElementById("ExistenciaLegals_0__FechaNorma").value = "";
-        document.getElementById("ExistenciaLegals_0__NumeroNorma").value = "";
-        document.getElementById("ExistenciaLegals_0__TipoNormaId").value = "";
+        document.getElementById("ExistenciaAnteriors_0__Autorizado").value = "";
+        document.getElementById("ExistenciaAnteriors_0__FechaPublicacion").value = "";
+        document.getElementById("ExistenciaAnteriors_0__FNorma").value = "";
+        document.getElementById("ExistenciaAnteriors_0__NNorma").value = "";
+        document.getElementById("ExistenciaAnteriors_0__TipoNormaId").value = "";
     }
 
     function LimpiarCampos() {
@@ -626,7 +626,7 @@ else
 
 
         $("#limpiar").on("click", function () {
-            LimpiarCampos()
+            LimpiarCamposAnt()
         });
 
         $("#limpiarExiPost").on("click", function () {
