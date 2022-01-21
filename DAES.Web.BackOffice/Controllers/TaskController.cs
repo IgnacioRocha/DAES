@@ -322,11 +322,13 @@ namespace DAES.Web.BackOffice.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(model.SupervisorAuxiliar).State = EntityState.Modified;
-                var super = model.ActualizacionSupervisors = new List<ActualizacionSupervisor>();                
+                var super = model.ActualizacionSupervisors = new List<ActualizacionSupervisor>();
                 var help = model.ActualizacionSupervisor;
+                var aux = db.ActualizacionSupervisors.Find(help.ActualizacionSupervisorId);
+                help = aux;
                 var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == help.ActualizacionSupervisorId).ToList();
                 var UpFacu = db.ActualizacionPersonaFacultadas.Where(q=>q.ActualizacionSupervisorId == help.ActualizacionSupervisorId).ToList();
-                
+
                 foreach(var facultada in UpFacu)
                 {
                     help.Facultada.Add(facultada);
@@ -622,10 +624,6 @@ namespace DAES.Web.BackOffice.Controllers
 
             return PartialView("_DisolucionEdit", model);
         }
-
-
-
-
 
         public ActionResult DespachoDocumento(int WorkflowId)
         {

@@ -40,6 +40,8 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Nacionalidad")]
         public string Nacionalidad { get; set; }
 
+        public bool Habilitado { get; set; }
+
         public bool Eliminado { get; set; }
     }
 }

@@ -96,6 +96,8 @@ namespace DAES.Web.FrontOffice.Controllers
             return View();
         }
 
+        #region Create
+
         public ActionResult Create()
         {
             /*var super = new SupervisorAuxiliarTemporal() { };
@@ -209,6 +211,10 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(model);
         }
 
+        #endregion
+
+        #region Update
+
         /*Funcion para gestionar la busqueda de un supervisor para su posterior actualizacion*/
         public ActionResult Update(Search model)
         {
@@ -307,13 +313,15 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(model);
         }
 
+        #endregion
+
         #region Funciones Representante
         public ActionResult RepresentanteAdd(int SupervisorAuxiliarId)
         {
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
-            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId };
+            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId,Habilitado=true,Eliminado=false };
             db.RepresentantesLegals.Add(representante);
 
             db.SaveChanges();
@@ -324,7 +332,7 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
-            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId };
+            var representante = new RepresentanteLegal() { SupervisorAuxiliarId = SupervisorAuxiliarId, Eliminado=true, Habilitado=true };
             db.RepresentantesLegals.Add(representante);
 
             db.SaveChanges();
@@ -354,7 +362,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
             if (repre != null)
             {
-                db.RepresentantesLegals.Remove(repre);
+                repre.Habilitado = false;
                 db.SaveChanges();
             }
 
@@ -427,7 +435,7 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
-            var facultada = new PersonaFacultada() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
+            var facultada = new PersonaFacultada() { SupervisorAuxiliarId = model.SupervisorAuxiliarId, Eliminado=false, Habilitado=true };
             db.PersonaFacultadas.Add(facultada);
 
             db.SaveChanges();
@@ -455,7 +463,7 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
             var model = db.SupervisorAuxiliars.Find(SupervisorAuxiliarId);
-            var facultada = new PersonaFacultada() { SupervisorAuxiliarId = model.SupervisorAuxiliarId };
+            var facultada = new PersonaFacultada() { SupervisorAuxiliarId = model.SupervisorAuxiliarId, Eliminado = true, Habilitado = true };
             db.PersonaFacultadas.Add(facultada);
 
             db.SaveChanges();
@@ -472,13 +480,15 @@ namespace DAES.Web.FrontOffice.Controllers
 
             if (facultada != null)
             {
-                db.PersonaFacultadas.Remove(facultada);
+                facultada.Habilitado = false;
                 db.SaveChanges();
             }
             return PartialView("_PersonasFacultadasUpdate", model);
         }
         #endregion
-        
+
+        #region Extractos
+
         public ActionResult ExtractoAdd(int SupervisorAuxiliarId)
         {
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
@@ -507,6 +517,7 @@ namespace DAES.Web.FrontOffice.Controllers
             return PartialView("_Extracto", model);
         }
 
+        #endregion
         public ActionResult Finish()
         {
             return View();

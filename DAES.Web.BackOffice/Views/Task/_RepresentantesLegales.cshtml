@@ -1,48 +1,96 @@
 ﻿@model DAES.Web.BackOffice.Controllers.TaskModel
-
-<div class="panel panel-default"id="representantes">
-    <div class="panel-heading">Representantes Legales</div>
-    <div class="panel-body">
-        <dl class="form">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>
-                            Nombre
-                        </th>
-                        <th>
-                            Rut
-                        </th>
-                        <th>
-                            Profesión
-                        </th>
-                        <th>
-                            Domicilio
-                        </th>
-                        <th>
-                            Nacionalidad
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.ActualizacionSupervisor.Representantes)
-                    {
-                        @Html.HiddenFor(m => m.ActualizacionSupervisor.ProcesoId)
-                        @Html.HiddenFor(m => m.ActualizacionSupervisor.ActualizacionSupervisorId)
-                        if (!item.Eliminado)
+<div class="col-md-6">
+    <div class="panel panel-default" id="representantes">
+        <div class="panel-heading">Solicitud de Modificación: Representantes Legales</div>
+        <div class="panel-body">
+            <dl class="form">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Rut
+                            </th>
+                            <th>
+                                Profesión
+                            </th>
+                            <th>
+                                Domicilio
+                            </th>
+                            <th>
+                                Nacionalidad
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ActualizacionSupervisor.Representantes)
                         {
+                            @Html.HiddenFor(m => m.ActualizacionSupervisor.ProcesoId)
+                            @Html.HiddenFor(m => m.ActualizacionSupervisor.ActualizacionSupervisorId)
+                            if (item.Habilitado)
+                            {
                             <tr>
-                                <th>@Html.EditorFor(model => item.NombreCompleto, new { htmlAttributes = new { @class = "form-control col-md-10" } })</th>
-                                <th>@Html.EditorFor(model => item.RUN, new { htmlAttributes = new { @class = "form-control col-md-10" } })</th>
-                                <th>@Html.EditorFor(model => item.Profesion, new { htmlAttributes = new { @class = "form-control col-md-10" } })</th>
-                                <th>@Html.EditorFor(model => item.Domicilio, new { htmlAttributes = new { @class = "form-control col-md-10" } })</th>
-                                <th>@Html.EditorFor(model => item.Nacionalidad, new { htmlAttributes = new { @class = "form-control col-md-10" } })</th>
+                                <th>@Html.EditorFor(model => item.NombreCompleto, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                                <th>@Html.EditorFor(model => item.RUN, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                                <th>@Html.EditorFor(model => item.Profesion, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                                <th>@Html.EditorFor(model => item.Domicilio, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                                <th>@Html.EditorFor(model => item.Nacionalidad, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
                                 @*<th>@Ajax.ActionLink("Eliminar", "EliminarRepresentante",null, new { Model.Workflow.WorkflowId, item.ActualizacionRepresentanteId }, new AjaxOptions { UpdateTargetId = "representantes" })</th>*@
                             </tr>
+                            }
                         }
-                    }
-                </tbody>
-            </table>
-        </dl>
+                    </tbody>
+                </table>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="panel panel-default" id="representantes">
+        <div class="panel-heading">Datos actuales de Representantes Legales</div>
+        <div class="panel-body">
+            <dl class="form">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Rut
+                            </th>
+                            <th>
+                                Profesión
+                            </th>
+                            <th>
+                                Domicilio
+                            </th>
+                            <th>
+                                Nacionalidad
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SupervisorAuxiliar.RepresentanteLegals)
+                        {
+                            @Html.HiddenFor(m => m.SupervisorAuxiliar.ProcesoId)
+                            @Html.HiddenFor(m => m.SupervisorAuxiliar.SupervisorAuxiliarId)
+                            if (!item.Eliminado && item.Habilitado)
+                            {
+                        <tr>
+                            <th>@Html.EditorFor(model => item.NombreCompleto, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                            <th>@Html.EditorFor(model => item.RUN, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                            <th>@Html.EditorFor(model => item.Profesion, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                            <th>@Html.EditorFor(model => item.Domicilio, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                            <th>@Html.EditorFor(model => item.Nacionalidad, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</th>
+                        </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </dl>
+        </div>
     </div>
 </div>
