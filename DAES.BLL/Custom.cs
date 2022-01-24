@@ -2470,7 +2470,7 @@ namespace DAES.BLL
 
                     foreach (var item in aux)
                     {
-                        context.ActualizacionSupervisors.Add(new ActualizacionSupervisor()
+                        var UpSuper = context.ActualizacionSupervisors.Add(new ActualizacionSupervisor()
                         {
                             SupervisorAuxiliarId = item.SupervisorAuxiliarId,
                             Rut = item.Rut,
@@ -2494,52 +2494,11 @@ namespace DAES.BLL
                                 Profesion = UpRepre.Profesion,
                                 RUN = UpRepre.RUN,
                                 RepresentanteLegalId = UpRepre.RepresentanteLegalId,
-                                Habilitado = UpRepre.Habilitado,
-                                Eliminado = false
+                                Habilitado = true,
+                                Eliminado = false,
+                                ActualizacionSupervisorId=UpSuper.ActualizacionSupervisorId
                             });
                         }
-
-                        /*for(var i =0;i<item.RepresentanteLegals.Count();i++)
-                        {
-                            context.ActualizacionRepresentantes.Add(new ActualizacionRepresentante()
-                            {
-                                Domicilio = item.RepresentanteLegals[i].Domicilio,
-                                NombreCompleto = item.RepresentanteLegals[i].NombreCompleto,
-                                Nacionalidad = item.RepresentanteLegals[i].Nacionalidad,
-                                Profesion = item.RepresentanteLegals[i].Profesion,
-                                RUN = item.RepresentanteLegals[i].RUN,
-                                RepresentanteLegalId = item.RepresentanteLegals[i].RepresentanteLegalId
-                            });
-                        }*/
-
-                        //TODO BORRAR
-                        #region ELIMINAR
-                        /*for (var i = 0; i < item.ExtractoAuxiliars.Count(); i++)
-                        {
-                            context.ActualizacionExtractoAuxiliars.Add(new ActualizacionExtractoAuxiliar()
-                            {
-                                Año = item.ExtractoAuxiliars[i].Año,
-                                ConservadorComercio = item.ExtractoAuxiliars[i].ConservadorComercio,
-                                FechaInscripcion = item.ExtractoAuxiliars[i].FechaInscripcion,
-                                FechaPubliccionDiarioOficial = item.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial,
-                                Foja = item.ExtractoAuxiliars[i].Foja,
-                                Numero = item.ExtractoAuxiliars[i].Numero,
-                                NumeroPublicacionDiarioOficial = item.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial,
-                                ExtractoAuxiliarId=item.ExtractoAuxiliars[i].ExtractoAuxiliarId
-                            });
-                        }*/
-
-                        /*for (var i = 0; i < item.EscrituraConstitucionModificaciones.Count(); i++)
-                        {
-                            context.ActualizacionEscrituraConstitucions.Add(new ActualizacionEscrituraConstitucion()
-                            {
-                                Fecha = item.EscrituraConstitucionModificaciones[i].Fecha,
-                                Notaria = item.EscrituraConstitucionModificaciones[i].Notaria,
-                                NumeroRepertorio = item.EscrituraConstitucionModificaciones[i].NumeroRepertorio,
-                                EscrituraConstitucionId=item.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId
-                            });                         
-                        }*/
-                        #endregion
 
                         for (var i = 0; i < item.PersonaFacultadas.Count(); i++)
                         {
@@ -2550,7 +2509,9 @@ namespace DAES.BLL
                                 NombreCompleto = item.PersonaFacultadas[i].NombreCompleto,
                                 Profesion = item.PersonaFacultadas[i].Profesion,
                                 RUN = item.PersonaFacultadas[i].RUN,
-                                PersonaFacultadaId = item.PersonaFacultadas[i].PersonaFacultadaId
+                                PersonaFacultadaId = item.PersonaFacultadas[i].PersonaFacultadaId,
+                                ActualizacionSupervisorId = UpSuper.ActualizacionSupervisorId,
+                                Habilitado=true
                             });
                         }
                     }

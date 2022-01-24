@@ -135,7 +135,8 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
             ViewBag.max_tamano_file = Properties.Settings.Default.max_tamano_file;
-            if(ModelState.IsValid)
+            ViewBag.errorMessage = string.Empty;
+            if (ModelState.IsValid)
             {
                 var proceso = new Proceso()
                 {

@@ -1,4 +1,5 @@
 ﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-4">Registro de Supervisores Auxiliar</h1>
@@ -8,11 +9,16 @@
     @Html.Partial("_Message")
 </div>
 
-
 <div class="container my-3" id="supervisor">
     <div class="alert alert-primary" role="alert">
         <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
     </div>
+    @if (ViewBag.errorMessage != null)
+    {
+        <div class="alert-danger alert alert-primary">
+            @ViewBag.errorMessage
+        </div>
+    }
     @using (Html.BeginForm("Create", "SupervisorAuxiliar", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @*@Html.AntiForgeryToken()
@@ -178,7 +184,7 @@
             </div>
         </div>
         <br />
-        
+
         <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
 
 
