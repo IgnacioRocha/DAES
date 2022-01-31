@@ -71,9 +71,9 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "EstudioSAhorroCredito";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
 
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            /*Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
             {
                 nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
@@ -86,7 +86,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 tipo = "RUN"
             };
 
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);*/
         }
 
         public ActionResult Finish()
