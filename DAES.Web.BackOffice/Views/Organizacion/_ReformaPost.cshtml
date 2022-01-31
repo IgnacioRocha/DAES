@@ -10,52 +10,58 @@
     {
         @Html.HiddenFor(model => model.ReformaPosteriors[i].IdReformaPost)
         @Html.HiddenFor(model => model.ReformaPosteriors[i].OrganizacionId)
-        <thead>
+    <thead>
 
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FReforma)
-                    @Html.EditorFor(model => Model.ReformaPosteriors[i].FReforma, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaPubliDiario)
-                    @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaPubliDiario, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
-                </th>
-                
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaJuntGeneralSocios)
-                    @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaJuntGeneralSocios, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaEscrituraPublica)
-                    @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FojasNumero)
-                    @Html.EditorFor(model => Model.ReformaPosteriors[i].FojasNumero, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].AnoInscripcion)
-                    @Html.EditorFor(model => Model.ReformaPosteriors[i].AnoInscripcion, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
-                </th>
-            </tr>
-            <tr>
-                <th colspan="2">
-                    @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].DatosCBR)
-                    @Html.EditorFor(model => Model.ReformaPosteriors[i].DatosCBR, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
-                </th>
-            </tr>
-            <tr>
-                <td>
-                   
-                    @Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.ReformaPosteriors.ToArray()[i].IdReformaPost, Model.ReformaPosteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" })
-                </td>
-            </tr>
-        </thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FReforma)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FReforma, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaPubliDiario)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaPubliDiario, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            </th>
+
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaJuntGeneralSocios)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaJuntGeneralSocios, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaEscrituraPublica)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FojasNumero)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FojasNumero, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].AnoInscripcion)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].AnoInscripcion, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].DatosCBR)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].DatosCBR, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].DatosGeneralNotario)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].DatosGeneralNotario, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+            </th>
+        </tr>
+        <tr>
+            <td>
+
+                @Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.ReformaPosteriors.ToArray()[i].IdReformaPost, Model.ReformaPosteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" })
+            </td>
+        </tr>
+    </thead>
     }
 <tbody>
 

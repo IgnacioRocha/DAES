@@ -49,6 +49,9 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Datos CBR")]
         public string DatosCBR { get; set; }
 
+        [Display(Name = "Datos generales del notario Público y Notaría")]
+        public string DatosGeneralNotario { get; set; }
+
 
         [Display(Name = "Organización")]
         public int? OrganizacionId { get; set; }
