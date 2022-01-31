@@ -125,10 +125,15 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoLegal.cs" />
+    <Compile Include="SistemaIntegrado\ActualizacionEscrituraConstitucion.cs" />
+    <Compile Include="SistemaIntegrado\ActualizacionExtractoAuxiliar.cs" />
+    <Compile Include="SistemaIntegrado\ActualizacionPersonaFacultada.cs" />
+    <Compile Include="SistemaIntegrado\ActualizacionRepresentante.cs" />
     <Compile Include="SistemaIntegrado\Aprobacion.cs" />
     <Compile Include="SistemaIntegrado\AsambleaDeposito.cs" />
     <Compile Include="SistemaIntegrado\AspNetUsers.cs" />
     <Compile Include="SistemaIntegrado\Certificado.cs" />
+    <Compile Include="SistemaIntegrado\ActualizacionSupervisor.cs" />
     <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
     <Compile Include="SistemaIntegrado\EscrituraConstitucion.cs" />
     <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />

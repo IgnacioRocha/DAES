@@ -5,17 +5,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAES.Model.SistemaIntegrado
 {
-    [Table("PersonaFacultada")]
-    public class PersonaFacultada
+    [Table("ActualizacionPersonaFacultada")]
+    public class ActualizacionPersonaFacultada
     {
-        public PersonaFacultada()
+        public ActualizacionPersonaFacultada()
         {
 
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Display(Name ="Id")]
-        public int PersonaFacultadaId { get; set; }
+        [Display(Name = "Id")]
+        public int ActualizacionPersonaFacultadaId { get; set; }
+
+        public int? PersonaFacultadaId { get; set; }
+        public virtual PersonaFacultada PersonaFacultada { get; set; }
+
+        public int? ActualizacionSupervisorId { get; set; }
+        public virtual ActualizacionSupervisor ActualizacionSupervisor { get; set; }
+
+        public int? ProcesoId { get; set; }
 
         [Display(Name = "Nombre Completo")]
         public string NombreCompleto { get; set; }
@@ -35,8 +43,5 @@ namespace DAES.Model.SistemaIntegrado
         public bool Habilitado { get; set; }
 
         public bool Eliminado { get; set; }
-
-        public int SupervisorAuxiliarId { get; set; }
-
     }
 }

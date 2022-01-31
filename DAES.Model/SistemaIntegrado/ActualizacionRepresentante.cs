@@ -2,20 +2,28 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 
 namespace DAES.Model.SistemaIntegrado
 {
-    [Table("PersonaFacultada")]
-    public class PersonaFacultada
+
+    [Table("ActualizacionRepresentante")]
+    public class ActualizacionRepresentante
     {
-        public PersonaFacultada()
-        {
-
-        }
-
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Display(Name ="Id")]
-        public int PersonaFacultadaId { get; set; }
+        [Display(Name = "Id")]
+        public int ActualizacionRepresentanteId { get; set; }
+
+        public int? RepresentanteLegalId { get; set; }
+        public virtual RepresentanteLegal RepresentanteLegal { get; set; }
+
+        public int? ActualizacionSupervisorId { get; set; }
+        public virtual ActualizacionSupervisor ActualizacionSupervisor { get; set; }
+
+        public int? ProcesoId { get; set; }
 
         [Display(Name = "Nombre Completo")]
         public string NombreCompleto { get; set; }
@@ -31,12 +39,7 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Nacionalidad")]
         public string Nacionalidad { get; set; }
-
         public bool Habilitado { get; set; }
-
         public bool Eliminado { get; set; }
-
-        public int SupervisorAuxiliarId { get; set; }
-
     }
 }

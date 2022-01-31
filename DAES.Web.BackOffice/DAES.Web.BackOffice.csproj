@@ -937,6 +937,8 @@
     <Content Include="Views\Shared\_OrganizacionExistencia.cshtml" />
     <Content Include="Views\Shared\_OrganizacionReforma.cshtml" />
     <Content Include="Views\Shared\_OrganizacionSaneamiento.cshtml" />
+    <Content Include="Views\Task\_RepresentantesLegales.cshtml" />
+    <Content Include="Views\Task\_PersonasFacultadas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

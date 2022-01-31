@@ -89,6 +89,96 @@ namespace DAES.BLL
             }
         }
 
+        public List<string> SupervisorUpdate(List<ActualizacionSupervisor> list)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var returnValue = new List<string>();
+                if (list == null)
+                {
+                    return returnValue;
+                }
+
+                foreach (var item in list)
+                {
+                    var supervisor = context.SupervisorAuxiliars.FirstOrDefault(q => q.SupervisorAuxiliarId == item.SupervisorAuxiliarId);
+                    if (item != null)
+                    {
+                        supervisor.TipoPersonaJuridicaId = item.TipoPersonaJuridicaId;
+                        supervisor.DomicilioLegal = item.DomicilioLegal;
+                        supervisor.Telefono = item.Telefono;
+                        supervisor.CorreoElectronico = item.CorreoElectronico;
+
+                        foreach (var UpRepre in item.Representantes)
+                        {
+                            var repre = context.RepresentantesLegals.Find(UpRepre.RepresentanteLegalId);
+
+                            repre.NombreCompleto = UpRepre.NombreCompleto;
+                            repre.RUN = UpRepre.RUN;
+                            repre.Profesion = UpRepre.Profesion;
+                            repre.Domicilio = UpRepre.Domicilio;
+                            repre.Nacionalidad = UpRepre.Nacionalidad;
+                            if (repre.Habilitado != UpRepre.Habilitado)
+                            {
+                                repre.Eliminado = true;
+                            }
+                            else
+                            {
+                                repre.Eliminado = false;
+                            }
+
+                            /*else
+                            {
+                                new RepresentanteLegal()
+                                {
+                                    NombreCompleto = UpRepre.NombreCompleto,
+                                    RUN = UpRepre.RUN,
+                                    Profesion = UpRepre.Profesion,
+                                    Domicilio = UpRepre.Domicilio,
+                                    Nacionalidad = UpRepre.Nacionalidad,
+                                    SupervisorAuxiliarId = supervisor.SupervisorAuxiliarId,
+                                    Habilitado=true,
+                                    Eliminado=false
+                                };
+                            }*/
+
+                        }
+
+                        foreach (var UpFacultada in item.Facultada)
+                        {
+                            var facultada = context.PersonaFacultadas.Find(UpFacultada.PersonaFacultadaId);
+
+                            facultada.NombreCompleto = UpFacultada.NombreCompleto;
+                            facultada.RUN = UpFacultada.RUN;
+                            facultada.Profesion = UpFacultada.Profesion;
+                            facultada.Domicilio = UpFacultada.Domicilio;
+                            facultada.Nacionalidad = UpFacultada.Nacionalidad;
+
+                            if (facultada.Habilitado != UpFacultada.Habilitado)
+                            {
+                                facultada.Eliminado = true;
+                            }
+                            else
+                            {
+                                facultada.Eliminado = false;
+                            }
+                            /*new PersonaFacultada()
+                            {
+                                NombreCompleto = UpFacultada.NombreCompleto,
+                                RUN = UpFacultada.RUN,
+                                Profesion = UpFacultada.Profesion,
+                                Domicilio = UpFacultada.Domicilio,
+                                Nacionalidad = UpFacultada.Nacionalidad,
+                                SupervisorAuxiliarId = supervisor.SupervisorAuxiliarId
+                            };*/
+                        }
+                    }
+                    context.SaveChanges();
+                }
+                return returnValue;
+            }
+        }
+
         public List<string> DirectorioUpdate(List<Directorio> list)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
@@ -739,27 +829,6 @@ namespace DAES.BLL
                                     parrafo_dos = parrafo_dos.Replace("[AÑOINSCRIPCION]", ", correspondiente al año " + aux.AñoInscripcion.ToString() + ".");
                                 }
                             }
-
-                            /*parrafo_uno = parrafo_uno.Replace("[TIPONORMA]", aux.TipoNorma.Nombre ?? string.Empty);*/
-
-
-                            /*parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma.ToString() ?? string.Empty);*/
-
-
-
-                            /*parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);*/
-
-                            /*                            
-                            parrafo_uno = parrafo_uno.Replace("[FECHADISOLUCION]", string.Format("{0:dd-MM-yyyy}", aux.FechaDisolucion) ?? string.Empty);
-                            
-                            
-                            parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[NUMEROFOJAS]", aux.NumeroFojas ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[AÑOINSCRIPCION]", aux.AñoInscripcion.ToString() ?? string.Empty);
-                            
-                            parrafo_uno = parrafo_uno.Replace("[DATOSCBR]", aux.DatosCBR ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[FECHADISOLUCION]", string.Format("{0:dd-MM-yyyy}", aux.FechaDisolucion) ?? string.Empty);*/
-
                         }
                         else if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
                           aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
@@ -932,7 +1001,12 @@ namespace DAES.BLL
                             doc.Add(table);
                         }
                     }
-
+                    else if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                        aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                    {
+                        doc.Add(paragraphUNO);
+                        doc.Add(SaltoLinea);
+                    }
                     /*doc.Add(paragraphDOS);*/
                 }
 
@@ -2327,63 +2401,121 @@ namespace DAES.BLL
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.IngresoSupervisorAuxiliar)
                 {
                     var aux = obj.SupervisorAuxiliars.ToList();
-
-                    
-                    var repre = new RepresentanteLegal();
-                    var extracto = new ExtractoAuxiliar();
-                    var facul = new PersonaFacultada();
-                    var escritura = new EscrituraConstitucion();
+                    var super = context.SupervisorAuxiliars.Find(aux.FirstOrDefault().SupervisorAuxiliarId);
 
                     foreach (var item in aux)
                     {
-                        proceso.SupervisorAuxiliars.Add(new SupervisorAuxiliar()
+                        proceso.SupervisorAuxiliars.Add(super);
                         {
+                            super.ProcesoId = obj.ProcesoId;
+                            super.RazonSocial = item.RazonSocial;
+                            super.Rut = item.Rut;
+                            super.DomicilioLegal = item.DomicilioLegal;
+                            super.Telefono = item.Telefono;
+                            super.CorreoElectronico = item.CorreoElectronico;
+                            super.TipoPersonaJuridicaId = item.TipoPersonaJuridica.TipoPersonaJuridicaId;
+                            super.Aprobado = item.Aprobado;
+                            super.TipoOrganizacionId = (int)DAES.Infrastructure.Enum.TipoOrganizacion.AunNoDefinida;
+                        };
+                        for (var i = 0; i < item.RepresentanteLegals.Count(); i++)
+                        {
+                            var repre = context.RepresentantesLegals.Find(item.RepresentanteLegals[i].RepresentanteLegalId);
+
+                            //repre.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+
+                            repre.Domicilio = item.RepresentanteLegals[i].Domicilio;
+                            repre.Nacionalidad = item.RepresentanteLegals[i].Nacionalidad;
+                            repre.NombreCompleto = item.RepresentanteLegals[i].NombreCompleto;
+                            repre.Profesion = item.RepresentanteLegals[i].Profesion;
+                            repre.RUN = item.RepresentanteLegals[i].RUN;
+                        }
+                        for (var i = 0; i < item.ExtractoAuxiliars.Count(); i++)
+                        {
+                            var extracto = context.ExtractoAuxiliars.Find(item.ExtractoAuxiliars[i].ExtractoAuxiliarId);
+
+                            //extracto.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+
+                            extracto.Año = item.ExtractoAuxiliars[i].Año;
+                            extracto.ConservadorComercio = item.ExtractoAuxiliars[i].ConservadorComercio;
+                            extracto.FechaInscripcion = item.ExtractoAuxiliars[i].FechaInscripcion;
+                            extracto.FechaPubliccionDiarioOficial = item.ExtractoAuxiliars[i].FechaPubliccionDiarioOficial;
+                            extracto.Foja = item.ExtractoAuxiliars[i].Foja;
+                            extracto.Numero = item.ExtractoAuxiliars[i].Numero;
+                            extracto.NumeroPublicacionDiarioOficial = item.ExtractoAuxiliars[i].NumeroPublicacionDiarioOficial;
+                        }
+
+                        for (var i = 0; i < item.EscrituraConstitucionModificaciones.Count(); i++)
+                        {
+                            var escritura = context.EscrituraConstitucions.Find(item.EscrituraConstitucionModificaciones[i].EscrituraConstitucionId);
+
+                            //escritura.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+                            escritura.Fecha = item.EscrituraConstitucionModificaciones[i].Fecha;
+                            escritura.Notaria = item.EscrituraConstitucionModificaciones[i].Notaria;
+                            escritura.NumeroRepertorio = item.EscrituraConstitucionModificaciones[i].NumeroRepertorio;
+                        }
+                        for (var i = 0; i < item.PersonaFacultadas.Count(); i++)
+                        {
+                            var facul = context.PersonaFacultadas.Find(item.PersonaFacultadas[i].PersonaFacultadaId);
+                            //facul.SupervisorAuxiliarId = super.SupervisorAuxiliarId;
+                            facul.Domicilio = item.PersonaFacultadas[i].Domicilio;
+                            facul.Nacionalidad = item.PersonaFacultadas[i].Nacionalidad;
+                            facul.NombreCompleto = item.PersonaFacultadas[i].NombreCompleto;
+                            facul.Profesion = item.PersonaFacultadas[i].Profesion;
+                            facul.RUN = item.PersonaFacultadas[i].RUN;
+                        }
+                    }
+                }
+
+                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.ActualizacionSupervisorAuxiliar)
+                {
+                    var aux = obj.SupervisorAuxiliars.ToList();
+                    var super = context.SupervisorAuxiliars.Find(aux.FirstOrDefault().SupervisorAuxiliarId);
+
+                    foreach (var item in aux)
+                    {
+                        var UpSuper = context.ActualizacionSupervisors.Add(new ActualizacionSupervisor()
+                        {
+                            SupervisorAuxiliarId = item.SupervisorAuxiliarId,
+                            Rut = item.Rut,
+                            RazonSocial = item.RazonSocial,
+                            CorreoElectronico = item.CorreoElectronico,
+                            Aprobado = item.Aprobado,
+                            Telefono = item.Telefono,
+                            TipoPersonaJuridicaId = item.TipoPersonaJuridicaId,
+                            DomicilioLegal = item.DomicilioLegal,
                             ProcesoId = obj.ProcesoId,
-                            RazonSocial= item.RazonSocial,
-                            Rut= item.Rut,
-                            DomicilioLegal=item.DomicilioLegal,
-                            Telefono=item.Telefono,
-                            CorreoElectronico=item.CorreoElectronico,
-                            TipoPersonaJuridicaId=item.TipoPersonaJuridica.TipoPersonaJuridicaId,
-                            Aprobado=item.Aprobado,
-                            TipoOrganizacionId = (int)DAES.Infrastructure.Enum.TipoOrganizacion.AunNoDefinida
+                            TipoOrganizacionId = item.TipoOrganizacionId
                         });
 
-                        foreach (var halp in item.RepresentanteLegals)
+                        foreach (var UpRepre in item.RepresentanteLegals)
                         {
-                            repre.Domicilio = halp.Domicilio;
-                            repre.Nacionalidad = halp.Nacionalidad;
-                            repre.NombreCompleto = halp.NombreCompleto;
-                            repre.Profesion = halp.Profesion;
-                            repre.RUN = halp.RUN;
+                            context.ActualizacionRepresentantes.Add(new ActualizacionRepresentante()
+                            {
+                                Domicilio = UpRepre.Domicilio,
+                                NombreCompleto = UpRepre.NombreCompleto,
+                                Nacionalidad = UpRepre.Nacionalidad,
+                                Profesion = UpRepre.Profesion,
+                                RUN = UpRepre.RUN,
+                                RepresentanteLegalId = UpRepre.RepresentanteLegalId,
+                                Habilitado = true,
+                                Eliminado = false,
+                                ActualizacionSupervisorId=UpSuper.ActualizacionSupervisorId
+                            });
                         }
 
-                        foreach (var ext in item.ExtractoAuxiliars)
+                        for (var i = 0; i < item.PersonaFacultadas.Count(); i++)
                         {
-                            extracto.Año = ext.Año;
-                            extracto.ConservadorComercio = ext.ConservadorComercio;
-                            extracto.FechaInscripcion = ext.FechaInscripcion;
-                            extracto.FechaPubliccionDiarioOficial = ext.FechaPubliccionDiarioOficial;
-                            extracto.Foja = ext.Foja;
-                            extracto.Numero = ext.Numero;
-                            extracto.NumeroPublicacionDiarioOficial = ext.NumeroPublicacionDiarioOficial;
-                        }
-
-                        foreach (var esc in item.EscrituraConstitucionModificaciones)
-                        {
-                            escritura.Fecha = esc.Fecha;
-                            escritura.Notaria = esc.Notaria;
-                            escritura.NumeroRepertorio = esc.NumeroRepertorio;
-                            escritura.Notaria = esc.Notaria;
-                        }
-
-                        foreach (var perso in item.PersonaFacultadas)
-                        {
-                            facul.Domicilio = perso.Domicilio;
-                            facul.Nacionalidad = perso.Nacionalidad;
-                            facul.NombreCompleto = perso.NombreCompleto;
-                            facul.Profesion = perso.Profesion;
-                            facul.RUN = perso.RUN;
+                            context.ActualizacionPersonaFacultadas.Add(new ActualizacionPersonaFacultada()
+                            {
+                                Domicilio = item.PersonaFacultadas[i].Domicilio,
+                                Nacionalidad = item.PersonaFacultadas[i].Nacionalidad,
+                                NombreCompleto = item.PersonaFacultadas[i].NombreCompleto,
+                                Profesion = item.PersonaFacultadas[i].Profesion,
+                                RUN = item.PersonaFacultadas[i].RUN,
+                                PersonaFacultadaId = item.PersonaFacultadas[i].PersonaFacultadaId,
+                                ActualizacionSupervisorId = UpSuper.ActualizacionSupervisorId,
+                                Habilitado=true
+                            });
                         }
                     }
                 }
@@ -2410,7 +2542,7 @@ namespace DAES.BLL
                     //si no vienen datos, crear una nueva organizacion
                     proceso.Organizacion = new Organizacion()
                     {
-                        
+
                         RazonSocial = obj.Organizacion.RazonSocial,
                         RubroId = obj.Organizacion.RubroId,
                         SubRubroId = obj.Organizacion.SubRubroId,
@@ -2427,8 +2559,6 @@ namespace DAES.BLL
                         EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
                         EsGeneroFemenino = false,
                         EsImportanciaEconomica = false
-
-
                     };
                 }
 

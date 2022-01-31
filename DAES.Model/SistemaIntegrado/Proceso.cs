@@ -18,6 +18,11 @@ namespace DAES.Model.SistemaIntegrado
             EstudioSocioEconomicos = new HashSet<EstudioSocioEconomico>();
             CooperativaAbiertas = new HashSet<CooperativaAbierta>();
             SupervisorAuxiliars = new HashSet<SupervisorAuxiliar>();
+            ActualizacionSupervisors = new HashSet<ActualizacionSupervisor>();
+            ActualizacionPersonaFacultadas = new HashSet<ActualizacionPersonaFacultada>();
+            ActualizacionRepresentantes = new HashSet<ActualizacionRepresentante>();
+            ActualizacionExtractoAuxiliars = new HashSet<ActualizacionExtractoAuxiliar>();
+            ActualizacionEscrituraConstitucions = new HashSet<ActualizacionEscrituraConstitucion>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -65,6 +70,10 @@ namespace DAES.Model.SistemaIntegrado
         public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
+       /* public int? SupervisorAuxiliarId { get; set; }
+        public virtual SupervisorAuxiliar SupervisorAuxiliar { get; set; }*/
+
+
         [Display(Name = "Solicitante")]
         public int? SolicitanteId { get; set; }
         public virtual Solicitante Solicitante { get; set; }
@@ -82,7 +91,13 @@ namespace DAES.Model.SistemaIntegrado
 
         public virtual ICollection<EstudioSocioEconomico> EstudioSocioEconomicos { get; set; }
         public virtual ICollection<CooperativaAbierta> CooperativaAbiertas { get; }
-        public virtual ICollection<SupervisorAuxiliar> SupervisorAuxiliars { get; set; }
+        public virtual ICollection<SupervisorAuxiliar> SupervisorAuxiliars { get; set; }        
+        public virtual ICollection<ActualizacionSupervisor> ActualizacionSupervisors { get; set; }
+        public virtual ICollection<ActualizacionEscrituraConstitucion> ActualizacionEscrituraConstitucions { get; set; }
+        public virtual ICollection<ActualizacionPersonaFacultada> ActualizacionPersonaFacultadas { get; set; }
+        public virtual ICollection<ActualizacionRepresentante> ActualizacionRepresentantes { get; set; }
+        public virtual ICollection<ActualizacionExtractoAuxiliar> ActualizacionExtractoAuxiliars { get; set; }
+
 
     }
 }

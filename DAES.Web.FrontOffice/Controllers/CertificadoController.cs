@@ -148,11 +148,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 }
                 catch (Exception ex)
                 {
-                    if (organizacion.Disolucions.Count() == 0)
-                    {
-                        return View("_ErrorDisolucion", ex);
-                    }
-                    else { return View("_Error", ex); }
+                    return View("_Error", ex);
                 }
             }
 

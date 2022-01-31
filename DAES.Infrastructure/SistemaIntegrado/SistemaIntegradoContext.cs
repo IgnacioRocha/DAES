@@ -100,7 +100,14 @@ namespace DAES.Infrastructure.SistemaIntegrado
 
         public virtual DbSet<ExistenciaPosterior> ExistenciaPosterior { get; set; }
 
-
+        /*
+         * Tablas de Actualizacion de Supervisor
+         */
+        public virtual DbSet<ActualizacionSupervisor> ActualizacionSupervisors { get; set; }
+        public virtual DbSet<ActualizacionEscrituraConstitucion> ActualizacionEscrituraConstitucions { get; set; }
+        public virtual DbSet<ActualizacionPersonaFacultada> ActualizacionPersonaFacultadas { get; set; }
+        public virtual DbSet<ActualizacionRepresentante> ActualizacionRepresentantes { get; set; }
+        public virtual DbSet<ActualizacionExtractoAuxiliar> ActualizacionExtractoAuxiliars { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
