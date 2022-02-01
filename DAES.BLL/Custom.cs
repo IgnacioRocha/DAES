@@ -517,6 +517,7 @@ namespace DAES.BLL
                         reforma.AnoInscripcion = item.AnoInscripcion;
                         reforma.DatosCBR = item.DatosCBR;
                         reforma.FechaPubliDiario = item.FechaPubliDiario;
+                        reforma.DatosGeneralNotario = item.DatosGeneralNotario;
                     }
                 }
 
