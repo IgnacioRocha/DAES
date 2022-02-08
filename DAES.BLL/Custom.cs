@@ -765,46 +765,74 @@ namespace DAES.BLL
                                 {
                                     parrafo_uno = parrafo_uno.Replace("[TIPONORMA]", "La División de Asociatividad y Cooperativas de la Subsecretaría de Economía y Empresas de Menor Tamaño certifica que, por " + aux.TipoNorma.Nombre + " ");
                                 }
+                                else
+                                {
+                                    parrafo_uno = parrafo_uno.Replace("[TIPONORMA]", string.Empty);
+                                }
 
                                 if (!string.IsNullOrEmpty(aux.NumeroNorma.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", "N° " + aux.NumeroNorma.ToString());
+                                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma.ToString());
+                                }else
+                                {
+                                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", string.Empty);
                                 }
 
                                 if (!string.IsNullOrEmpty(aux.FechaNorma.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", " de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) + " se declaró la disolución de la ");
+                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", " de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) + " del");
+                                }
+                                else
+                                {
+                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", string.Empty);
+                                }
+
+                                if (!string.IsNullOrEmpty(aux.Autorizacion))
+                                {
+                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", ", autorizado por: " + aux.Autorizacion + ", se aprobó la disolución de la ");
+                                }
+                                else
+                                {
+                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", string.Empty);
                                 }
 
                                 if (!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
                                 {
                                     parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", cuyo extracto fue publicado en el Diario Oficial de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) + ".");
                                 }
+                                else
+                                {
+                                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Empty);
+                                }
 
                                 if (!string.IsNullOrEmpty(aux.FechaJuntaSocios.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", ", acordada en la Asamblea Extraordinaria de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios));
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.Autorizacion))
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", ", autorizado por: " + aux.Autorizacion);
+                                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", ", acordada en la Asamblea Extraordinaria de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios+"."));
                                 }
                                 else
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", string.Empty);
+                                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", string.Empty + ".");
                                 }
+
+                                
                             }
                             else
                             {
                                 if (!string.IsNullOrEmpty(aux.FechaJuntaSocios.ToString()))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAJUNTASOCIOS]", "La División de Asociatividad y Cooperativas de la Subsecretaría de Economía y Empresas de Menor Tamaño certifica que, la " + organizacion.RazonSocial + ", acordó su disolución en junta feneral de socios, celebrada con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios));
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAJUNTASOCIOS]", "La División de Asociatividad y Cooperativas de la Subsecretaría de Economía y Empresas de Menor Tamaño certifica que, la "
+                                        + organizacion.RazonSocial + ", acordó su disolución en Junta General de Socios, celebrada con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios));
                                 }
+
                                 if (!string.IsNullOrEmpty(aux.FechaEscrituraPublica.ToString()))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", ", según consta del acta reducido a escritura pública con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica));
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", ", según consta del acta reducida a escritura pública con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica));
                                 }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", string.Empty);
+                                }
+
                                 if (!string.IsNullOrEmpty(aux.MinistroDeFe))
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[MINISTRODEFE]", ", ante el " + aux.MinistroDeFe);
@@ -813,18 +841,30 @@ namespace DAES.BLL
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[MINISTRODEFE]", string.Empty);
                                 }
+
                                 if (!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", la que fue publicada en el Diario Oficial con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
                                 }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Empty);
+                                }
+
                                 if (!string.IsNullOrEmpty(aux.NumeroFojas))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", " e inscrita a fojas " + aux.NumeroFojas);
+                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", ", e inscrita a fojas " + aux.NumeroFojas);
                                 }
+
                                 if (!string.IsNullOrEmpty(aux.DatosCBR))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", " del " + aux.DatosCBR);
+                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", " del Registro de Comercio del " + aux.DatosCBR);
                                 }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", string.Empty);
+                                }
+
                                 if (!string.IsNullOrEmpty(aux.AñoInscripcion.ToString()))
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[AÑOINSCRIPCION]", ", correspondiente al año " + aux.AñoInscripcion.ToString() + ".");
@@ -895,6 +935,9 @@ namespace DAES.BLL
 
                 Paragraph paragraphTRES = new Paragraph(parrafo_tres, _fontStandard);
                 paragraphTRES.Alignment = Element.ALIGN_JUSTIFIED;
+
+                Paragraph paragraphCUATRO = new Paragraph(parrafo_cuatro, _fontStandard);
+                paragraphCUATRO.Alignment = Element.ALIGN_JUSTIFIED;
 
                 Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
                 rae.Alignment = Element.ALIGN_JUSTIFIED;
@@ -984,6 +1027,8 @@ namespace DAES.BLL
                             doc.Add(paragraphUNO);
                             doc.Add(SaltoLinea);
                             doc.Add(paragraphTRES);
+                            doc.Add(SaltoLinea);
+                            doc.Add(paragraphCUATRO);
                         }
                         else
                         {
@@ -991,6 +1036,8 @@ namespace DAES.BLL
                             doc.Add(paragraphDOS);
                             doc.Add(SaltoLinea);
                             doc.Add(paragraphTRES);
+                            doc.Add(SaltoLinea);
+                            doc.Add(paragraphCUATRO);                            
                         }
                         table.SpacingBefore = 15f;
                         /*doc.Add(SaltoLinea);

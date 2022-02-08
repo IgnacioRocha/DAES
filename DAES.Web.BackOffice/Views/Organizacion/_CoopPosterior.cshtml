@@ -54,7 +54,7 @@
                     @Html.LabelFor(m => Model.Disolucions[i].DatosCBR, htmlAttributes: new { @class = "control-label col-md-10" })
                     @Html.EditorFor(m => Model.Disolucions[i].DatosCBR, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                 </th>
-                <th>
+                @*<th>
                     @Html.LabelFor(m => Model.Disolucions[i].FechaDisolucion, htmlAttributes: new { @class = "control-label col-md-10" })
                     @if (Model.Disolucions.FirstOrDefault().FechaDisolucion != null)
                     {
@@ -64,7 +64,7 @@
                     {
                         @Html.EditorFor(m => Model.Disolucions[i].FechaDisPost, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                     }
-                </th>
+                </th>*@
                 <th>
                     @Html.LabelFor(m => Model.Disolucions[i].Comision, htmlAttributes: new { @class = "control-label col-md-10" })
                     @Html.EditorFor(m => Model.Disolucions[i].Comision, new { htmlAttributes = new { @id = "comisionPosterior", @class = "form-control", @style = "height: 20px;" } })
