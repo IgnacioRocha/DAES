@@ -3,7 +3,9 @@
 <table class="table table-hover table-striped dataTable">
     @for (var i = 0; i < Model.Disolucions.Count(); i++)
     {
-        @Html.HiddenFor(m=>m.OrganizacionId)
+        @Html.HiddenFor(m => m.OrganizacionId)
+        @Html.HiddenFor(model => model.Disolucions[i].OrganizacionId)
+        @Html.HiddenFor(model => model.Disolucions[i].DisolucionId)
         <thead>
             <tr>
                 <th>
@@ -43,20 +45,10 @@
                     @Html.EditorFor(m => Model.Disolucions[i].FechaDisolucion, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                 </th>
                 <th></th>
-            </tr>
-        </thead>
-    }
-    <tbody>
-        @for (var i = 0; i < Model.Disolucions.Count(); i++)
-        {
-            @Html.HiddenFor(model => model.Disolucions[i].OrganizacionId)
-            @Html.HiddenFor(model => model.Disolucions[i].DisolucionId)
-            <tr>
-                @*@Html.EditorFor(m => m.Disolucions[i])*@
                 <td>
                     @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
                 </td>
             </tr>
-        }
-    </tbody>
+        </thead>
+    }
 </table>

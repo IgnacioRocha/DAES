@@ -874,14 +874,68 @@ namespace DAES.BLL
                         else if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
                           aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
                         {
-                            parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", aux.NumeroOficio.ToString() ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[FECHAOFICIO]", string.Format("{0:dd-MM-yyyy}", aux.FechaOficio) ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[NOMBRENOTARIA]", aux.NombreNotaria ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[DATOSNOTARIO]", aux.DatosNotario ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica) ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[FECHAASAMBLEASOCIOS]", string.Format("{0:dd-MM-yyyy}", aux.FechaAsambleaSocios) ?? string.Empty);
-                            parrafo_uno = parrafo_uno.Replace("[FECHADISOLUCION]", string.Format("{0:dd-MM-yyyy}", aux.FechaDisolucion) ?? string.Empty);
+                            if(!string.IsNullOrEmpty(aux.NumeroOficio.ToString()))
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", "La División de Asociatividad y Cooperativas de la Subsecretaría de Economía y Empresas de Menor Tamaño certifica que, por Oficio Ordinario N° " + aux.NumeroOficio.ToString());
+                            }
+                            else
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", string.Empty);
+                            }
+
+                            if(!string.IsNullOrEmpty(aux.FechaOficio.ToString()))
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAOFICIO]"," de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaOficio));
+                            }
+                            else
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAOFICIO]", string.Empty);
+                            }
+
+                            if(!string.IsNullOrEmpty(aux.NombreNotaria))
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[NOMBRENOTARIA]",", ante el "+ aux.NombreNotaria);
+                            }
+                            else
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[NOMBRENOTARIA]", string.Empty);
+                            }
+
+                            if(!string.IsNullOrEmpty(aux.DatosNotario))
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[DATOSNOTARIO]"," " + aux.DatosNotario);
+                            }
+                            else
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[DATOSNOTARIO]", string.Empty);
+                            }
+
+                            if(!string.IsNullOrEmpty(aux.FechaEscrituraPublica.ToString()))
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", ", la cual consta en la Escritura Pública de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica));
+                            }
+                            else
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", string.Empty);
+                            }
+
+                            if(!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]",", y cuyo extracto fue publicado en el Diario Oficial de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
+                            }
+                            else
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Empty);
+                            }
+
+                            if(!string.IsNullOrEmpty(aux.FechaAsambleaSocios.ToString()))
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAASAMBLEASOCIOS]",", se aprobó la disolución de " + organizacion.RazonSocial + ", acordada en la Asamblea Extraordinaria de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaAsambleaSocios));
+                            }
+                            else
+                            {
+                                parrafo_uno = parrafo_uno.Replace("[FECHAASAMBLEASOCIOS]", string.Empty);
+                            }
                         }
                     }
                     else
@@ -1052,8 +1106,11 @@ namespace DAES.BLL
                     else if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
                         aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
                     {
+                        doc.Add(SaltoLinea);
                         doc.Add(paragraphUNO);
                         doc.Add(SaltoLinea);
+                        doc.Add(paragraphTRES);
+
                     }
                     /*doc.Add(paragraphDOS);*/
                 }
