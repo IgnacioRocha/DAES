@@ -24,7 +24,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name="Id")]
         public int SupervisorAuxiliarId { get; set; }
 
-        [Display(Name ="Razon Social")]
+        [Display(Name ="Razón Social")]
         public string RazonSocial { get; set; }
 
         [Display(Name ="Tipo de Persona Jurídica")]
@@ -37,10 +37,10 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name ="Domicilio Legal")]
         public string DomicilioLegal { get; set; }
         
-        [Display(Name ="Telefono")]
+        [Display(Name ="Teléfono")]
         public string Telefono { get; set; }
         
-        [Display(Name ="Correo Electronico")]
+        [Display(Name ="Correo Electrónico")]
         [DataType(DataType.EmailAddress, ErrorMessage = "Debe especificar un correo válido")]
         public string CorreoElectronico { get; set; }
 

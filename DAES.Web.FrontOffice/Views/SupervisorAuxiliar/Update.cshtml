@@ -2,7 +2,7 @@
 @{ Model.SupervisoresAuxiliares = Model.SupervisoresAuxiliares.Where(q => q.Aprobado == true).ToList();}
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-4">Actualización de Supervisores Auxiliar</h1>
+        <h1 class="display-4">Actualización de Supervisores Auxiliares</h1>
     </div>
 </div>
 <div class="container my-3">
@@ -15,11 +15,11 @@
     <div class="container my-3">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Buscador de Sociedades</h5>
+                <h5 class="card-title">Buscador de Supervisores Auxiliares</h5>
                 <hr />
                 <div class="form-group">
                     @Html.LabelFor(m => Model.Query)
-                    @Html.TextBoxFor(m => Model.Query, new { @class = "form-control", @placeholder = "Ingrese Razon Social" })
+                    @Html.TextBoxFor(m => Model.Query, new { @class = "form-control", @placeholder = "Ingrese Razón Social" })
                     @Html.ValidationMessageFor(m => Model.Query, "", new { @class = "text-danger" })
                 </div>
                 <input type="submit" value="Buscar Supervisores" class="btn btn-primary" />
@@ -28,7 +28,7 @@
     </div>
 }
 
-@if (Model != null && Model.SupervisoresAuxiliares.Any())
+@if (Model.Query != null)
 {
     <div class="container my-3">
         <div class="card">
@@ -39,7 +39,7 @@
            {
                columns.Add(q => q.Rut).Titled("Rut").Sortable(true).Filterable(true);
                columns.Add(q => q.RazonSocial).Titled("Razón social").Sortable(true).Filterable(true);
-               columns.Add(q => q.TipoPersonaJuridica.NombrePersonaJuridica).Titled("Persona Juridica").Sortable(true).Filterable(true);
+               columns.Add(q => q.TipoPersonaJuridica.NombrePersonaJuridica).Titled("Persona Jurídica").Sortable(true).Filterable(true);
                columns.Add().Encoded(false).Sanitized(false).RenderValueAs(q => @Html.ActionLink("Editar", "UpdateSupervisor", new { id = q.SupervisorAuxiliarId }));
            }).WithPaging(15).EmptyText("No se encontraron Supervisores").SetLanguage("es").Selectable(false).WithMultipleFilters()
             </div>

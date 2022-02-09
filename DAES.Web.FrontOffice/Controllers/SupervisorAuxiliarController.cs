@@ -24,14 +24,14 @@ namespace DAES.Web.FrontOffice.Controllers
             {
                 SupervisoresAuxiliares = new List<SupervisorAuxiliar>();
             }
-            [Display(Name="Razon Social")]
+            [Display(Name="Razón Social")]
             public string Query { get; set; }
             public ICollection<SupervisorAuxiliar> SupervisoresAuxiliares { get; set; }
         }
 
         public ActionResult Start()
         {
-            //TODO Aplicar Clave unica en modo produccion
+            //TODO Aplicar Clave unica en modo produccion y/o Testing
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisorAuxiliar";
 
@@ -303,7 +303,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     var pro = _custom.ProcesoStart(proceso);
                     TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", pro.ProcesoId, proceso.Solicitante.Email);
-                    return RedirectToAction("Finish");
+                    return RedirectToAction("FinishActualizacion");
                 }
                 catch (Exception ex)
                 {
@@ -520,6 +520,11 @@ namespace DAES.Web.FrontOffice.Controllers
 
         #endregion
         public ActionResult Finish()
+        {
+            return View();
+        }
+
+        public ActionResult FinishActualizacion()
         {
             return View();
         }

@@ -26,8 +26,8 @@ namespace DAES.Model.SistemaIntegrado
         public DateTime? Fecha { get; set; }
 
 
-        [Display(Name ="Numero de Repertorio")]
-        public int? NumeroRepertorio { get; set; }
+        [Display(Name ="Número de Repertorio")]
+        public string NumeroRepertorio { get; set; }
 
         public int SupervisorAuxiliarId { get; set; }
 

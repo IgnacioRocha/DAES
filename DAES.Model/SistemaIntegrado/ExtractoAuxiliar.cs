@@ -39,7 +39,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name ="Fecha de Publicación en el Diario Oficial")]
         public DateTime? FechaPubliccionDiarioOficial { get; set; }
 
-        [Display(Name ="Numero de Publicación en el Diario Oficial")]
+        [Display(Name ="N° Publicación en el Diario Oficial")]
         public int? NumeroPublicacionDiarioOficial { get; set; }
 
         public int SupervisorAuxiliarId { get; set; }
