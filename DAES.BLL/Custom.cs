@@ -1069,7 +1069,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.DatosGeneralesNotario != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSGENERALNOTARIO]", ", ante el " + organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() + " " ?? string.Empty);
+                                    parrafo_dos = parrafo_dos.Replace("[DATOSGENERALNOTARIO]", ", ante el " + organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() ?? string.Empty);
                                 }
                                 else
                                 {
@@ -1088,7 +1088,7 @@ namespace DAES.BLL
 
                                 if (organizacion.ExistenciaPosteriors.Any(q => q.Fojas != null))
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FOJAS]", " e inscrito a fojas " + organizacion.ExistenciaPosteriors.FirstOrDefault().Fojas.ToString() + " ");
+                                    parrafo_dos = parrafo_dos.Replace("[FOJAS]", " e inscrito a fojas " + organizacion.ExistenciaPosteriors.FirstOrDefault().Fojas.ToString());
                                 }
                                 else
                                 {
@@ -1257,6 +1257,14 @@ namespace DAES.BLL
 
 
                                     contRef++;
+                                    if (organizacion.ReformaAnteriors.Any() && contRef == 1)
+                                    {
+                                        parrafo = parrafo.Replace("[INTRO1]", "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" + "\n" + "\n");
+                                    }
+                                    else
+                                    {
+                                        parrafo = parrafo.Replace("[INTRO1]", string.Empty);
+                                    }
 
                                     if (contRef == 1)
                                     {
@@ -1334,6 +1342,7 @@ namespace DAES.BLL
                                         parrafo = parrafo.Replace("[FECHANORMAREFPOST]", string.Empty);
                                         parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", string.Empty);
                                         parrafo = parrafo.Replace("[FECHAPUBLICDIARIO]", string.Empty);
+                                        parrafo = parrafo.Replace("[INTRO2]", string.Empty);
 
                                     }
 
@@ -1356,6 +1365,14 @@ namespace DAES.BLL
 
                                     var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
 
+                                    if (!organizacion.ReformaAnteriors.Any() && contRefPost == 1)
+                                    {
+                                        parrafo = parrafo.Replace("[INTRO2]", "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" + "\n" + "\n");
+                                    }
+                                    else
+                                    {
+                                        parrafo = parrafo.Replace("[INTRO2]", string.Empty);
+                                    }
 
                                     contRefPost++;
 
@@ -1370,7 +1387,7 @@ namespace DAES.BLL
 
                                     if (organizacion.ReformaPosteriors.FirstOrDefault().FechaJuntGeneralSocios != null)
                                     {
-                                        parrafo = parrafo.Replace("[FECHAREFORMAA]", contRefPost.ToString() + ".- " + "Reforma de estatutos fue acordada por la junta general extraordinaria de socios celebrada con fecha " + item.FechaJuntGeneralSocios.Value.ToString("dd/MM/yyyy") + ", ");
+                                        parrafo = parrafo.Replace("[FECHAREFORMAA]", contRefPost.ToString() + ".- " + "Reforma de estatutos acordada por la junta general extraordinaria de socios celebrada con fecha " + item.FechaJuntGeneralSocios.Value.ToString("dd/MM/yyyy") + ", ");
                                     }
                                     else
                                     {
@@ -1398,7 +1415,7 @@ namespace DAES.BLL
 
                                     if (organizacion.ReformaPosteriors.FirstOrDefault().DatosGeneralNotario != null)
                                     {
-                                        parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", " Otorgada ante el " + item.DatosGeneralNotario.ToString() + " ");
+                                        parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", "otorgada ante el " + item.DatosGeneralNotario.ToString() + " ");
                                     }
                                     else
                                     {
@@ -1407,7 +1424,7 @@ namespace DAES.BLL
 
                                     if (organizacion.ReformaPosteriors.FirstOrDefault().FojasNumero != null)
                                     {
-                                        parrafo = parrafo.Replace("[Fojas]", " e inscrita a fojas " + item.FojasNumero.ToString() + " ");
+                                        parrafo = parrafo.Replace("[Fojas]", "e inscrita a fojas " + item.FojasNumero.ToString() + " ");
                                     }
                                     else
                                     {
@@ -1416,7 +1433,7 @@ namespace DAES.BLL
 
                                     if (organizacion.ReformaPosteriors.FirstOrDefault().DatosCBR != null)
                                     {
-                                        parrafo = parrafo.Replace("[DATOSCBRREF]", " del " + item.DatosCBR.ToString());
+                                        parrafo = parrafo.Replace("[DATOSCBRREF]", "del " + item.DatosCBR.ToString());
                                     }
                                     else
                                     {
@@ -1440,6 +1457,7 @@ namespace DAES.BLL
                                         parrafo = parrafo.Replace("[FECHAREFORMA]", string.Empty);
                                         parrafo = parrafo.Replace("[NUMERONORMARREF]", string.Empty);
                                         parrafo = parrafo.Replace("[FECHANORMAREF]", string.Empty);
+                                        parrafo = parrafo.Replace("[INTRO1]", string.Empty);
                                     }
 
 

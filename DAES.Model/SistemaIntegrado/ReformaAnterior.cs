@@ -43,7 +43,7 @@ namespace DAES.Model.SistemaIntegrado
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? FechaPublicDiario { get; set; }
 
-        [Display(Name = "Datos generales del notario")]
+        [Display(Name = "Autorizado por")]
         public string DatosNotario { get; set; }
 
         [Display(Name = "Organización")]
