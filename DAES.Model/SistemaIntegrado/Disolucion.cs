@@ -21,9 +21,6 @@ namespace DAES.Model.SistemaIntegrado
         public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
-        /*public int? ComisionLiquidadoraId { get; set; }
-        public virtual ComisionLiquidadora ComisionLiquidadora { get; set; }*/
-
         [Display(Name = "TipoOrganizacionId")]
         public int? TipoOrganizacionId { get; set; }
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }
@@ -44,7 +41,7 @@ namespace DAES.Model.SistemaIntegrado
         public DateTime? FechaJuntaSocios { get; set; }
 
         [Display(Name = "¿Tiene Comision Liquidadora?")]
-        public bool Comision { get; set; }
+        public bool ComisionAnterior { get; set; }
 
         [Display(Name = "Fecha Disolución")]
         [DataType(DataType.Date)]
@@ -59,7 +56,7 @@ namespace DAES.Model.SistemaIntegrado
         public virtual TipoNorma TipoNorma { get; set; }
 
         [Display(Name = "Número de Norma")]
-        public int? NumeroNorma { get; set; }
+        public string NumeroNorma { get; set; }
 
         [Display(Name = "Fecha de Norma")]
         [DataType(DataType.Date)]
@@ -83,7 +80,10 @@ namespace DAES.Model.SistemaIntegrado
         public string DatosCBR { get; set; }
 
         [Display(Name = "Datos Generales Notario Público y Notaría")]
-        public string MinistroDeFe { get; set; }        
+        public string MinistroDeFe { get; set; }
+
+        [Display(Name = "¿Tiene Comision Liquidadora?")]
+        public bool ComisionPosterior { get; set; }
 
         #endregion
 
@@ -136,7 +136,7 @@ namespace DAES.Model.SistemaIntegrado
         [NotMapped]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? FechaDisPost { get; set; }
+        public DateTime? FechaDisPost { get; set; }       
 
         public virtual List<ComisionLiquidadora> ComisionLiquidadoras { get; set; }
 

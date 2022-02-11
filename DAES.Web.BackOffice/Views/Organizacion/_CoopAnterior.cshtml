@@ -51,12 +51,13 @@
             </tr>
             <tr>
                 <th>
-                    @Html.LabelFor(m => Model.Disolucions[i].Comision, htmlAttributes: new { @class = "control-label col-md-10" })
-                    @Html.EditorFor(m => Model.Disolucions[i].Comision, new { htmlAttributes = new { @id = "comisionAnterior", @class = "form-control", @style = "height: 20px;" } })
-                </th>
-                <td>
+                    @Html.LabelFor(m => Model.Disolucions[i].ComisionAnterior, htmlAttributes: new { @class = "control-label col-md-10" })
+                    
+                        @Html.EditorFor(m => Model.Disolucions[i].ComisionAnterior, new { htmlAttributes = new { @id = "comisionAnterior", @class = "form-control", @style = "height: 20px;" } })
+                    
+                <th>
                     @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
-                </td>
+                </th>
             </tr>
         </thead>
     }

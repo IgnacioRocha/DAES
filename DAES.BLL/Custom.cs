@@ -594,22 +594,15 @@ namespace DAES.BLL
                         {
                             disolucion.FechaJuntaSocios = item.FechaJuntaSocios;
                         }
-
-                        disolucion.Comision = item.Comision;
-
-                        if (item.FechaDisAnterior != null)
+                        if(item.Anterior==true)
                         {
-                            disolucion.FechaDisolucion = item.FechaDisAnterior;
-                        }
-                        else if (item.FechaDisPost != null)
+                            disolucion.ComisionAnterior = item.ComisionAnterior;
+                            disolucion.ComisionPosterior = false;
+                        }else if(item.Anterior==false)
                         {
-                            disolucion.FechaDisolucion = item.FechaDisPost;
-                        }
-                        else
-                        {
-                            disolucion.FechaDisolucion = item.FechaDisolucion;
-                        }
-
+                            disolucion.ComisionPosterior = item.ComisionPosterior;
+                            disolucion.ComisionAnterior = false;
+                        }                        
 
                         disolucion.NumeroOficio = item.NumeroOficio;
 
@@ -623,9 +616,7 @@ namespace DAES.BLL
 
                         disolucion.DatosNotario = item.DatosNotario;
 
-                        disolucion.DatosCBR = item.DatosCBR;
-
-                        disolucion.Comision = item.Comision;
+                        disolucion.DatosCBR = item.DatosCBR;                       
 
                         foreach (var help in comisionLiquidadoras)
                         {
@@ -772,7 +763,7 @@ namespace DAES.BLL
 
                                 if (!string.IsNullOrEmpty(aux.NumeroNorma.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma.ToString());
+                                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma);
                                 }else
                                 {
                                     parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", string.Empty);
@@ -780,7 +771,7 @@ namespace DAES.BLL
 
                                 if (!string.IsNullOrEmpty(aux.FechaNorma.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", " de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) + " del");
+                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", " de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) + " del ");
                                 }
                                 else
                                 {
@@ -789,7 +780,7 @@ namespace DAES.BLL
 
                                 if (!string.IsNullOrEmpty(aux.Autorizacion))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", ", autorizado por: " + aux.Autorizacion + ", se aprobó la disolución de la ");
+                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", aux.Autorizacion + ", se aprobó la disolución de la ");
                                 }
                                 else
                                 {
@@ -798,7 +789,7 @@ namespace DAES.BLL
 
                                 if (!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", cuyo extracto fue publicado en el Diario Oficial de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial) + ".");
+                                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", cuyo extracto fue publicado en el Diario Oficial de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
                                 }
                                 else
                                 {
@@ -807,7 +798,7 @@ namespace DAES.BLL
 
                                 if (!string.IsNullOrEmpty(aux.FechaJuntaSocios.ToString()))
                                 {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", ", acordada en la Asamblea Extraordinaria de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios+"."));
+                                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", ", acordada en la Asamblea Extraordinaria de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios) + ".");
                                 }
                                 else
                                 {
@@ -855,6 +846,10 @@ namespace DAES.BLL
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", ", e inscrita a fojas " + aux.NumeroFojas);
                                 }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", string.Empty);
+                                }
 
                                 if (!string.IsNullOrEmpty(aux.DatosCBR))
                                 {
@@ -868,6 +863,10 @@ namespace DAES.BLL
                                 if (!string.IsNullOrEmpty(aux.AñoInscripcion.ToString()))
                                 {
                                     parrafo_dos = parrafo_dos.Replace("[AÑOINSCRIPCION]", ", correspondiente al año " + aux.AñoInscripcion.ToString() + ".");
+                                }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[AÑOINSCRIPCION]", string.Empty + ".");
                                 }
                             }
                         }
@@ -952,13 +951,27 @@ namespace DAES.BLL
                         }
                     }
 
-                    if (aux.Comision)
+                    if (aux.Anterior == true)
                     {
-                        parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                        if (aux.ComisionAnterior)
+                        {
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                        }
+                        else
+                        {
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                        }
                     }
-                    else
+                    else if(aux.Anterior==false)
                     {
-                        parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                        if (aux.ComisionPosterior)
+                        {
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                        }
+                        else
+                        {
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                        }
                     }
                 }
 
@@ -1081,8 +1094,14 @@ namespace DAES.BLL
                             doc.Add(paragraphUNO);
                             doc.Add(SaltoLinea);
                             doc.Add(paragraphTRES);
+                            table.SpacingBefore = 15f;
+                            if (aux.ComisionAnterior)
+                            {
+                                doc.Add(table);
+                            }
                             doc.Add(SaltoLinea);
                             doc.Add(paragraphCUATRO);
+                            
                         }
                         else
                         {
@@ -1090,18 +1109,20 @@ namespace DAES.BLL
                             doc.Add(paragraphDOS);
                             doc.Add(SaltoLinea);
                             doc.Add(paragraphTRES);
+                            table.SpacingBefore = 15f;
+                            if (aux.ComisionPosterior)
+                            {
+                                doc.Add(table);
+                            }
                             doc.Add(SaltoLinea);
-                            doc.Add(paragraphCUATRO);                            
+                            doc.Add(paragraphCUATRO);
                         }
-                        table.SpacingBefore = 15f;
+                        
                         /*doc.Add(SaltoLinea);
                         doc.Add(paragraphUNO);
                         doc.Add(SaltoLinea);*/
-
-                        if (aux.Comision)
-                        {
-                            doc.Add(table);
-                        }
+                        
+                        
                     }
                     else if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
                         aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
