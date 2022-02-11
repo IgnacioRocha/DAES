@@ -1080,9 +1080,18 @@ namespace DAES.BLL
                             if (item.EsMiembro)
                             {
                                 var cargo = context.Cargo.FirstOrDefault(q => q.CargoId == item.CargoId);
+                                
                                 table.AddCell(new PdfPCell(new Phrase(item.NombreCompleto, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });
                                 if (cargo != null)
                                 {
+                                    table.AddCell(new PdfPCell(new Phrase(cargo.Nombre, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });                                    
+                                }
+                                else
+                                {
+                                    if (cargo == null)
+                                    {
+                                        cargo = context.Cargo.FirstOrDefault(q => q.CargoId == 83);
+                                    }
                                     table.AddCell(new PdfPCell(new Phrase(cargo.Nombre, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });
                                 }
                             }
