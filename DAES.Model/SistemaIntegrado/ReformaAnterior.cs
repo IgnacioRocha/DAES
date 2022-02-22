@@ -46,6 +46,11 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Autorizado por")]
         public string DatosNotario { get; set; }
 
+
+        //esto sirve para agregar espacios al documento.
+        [Display(Name = "Agregar espacios manuales")]
+        public string EspaciosDocAnterior { get; set; }
+
         [Display(Name = "Organización")]
         public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }

@@ -27,15 +27,19 @@
             </tr>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => Model.ReformaAGACs[i].FechaOficio)
-                    @Html.EditorFor(model => Model.ReformaAGACs[i].FechaOficio, new { htmlAttributes = new { @class = "form-control ", @style = "width: 190px;" } })
-                </th>
-                <th>
+               
                     @Html.DisplayNameFor(model => Model.ReformaAGACs[i].AprobacionId)
                     @*@Html.DropDownListFor(model => Model.Reformas[i].AprobacionId, new SelectList(ViewBag.AprobacionId, "Value", "Text", Model.Reformas[i].AprobacionId), "Seleccione...", new { @class = "form-control", @style = "width: 180px;" })*@
                     @Html.DropDownListFor(model => Model.ReformaAGACs[i].AprobacionId, new SelectList(ViewBag.AprobacionId, "Value", "Text", Model.ReformaAGACs[i].AprobacionId), "Seleccione...", new { @class = "form-control", @style = "width: 190px;" })
+                
                 </th>
-
+            </tr>
+            <tr>
+                <th colspan="2">
+                    @Html.DisplayNameFor(model => Model.ReformaAGACs[i].EspaciosDocAGAC)
+                    @Html.EditorFor(model => Model.ReformaAGACs[i].EspaciosDocAGAC, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+                </th>
+                
             </tr>
             <tr>
                 <td>

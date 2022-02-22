@@ -109,7 +109,6 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name ="¿Aprobacion?")]
         public int? AprobacionId { get; set; }
-
-
+        public string EspaciosDocAGAC { get; set; }
     }
 }

@@ -40,7 +40,7 @@ namespace DAES.Model.SistemaIntegrado
         public DateTime? FechaPubliDiario { get; set; }
 
         [Display(Name = "Año inscripción")]
-        public int? AnoInscripcion { get; set; }
+        public string AnoInscripcion { get; set; }
 
 
         [Display(Name = "Fojas Número")]
@@ -51,6 +51,11 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Datos generales del notario Público y Notaría")]
         public string DatosGeneralNotario { get; set; }
+
+        //esto sirve para agregar espacios al documento.
+        [Display(Name = "Agregar espacios manuales")]
+        public string EspaciosDoc { get; set; }
+
 
 
         [Display(Name = "Organización")]
