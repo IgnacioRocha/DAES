@@ -56,6 +56,12 @@
             </th>
         </tr>
         <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].EspaciosDoc)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].EspaciosDoc, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+            </th>
+        </tr>
+        <tr>
             <td>
 
                 @Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.ReformaPosteriors.ToArray()[i].IdReformaPost, Model.ReformaPosteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" })

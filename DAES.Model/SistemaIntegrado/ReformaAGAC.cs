@@ -41,6 +41,10 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "¿Aprobacion?")]
         public int? AprobacionId { get; set; }
 
+        //esto sirve para agregar espacios al documento.
+        [Display(Name = "Agregar espacios manuales")]
+        public string EspaciosDocAGAC { get; set; }
+
         [Display(Name = "Organización")]
         public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
