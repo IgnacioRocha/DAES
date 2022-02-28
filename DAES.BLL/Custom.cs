@@ -1159,7 +1159,7 @@ namespace DAES.BLL
 
                 if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
                 {
-                    if (organizacion.ExistenciaLegals.Any() || organizacion.Reformas.Any() || organizacion.Saneamientos.Any() || organizacion.ExistenciaAnteriors.Any() || organizacion.ExistenciaPosteriors.Any() || organizacion.ReformaAGACs.Any() || organizacion.ReformaAnteriors.Any() || organizacion.ReformaPosteriors.Any())
+                    if (organizacion.ExistenciaLegals.Any()|| organizacion.Saneamientos.Any() || organizacion.ExistenciaAnteriors.Any() || organizacion.ExistenciaPosteriors.Any() || organizacion.ReformaAGACs.Any() || organizacion.ReformaAnteriors.Any() || organizacion.ReformaPosteriors.Any())
                     {
 
 
@@ -1503,8 +1503,6 @@ namespace DAES.BLL
                                         parrafoEspacio = parrafoEspacio.Replace("[AUTORIZADOPOR]", string.Empty);
                                         parrafoEspacio = parrafoEspacio.Replace("[FECHAPUBLICACIONN]", string.Empty);
                                         parrafoEspacio = parrafoEspacio.Replace("[EspaciosDoc]", string.Empty);
-                                        
-
                                     }
 
                                     Paragraph parro = new Paragraph(parrafo, _fontStandard);
@@ -1530,7 +1528,7 @@ namespace DAES.BLL
 
                                     var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
 
-                                    if (!organizacion.ReformaAnteriors.Any() && contRefPost == 1)
+                                    if (!organizacion.ReformaAnteriors.Any() && contRefPost == 0)
                                     {
                                         parrafo = parrafo.Replace("[INTRO2]", "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" + "\n" + "\n");
                                     }
