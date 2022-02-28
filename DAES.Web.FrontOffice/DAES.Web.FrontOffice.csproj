@@ -217,6 +217,8 @@
     <Compile Include="Controllers\AsambleaExtraOrdinariaAsociacionController.cs" />
     <Compile Include="Controllers\AsociacionConsumidorController.cs" />
     <Compile Include="Controllers\CooperativaAbiertaController.cs" />
+    <Compile Include="Controllers\DisolucionAsociacionController.cs" />
+    <Compile Include="Controllers\DisolucionCooperativaController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\EstudioSAhorroCreditoController.cs" />
     <Compile Include="Controllers\GPController.cs" />
@@ -496,6 +498,14 @@
     <Content Include="Views\EstudioSAhorroCredito\index.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\_ConstitucionUpdate.cshtml" />
     <Content Include="Views\SupervisorAuxiliar\FinishActualizacion.cshtml" />
+    <Content Include="Views\DisolucionAsociacion\Create.cshtml" />
+    <Content Include="Views\DisolucionAsociacion\Finish.cshtml" />
+    <Content Include="Views\DisolucionAsociacion\Index.cshtml" />
+    <Content Include="Views\DisolucionAsociacion\Search.cshtml" />
+    <Content Include="Views\DisolucionCooperativa\Create.cshtml" />
+    <Content Include="Views\DisolucionCooperativa\Finish.cshtml" />
+    <Content Include="Views\DisolucionCooperativa\Index.cshtml" />
+    <Content Include="Views\DisolucionCooperativa\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />
@@ -551,6 +561,7 @@
       <Name>DAES.Model</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
