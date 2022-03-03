@@ -1525,10 +1525,10 @@ namespace DAES.BLL
                                 {
                                     string parrafo = string.Format(configuracioncertificado.Parrafo4);
                                     string parrafoEspacioPost = string.Format(configuracioncertificado.Parrafo5);
-
+                                    contRefPost++;
                                     var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
 
-                                    if (!organizacion.ReformaAnteriors.Any() && contRefPost == 0)
+                                    if (!organizacion.ReformaAnteriors.Any() && contRefPost == 1)
                                     {
                                         parrafo = parrafo.Replace("[INTRO2]", "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" + "\n" + "\n");
                                     }
@@ -1537,7 +1537,6 @@ namespace DAES.BLL
                                         parrafo = parrafo.Replace("[INTRO2]", string.Empty);
                                     }
 
-                                    contRefPost++;
 
                                     if (contRefPost == 1)
                                     {
@@ -1582,7 +1581,7 @@ namespace DAES.BLL
                                     }
                                     else
                                     {
-                                        parrafo = parrafo.Replace("[Fojas]", string.Empty);
+                                        parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", string.Empty);
                                     }
 
                                     if (item.FojasNumero != null)
@@ -1662,6 +1661,7 @@ namespace DAES.BLL
                                     doc.Add(parraf);
                                     doc.Add(SaltoLinea);
                                     doc.Add(parrafoEspacio);
+                                    
 
                                 }
                             }
