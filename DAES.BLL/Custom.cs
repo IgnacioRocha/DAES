@@ -959,22 +959,22 @@ namespace DAES.BLL
                     {
                         if (aux.ComisionAnterior)
                         {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
                         }
                         else
                         {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
                         }
                     }
                     else if(aux.Anterior==false)
                     {
                         if (aux.ComisionPosterior)
                         {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por este Departamento, estaba integrada por las siguientes personas: ");
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
                         }
                         else
                         {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por este Departamento.");
+                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
                         }
                     }
                 }
