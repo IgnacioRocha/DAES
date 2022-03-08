@@ -9,7 +9,7 @@
         <thead>
             <tr>
                 <th>
-                    @Html.LabelFor(m => Model.Disolucions[i].FechaJuntaSocios, new { htmlAttributes = new { @class = "control-label col-md-10" } })
+                    @Html.LabelFor(m => Model.Disolucions[i].FechaJuntaSocios, htmlAttributes: new { @class = "control-label col-md-10" })
                     @if (Model.Disolucions.FirstOrDefault().FechaJuntaSocios != null)
                     {
                         @Html.EditorFor(m => Model.Disolucions[i].FechaJuntaSocios, new { htmlAttributes = new { @class = "form-control col-md-10" } })
