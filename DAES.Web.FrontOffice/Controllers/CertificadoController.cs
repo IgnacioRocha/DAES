@@ -39,16 +39,22 @@ namespace DAES.Web.FrontOffice.Controllers
             }
 
             //Testing PDF Disoluciones, solo para mostrar datos a modo de prueba
-            if(TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.Disolucion)
+            /*if(TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.Disolucion)
             {
                 query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
-            }
+            }*/
 
-            //en el caso de certificado disolucion, organizaciones disueltas
+            //en el caso de certificado disolucion, solicitud emision, organizaciones disueltas
             if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.Disolucion)
             {
-                query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Disuelta);
+                query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Disuelta || q.EstadoId == (int)Infrastructure.Enum.Estado.EnLiquidacion);
             }
+
+            // en el caso de certificado disolucion, Emision Inmediata, solo organizaciones disueltas en ambos estados.
+            /*if(TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+            {
+                query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Disuelta || q.EstadoId == (int)Infrastructure.Enum.Estado.EnLiquidacion);
+            }*/
 
             //en el caso de certificado estatutos, vigentes
             if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.Estatutos)

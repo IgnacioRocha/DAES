@@ -31,7 +31,8 @@
             Inexistente = 4,
             Cancelada = 5,
             RolAsignado = 6,
-            NoConstituida = 7
+            NoConstituida = 7,
+            EnLiquidacion = 8
         }
 
         public enum Situacion
