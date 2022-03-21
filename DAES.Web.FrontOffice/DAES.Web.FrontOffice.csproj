@@ -338,6 +338,8 @@
     <Content Include="Content\CAC\Balance, AC-01, AC-03, AC-12 V2.xlsx" />
     <Content Include="Content\CAC\CACsMENSUAL_%281de2%29 v4.xls" />
     <Content Include="Content\CAC\CACsMENSUAL_%282de2%29 V6.xls" />
+    <Content Include="Content\CAC\Guia-estudio-socio-económico-para-Cacs.pdf" />
+    <Content Include="Content\NOCAC\Guia-estudio-socio-económico-para-CVA.pdf" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Produccion.pubxml" />
     <Content Include="Content\Site.css" />
