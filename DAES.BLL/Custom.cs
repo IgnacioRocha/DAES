@@ -2772,7 +2772,7 @@ namespace DAES.BLL
                     }
                 }
 
-                //en el caso de un proceso de estudio socioeconomico
+                //en el caso de un proceso de estudio socioeconomico 
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                 {
                     if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
@@ -2824,6 +2824,7 @@ namespace DAES.BLL
                 }
                 else
                 {
+                    //sino pasa a crear la organización con los datos enviados.
                     proceso.Organizacion = new Organizacion()
                     {
 
