@@ -2773,58 +2773,57 @@ namespace DAES.BLL
                 }
 
                 //en el caso de un proceso de estudio socioeconomico 
+                //if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
+                //{
+                
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                 {
-                    if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
+                    foreach (var item in obj.EstudioSocioEconomicos)
                     {
-                        foreach (var item in obj.EstudioSocioEconomicos)
+                        proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
                         {
-                            proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
-                            {
-                                FechaCreacion = item.FechaCreacion,
-                                DocumentoAdjunto = item.DocumentoAdjunto,
-                                Proceso = proceso
-                            });
+                            FechaCreacion = item.FechaCreacion,
+                            DocumentoAdjunto = item.DocumentoAdjunto,
+                            Proceso = proceso
+                        });
 
-                        }
-                        //si viene datos de una organizacion, usarlos para crea la nueva
-                        //if (obj.Organizacion != null)
-                        //{
-                        //    proceso.Organizacion = obj.Organizacion;
-                        //}
-
-                        //si no vienen datos, crear una nueva organizacion
-                        proceso.Organizacion = new Organizacion()
-                        {
-
-                            RazonSocial = obj.Organizacion.RazonSocial,
-                            RubroId = obj.Organizacion.RubroId,
-                            SubRubroId = obj.Organizacion.SubRubroId,
-                            RUT = obj.Organizacion.RUT,
-                            Sigla = obj.Organizacion.Sigla,
-                            Fono = obj.Organizacion.Fono,
-                            Email = obj.Organizacion.Email,
-                            Direccion = obj.Organizacion.Direccion,
-                            RegionId = obj.Organizacion.RegionId,
-                            ComunaId = obj.Organizacion.ComunaId,
-                            FechaCreacion = DateTime.Now,
-                            SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
-                            TipoOrganizacionId = 1,
-                            EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
-                            EsGeneroFemenino = false,
-                            EsImportanciaEconomica = false
-                        };
+                    }
+                    //si viene datos de una organizacion, usarlos para crea la nueva
+                    if (obj.Organizacion != null)
+                    {
+                        proceso.Organizacion = obj.Organizacion;
                     }
 
-                    //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
-                    else
+                    //si no vienen datos, crear una nueva organizacion
+                    proceso.Organizacion = new Organizacion()
                     {
-                        proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
-                    }
+
+                        RazonSocial = obj.Organizacion.RazonSocial,
+                        RubroId = obj.Organizacion.RubroId,
+                        SubRubroId = obj.Organizacion.SubRubroId,
+                        RUT = obj.Organizacion.RUT,
+                        Sigla = obj.Organizacion.Sigla,
+                        Fono = obj.Organizacion.Fono,
+                        Email = obj.Organizacion.Email,
+                        Direccion = obj.Organizacion.Direccion,
+                        RegionId = obj.Organizacion.RegionId,
+                        ComunaId = obj.Organizacion.ComunaId,
+                        FechaCreacion = DateTime.Now,
+                        SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
+                        TipoOrganizacionId = 1,
+                        EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
+                        EsGeneroFemenino = false,
+                        EsImportanciaEconomica = false
+                    };
                 }
+                //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
                 else
                 {
-                    //sino pasa a crear la organización con los datos enviados.
+                    proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
+                }
+
+                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb)
+                {
                     proceso.Organizacion = new Organizacion()
                     {
 
@@ -2847,6 +2846,34 @@ namespace DAES.BLL
                     };
 
                 }
+                
+
+                //}
+                //    else
+                //{
+                //    //sino pasa a crear la organización con los datos enviados.
+                //    proceso.Organizacion = new Organizacion()
+                //    {
+
+                //        RazonSocial = obj.Organizacion.RazonSocial,
+                //        RubroId = obj.Organizacion.RubroId,
+                //        SubRubroId = obj.Organizacion.SubRubroId,
+                //        RUT = obj.Organizacion.RUT,
+                //        Sigla = obj.Organizacion.Sigla,
+                //        Fono = obj.Organizacion.Fono,
+                //        Email = obj.Organizacion.Email,
+                //        Direccion = obj.Organizacion.Direccion,
+                //        RegionId = obj.Organizacion.RegionId,
+                //        ComunaId = obj.Organizacion.ComunaId,
+                //        FechaCreacion = DateTime.Now,
+                //        SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
+                //        TipoOrganizacionId = 1,
+                //        EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
+                //        EsGeneroFemenino = false,
+                //        EsImportanciaEconomica = false
+                //    };
+
+                //}
 
 
                 //cooperativa de vivienda abierta
