@@ -945,15 +945,7 @@ namespace DAES.BLL
                     {
                         throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
                             "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(parrafo_dos))
-                    {
-                        if (organizacion.FechaCelebracion.HasValue)
-                        {
-                            parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
-                        }
-                    }
+                    }                    
 
                     if (aux.Anterior == true)
                     {
@@ -979,6 +971,13 @@ namespace DAES.BLL
                     }
                 }
 
+                if (!string.IsNullOrWhiteSpace(parrafo_dos))
+                {
+                    if (organizacion.FechaCelebracion.HasValue)
+                    {
+                        parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
+                    }
+                }
                 #endregion
 
                 string parrafo_cuatro = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
@@ -1969,7 +1968,7 @@ namespace DAES.BLL
                         doc.Add(porOrden);
                     }
                 }
-                doc.Add(SaltoLinea);
+                //doc.Add(SaltoLinea);
 
                 if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores) // Cooperativa
                 {
@@ -2003,7 +2002,7 @@ namespace DAES.BLL
                 //    orden = "Por orden del Ministro";
                 //}
 
-                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos != 103)
+                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio == organizacion.Documentos.FirstOrDefault().TipoDocumentoId)
                 {
 
                     doc.Add(rae);
