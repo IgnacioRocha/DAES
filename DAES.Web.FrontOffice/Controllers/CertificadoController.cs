@@ -51,10 +51,10 @@ namespace DAES.Web.FrontOffice.Controllers
             }
 
             // en el caso de certificado disolucion, Emision Inmediata, solo organizaciones disueltas en ambos estados.
-            /*if(TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+            if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
             {
                 query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Disuelta || q.EstadoId == (int)Infrastructure.Enum.Estado.EnLiquidacion);
-            }*/
+            }
 
             //en el caso de certificado estatutos, vigentes
             if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.Estatutos)
