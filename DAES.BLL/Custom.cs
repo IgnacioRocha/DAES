@@ -719,7 +719,7 @@ namespace DAES.BLL
                 //Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
                 string parrafo_uno = string.Format(configuracioncertificado.Parrafo1);
 
-                string parrafo_dos = string.Format(configuracioncertificado.Parrafo2);
+                string parrafo_dos = string.Format(configuracioncertificado.Parrafo2!=null ? configuracioncertificado.Parrafo2:" ");
                 string parrafo_tres = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : " ");
                 /*string parrafo_tres = string.Format(configuracioncertificado.Parrafo3);*/
 
@@ -1987,8 +1987,6 @@ namespace DAES.BLL
                     }
                     else
                     {
-
-
                         string orden = "Saluda atentamente a ustedes.";
                         Paragraph porOrden = new Paragraph(orden, _fontStandard);
                         porOrden.Alignment = Element.ALIGN_JUSTIFIED;

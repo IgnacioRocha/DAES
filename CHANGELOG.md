@@ -1,4 +1,15 @@
+# Todos los cambios realizados al proyecto se deben documentar en este archivo
+
+Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.com/es-ES/1.0.0/)
+
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
+
+## [2.2.0 - DAES Digital - BackOffice] - 17-05-2022
+
+### Changed
+
+- Se modifica Custom.cs, con la finalidad de que no arroje error si el Parrafo2 de la tabla ConfiguracionCertificado este NULL, lo deje como un string.empty.
+- Se modifica el orden de los datos FechaPublicacionDiarioOficial y FechaEscrituraPublica en la parte de AG/AC en \_OrganizacionDisolucion.cshtml.
 
 ## Cambios realizados en BackOffice
 
