@@ -4,6 +4,17 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.2.0 - BackOffice] - 20-05-2022
+
+### Added
+
+- Se agregaron las vistas \_ComisionEdit, \_CoopAnterior y \_CoopPosterior en Task para controlar el error presentado en el ticket 36854.
+
+### Changed
+
+- Se modifico el controlador de Task para agregar funcionalidades a los botones faltantes respecto a la sección Disolucion de EditarOrganizacion.
+- Se modifico la vista de la sección Disolución al momento de editar una organizacion en Actualizar Antecedentes.
+
 ## [2.2.0 - DAES Digital - BackOffice] - 17-05-2022
 
 ### Changed

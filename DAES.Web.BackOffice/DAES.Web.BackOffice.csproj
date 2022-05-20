@@ -940,6 +940,9 @@
     <Content Include="Views\Shared\_OrganizacionSaneamiento.cshtml" />
     <Content Include="Views\Task\_RepresentantesLegales.cshtml" />
     <Content Include="Views\Task\_PersonasFacultadas.cshtml" />
+    <Content Include="Views\Task\_CoopAnterior.cshtml" />
+    <Content Include="Views\Task\_CoopPosterior.cshtml" />
+    <Content Include="Views\Task\_ComisionEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
