@@ -6,6 +6,12 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 
 ## [2.2.0 - BackOffice] - 20-05-2022
 
+### Changed
+
+- Se modificaron los botones Eliminar de Directorio y Modificaciones para que estos tuvieran la funcionalidad que faltaba y se les agrego estilo para unificarlos con los demas de la pagina.
+
+## [2.2.0 - BackOffice] - 20-05-2022
+
 ### Added
 
 - Se agregaron las vistas \_ComisionEdit, \_CoopAnterior y \_CoopPosterior en Task para controlar el error presentado en el ticket 36854.

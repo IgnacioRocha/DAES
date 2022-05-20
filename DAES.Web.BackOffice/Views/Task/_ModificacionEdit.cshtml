@@ -22,7 +22,7 @@
             <tr>
                 @Html.EditorFor(m => m.ModificacionEstatutos[i])
                 <td>
-                    @Ajax.ActionLink("Eliminar", "ModificacionDelete", null, new { Model.WorkflowId, Model.ModificacionEstatutos.ToArray()[i].ModificacionEstatutoId }, new AjaxOptions { UpdateTargetId = "modificacion" })
+                    @Ajax.ActionLink("Eliminar", "ModificacionDelete", null, new { Model.Workflow.WorkflowId, Model.ModificacionEstatutos.ToArray()[i].ModificacionEstatutoId }, new AjaxOptions { UpdateTargetId = "modificacion" }, htmlAttributes: new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }

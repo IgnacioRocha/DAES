@@ -29,7 +29,7 @@
             <tr>
                 @Html.EditorFor(m => m.Directorios[i])
                 <td>
-                    @Ajax.ActionLink("Eliminar", "DirectorioDelete", null, new { Model.WorkflowId, Model.Directorios.ToArray()[i].DirectorioId }, new AjaxOptions { UpdateTargetId = "directorio" })
+                    @Ajax.ActionLink("Eliminar", "DirectorioDelete", null, new { Model.Workflow.WorkflowId, Model.Directorios.ToArray()[i].DirectorioId }, new AjaxOptions { UpdateTargetId = "directorio" }, htmlAttributes: new { @class = "btn btn-danger" })
                 </td>
             </tr>
         }
