@@ -58,14 +58,14 @@
                             @Html.EditorFor(m => Model.ComisionLiquidadoras[i].FechaTermino, new { htmlAttributes = new { @class = "form-control col-6" } })
                         </th>
                         <th>
-                            @Ajax.ActionLink("Eliminar", "ComisionDelete", null, new { Model.ComisionLiquidadoras.ToArray()[i].ComisionLiquidadoraId, Model.ComisionLiquidadoras.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "divDirectorio" })
+                            @Ajax.ActionLink("Eliminar", "ComisionDelete", null, new { Model.ComisionLiquidadoras.ToArray()[i].ComisionLiquidadoraId, Model.ComisionLiquidadoras.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "divDirectorio" }, htmlAttributes: new { @class = "btn btn-danger" })
                         </th>
                     </tr>
                 </tbody>
 
             }
         </table>
-        @Ajax.ActionLink("Agregar Miembro", "ComisionAdd", null, new { Model.OrganizacionId}, new AjaxOptions { UpdateTargetId = "divDirectorio" })
+        @Ajax.ActionLink("Agregar Miembro", "ComisionAdd", null, new { Model.OrganizacionId}, new AjaxOptions { UpdateTargetId = "divDirectorio" }, htmlAttributes: new { @class = "btn btn-success" })
     </div>
 }
 

@@ -8,6 +8,12 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 
 ### Changed
 
+- Se modificaron todos los botones pertenecientes a la edición de Organizaciones, tanto en Reformas, Disolución y Directorio.
+
+## [2.2.0 - BackOffice] - 20-05-2022
+
+### Changed
+
 - Se modificaron los botones Eliminar de Directorio y Modificaciones para que estos tuvieran la funcionalidad que faltaba y se les agrego estilo para unificarlos con los demas de la pagina.
 
 ## [2.2.0 - BackOffice] - 20-05-2022

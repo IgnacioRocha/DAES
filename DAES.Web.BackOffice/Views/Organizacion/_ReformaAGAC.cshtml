@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td>
-                    @Ajax.ActionLink("Eliminar", "ReformaDeleteAGAC", null, new { Model.ReformaAGACs.ToArray()[i].IdReformaAGAC, Model.ReformaAGACs.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaAGAC" }, new { @style = "Text-Decoration : none" })
+                    @Ajax.ActionLink("Eliminar", "ReformaDeleteAGAC", null, new { Model.ReformaAGACs.ToArray()[i].IdReformaAGAC, Model.ReformaAGACs.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaAGAC" }, new { @style = "Text-Decoration : none", @class="btn btn-danger" })
                 </td>
 
             </tr>

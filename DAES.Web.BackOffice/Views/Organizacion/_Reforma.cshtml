@@ -57,7 +57,7 @@
         <tr>
             <td>
 
-                @Ajax.ActionLink("Eliminar", "ReformaDeleteAnterior", null, new { Model.ReformaAnteriors.ToArray()[i].IdReformaAnterior, Model.ReformaAnteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" }, new { @style = "Text-Decoration : none" })
+                @Ajax.ActionLink("Eliminar", "ReformaDeleteAnterior", null, new { Model.ReformaAnteriors.ToArray()[i].IdReformaAnterior, Model.ReformaAnteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" }, new { @style = "Text-Decoration : none", @class="btn btn-danger" })
 
             </td>
         </tr>

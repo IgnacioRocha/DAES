@@ -321,7 +321,7 @@
             <div id="directorio">
                 @Html.Partial("_DirectorioEdit", Model)
             </div>
-            @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" })
+            @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" }, htmlAttributes: new { @class = "btn btn-success" })
         </div>
     </div>
     if (Model.TipoOrganizacionId == 1)
@@ -415,7 +415,7 @@
                 <div id="reforma">
                     @Html.Partial("_Reforma", Model)
                 </div>
-                @Ajax.ActionLink("Agregar reforma", "ReformaAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" })
+                @Ajax.ActionLink("Agregar reforma", "ReformaAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reforma" }, htmlAttributes: new { @class = "btn btn-success" })
             </div>
         </div>
 
@@ -426,7 +426,7 @@
                     @Html.Partial("_ReformaPost", Model)
                 </div>
 
-                @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" })
+                @Ajax.ActionLink("Agregar reforma", "ReformaAddPost", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" }, htmlAttributes: new { @class = "btn btn-success" })
             </div>
         </div>
     }
@@ -440,7 +440,7 @@
                     @Html.Partial("_ReformaAGAC", Model)
                 </div>
 
-                @Ajax.ActionLink("Agregar reforma", "ReformaAddAGAC", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaAGAC" })
+                @Ajax.ActionLink("Agregar reforma", "ReformaAddAGAC", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaAGAC" }, htmlAttributes: new { @class = "btn btn-success" })
             </div>
         </div>
 
@@ -505,7 +505,7 @@ else
     <input id="tieneRefA" value="0" type="hidden" />
 }
 
-@Html.ActionLink("Volver al listado", "Index")
+@Html.ActionLink("Volver al listado", "Index",null,null, htmlAttributes: new { @class = "btn btn-info" })
 
 
 

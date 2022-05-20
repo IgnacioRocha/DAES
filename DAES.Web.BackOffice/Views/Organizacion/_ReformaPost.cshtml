@@ -64,7 +64,7 @@
         <tr>
             <td>
 
-                @Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.ReformaPosteriors.ToArray()[i].IdReformaPost, Model.ReformaPosteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" })
+                @Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.ReformaPosteriors.ToArray()[i].IdReformaPost, Model.ReformaPosteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" }, htmlAttributes: new { @class = "btn btn-danger" })
             </td>
         </tr>
     </thead>

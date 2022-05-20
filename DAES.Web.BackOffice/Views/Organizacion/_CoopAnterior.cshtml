@@ -56,7 +56,7 @@
                         @Html.EditorFor(m => Model.Disolucions[i].ComisionAnterior, new { htmlAttributes = new { @id = "comisionAnterior", @class = "form-control", @style = "height: 20px;" } })
                     
                 <th>
-                    @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
+                    @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" }, htmlAttributes: new { @class = "btn btn-danger" })
                 </th>
             </tr>
         </thead>

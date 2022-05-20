@@ -318,7 +318,7 @@
                     <div id="directorio">
                         @Html.Partial("_DirectorioEdit", Model)
                     </div>
-                    @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new {Model.Workflow.WorkflowId,  Model.Organizacion.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" })
+                    @Ajax.ActionLink("Agregar directorio", "DirectorioAdd", null, new {Model.Workflow.WorkflowId,  Model.Organizacion.OrganizacionId }, new AjaxOptions { UpdateTargetId = "directorio" }, htmlAttributes: new { @class = "btn btn-success" })
                 </div>
             </div>
 
@@ -328,7 +328,7 @@
                     <div id="modificacion">
                         @Html.Partial("_ModificacionEdit", Model)
                     </div>
-                    @Ajax.ActionLink("Agregar modificación", "ModificacionAdd", null, new { Model.Workflow.WorkflowId, Model.Organizacion.OrganizacionId }, new AjaxOptions { UpdateTargetId = "modificacion" })
+                    @Ajax.ActionLink("Agregar modificación", "ModificacionAdd", null, new { Model.Workflow.WorkflowId, Model.Organizacion.OrganizacionId }, new AjaxOptions { UpdateTargetId = "modificacion" }, htmlAttributes: new { @class = "btn btn-success" })
                 </div>
             </div>
 

@@ -3,12 +3,12 @@
 
 @if (Model.Disolucions.Count() != 0)
 {
-    @Ajax.ActionLink("Agregar disolución", "DisolucionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" }, new { @style = "display:none;" })
+    @Ajax.ActionLink("Agregar disolución", "DisolucionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" }, new { @style = "display:none;", @class="btn btn-success" })
 }
 else
 {
 
-    @Ajax.ActionLink("Agregar disolución", "DisolucionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
+    @Ajax.ActionLink("Agregar disolución", "DisolucionAdd", null, new { Model.OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" }, htmlAttributes: new { @class = "btn btn-success" })
 }
 @if (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
     Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
@@ -85,10 +85,6 @@ else
                     }
                 }
             }
-
-
-
-
         </table>
     </div>
     @Html.Partial("_ComisionEdit", Model);    

@@ -41,7 +41,7 @@
                     @Html.EditorFor(m => Model.Disolucions[i].DatosNotario, new { htmlAttributes = new { @class = "form-control col-md-10" } })
                 </th>
                 <th>
-                    @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" })
+                    @Ajax.ActionLink("Eliminar", "DisolucionDelete", null, new { Model.Disolucions.ToArray()[i].DisolucionId, Model.Disolucions.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "disolucion" }, htmlAttributes: new { @class = "btn btn-danger" })
                 </th>
             </tr>
         </thead>
