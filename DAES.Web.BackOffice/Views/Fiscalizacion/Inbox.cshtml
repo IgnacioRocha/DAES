@@ -70,7 +70,7 @@
                     @if (item.Fiscalizacions.Any())
                     {
                         var ultimaFiscalizacion = item.Fiscalizacions.Where(q => q.Activo && q.ProcesoRelacionadoId.HasValue).OrderByDescending(q => q.FiscalizacionId).FirstOrDefault();
-                        if (ultimaFiscalizacion != null && ultimaFiscalizacion.ProcesoRelacionado != null)
+                        if (ultimaFiscalizacion != null && ultimaFiscalizacion.ProcesoRelacionadoId != null)
                         {
                             @Html.ActionLink(ultimaFiscalizacion.ProcesoRelacionadoId.ToString(), "View", new { id = ultimaFiscalizacion.ProcesoRelacionadoId }, new { target = "_blank" })
                         }

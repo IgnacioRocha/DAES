@@ -814,7 +814,7 @@ namespace DAES.Web.BackOffice.Controllers
 
             if (ModelState.IsValid)
             {
-                var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == documento.WorkflowId);
+                var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId > documento.WorkflowId);
                 var super = db.SupervisorAuxiliars.Where(q => q.ProcesoId == workflow.ProcesoId);
 
                 
@@ -827,8 +827,8 @@ namespace DAES.Web.BackOffice.Controllers
                 }                
                 TempData["Message"] = Properties.Settings.Default.Success;
             }
-
-            return RedirectToAction("FirmarDocumentos", new { documento.WorkflowId });
+           
+            return Redirect("/Inbox/Index");
         }
 
 

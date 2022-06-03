@@ -244,12 +244,14 @@ namespace DAES.Web.BackOffice.Controllers
                     DocumentoId = model.DocumentoId
                 };
 
+
+
                 if (model.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb &&
                     model.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP)
                 {
 
-                    var organizacion = db.Organizacion.FirstOrDefault(q => q.OrganizacionId == model.OrganizacionId);
-
+                    var organizacion = db.Organizacion.First(q => q.OrganizacionId == model.OrganizacionId);
+                    
                     proceso.Organizacion = new Organizacion()
                     {
                         OrganizacionId = organizacion.OrganizacionId,

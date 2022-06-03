@@ -7,7 +7,9 @@
 
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-4">Estudio Socio-Económico Cooperativas de Ahorro y Crédito</h1>
+        <h1 class="display-4">
+            Estudio Socioeconómico de Cooperativas de Ahorro y Crédito y Abiertas de Vivienda
+        </h1>
         <p>Permite inscribir el estudio socio-económico que deben presentar los interesados en constituir una cooperativa de ahorro y crédito</p>
     </div>
 </div>
@@ -342,5 +344,17 @@
     alert("El tamaño máximo es 50 MB por archivo");
     $DocumentoAdjunto.value = "";
     }
+    });
+
+    //google analitycs
+    $('#linkGo').click(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-18');
+        gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540007'
+        });
     });
 </script>
