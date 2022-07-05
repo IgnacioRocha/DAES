@@ -4,6 +4,12 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.2.0 - BackOffice y FrontOffice] - 05-70-2022
+
+### Changed
+
+- Se modificaron las versiones de Jquery-UI y JQuery a las versiones 1.13.1 y 3.6.0 respectivamente.
+
 ## [2.2.0 - BackOffice] - 20-05-2022
 
 ### Changed
