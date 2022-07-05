@@ -4,7 +4,18 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
-## [2.2.0 - BackOffice y FrontOffice] - 05-70-2022
+## [2.2.0 - FrontOffice] - 05-07-2022
+
+### Added
+
+- Se agregaron funciones de Google Analytics en varias vistas en relacion a la grilla Listado de tramites Analytics.xlsx
+- Se agrego al proyecto las vistas Index en Articulo 90 Primer Inciso y Segundo Inciso.
+
+### Changed
+
+- Se modifico la ubicación de las funciones de Google Analytics donde solicitan clave unica, se paso desde el Index al Search.
+
+## [2.2.0 - BackOffice y FrontOffice] - 05-07-2022
 
 ### Changed
 

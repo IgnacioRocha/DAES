@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-primary btn-rounded" type="submit">Enviar</button>                
+                <button id="linkGo" class="btn btn-primary btn-rounded" type="submit">Enviar</button>
             </div>
         </div>
     }
@@ -84,7 +84,20 @@
 <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-4"></script>
+
 <script>
+    $('#linkGo').click(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-4');
+        gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 800540000'
+        });
+    });
     $(document).on('submit', 'form', function () {
         var buttons = $(this).find('[type="submit"]');
         if ($(this).valid()) {

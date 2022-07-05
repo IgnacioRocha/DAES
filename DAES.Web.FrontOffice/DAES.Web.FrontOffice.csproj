@@ -521,6 +521,8 @@
     <Content Include="Views\DisolucionCooperativa\Finish.cshtml" />
     <Content Include="Views\DisolucionCooperativa\Index.cshtml" />
     <Content Include="Views\DisolucionCooperativa\Search.cshtml" />
+    <Content Include="Views\Articulo90IncisoPrimero\Index.cshtml" />
+    <Content Include="Views\Articulo90IncisoSegundo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />
