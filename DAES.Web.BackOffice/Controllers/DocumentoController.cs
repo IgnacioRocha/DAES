@@ -39,6 +39,7 @@ namespace DAES.Web.BackOffice.Controllers
             public bool HasContent { get; set; }
             public DateTime? FechaRecordatorio { get; set; }
             public string FileName { get; set; }
+            public int TipoOrganizacion { get; set; }
         }
 
         public ActionResult Index()

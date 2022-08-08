@@ -9,6 +9,7 @@ using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Web.FrontOffice.Models;
 using System.ComponentModel.DataAnnotations;
 using DAES.Infrastructure;
+using DAES.BLL;
 using System.IO;
 
 namespace DAES.Web.FrontOffice.Controllers
@@ -17,7 +18,7 @@ namespace DAES.Web.FrontOffice.Controllers
     public class SupervisorAuxiliarController : Controller
     {
         private SistemaIntegradoContext db = new SistemaIntegradoContext();
-        private BLL.Custom _custom = new BLL.Custom();
+        private BLL.Custom _custom = new Custom();
         public class Search
         {
             public Search()

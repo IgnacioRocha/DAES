@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://impl.soap.com/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="signfile" targetNamespace="http://impl.soap.com/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <wsp:Policy wsu:Id="SignFileImplPortBinding_MTOM_Policy">
+    <ns1:OptimizedMimeSerialization xmlns:ns1="http://schemas.xmlsoap.org/ws/2004/09/policy/optimizedmimeserialization" wsp:Optional="true">
+    </ns1:OptimizedMimeSerialization>
+  </wsp:Policy>
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://172.16.1.191:8080/ElockFileSigning/soapfile?xsd=1" namespace="http://impl.soap.com/" />
+    </xsd:schema>
+  </types>
+  <message name="SignFile">
+    <part name="inputfile" type="xsd:base64Binary" />
+    <part name="signer_name" type="xsd:string" />
+    <part name="position" type="xsd:string" />
+    <part name="pagenumber" type="xsd:string" />
+    <part name="reason" type="xsd:string" />
+    <part name="location" type="xsd:string" />
+    <part name="xmargin" type="xsd:int" />
+    <part name="ymargin" type="xsd:int" />
+    <part name="height" type="xsd:int" />
+    <part name="width" type="xsd:int" />
+  </message>
+  <message name="SignFileResponse">
+    <part name="return" type="tns:signFileResponse" />
+  </message>
+  <message name="Exception">
+    <part name="fault" element="tns:Exception" />
+  </message>
+  <message name="SignBase64Encoded">
+    <part name="inputfile" type="xsd:string" />
+    <part name="signer_name" type="xsd:string" />
+    <part name="position" type="xsd:string" />
+    <part name="pagenumber" type="xsd:string" />
+    <part name="reason" type="xsd:string" />
+    <part name="location" type="xsd:string" />
+    <part name="xmargin" type="xsd:int" />
+    <part name="ymargin" type="xsd:int" />
+    <part name="height" type="xsd:int" />
+    <part name="width" type="xsd:int" />
+  </message>
+  <message name="SignBase64EncodedResponse">
+    <part name="return" type="tns:signBase64EncodedResponse" />
+  </message>
+  <message name="getSignerNameList" />
+  <message name="getSignerNameListResponse">
+    <part name="return" type="tns:signerInfo" />
+  </message>
+  <portType name="SignFileImpl">
+    <operation name="SignFile" parameterOrder="inputfile signer_name position pagenumber reason location xmargin ymargin height width">
+      <input wsam:Action="http://impl.soap.com/SignFileImpl/SignFileRequest" message="tns:SignFile" />
+      <output wsam:Action="http://impl.soap.com/SignFileImpl/SignFileResponse" message="tns:SignFileResponse" />
+      <fault wsam:Action="http://impl.soap.com/SignFileImpl/SignFile/Fault/Exception" name="Exception" message="tns:Exception" />
+    </operation>
+    <operation name="SignBase64Encoded" parameterOrder="inputfile signer_name position pagenumber reason location xmargin ymargin height width">
+      <input wsam:Action="http://impl.soap.com/SignFileImpl/SignBase64EncodedRequest" message="tns:SignBase64Encoded" />
+      <output wsam:Action="http://impl.soap.com/SignFileImpl/SignBase64EncodedResponse" message="tns:SignBase64EncodedResponse" />
+      <fault wsam:Action="http://impl.soap.com/SignFileImpl/SignBase64Encoded/Fault/Exception" name="Exception" message="tns:Exception" />
+    </operation>
+    <operation name="getSignerNameList">
+      <input wsam:Action="http://impl.soap.com/SignFileImpl/getSignerNameListRequest" message="tns:getSignerNameList" />
+      <output wsam:Action="http://impl.soap.com/SignFileImpl/getSignerNameListResponse" message="tns:getSignerNameListResponse" />
+    </operation>
+  </portType>
+  <binding name="SignFileImplPortBinding" type="tns:SignFileImpl">
+    <wsp:PolicyReference URI="#SignFileImplPortBinding_MTOM_Policy">
+    </wsp:PolicyReference>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <operation name="SignFile">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://impl.soap.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://impl.soap.com/" />
+      </output>
+      <fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </fault>
+    </operation>
+    <operation name="SignBase64Encoded">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://impl.soap.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://impl.soap.com/" />
+      </output>
+      <fault name="Exception">
+        <soap:fault use="literal" name="Exception" namespace="" />
+      </fault>
+    </operation>
+    <operation name="getSignerNameList">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" namespace="http://impl.soap.com/" />
+      </input>
+      <output>
+        <soap:body use="literal" namespace="http://impl.soap.com/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="signfile">
+    <port name="SignFileImplPort" binding="tns:SignFileImplPortBinding">
+      <soap:address location="http://172.16.1.191:8080/ElockFileSigning/soapfile" />
+    </port>
+  </service>
+</definitions>

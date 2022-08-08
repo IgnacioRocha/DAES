@@ -243,6 +243,7 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
 
 
                             </dl>
+                            
                             @if (workflow.Documentos.Any())
                             {
                                 <hr />
@@ -278,7 +279,7 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
                                                 {
                                                     <tr>
                                                         <td>
-                                                            @if (item.Content != null && !string.IsNullOrWhiteSpace(item.FileName))
+                                                            @if (item.Content != null && !string.IsNullOrWhiteSpace(item.FileName)&& ViewBag.persona == 1)
                                                             {
                                                                 @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
                                                             }

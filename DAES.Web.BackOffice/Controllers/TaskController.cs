@@ -1,10 +1,13 @@
-﻿using DAES.Infrastructure.SistemaIntegrado;
+﻿using DAES.BLL;
+using DAES.BLL.Interfaces;
+using DAES.Infrastructure.Interfaces;
+using DAES.Infrastructure.SistemaIntegrado;
+using DAES.Model.FirmaDocumento;
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -154,6 +157,7 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
+
         public ActionResult CrearDocumento(int WorkflowId)
         {
 
@@ -191,6 +195,7 @@ namespace DAES.Web.BackOffice.Controllers
                     Resuelto = false,
                     TipoDocumentoId = model.TipoDocumentoId,
                     Firmado = false,
+                    //Signed = false,
                     WorkflowId = model.Workflow.WorkflowId,
                     ProcesoId = model.Workflow.ProcesoId,
                     OrganizacionId = model.Workflow.Proceso.OrganizacionId,
@@ -228,7 +233,7 @@ namespace DAES.Web.BackOffice.Controllers
             model.Organizacion = db.Organizacion.Find(model.Workflow.Proceso.OrganizacionId);
             model.Directorios = db.Directorio.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
             model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
-            
+
 
             ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
             ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
@@ -242,7 +247,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
 
             return View(model);
-        }        
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -283,9 +288,9 @@ namespace DAES.Web.BackOffice.Controllers
             //Variable para almacenar el Update de una lista de Representantes Legales
             /*var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == UpSuper.SupervisorAuxiliarId).ToList();*/
             //Variable para almacenar el Update de una lista de Personas Facultadas
-            /*var UpFacultada = db.ActualizacionPersonaFacultadas.Where(q => q.ActualizacionPersonaFacultadaId == UpSuper.SupervisorAuxiliarId).ToList();*/            
+            /*var UpFacultada = db.ActualizacionPersonaFacultadas.Where(q => q.ActualizacionPersonaFacultadaId == UpSuper.SupervisorAuxiliarId).ToList();*/
             model.SupervisorAuxiliar = db.SupervisorAuxiliars.FirstOrDefault(q => q.SupervisorAuxiliarId == UpSuper.SupervisorAuxiliarId);
-            
+
             /*for (int i = 0;i<UpRepre.Count;i++)
             {
                 UpSuper.Representantes.Add(UpRepre[i]);
@@ -311,7 +316,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
-            
+
             return View(model);
         }
 
@@ -327,14 +332,14 @@ namespace DAES.Web.BackOffice.Controllers
                 var aux = db.ActualizacionSupervisors.Find(help.ActualizacionSupervisorId);
                 help = aux;
                 var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == help.ActualizacionSupervisorId).ToList();
-                var UpFacu = db.ActualizacionPersonaFacultadas.Where(q=>q.ActualizacionSupervisorId == help.ActualizacionSupervisorId).ToList();
+                var UpFacu = db.ActualizacionPersonaFacultadas.Where(q => q.ActualizacionSupervisorId == help.ActualizacionSupervisorId).ToList();
 
-                foreach(var facultada in UpFacu)
+                foreach (var facultada in UpFacu)
                 {
                     help.Facultada.Add(facultada);
                 }
 
-                foreach(var repre in UpRepre)
+                foreach (var repre in UpRepre)
                 {
                     help.Representantes.Add(repre);
                 }
@@ -361,9 +366,9 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
-        public ActionResult EliminarRepresentante(int WorkflowId , int ActualizacionRepresentanteId)
+        public ActionResult EliminarRepresentante(int WorkflowId, int ActualizacionRepresentanteId)
         {
-            var model=new TaskModel();
+            var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             var repre = db.ActualizacionRepresentantes.Find(ActualizacionRepresentanteId);
             var UpSuper = model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q => q.ProcesoId == model.Workflow.ProcesoId).FirstOrDefault();
@@ -406,14 +411,14 @@ namespace DAES.Web.BackOffice.Controllers
             }
             db.SaveChanges();
 
-            return PartialView("_RepresentantesLegales",model);
+            return PartialView("_RepresentantesLegales", model);
         }
 
-        public ActionResult EliminarFacultadas(int WorkflowId,int ActualizacionPersonaFacultadaId)
+        public ActionResult EliminarFacultadas(int WorkflowId, int ActualizacionPersonaFacultadaId)
         {
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
-            var facultada = db.ActualizacionPersonaFacultadas.Find(ActualizacionPersonaFacultadaId );
+            var facultada = db.ActualizacionPersonaFacultadas.Find(ActualizacionPersonaFacultadaId);
             var UpSuper = model.ActualizacionSupervisor = db.ActualizacionSupervisors.Where(q => q.ProcesoId == model.Workflow.ProcesoId).FirstOrDefault();
             //Variable para almacenar el Update de una lista de Representantes Legales
             var UpRepre = db.ActualizacionRepresentantes.Where(q => q.ActualizacionSupervisorId == UpSuper.SupervisorAuxiliarId).ToList();
@@ -638,7 +643,7 @@ namespace DAES.Web.BackOffice.Controllers
             model.Disolucions = db.Disolucions.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
             ViewBag.TipoNormaID = new SelectList(db.TipoNorma.OrderBy(q => q.TipoNormaId), "TipoNormaId", "Nombre");
 
-            return PartialView("_DisolucionEdit",model);
+            return PartialView("_DisolucionEdit", model);
         }
 
         #endregion
@@ -660,7 +665,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
 
-            return PartialView("_ComisionEdit",model);
+            return PartialView("_ComisionEdit", model);
         }
 
         public ActionResult ComisionDelete(int ComisionLiquidadoraId, int OrganizacionId, int WorkflowId)
@@ -670,15 +675,15 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
 
             var comiLiqui = db.ComisionLiquidadora.Find(ComisionLiquidadoraId);
-            if(comiLiqui!=null)
+            if (comiLiqui != null)
             {
                 db.ComisionLiquidadora.Remove(comiLiqui);
             }
 
             var model = new TaskModel();
             model.Workflow = db.Workflow.Find(WorkflowId);
-            model.Organizacion=db.Organizacion.Find(OrganizacionId);
-            model.Directorios=db.Directorio.Where(q=>q.OrganizacionId==model.Organizacion.OrganizacionId).ToList();
+            model.Organizacion = db.Organizacion.Find(OrganizacionId);
+            model.Directorios = db.Directorio.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
             model.ModificacionEstatutos = db.ModificacionEstatutos.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
             model.Disolucions = db.Disolucions.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
 
@@ -736,7 +741,7 @@ namespace DAES.Web.BackOffice.Controllers
                 model.Fecha = DateTime.Now;
                 model.FechaFiscalizacionInSitu = DateTime.Now;
                 model.FechaSalidaOficioAcreditacionRequerimientos = DateTime.Now;
-                if(workflow.Proceso.OrganizacionId.HasValue)
+                if (workflow.Proceso.OrganizacionId.HasValue)
                 {
                     model.OrganizacionId = workflow.Proceso.OrganizacionId.Value;
                 }
@@ -799,6 +804,7 @@ namespace DAES.Web.BackOffice.Controllers
             var model = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             ViewBag.TipoAprobacionId = new SelectList(db.TipoAprobacion.Where(q => q.TipoAprobacionId > 1).OrderBy(q => q.Nombre), "TipoAprobacionId", "Nombre");
             ViewBag.DefinicionWorkflowId = new SelectList(db.DefinicionWorkflow.Where(q => q.DefinicionWorkflowDependeDeId == model.DefinicionWorkflowId).OrderBy(q => q.Secuencia).AsEnumerable().Select(q => new { Value = q.DefinicionWorkflowId.ToString(), Text = q.TipoWorkflow.Nombre }), "Value", "Text");
+            ViewBag.UserId = new SelectList(db.Users.Where(q => q.Habilitado).OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { Text = string.Format("{0} - {1}", q.Nombre, q.Perfil.Nombre), Value = q.Id }), "Value", "Text", model.UserId);
 
             return View(model);
         }
@@ -811,8 +817,8 @@ namespace DAES.Web.BackOffice.Controllers
             {
                 try
                 {
-                    var help = db.Workflow.Find(workflow.WorkflowId);                    
-                    var Defwork = db.DefinicionWorkflow.Find(help.DefinicionWorkflowId);                        
+                    var help = db.Workflow.Find(workflow.WorkflowId);
+                    var Defwork = db.DefinicionWorkflow.Find(help.DefinicionWorkflowId);
 
                     if (Defwork.TipoWorkflowId == 28)
                     {
@@ -825,7 +831,7 @@ namespace DAES.Web.BackOffice.Controllers
                         }
                         db.SaveChanges();
                     }
-                    
+
                     _custom.ProcesoUpdate(workflow, DefinicionWorkflowId);
                     TempData["Message"] = Properties.Settings.Default.Success;
                     return RedirectToAction("Index", "Inbox");
@@ -877,40 +883,138 @@ namespace DAES.Web.BackOffice.Controllers
         {
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            var rubrica = db.Rubrica;
+           
             model.Documentos = db.Documento.Where(q => q.Activo && q.Workflow.ProcesoId == model.Workflow.Proceso.ProcesoId).ToList();
+            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre");
+            ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre");
+            ViewBag.RubricaID = new SelectList(db.Rubrica, "Email", "IdentificadorFirma").ToList();
 
+            ViewBag.procesoId = model.Workflow.ProcesoId;
+            
             return View(model);
         }
 
-        public ActionResult FirmarDocumentosPost(int id)
+
+        
+        
+        //Nuevo metodo de firma 
+        public class DTOFileUploadEdit
         {
-            var documento = db.Documento.Find(id);
-            if (documento == null)
-                ModelState.AddModelError(string.Empty, "No se encontró el documento.");
+            public int FirmaDocumentoId { get; set; }
+            public int? ProcesoId { get; set; }
+            public int? WorkflowId { get; set; }
+            [Display(Name = "Comentario")]
+            public string Comentario { get; set; }
+            public string Autor { get; set; }
 
-            if (documento != null && !documento.FileName.ToUpper().Contains("PDF"))
-                ModelState.AddModelError(string.Empty, "Solo se pueden firmar documentos tipo PDF");
 
-            if (!db.Firmante.Any(q => q.EsActivo))
-                ModelState.AddModelError(string.Empty, "No se encontró un firmante habilitado, revise la configuración de los firmantes");
+            [Required(ErrorMessage = "Es necesario especificar este dato")]
+            [Display(Name = "Tipo documento")]
+            public string TipoDocumentoCodigo { get; set; }
 
-            if (ModelState.IsValid)
+            [Display(Name = "Tipo documento")]
+            public string TipoDocumentoDescripcion { get; set; }
+
+            //[Required(ErrorMessage = "Es necesario especificar este dato")]
+            [Display(Name = "Archivo")]
+            [DataType(DataType.Upload)]
+            public HttpPostedFileBase FileUpload { get; set; }
+
+            [Display(Name = "Documento a firmar")]
+            public byte[] File { get; set; }
+
+            public string Firmante { get; set; }
+
+            public bool TieneFirma { get; set; }
+
+            [Display(Name = "Fecha creación")]
+            public System.DateTime? FechaCreacion { get; set; }
+
+            [Display(Name = "Folio")]
+            public string Folio { get; set; }
+
+            public string Observaciones { get; set; }
+
+            [Display(Name = "URL gestión documental")]
+            [DataType(DataType.Url)]
+            public string URL { get; set; }
+        }
+
+
+        private readonly IGestionProcesos _repository;
+        private readonly IHsm _hsm;
+        private readonly ISIGPER _sigper;
+        private readonly IEmail _email;
+        private readonly IFolio _folio;
+        private readonly IFile _file;
+        private static List<DTODomainUser> ActiveDirectoryUsers { get; set; }
+
+        public TaskController(IGestionProcesos repository, ISIGPER sigper, IFile file, IFolio folio, IHsm hsm, IEmail email)
+        {
+            _repository = repository;
+            _sigper = sigper;
+            _file = file;
+            _folio = folio;
+            _hsm = hsm;
+            _email = email;
+
+            if (ActiveDirectoryUsers == null)
+                ActiveDirectoryUsers = AuthenticationService.GetDomainUser().ToList();
+        }
+        public TaskController(IGestionProcesos repository)
+        {
+            _repository = repository;
+        }
+
+        public TaskController()
+        {
+        }
+
+
+        public FileResult ShowDocumentoSinFirma(int id)
+        {
+            var model = _repository.GetById<FirmaDocumento>(id);
+            return File(model.DocumentoSinFirma, "application/pdf");
+        }
+
+        //método de firma para FEA
+        [HttpPost]
+        public ActionResult SignResolucion(int id, int idProceso, string RubricaID)
+        {
+            
+            Custom _custom = new Custom();
+
+            var doc = db.Documento.FirstOrDefault(q => q.DocumentoId == id);
+            var email = Helper.Helper.CurrentUser.Email;
+
+
+            var model = db.Workflow.Where(q => q.ProcesoId == idProceso).First().WorkflowId;
+            //var workflowId = model.WorkflowId;
+
+            var _useCaseInteractor = new TaskController(_repository, _sigper, _file, _folio, _hsm, _email);
+            var deff = db.DefinicionProceso.ToArray();
+            var obj = db.Proceso.FirstOrDefault(q => q.ProcesoId == idProceso);
+            doc.TipoDocumentoId = 12;
+
+            var _UseCaseResponseMessage = _custom.SignReso(doc, RubricaID, idProceso);
+
+            //Si es valida la firma 
+            if (_UseCaseResponseMessage.IsValid)
             {
-                var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId > documento.WorkflowId);
-                var super = db.SupervisorAuxiliars.Where(q => q.ProcesoId == workflow.ProcesoId);
-
-                
-                if(workflow.Proceso.SupervisorAuxiliars.Count() != 0)
-                {                    
-                    _custom.SignPDF(documento.DocumentoId, super.FirstOrDefault().ProcesoId.GetValueOrDefault(), null);
-                }else
-                {
-                    _custom.SignPDF(documento.DocumentoId, workflow.Proceso.Organizacion.TipoOrganizacionId, null);
-                }                
                 TempData["Message"] = Properties.Settings.Default.Success;
+                return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
             }
-           
-            return Redirect("/Inbox/Index");
+                
+
+            foreach (var item in _UseCaseResponseMessage.Errors)
+            {
+                ModelState.AddModelError(string.Empty, item);
+                TempData["Error"] = item;
+
+            }
+
+            return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
         }
 
 
@@ -921,7 +1025,6 @@ namespace DAES.Web.BackOffice.Controllers
             model.Organizacion = db.Organizacion.Find(model.Workflow.Proceso.OrganizacionId);
             model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).ToList();
             model.Articulo91 = db.Articulo91.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
-
             return View(model);
         }
 
@@ -935,7 +1038,7 @@ namespace DAES.Web.BackOffice.Controllers
                 db.SaveChanges();
 
                 TempData["Message"] = Properties.Settings.Default.Success;
-                return RedirectToAction("Articulo91", new { model.WorkflowId });
+                return RedirectToAction("Articulo91", new { model.WorkflowId});
             }
             return View(model);
         }
@@ -973,7 +1076,6 @@ namespace DAES.Web.BackOffice.Controllers
             {
                 db.Fiscalizacion.Add(model.Fiscalizacion);
                 db.SaveChanges();
-
                 TempData["Message"] = Properties.Settings.Default.Success;
             }
 
@@ -1026,7 +1128,6 @@ namespace DAES.Web.BackOffice.Controllers
                 model.Hallazgo.FiscalizacionId = FiscalizacionId;
                 db.Hallazgo.Add(model.Hallazgo);
                 db.SaveChanges();
-
                 TempData["Message"] = Properties.Settings.Default.Success;
             }
 

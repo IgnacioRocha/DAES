@@ -70,6 +70,8 @@ namespace DAES.Web.BackOffice.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Proceso proceso = db.Proceso.Find(id);
+            var persona = Helper.Helper.CurrentUser.PerfilId;
+            ViewBag.persona = persona;
             if (proceso == null)
             {
                 return HttpNotFound();
@@ -130,6 +132,33 @@ namespace DAES.Web.BackOffice.Controllers
             excelPackage.Workbook.Worksheets[1].Cells[2, 1].LoadFromCollection(w);
 
             return File(excelPackage.GetAsByteArray(), System.Net.Mime.MediaTypeNames.Application.Octet, "Tareas " + DateTime.Now.ToString("yyyyMMddhhmmss") + ".xlsx");
+        }
+
+        public FileResult DownloadPMG()
+        {
+            var db = new SistemaIntegradoContext();
+            var file = string.Concat(Request.PhysicalApplicationPath, @"App_Data\PMG.xlsx");
+            var fileInfo = new FileInfo(file);
+            var excelPackage = new ExcelPackage(fileInfo);
+
+            var p = db.Proceso.AsNoTracking().Select(q => new
+            {
+                q.ProcesoId,
+                q.FechaCreacion,
+                q.FechaVencimiento,
+                q.FechaTermino,
+                q.Solicitante.Rut,
+                Apellidos = q.Solicitante.Apellidos != null && q.Solicitante.Apellidos != string.Empty ? q.Solicitante.Apellidos: "No definido",
+                q.Solicitante.Fono,
+                Email= q.Solicitante.Email != null && q.Solicitante.Email != string.Empty ? q.Solicitante.Email : "No definido",
+                q.Solicitante.Nombres,
+                NumeroRegistro = q.Organizacion.NumeroRegistro != null ? q.Organizacion.NumeroRegistro : "No definido",
+                RazonSocial = q.Organizacion.RazonSocial != null ? q.Organizacion.RazonSocial : "No definido",
+            }).ToList();
+
+            excelPackage.Workbook.Worksheets[1].Cells[2, 1].LoadFromCollection(p);
+
+            return File(excelPackage.GetAsByteArray(), System.Net.Mime.MediaTypeNames.Application.Octet, "Procesos " + DateTime.Now.ToString("yyyyMMddhhmmss") + ".xlsx");
         }
 
         protected override void Dispose(bool disposing)

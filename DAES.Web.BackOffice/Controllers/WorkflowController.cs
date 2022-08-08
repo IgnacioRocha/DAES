@@ -36,6 +36,9 @@ namespace DAES.Web.BackOffice.Controllers
             public bool Terminada { get; set; }
             public DateTime FechaVencimiento { get; set; }
             public string Formulario { get; set; }
+            public string NombreFuncionario { get; set; }
+            public DateTime FechaCreacionProcess { get; set; }
+            public DateTime FechaCreacionWorkFlow { get; set; }
         }
 
         public JsonResult Update(int elementId, string targetId)
@@ -47,7 +50,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         public ActionResult Index()
         {
-            Response.AddHeader("Refresh", "120");
+            Response.AddHeader("Refresh", "100");// refrescar cada 100 segundos
 
             var model = new List<DTOWorkflow>();
 
@@ -66,8 +69,13 @@ namespace DAES.Web.BackOffice.Controllers
                     NumeroRegistro = q.Proceso.Organizacion.NumeroRegistro,
                     Correlativo = q.Proceso.Correlativo,
                     //Observacion = q.Proceso.Workflows.Any(i => i.Observacion != null) ? q.Proceso.Workflows.OrderByDescending(i => i.WorkflowId).FirstOrDefault(i => i.Observacion != null).Observacion : string.Empty
-                    Observacion = q.Observacion
-                }).ToList());
+                    Observacion = q.Observacion,
+                    NombreFuncionario = q.User.Nombre,
+                    FechaCreacionProcess = q.Proceso.FechaCreacion,
+                    FechaCreacionWorkFlow = q.Proceso.Workflows.FirstOrDefault().FechaCreacion
+
+
+                }).ToList()) ;
             }
             else
             {

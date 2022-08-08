@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+//using System.IO;
 
 namespace DAES.Model.SistemaIntegrado
 {
@@ -102,5 +103,49 @@ namespace DAES.Model.SistemaIntegrado
         public string Periodo { get; set; }
         public Guid? uniqueid { get; set; }
 
+        //Nuevo metodo de firma
+        [NotMapped]
+        [Display(Name = "Fecha")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
+        public DateTime? Fecha { get; set; } = DateTime.Now;
+
+        [NotMapped]
+        [Display(Name = "Autor")]
+        public string Email { get; set; }
+
+        //[Display(Name = "Firmado")]
+        //public bool Signed { get; set; } = false;
+        [NotMapped]
+        [Display(Name = "Folio")]
+        public string Folio { get; set; }
+        [NotMapped]
+        public byte[] File { get; set; }
+
+        [NotMapped]
+        public string Texto { get; set; }
+        [NotMapped]
+        public string Metadata { get; set; }
+        [NotMapped]
+        public string Type { get; set; }
+        [NotMapped]
+        public byte[] DocumentoSinFirma { get; set; }
+        [NotMapped]
+        public byte[] DocumentoConFirma { get; set; }
+        [NotMapped]
+        public string DocumentoConFirmaFilename { get; set; }
+        [NotMapped]
+        public string DocumentoSinFirmaFilename { get; set; }
+        [NotMapped]
+        public DateTime? FechaFirma { get; set; }
+        [NotMapped]
+        public string Firmantes { get; set; }
+        [NotMapped]
+        public string TipoDocumentoCodigo { get; set; }
+        [NotMapped]
+        public string Observaciones { get; set; }
+
+        //public string Url { get; set; }
+        [NotMapped]
+        public string TipoDocumentoDescripcion { get; set; }
     }
 }

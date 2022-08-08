@@ -41,6 +41,78 @@
             Inactiva = 2
         }
 
+        //public enum Configuracion
+        //{
+        //    url_tramites_en_linea,
+        //    plantilla_nuevo_proceso,
+        //    plantilla_fin_proceso,
+        //    plantilla_anulacion_proceso,
+        //    autoridades,
+
+        //    PlantillaNuevaTarea = 1,
+        //    AsuntoCorreoNotificacion = 2,
+        //    HSMUser = 4,
+        //    HSMPassword = 5,
+        //    PlantillaCorreoArchivoTarea = 7,
+        //    PlantillaCorreoCambioEstado = 10,
+        //    PlantillaFirmaResolucion = 11,
+        //    PlantillaNotificacionPago = 12,
+
+
+        //    /*PLANTILLAS DE CORREO --> COMETIDOS*/
+        //    PlantillaEnvíoSolicitudCometido = 13,
+        //    AsuntoSolicitudCometido_Solicitante_QuienViaja = 14,
+        //    PlantillaEnvíoSolicitudCometidoJefatura = 15,
+        //    AsuntoSolicitudCometido_Jefatura = 16,
+        //    PlantillaAprobaciónRechazoCometidoJefatura_Solicitante_QuienViaja = 17,
+        //    PlantillaAprobaciónRechazoCometidoJefatura_Jefatura = 18,
+        //    PlantillaAprobaciónRechazoCometidoJefatura_GP = 19,
+        //    PlantillaRechazoCometidoJefatura_Solicitante_QuienViaja = 20,
+        //    PlantillaRechazoCometidoJefatura_Jefatura = 21,
+        //    PlantillaGeneraciónDocumento = 22,
+        //    PlantillaReasignacionSolicitud = 23,
+        //    PlantillaEncargadoGP_AnalistaPpto = 24,
+        //    PlantillaEncargadoGP_AnalistaGP = 25,
+        //    PlantillaAnalistaPppto_JefePpto = 26,
+        //    PlantillaAnalistaPppto_AnalistaGP = 27,
+        //    PlantillaEncargadoPPto_JefaturaAdmin = 28,
+        //    PlantillaEncargadoPPto_AnalistaPpto = 29,
+        //    PlantillaEncargadoDeptoAdmin_OfPartes = 30,
+        //    PlantillaEncargadoDeptoAdmin_Solicitante_QuienViaja = 31,
+        //    PlantillaEncargadoDeptoAdmin_AnalistaConta = 32,
+        //    PlantillaEncargadoDeptoAdmin_JefePpto = 33,
+        //    PlantillaEncargadoDeptoAdmin_AnalistaGP = 34,
+        //    PlantillaAnalistaConta_JefeConta = 35,
+        //    PlantillaAnalistaConta_AnalistaGP = 36,
+        //    PlantillaAnalistaConta_EncargadoConta = 37,
+        //    PlantillaEncargadoConta_AnalistaTesoreria = 38,
+        //    PlantillaAnalistaTesoreria_JefeTesoreria = 39,
+        //    PlantillaAnalistaTesoreria_AnalistaGP = 40,
+        //    PlantillaAnalistaTesoreria_EncargadoTesoreria = 41,
+        //    PlantillaEncargadoTesoreria_EncargadoFinanzas = 42,
+        //    PlantillaEncargadoTesoreria_EncargadoFinanzas2 = 43,
+        //    PlantillaFinanzas_Solicitante_QuienViaja = 44,
+        //    PlantillaFinanzas_Solicitante_QuienViaja2 = 45,
+        //    UrlSistema = 46,
+        //    PlantillaFinanzasRechazo_EncargadoTesoreria = 51,
+        //    PlantillaEnvíoSolicitudCometidoPasaje = 52,
+        //    PlantillaEnvioSolicitudAnalistaAbastecimiento = 53,
+        //    PlantillaSeleccionPasaje_Jefatura = 54,
+        //    PlantillaSeleccionPasaje_Solicitante = 55,
+        //    PlantillaAprobacionPasaje_Jefatura = 56,
+        //    PlantillaAprobacionPasaje_JefaturaAbastecimiento = 57,
+        //    PlantillaRechazoPasaje_AnalistaAbastecimiento = 58,
+        //    PlantillaCompraPasajes_AnalistaGP = 59,
+        //    PlantillaCompraPasajes_Solicitante_QuienViaja = 60,
+        //    PlantillaRechazoPasaje_Solicitante_QuienViaja = 61,
+        //    Plantilla_Memo_Firmado = 63,
+        //    PlantillaAnulacionCometido = 62,
+        //    JefeGabineteMinistro = 64,
+
+        //    /*Plantillas de correo --> horas extras*/
+        //    PlantillaHorasExtras = 65,
+        //    CorreoOfPartes = 66,
+        //}
         public enum TipoDocumento
         {
             VigenciaDirectorio = 1,
@@ -162,6 +234,8 @@
 
         public enum Configuracion
         {
+            url_tramites_en_linea,
+
             SecuenciaCorrelativo = 1,
             PlantillaInformeProcesosAtrasados = 2,
             PlantillaInformeProcesosAtrasadosDetalle = 3,
@@ -183,6 +257,8 @@
             UserHSM = 21,
             PasswordHSM = 22
         }
+
+
 
         public enum Genero
         {

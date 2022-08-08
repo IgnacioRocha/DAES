@@ -9,9 +9,12 @@ using Microsoft.Owin.Security;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
+using DAES.Infrastructure;
 
 namespace DAES.Web.BackOffice.Controllers {
 
@@ -22,6 +25,8 @@ namespace DAES.Web.BackOffice.Controllers {
 
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private SmtpClient smtpClient = new SmtpClient();
+        private MailMessage emailMsg = new MailMessage();   
         private readonly SistemaIntegradoContext _db = new SistemaIntegradoContext();
         private BLL.Custom _custom = new BLL.Custom();
 
@@ -30,6 +35,17 @@ namespace DAES.Web.BackOffice.Controllers {
 
         }
 
+        private void Send()
+        {
+            try
+            {
+                smtpClient.Send(emailMsg);
+            }
+            catch
+            {
+                return;
+            }
+        }
         public ActionResult Index()
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(_db));
@@ -321,19 +337,36 @@ namespace DAES.Web.BackOffice.Controllers {
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                //var user = await UserManager.FindByNameAsync(model.Email);
+                var a = await UserManager.FindByEmailAsync(model.Email);
+                if (a == null || !(await UserManager.IsEmailConfirmedAsync(a.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                // Send an email with this link 
+                string code = await UserManager.GeneratePasswordResetTokenAsync(a.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = a.Id, code = code }, protocol: Request.Url.Scheme);
+                //await UserManager.SendEmailAsync(a.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                //UserManager.SendEmail(a.Id, "reset password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                emailMsg.IsBodyHtml = true;
+                emailMsg.Subject = "Restablecer contraseña sistema DAES";
+                emailMsg.Body = "Resetea tu contraseña haciendo click en el siguiente enlace: <a href=\"" + callbackUrl + "\">here</a>";
+                emailMsg.To.Clear();
+                if (a != null)
+                {
+                    foreach (var to in a.Email.Split(';'))
+                    {
+                        if (!to.IsNullOrWhiteSpace())
+                        {
+                            emailMsg.To.Add(to);
+                        }
+                    }
+                    Send();
+                }
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -353,7 +386,8 @@ namespace DAES.Web.BackOffice.Controllers {
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            //return code == null ? View("Error") : View();
+            return View();
         }
 
         //
@@ -367,14 +401,15 @@ namespace DAES.Web.BackOffice.Controllers {
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
-            if (user == null)
+            //var user = await UserManager.FindByNameAsync(model.Email);
+            var a = await UserManager.FindByEmailAsync(model.Email);
+            if (a == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
-            if (result.Succeeded)
+            var result = await UserManager.ResetPasswordAsync(a.Id, model.Code, model.Password);
+            if(result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
@@ -418,6 +453,7 @@ namespace DAES.Web.BackOffice.Controllers {
 
         //
         // POST: /Account/SendCode
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -489,7 +525,7 @@ namespace DAES.Web.BackOffice.Controllers {
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

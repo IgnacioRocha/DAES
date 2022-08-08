@@ -4,6 +4,35 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.3 - backoffice y front office] - 08-08-2022
+
+### Change
+
+- Se cambio completamente el método de firma electronica.
+- Se modificarón las grillas de las tablas para incorporarle un filtro
+- Se modifico los certificados automaticos
+- Se cambio de firma electrónica a firma electrónica avanzada (FEA)
+- Se modificaron permisos de usuarios
+- Botón d eenviar tarea se dejó flotante
+- Se utilizará la capa infraestructure para agregar interfaces
+
+### Added
+- Se agregaron nuevos datos a la grilla de tareas y documentos
+- Se agrego api para consultar HSM
+- se agregaron clases para poder preguntar a sigper
+- Se agrego miniaturas de los documentos PDF
+- Se agregaron clases para consultar a turismo
+- Se agregó interface para Email
+- Se agregó interface para los documentos
+- Se agregó interface para Folio
+- Se agregó interface para sigper
+- Se agregó clase para crear folio
+- Se agregó clase para pregunrtar usuarios a HSM
+- Se agregó API FirmaEloc para ser consumido
+
+### Deleted
+- Se quito antiguo método de firma
+
 ## [2.2.0 - BackOffice] - 20-05-2022
 
 ### Changed
@@ -48,3 +77,4 @@ Se crearon, para este tramite, 3 nuevas tablas Disolucion, ComisionLiquidadora y
 ## Cambios Grandes
 
 Por un error personal durante el desarrollo, se modifico una variable en TODO el projecto y en la base de datos. Originalmente la variable era FechaPubliccionDiarioOficial y yo la modifique a FechaPublicacionDiarioOficial por lo cual si llegara a haber un error en relacion a dicha Fecha, en tablas o durante la prueba de este proyecto puede deberse a este cambio que puede generar un gran impacto.
+

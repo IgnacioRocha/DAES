@@ -63,5 +63,18 @@ namespace DAES.Model.SistemaIntegrado
 
         public virtual ICollection<Documento> Documentos { get; set; }
 
+
+        //nuevo metodo de firma
+
+        public string Email { get; set; }
+
+        public string Pl_UndCod { get; set; }
+
+        public int? GrupoId { get; set; }
+
+        [Display(Name = "Funcionario")]
+        public string To { get; set; }
+
+        
     }
 }

@@ -143,7 +143,8 @@ namespace DAES.Web.FrontOffice.Controllers
                     proceso.Documentos.Add(new Documento()
                     {
                         TipoDocumentoId = model.TipoDocumentoId,
-                        TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Publico
+                        TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Publico,
+
                     });
 
                     var p = _custom.ProcesoStart(proceso);

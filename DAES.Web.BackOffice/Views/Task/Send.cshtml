@@ -20,6 +20,7 @@
                     <div class="col-md-10">
                         @Html.DropDownListFor(model => model.TipoAprobacionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.TipoAprobacionId, "", new { @class = "text-danger" })
+                        
                     </div>
                 </div>
                 @if (Enumerable.Count(ViewBag.DefinicionWorkflowId) > 0)
@@ -32,6 +33,13 @@
                         </div>
                     </div>
                 }
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserId, "Funcionario", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">

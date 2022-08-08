@@ -52,5 +52,14 @@ namespace DAES.Model.SistemaIntegrado
 
         public virtual DefinicionWorkflow DefinicionWorkflowRechazo { get; set; }
         public virtual ICollection<Workflow> Workflows { get; set; }
+
+        //nuevo metodo de firma
+        [NotMapped]
+        public bool RequiereAprobacionAlEnviar { get; set; }
+
+        [NotMapped]
+        public bool PermitirMultipleEvaluacion { get; set; }
+
+
     }
 }

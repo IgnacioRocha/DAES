@@ -35,7 +35,7 @@ namespace DAES.Model.SistemaIntegrado
         public DateTime? FechaNorma { get; set; }
 
         [Display(Name = "Numero de norma")]
-        public int? NNorma { get; set; }
+        public string NNorma { get; set; }
 
         
         [Display(Name = "Fecha Publicacion Diario Oficial")]

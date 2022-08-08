@@ -1,3 +1,6 @@
+
+using DAES.Model.Core;
+using DAES.Model.FirmaDocumento;
 using DAES.Model.SistemaIntegrado;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
@@ -69,17 +72,12 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<TipoMateria> TipoMateria { get; set; }
         public virtual DbSet<TipoCriterio> TipoCriterio { get; set; }
         public virtual DbSet<TipoOficio> TipoOficio { get; set; }
-
         public virtual DbSet<AsambleaDeposito> AsambleaDeposito { get; set; }
-
+        public virtual DbSet<Rubrica> Rubrica { get; set; }
         public virtual DbSet<Reforma> Reforma { get; set; }
-
         public virtual DbSet<Saneamiento> Saneamiento { get; set; }
-
         public virtual DbSet<ExistenciaLegal> ExistenciaLegal { get; set; }
-
         public virtual DbSet<EstudioSocioEconomico> EstudioSocioEconomico { get; set; }
-
         public virtual DbSet<CooperativaAbierta> CooperativaViviendaAbierta { get; set; }
         public virtual DbSet<ComisionLiquidadora> ComisionLiquidadora { get; set; }
         public virtual DbSet<TipoPersonaJuridica> TipoPersonaJuridicas { get; set; }
@@ -89,17 +87,12 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<ExtractoAuxiliar> ExtractoAuxiliars { get; set; }
         public virtual DbSet<PersonaFacultada> PersonaFacultadas { get; set; }
         public virtual DbSet<Aprobacion> Aprobacion { get; set; }
-
         public virtual DbSet<ReformaAnterior> ReformaAnterior { get; set; }
-
         public virtual DbSet<ReformaPosterior> ReformaPosterior { get; set; }
-
         public virtual DbSet<ReformaAGAC> ReformaAGAC { get; set; }
-
         public virtual DbSet<ExistenciaAnterior> ExistenciaLegalAnterior { get; set; }
-
         public virtual DbSet<ExistenciaPosterior> ExistenciaPosterior { get; set; }
-
+        public virtual DbSet<FirmaDocumento> FirmaDocumento { get; set; }
         /*
          * Tablas de Actualizacion de Supervisor
          */

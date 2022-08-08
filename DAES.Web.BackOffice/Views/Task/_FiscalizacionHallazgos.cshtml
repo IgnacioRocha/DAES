@@ -2,7 +2,18 @@
 @{
     ViewBag.Title = "Ejecución de tarea";
 }
-
+<style>
+    #capa1 {
+        position: absolute;
+        z-index: 1;
+        background-color: #FFFFFF;
+        right: 8%;
+        bottom: 10%;
+    }
+</style>
+<div id="capa1">
+    @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed" })
+</div>
 <ul class="nav nav-tabs">
     <li>
         <a href="#Info" data-toggle="tab">Información de la tarea</a>
@@ -17,7 +28,7 @@
         <br />
         @Html.Partial("_WorkflowDetails", Model.Workflow)
         @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
-        @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })
+        @*@Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })*@
     </div>
     <div class="tab-pane fade in active" id="Do">
         <br />

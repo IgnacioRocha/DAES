@@ -67,8 +67,8 @@
     <Reference Include="Microsoft.Owin.Security.OAuth, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.4.0.0\lib\net451\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
@@ -87,6 +87,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ResponseMessage.cs" />
+    <Compile Include="Core\Rubrica.cs" />
     <Compile Include="DTO\DTOActualizacion.cs" />
     <Compile Include="DTO\DTOActualizacionNumeroSociosAsociacion.cs" />
     <Compile Include="DTO\DTOArticulo91.cs" />
@@ -99,6 +101,8 @@
     <Compile Include="DTO\DTOEstudioSocioeconomico.cs" />
     <Compile Include="DTO\DTOExistencia.cs" />
     <Compile Include="DTO\DTODisolucion.cs" />
+    <Compile Include="DTO\DTOFileMetadata.cs" />
+    <Compile Include="DTO\DTOFileUploadEdit.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
     <Compile Include="DTO\DTORespuestaOficio.cs" />
     <Compile Include="DTO\DTOCreacionOrganizacion.cs" />
@@ -116,11 +120,31 @@
     <Compile Include="DTO\DTOSolicitante.cs" />
     <Compile Include="DTO\DTOArticulo90IncisoSegundo.cs" />
     <Compile Include="DTO\DTOInformacionAnual.cs" />
+    <Compile Include="DTO\DTOSolicitud.cs" />
     <Compile Include="DTO\DTOSupervisionCAC.cs" />
     <Compile Include="DTO\DTOSupervisionNOCAC.cs" />
     <Compile Include="DTO\DTOSupervisorAuxiliar.cs" />
     <Compile Include="DTO\DTOTask.cs" />
+    <Compile Include="DTO\DTOTipoDocumento.cs" />
     <Compile Include="DTO\DTOTransformacionCooperativa.cs" />
+    <Compile Include="DTO\WorkflowDTO.cs" />
+    <Compile Include="Sigper\DGCOMUNAS.cs" />
+    <Compile Include="Sigper\DGCONTRATOS.cs" />
+    <Compile Include="Sigper\DGESCALAFONES.cs" />
+    <Compile Include="Sigper\DGESTAMENTOS.cs" />
+    <Compile Include="Sigper\DGREGIONES.cs" />
+    <Compile Include="Sigper\LREMREP1Level1.cs" />
+    <Compile Include="Sigper\MARCACIONES.cs" />
+    <Compile Include="Sigper\PECARGOS.cs" />
+    <Compile Include="Sigper\PeDatLab.cs" />
+    <Compile Include="Sigper\PEDATPER.cs" />
+    <Compile Include="Sigper\PEFERJEFAF.cs" />
+    <Compile Include="Sigper\PEFERJEFAJ.cs" />
+    <Compile Include="Sigper\PLUNILAB.cs" />
+    <Compile Include="Sigper\ReContra.cs" />
+    <Compile Include="Sigper\RePagHisDet.cs" />
+    <Compile Include="Sigper\REPYT.cs" />
+    <Compile Include="Sigper\SIGPER.cs" />
     <Compile Include="SistemaIntegrado\AccountViewModels.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
@@ -142,6 +166,7 @@
     <Compile Include="SistemaIntegrado\ExistenciaLegal.cs" />
     <Compile Include="SistemaIntegrado\ExtractoAuxiliar.cs" />
     <Compile Include="SistemaIntegrado\FileAttach.cs" />
+    <Compile Include="SistemaIntegrado\FirmaDocumento.cs" />
     <Compile Include="SistemaIntegrado\PersonaFacultada.cs" />
     <Compile Include="SistemaIntegrado\RepresentanteLegal.cs" />
     <Compile Include="SistemaIntegrado\Saneamiento.cs" />
