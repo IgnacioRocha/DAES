@@ -804,7 +804,7 @@ namespace DAES.Web.BackOffice.Controllers
             var model = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             ViewBag.TipoAprobacionId = new SelectList(db.TipoAprobacion.Where(q => q.TipoAprobacionId > 1).OrderBy(q => q.Nombre), "TipoAprobacionId", "Nombre");
             ViewBag.DefinicionWorkflowId = new SelectList(db.DefinicionWorkflow.Where(q => q.DefinicionWorkflowDependeDeId == model.DefinicionWorkflowId).OrderBy(q => q.Secuencia).AsEnumerable().Select(q => new { Value = q.DefinicionWorkflowId.ToString(), Text = q.TipoWorkflow.Nombre }), "Value", "Text");
-            ViewBag.UserId = new SelectList(db.Users.Where(q => q.Habilitado).OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { Text = string.Format("{0} - {1}", q.Nombre, q.Perfil.Nombre), Value = q.Id }), "Value", "Text", model.UserId);
+            ViewBag.UserId = new SelectList(db.Users.Where(q => q.Habilitado).OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { Text = string.Format("{0} - {1}", q.Nombre, q.Perfil.Nombre), Value = q.Id }), "Value", "Text");
 
             return View(model);
         }

@@ -19,6 +19,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web.ModelBinding;
 using DAES.Infrastructure.Interfaces;
+using Microsoft.AspNet.Identity.EntityFramework;
 //using DAES.bll.Interfaces;
 
 namespace DAES.BLL
@@ -28,6 +29,8 @@ namespace DAES.BLL
         private SmtpClient smtpClient = new SmtpClient();
         private MailMessage emailMsg = new MailMessage();
         private GestionDocumentalContext gestionDocumentalContext = new GestionDocumentalContext();
+      
+
         private void Send()
         {
             try
@@ -1407,7 +1410,7 @@ namespace DAES.BLL
                                 {
                                     //Esto lanza error 
                                     string parrafo = string.Format(configuracioncertificado.Parrafo4);
-                                    string parrafoEspacio = string.Format(configuracioncertificado.Parrafo5);
+                                    string parrafoEspacio = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : string.Empty);
 
                                     var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
 
@@ -3060,14 +3063,19 @@ namespace DAES.BLL
                 //en el caso de que sea certificado automático, generar pdf firmado
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico)
                 {
+
                     var documento = proceso.Documentos.FirstOrDefault();
+                    var firmantes = db.Firmante.First(q => q.EsActivo == true);
+                    
+                    //var firmanteMail = sg.GetUserByRut(/*firmantes.IdFirma*/16366481);
+                    //var firEmail = "";
                     var configuracionCertificado = context.ConfiguracionCertificado.FirstOrDefault(q => q.TipoDocumentoId == documento.TipoDocumentoId && q.TipoOrganizacionId == proceso.Organizacion.TipoOrganizacionId);
                     documento.Content = CrearCertificadoPDF(configuracionCertificado, proceso.Organizacion, documento.Firmante, documento.DocumentoId, documento.TipoDocumentoId);
-                    documento.Content = SignPDF(documento.DocumentoId, documento.NumeroFolio, documento.Content, documento.DocumentoId.ToString(), documento.Firmante, false, documento.TipoDocumentoId, proceso.Organizacion.TipoOrganizacionId);
+                    //documento.Content = SignPDF(documento.DocumentoId, documento.NumeroFolio, documento.Content, documento.DocumentoId.ToString(), documento.Firmante, false, documento.TipoDocumentoId, proceso.Organizacion.TipoOrganizacionId);
                     var objDoc = db.Documento.Where(q => q.DocumentoId == documento.DocumentoId).First();
                     var procesoId = documento.ProcesoId;
-                    //var a = SignResoAuto(documento, "jmontesl@economia.cl", documento.ProcesoId.Value);
-                    //documento.Content = a;
+                    var a = SignResoAuto(documento, /*"jmontesl@economia.cl"*/firmantes.Nombre, documento.ProcesoId.Value);
+                    documento.Content = a;
                     documento.FileName = string.Concat(documento.DocumentoId, ".pdf");
                     documento.Firmado = true;
 
@@ -3237,7 +3245,7 @@ namespace DAES.BLL
                         nuevoworkflow.DefinicionWorkflow = siguientedefinicionworkflow;
                         nuevoworkflow.Proceso = proceso;
                         nuevoworkflow.PerfilId = siguientedefinicionworkflow.PerfilId;
-                        nuevoworkflow.UserId = userid;
+                        nuevoworkflow.UserId = userid != null ? userid : workflow.UserId;
 
                         //si es mas de 1 usuario agrupar las tareas y hacerlas paralelas
                         if (listausuarios.Count() > 1)
@@ -4303,7 +4311,7 @@ namespace DAES.BLL
                     if (obj.Firmado)
                         response.Errors.Add("Documento ya se encuentra firmado");
 
-                    var rubrica = context.Rubrica.FirstOrDefault(q => q.Email == email);
+                    var rubrica = context.Rubrica.FirstOrDefault(q => q.IdentificadorFirma == email);
                     /*old firma*/
                     //var rubrica = _repository.Get<Rubrica>(q => q.Email == email && q.HabilitadoFirma == true);
                     //string IdentificadorFirma = string.Empty;
@@ -4350,7 +4358,7 @@ namespace DAES.BLL
 
                     if (response.IsValid)
                     {
-                        var persona = sg.GetUserByEmail(email);
+                        var persona = sg.GetUserByEmail(rubrica.Email);
 
                         /*se buscar la persona para determinar la subsecretaria*/
                         if (!string.IsNullOrEmpty(email))
@@ -4410,7 +4418,7 @@ namespace DAES.BLL
                             try
                             {
 
-                                var folios = folio.GetFolio(string.Join(", ", email), TipoDocto, persona.SubSecretaria);
+                                var folios = folio.GetFolio(string.Join(", ", rubrica.Email), TipoDocto, persona.SubSecretaria);
                                 if (folios == null)
                                     response.Errors.Add("Servicio de folio no entregó respuesta");
 

@@ -248,7 +248,7 @@ namespace DAES.Infrastructure.Hsm//verlo, posiblemente esta mal
                 throw new System.Exception("No se especificó el contenido del documento.");
             if (!firmantes.Any())
                 throw new System.Exception("Debe especificar al menos un firmante.");
-            if (url.IsNullOrWhiteSpace())
+            if (url.IsNullOrWhiteSpace())   
                 throw new System.Exception("No se especificó la url de verificación del documento.");
             if (QR == null)
                 throw new System.Exception("No se especificó el código QR.");
