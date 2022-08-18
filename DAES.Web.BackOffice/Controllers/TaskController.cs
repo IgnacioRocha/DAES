@@ -909,8 +909,10 @@ namespace DAES.Web.BackOffice.Controllers
                 }                
                 TempData["Message"] = Properties.Settings.Default.Success;
             }
-           
-            return Redirect("/Inbox/Index");
+
+            //return Redirect("/Inbox/Index");
+            return Redirect(Request.UrlReferrer.ToString());
+
         }
 
 
@@ -1162,5 +1164,6 @@ namespace DAES.Web.BackOffice.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

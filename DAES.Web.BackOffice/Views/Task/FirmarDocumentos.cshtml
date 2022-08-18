@@ -58,45 +58,53 @@
                         </th>
                         <th>
                         </th>
+                        <th>
+                            Contenido Documento
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @for (int i = 0; i < Model.Documentos.Count(); i++)
                     {
                         @*using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.Hidden("WorkflowId", Model.Documentos.ToArray()[i].WorkflowId)
-                            @Html.Hidden("DocumentoId", Model.Documentos.ToArray()[i].DocumentoId)
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(model => Model.Documentos.ToArray()[i].DocumentoId)
-                                </td>
-                                <td>
-                                    @if (Model.Documentos.ToArray()[i].Content != null && !string.IsNullOrWhiteSpace(Model.Documentos.ToArray()[i].FileName))
-                                    {
-                                        @Html.ActionLink(Model.Documentos.ToArray()[i].FileName, "Download", "Documento", new { id = Model.Documentos.ToArray()[i].DocumentoId }, null)
-                                    }
-                                </td>
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("WorkflowId", Model.Documentos.ToArray()[i].WorkflowId)
+                                @Html.Hidden("DocumentoId", Model.Documentos.ToArray()[i].DocumentoId)
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].DocumentoId)
+                            </td>
+                            <td>
+                                @if (Model.Documentos.ToArray()[i].Content != null && !string.IsNullOrWhiteSpace(Model.Documentos.ToArray()[i].FileName))
+                                {
+                                    @Html.ActionLink(Model.Documentos.ToArray()[i].FileName, "Download", "Documento", new { id = Model.Documentos.ToArray()[i].DocumentoId }, null)
+                                }
+                            </td>
 
-                                <td>
-                                    @Html.DisplayFor(model => Model.Documentos.ToArray()[i].FechaCreacion)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(model => Model.Documentos.ToArray()[i].TipoDocumento.Nombre)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Firmado)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Descripcion)
-                                </td>
-                                <td>
-                                    @*<input type="submit" value="Firmar documento" class="btn btn-primary" />*@
-                                    @Html.ActionLink("Firmar documento", "FirmarDocumentosPost", null, new { id = Model.Documentos.ToArray()[i].DocumentoId }, new {@class = "btn btn-primary" })
-                                </td>
-                            </tr>
+                            <td>
+                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].FechaCreacion)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].TipoDocumento.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Firmado)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Descripcion)
+                            </td>
+                            <td>
+                                @*<input type="submit" value="Firmar documento" class="btn btn-primary" />*@
+                                @Html.ActionLink("Firmar documento", "FirmarDocumentosPost", null, new { id = Model.Documentos.ToArray()[i].DocumentoId }, new { @class = "btn btn-primary" })
+                            </td>
+
+                            <td style="width:300px">
+                                <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+                            </td>
+
+                        </tr>
                         @*}*@
                     }
                 </tbody>
@@ -106,5 +114,5 @@
 </div>
 
 @*@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}*@
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

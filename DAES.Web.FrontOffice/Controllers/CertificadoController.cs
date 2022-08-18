@@ -120,7 +120,6 @@ namespace DAES.Web.FrontOffice.Controllers
 
             if (ModelState.IsValid)
             {
-
                 try
                 {
 
@@ -157,6 +156,7 @@ namespace DAES.Web.FrontOffice.Controllers
                     return View("_Error", ex);
                 }
             }
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             ViewBag.RegionId = new SelectList(db.Region, "RegionId", "Nombre", model.RegionId);
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { q.TipoDocumentoId, Nombre = string.Format("{0} ({1})", q.Nombre, q.GeneracionManual ? "Manual" : "Emisión inmediata") }), "TipoDocumentoId", "Nombre", model.TipoDocumentoId);

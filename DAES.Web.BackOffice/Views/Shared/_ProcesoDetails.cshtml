@@ -24,6 +24,7 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
     </p>
 }
 
+
 <div class="panel panel-default">
     <div class="panel-heading">Proceso</div>
     <div class="panel-body">
@@ -241,8 +242,28 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
                                     @Html.DisplayFor(model => workflow.Observacion)
                                 </dd>
 
-
                             </dl>
+                            @{
+                                //si la tarea no tiene aprobacion (tipo de aprobacion = 1)
+                                if (workflow.TipoAprobacionId == 1)
+                                {
+                                    //Aca van las opciones solicitadas (Detalles | Editar | Terminar) de WorkFlow
+                                    <p>
+                                        <a href="/Workflow/Details?id=@workflow.WorkflowId">Detalles</a> |
+                                        <a href="/Workflow/Edit?id=@workflow.WorkflowId">Editar</a> |
+                                        <a href="/Workflow/Stop?id=@workflow.WorkflowId">Terminar</a>
+                                    </p>
+                                }
+                                else
+                                {
+                                    <p>
+                                        <a href="/Workflow/Details?id=@workflow.WorkflowId" class="disabled">Detalles</a> |
+                                        <a href="/Workflow/Edit?id=@workflow.WorkflowId" class="disabled">Editar</a> |
+                                        <a href="/Workflow/Stop?id=@workflow.WorkflowId" class="disabled">Terminar</a>
+                                    </p>
+                                }
+                            }
+
                             @if (workflow.Documentos.Any())
                             {
                                 <hr />
@@ -336,4 +357,15 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
             }
         </ul>
     </div>
+
+
 </div>
+
+
+<style>
+    a.disabled {
+        pointer-events: none;
+        cursor: default;
+        color: lightgray;
+    }
+</style>

@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-                <button id="linkGo" class="btn btn-primary btn-rounded" type="submit">Enviar</button>
+                <button class="btn btn-primary btn-rounded" type="submit">Enviar</button>
             </div>
         </div>
     }
@@ -81,23 +81,10 @@
     Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
 </div>
 
-<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-4"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 <script>
-    $('#linkGo').click(function () {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-149680284-4');
-        gtag('event', 'Inicio de la solicitud', {
-            'event_category': 'Trámite digital',
-            'event_label': 'Trámite - ID 800540000'
-        });
-    });
     $(document).on('submit', 'form', function () {
         var buttons = $(this).find('[type="submit"]');
         if ($(this).valid()) {
@@ -112,30 +99,33 @@
     });
 
     $(document).ready(function () {
-        $("#NombreOrganizacion").autocomplete({
-            source: function (request, response) {
-                $.ajax({
-                    url: "/Certificado/AutoComplete/",
-                    data: { term: request.term, TipoDocumentoId: $('select[name=TipoDocumentoId]').val() },
-                    type: "POST",
-                    success: function (data) {
-                        response($.map(data,
-                            function (item) {
-                                return { id: item.id, value: item.value };
-                            }));
-                    }
-                });
-            },
-            select: function (event, ui) {
-                $("#NombreOrganizacion").val(ui.item.value);
-                $("#OrganizacionId").val(ui.item.id);
-                return false;
-            }
-        });
-        $("#TipoDocumentoId").change(function () {
-            $("#NombreOrganizacion").val('');
-            $("#OrganizacionId").val('');
-        });
+       
+            $("#NombreOrganizacion").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Certificado/AutoComplete/",
+                        data: { term: request.term, TipoDocumentoId: $('select[name=TipoDocumentoId]').val() },
+                        type: "POST",
+                        success: function (data) {
+                            response($.map(data,
+                                function (item) {
+                                    return { id: item.id, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                select: function (event, ui) {
+                    $("#NombreOrganizacion").val(ui.item.value);
+                    $("#OrganizacionId").val(ui.item.id);
+                    return false;
+                }
+            });
+            $("#TipoDocumentoId").change(function () {
+                $("#NombreOrganizacion").val('');
+                $("#OrganizacionId").val('');
+            });
+  
+
     });
 
     function submitError() {
