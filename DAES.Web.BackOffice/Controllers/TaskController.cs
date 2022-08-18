@@ -1080,6 +1080,10 @@ namespace DAES.Web.BackOffice.Controllers
 
             }
 
+            //return Redirect("/Inbox/Index");
+            return Redirect(Request.UrlReferrer.ToString());
+
+
             return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
         }
 
@@ -1334,5 +1338,6 @@ namespace DAES.Web.BackOffice.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

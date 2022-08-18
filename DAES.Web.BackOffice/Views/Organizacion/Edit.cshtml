@@ -84,12 +84,12 @@
                     <div class="col-md-10">
 
                         @Html.CascadingDropDownListFor(m => m.ComunaId,
-      "RegionId",
-      Url.Action("GetComuna", "Organizacion"),
-      "RegionId",
-      "Seleccione...",
-      true,
-      new { @class = "form-control" })
+                        "RegionId",
+                        Url.Action("GetComuna", "Organizacion"),
+                        "RegionId",
+                        "Seleccione...",
+                        true,
+                        new { @class = "form-control" })
 
                         @Html.ValidationMessageFor(model => model.ComunaId, "", new { @class = "text-danger" })
                     </div>
@@ -578,7 +578,7 @@ else
         document.getElementById("ExistenciaLegals_0__NumeroNorma").value = "";
         document.getElementById("ExistenciaLegals_0__TipoNormaId").value = "";
     }
-    
+
 
     function LimpiarCampoExisPosterior() {
 
@@ -648,7 +648,7 @@ else
         $("#limpiarAGAC").on("click", function () {
             LimpiarCamposAGAC()
         });
-        
+
 
         if ("#a".val == 1) {
             $("#Tiene").prop("checked", true)

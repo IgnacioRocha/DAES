@@ -22,7 +22,7 @@ namespace DAES.Web.BackOffice.Controllers
         {
             var model = new Model.DTO.DTOConsultaProceso();
             model.Filter = string.Empty;
-            model.DefinicionProcesos = db.DefinicionProceso.OrderBy(q => q.Nombre).Select(q => new DAES.Model.DTO.DTOConsultaProceso.DTODefinicionProceso { selected = false, text = q.Nombre, value = q.DefinicionProcesoId }).ToList();
+            model.DefinicionProcesos = db.DefinicionProceso.OrderBy(q => q.Nombre).Where(q => q.Habilitado == true).Select(q => new DAES.Model.DTO.DTOConsultaProceso.DTODefinicionProceso { selected = false, text = q.Nombre, value = q.DefinicionProcesoId }).ToList();
 
             return View(model);
         }

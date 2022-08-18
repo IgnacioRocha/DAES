@@ -13,6 +13,7 @@ using iTextSharp.text.pdf;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -609,15 +610,16 @@ namespace DAES.BLL
                         {
                             disolucion.FechaJuntaSocios = item.FechaJuntaSocios;
                         }
-                        if(item.Anterior==true)
+                        if (item.Anterior == true)
                         {
                             disolucion.ComisionAnterior = item.ComisionAnterior;
                             disolucion.ComisionPosterior = false;
-                        }else if(item.Anterior==false)
+                        }
+                        else if (item.Anterior == false)
                         {
                             disolucion.ComisionPosterior = item.ComisionPosterior;
                             disolucion.ComisionAnterior = false;
-                        }                        
+                        }
 
                         disolucion.NumeroOficio = item.NumeroOficio;
 
@@ -631,7 +633,7 @@ namespace DAES.BLL
 
                         disolucion.DatosNotario = item.DatosNotario;
 
-                        disolucion.DatosCBR = item.DatosCBR;                       
+                        disolucion.DatosCBR = item.DatosCBR;
 
                         foreach (var help in comisionLiquidadoras)
                         {
@@ -727,284 +729,45 @@ namespace DAES.BLL
                 write.PageEvent = ev;
                 Chunk SaltoLinea = Chunk.NEWLINE;
 
-                //Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
-                string parrafo_uno = string.Format(configuracioncertificado.Parrafo1);
 
-                string parrafo_dos = string.Format(configuracioncertificado.Parrafo2!=null ? configuracioncertificado.Parrafo2:" ");
+                //Traer todos los parrafos en la bd (incluyendo 4 y 5 ?)
+                string parrafo_uno = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : " ");
+                string parrafo_dos = string.Format(configuracioncertificado.Parrafo2 != null ? configuracioncertificado.Parrafo2 : " ");
                 string parrafo_tres = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : " ");
-                /*string parrafo_tres = string.Format(configuracioncertificado.Parrafo3);*/
-                
+                string parrafo_cuatro = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
+                string parrafo_cinco = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
 
+                //Revisar esto
+                string parrafoone = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : " ");
+                string parrafos = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : " ");
+
+                //Revisar esto
+                //En teoria, esta informacion se va utilizar siempre para el certificado de vigencia, dado que solo utiliza el párrafo 1
                 if (!string.IsNullOrEmpty(organizacion.NumeroRegistro))
                 {
                     parrafo_uno = parrafo_uno.Replace("[ROL]", organizacion.NumeroRegistro);
                 }
-
                 if (!string.IsNullOrEmpty(organizacion.RazonSocial))
                 {
                     parrafo_uno = parrafo_uno.Replace("[RAZONSOCIAL]", organizacion.RazonSocial);
                 }
-
+                //porque no va con is null or empty (?)
                 if (organizacion.Region != null)
                 {
-                    parrafo_uno = parrafo_uno.Replace("[REGION]", organizacion.Region.Nombre);
+                    parrafo_uno.Replace("[REGION]", organizacion.Region.Nombre);
                 }
-
                 if (!string.IsNullOrEmpty(organizacion.Direccion))
                 {
-                    parrafo_uno = parrafo_uno.Replace("[DOMICIOSOCIAL]", organizacion.Direccion);
+                    parrafo_uno.Replace("[DOMICILLIOSOCIAL]", organizacion.Direccion);
                 }
 
                 var aux = organizacion.Disolucions.FirstOrDefault();
 
-                #region Certificado Disolucion
-
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 106) //TODO Modificar el valor "103" por el correspondiente en fase de produccion
-                {
-                    if (aux != null) //TODO Modificar el valor "103" por el correspondiente en fase de produccion
-                    {
-
-                        if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-                        {
-                            if (aux.Anterior == true)
-                            {
-                                if (!string.IsNullOrEmpty(aux.TipoNorma.Nombre))
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[TIPONORMA]", "La División de Asociatividad y Cooperativas de la Subsecretaría de Economía y Empresas de Menor Tamaño certifica que, por " + aux.TipoNorma.Nombre + " ");
-                                }
-                                else
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[TIPONORMA]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.NumeroNorma.ToString()))
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", aux.NumeroNorma);
-                                }else
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[NUMERONORMA]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.FechaNorma.ToString()))
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", " de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaNorma) + " del ");
-                                }
-                                else
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHANORMA]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.Autorizacion))
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", aux.Autorizacion + ", se aprobó la disolución de la ");
-                                }
-                                else
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[AUTORIZACION]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", cuyo extracto fue publicado en el Diario Oficial de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
-                                }
-                                else
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.FechaJuntaSocios.ToString()))
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", ", acordada en la Asamblea Extraordinaria de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios) + ".");
-                                }
-                                else
-                                {
-                                    parrafo_uno = parrafo_uno.Replace("[FECHAJUNTASOCIOS]", string.Empty + ".");
-                                }
-
-                                
-                            }
-                            else
-                            {
-                                if (!string.IsNullOrEmpty(aux.FechaJuntaSocios.ToString()))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAJUNTASOCIOS]", "La División de Asociatividad y Cooperativas de la Subsecretaría de Economía y Empresas de Menor Tamaño certifica que, la "
-                                        + organizacion.RazonSocial + ", acordó su disolución en Junta General de Socios, celebrada con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaJuntaSocios));
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.FechaEscrituraPublica.ToString()))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", ", según consta del acta reducida a escritura pública con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica));
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.MinistroDeFe))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[MINISTRODEFE]", ", ante el " + aux.MinistroDeFe);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[MINISTRODEFE]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", ", la que fue publicada en el Diario Oficial con fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.NumeroFojas))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", ", e inscrita a fojas " + aux.NumeroFojas);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMEROFOJAS]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.DatosCBR))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", " del Registro de Comercio del " + aux.DatosCBR);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", string.Empty);
-                                }
-
-                                if (!string.IsNullOrEmpty(aux.AñoInscripcion.ToString()))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[AÑOINSCRIPCION]", ", correspondiente al año " + aux.AñoInscripcion.ToString() + ".");
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[AÑOINSCRIPCION]", string.Empty + ".");
-                                }
-                            }
-                        }
-                        else if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
-                          aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
-                        {
-                            if(!string.IsNullOrEmpty(aux.NumeroOficio.ToString()))
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", "La División de Asociatividad y Cooperativas de la Subsecretaría de Economía y Empresas de Menor Tamaño certifica que, por Oficio Ordinario N° " + aux.NumeroOficio.ToString());
-                            }
-                            else
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[NUMEROOFICIO]", string.Empty);
-                            }
-
-                            if(!string.IsNullOrEmpty(aux.FechaOficio.ToString()))
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAOFICIO]"," de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaOficio));
-                            }
-                            else
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAOFICIO]", string.Empty);
-                            }
-
-                            if(!string.IsNullOrEmpty(aux.NombreNotaria))
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[NOMBRENOTARIA]",", ante el "+ aux.NombreNotaria);
-                            }
-                            else
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[NOMBRENOTARIA]", string.Empty);
-                            }
-
-                            if(!string.IsNullOrEmpty(aux.DatosNotario))
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[DATOSNOTARIO]"," " + aux.DatosNotario);
-                            }
-                            else
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[DATOSNOTARIO]", string.Empty);
-                            }
-
-                            if(!string.IsNullOrEmpty(aux.FechaEscrituraPublica.ToString()))
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", ", la cual consta en la Escritura Pública de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaEscrituraPublica));
-                            }
-                            else
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAESCRITURAPUBLICA]", string.Empty);
-                            }
-
-                            if(!string.IsNullOrEmpty(aux.FechaPubliccionDiarioOficial.ToString()))
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]",", y cuyo extracto fue publicado en el Diario Oficial de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaPubliccionDiarioOficial));
-                            }
-                            else
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAPUBLICCIONDIARIOOFICIAL]", string.Empty);
-                            }
-
-                            if(!string.IsNullOrEmpty(aux.FechaAsambleaSocios.ToString()))
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAASAMBLEASOCIOS]",", se aprobó la disolución de " + organizacion.RazonSocial + ", acordada en la Asamblea Extraordinaria de fecha " + string.Format("{0:dd-MM-yyyy}", aux.FechaAsambleaSocios));
-                            }
-                            else
-                            {
-                                parrafo_uno = parrafo_uno.Replace("[FECHAASAMBLEASOCIOS]", string.Empty);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
-                            "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
-                    }                    
-
-                    if (aux.Anterior == true)
-                    {
-                        if (aux.ComisionAnterior)
-                        {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
-                        }
-                        else
-                        {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
-                        }
-                    }
-                    else if(aux.Anterior==false)
-                    {
-                        if (aux.ComisionPosterior)
-                        {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
-                        }
-                        else
-                        {
-                            parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
-                        }
-                    }
-                }
-
-                if (!string.IsNullOrWhiteSpace(parrafo_dos))
-                {
-                    if (organizacion.FechaCelebracion.HasValue)
-                    {
-                        parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
-                    }
-                }
-                #endregion
-
-                string parrafo_cuatro = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
-
-                string parrafo_cinco = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
-
-                string parrafoone = string.Format(configuracioncertificado.Parrafo1);
-                string parrafos = string.Format(configuracioncertificado.Parrafo1);
-
-
+                //NEW
                 doc.Open();
                 
                 doc.AddTitle(configuracioncertificado.Titulo);
                 doc.AddAuthor(firmante.Nombre);
-
 
                 var centrar = Element.ALIGN_CENTER;
                 Paragraph paragraphTITULO = new Paragraph(configuracioncertificado.Titulo, _fontTitulo);
@@ -1024,7 +787,6 @@ namespace DAES.BLL
 
                 Paragraph rae = new Paragraph(configuracioncertificado.Parrafo3, _fontStandard);
                 rae.Alignment = Element.ALIGN_JUSTIFIED;
-
 
                 var logo = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.URLImagenLogo);
                 if (logo == null)
@@ -1049,6 +811,7 @@ namespace DAES.BLL
                 PdfPCell cell = new PdfPCell(imagenLogo);
                 cell.HorizontalAlignment = Element.ALIGN_LEFT;
                 cell.BorderWidth = 0;
+                cell.PaddingTop = 20;
                 cell.Border = Rectangle.NO_BORDER;
                 tableHeader.AddCell(cell);
 
@@ -1057,6 +820,7 @@ namespace DAES.BLL
                 cell.HorizontalAlignment = Element.ALIGN_CENTER;
                 cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 cell.BorderWidth = 0;
+                cell.PaddingTop = 20;
                 cell.Border = Rectangle.NO_BORDER;
                 tableHeader.AddCell(cell);
 
@@ -1074,13 +838,247 @@ namespace DAES.BLL
                 cell.HorizontalAlignment = Element.ALIGN_RIGHT;
                 cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                 cell.BorderWidth = 0;
+                cell.PaddingTop = 20;
                 cell.Border = Rectangle.NO_BORDER;
                 tableHeader.AddCell(cell);
 
                 doc.Add(tableHeader);
                 doc.Add(new Paragraph());
 
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 106)
+                //MODIFICAR LOS PARRAFOS 1 Y CAMBIAR A:
+                //1. Parrafo1DiAnt
+                //2. Parrafo1DiPos
+
+                //CertificadoDisolucionTest = 106 | CertificadoDisolucion = 4
+                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+                {
+                    string parrafo = aux.Anterior == true ? configuracioncertificado.Parrafo1DisAnt : configuracioncertificado.Parrafo1DisPos;
+                    if (aux != null)
+                    {
+
+                        if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                        {
+                            //Si la Disolucion es Anterior a 2003*
+                            if (aux.Anterior == true)
+                            {
+                                List<string> campos_parrafo1 = new List<string>();
+                                //foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Split())
+                                //Esto se modificó porque en la BD los campos venian todos juntos por lo que no reconoce cuantos son en realidad
+                                foreach (var item in configuracioncertificado.Parrafo1DisAnt.Replace(",", " ").Replace(".", " ").Replace("]", "] ").Split())
+                                {
+                                    if (item.Contains("[") && item.Contains("]"))
+                                    {
+                                        campos_parrafo1.Add(item);
+                                    }
+                                }
+
+                                for (int i = 0; i < campos_parrafo1.Count; i++)
+                                {
+                                    var value = campos_parrafo1[i];
+                                    switch (value)
+                                    {
+                                        case "[RAZONSOCIAL]":
+                                            parrafo = parrafo.Replace(value, organizacion.RazonSocial != null ? organizacion.RazonSocial.ToString() : string.Empty);
+                                            break;
+                                        case "[TIPONORMA]":
+                                            parrafo = parrafo.Replace(value, aux.TipoNorma.Nombre != null ? aux.TipoNorma.Nombre.ToString() : string.Empty);
+                                            break;
+                                        case "[NUMERONORMA]":
+                                            parrafo = parrafo.Replace(value, aux.NumeroNorma != null ? aux.NumeroNorma.ToString() : string.Empty);
+                                            break;
+                                        case "[FECHANORMA]":
+                                            parrafo = parrafo.Replace(value, aux.FechaNorma.Value != null ?
+                                                                      string.Format("{0:dd/MM/yyyy}", aux.FechaNorma.Value) : string.Empty);
+                                            break;
+                                        case "[AUTORIZACION]":
+                                            parrafo = parrafo.Replace(value, aux.Autorizacion != null ? aux.Autorizacion.ToString() : string.Empty);
+                                            break;
+                                        case "[FECHAPUBLICCIONDIARIOOFICIAL]":
+                                            parrafo = parrafo.Replace(value, aux.FechaPubliccionDiarioOficial.Value != null ?
+                                                                       string.Format("{0:dd/MM/yyyy}", aux.FechaPubliccionDiarioOficial.Value) : string.Empty);
+                                            break;
+                                        case "[FECHAJUNTASOCIOS]":
+                                            parrafo = parrafo.Replace(value, aux.FechaJuntaSocios.Value != null ?
+                                                                      string.Format("{0:dd/MM/yyyy}", aux.FechaJuntaSocios.Value) : string.Empty);
+                                            break;
+                                    }
+                                }
+                            }
+                            //Disolucion posterior a 2003
+                            else
+                            {
+
+                                List<string> campos_parrafo1 = new List<string>();
+                                //foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Split())
+                                //Esto se modificó porque en la BD los campos venian todos juntos por lo que no reconoce cuantos son en realidad
+                                foreach (var item in configuracioncertificado.Parrafo1DisPos.Replace(",", " ").Replace(".", " ").Replace("]", "] ").Split())
+                                {
+                                    if (item.Contains("[") && item.Contains("]"))
+                                    {
+                                        campos_parrafo1.Add(item);
+                                    }
+                                }
+
+                                for (int i = 0; i < campos_parrafo1.Count; i++)
+                                {
+                                    var value = campos_parrafo1[i];
+                                    switch (value)
+                                    {
+                                        case "[RAZONSOCIAL]":
+                                            parrafo = parrafo.Replace(value, organizacion.RazonSocial != null ? organizacion.RazonSocial : string.Empty);
+                                            break;
+                                        case "[FECHAJUNTASOCIOS]":
+                                            parrafo = parrafo.Replace(value, aux.FechaJuntaSocios.Value != null ?
+                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaJuntaSocios.ToString()) : string.Empty);
+                                            break;
+                                        case "[FECHAESCRITURAPUBLICA]":
+                                            parrafo = parrafo.Replace(value, aux.FechaEscrituraPublica.Value != null ?
+                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaEscrituraPublica.ToString()) : string.Empty);
+                                            break;
+                                        case "[MINISTRODEFE]":
+                                            parrafo = parrafo.Replace(value, aux.MinistroDeFe != null ? aux.MinistroDeFe : string.Empty);
+                                            break;
+                                        case "[FECHAPUBLICCIONDIARIOOFICIAL]":
+                                            parrafo = parrafo.Replace(value, aux.FechaPubliccionDiarioOficial.Value != null ?
+                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaPubliccionDiarioOficial.ToString()) : string.Empty);
+                                            break;
+                                        case "[NUMEROFOJAS]":
+                                            parrafo = parrafo.Replace(value, aux.NumeroFojas != null ? aux.NumeroFojas : string.Empty);
+                                            break;
+                                        case "[DATOSCBR]":
+                                            parrafo = parrafo.Replace(value, aux.DatosCBR != null ? aux.DatosCBR : string.Empty);
+                                            break;
+                                        case "[AÑOINSCRIPCION]":
+                                            parrafo = parrafo.Replace(value, aux.AñoInscripcion != null ? aux.AñoInscripcion.ToString() : string.Empty);
+                                            break;
+
+                                    }
+                                }
+                            }
+
+
+
+                            Paragraph parrafouno = new Paragraph(parrafo, _fontStandard);
+                            parrafouno.Alignment = Element.ALIGN_JUSTIFIED;
+
+
+                            doc.Add(SaltoLinea);
+                            doc.Add(parrafouno);
+                            doc.Add(SaltoLinea);
+
+                        }
+                        //Revisar Esto
+                        //Si la organizacion no es Cooperativa pero puede ser Asociacion de Consumidores o Asociacion Gremial
+                        else if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                                 aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                        {
+
+                            string parrafox = string.Format(configuracioncertificado.Parrafo1);
+                            List<string> campos_parrafo1 = new List<string>();
+                            //foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Split())
+                            //Esto se modificó porque en la BD los campos venian todos juntos por lo que no reconoce cuantos son en realidad
+                            foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Replace("]", "] ").Split())
+                            {
+                                if (item.Contains("[") && item.Contains("]"))
+                                {
+                                    campos_parrafo1.Add(item);
+                                }
+                            }
+
+                            for (int i = 0; i < campos_parrafo1.Count; i++)
+                            {
+                                var value = campos_parrafo1[i];
+                                switch (value)
+                                {
+                                    case "[RAZONSOCIAL]":
+                                        parrafox = parrafox.Replace(value, organizacion.RazonSocial != null ? organizacion.RazonSocial.ToString() : string.Empty);
+                                        break;
+                                    case "[NUMEROOFICIO]":
+                                        parrafox = parrafox.Replace(value, aux.NumeroOficio != null ? aux.NumeroOficio.ToString() : string.Empty);
+                                        break;
+                                    case "[FECHAOFICIO]":
+                                        parrafox = parrafox.Replace(value, aux.FechaOficio.Value != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", aux.FechaOficio.Value) : string.Empty);
+                                        break;
+                                    case "[NOMBRENOTARIA]":
+                                        parrafox = parrafox.Replace(value, aux.NombreNotaria != null ? aux.NombreNotaria.ToString() : string.Empty);
+                                        break;
+                                    case "[DATOSNOTARIO]":
+                                        parrafox = parrafox.Replace(value, aux.DatosNotario != null ? aux.DatosNotario.ToString() : string.Empty);
+                                        break;
+                                    case "[FECHAESCRITURAPUBLICA]":
+                                        parrafox = parrafox.Replace(value, aux.FechaEscrituraPublica.ToString() != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", aux.FechaEscrituraPublica.Value) : string.Empty);
+                                        break;
+                                    case "[FECHAPUBLICCIONDIARIOOFICIAL]":
+                                        parrafox = parrafox.Replace(value, aux.FechaPubliccionDiarioOficial.ToString() != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", aux.FechaPubliccionDiarioOficial.Value) : string.Empty);
+                                        break;
+                                    case "[FECHAASAMBLEASOCIOS]":
+                                        parrafox = parrafox.Replace(value, aux.FechaAsambleaSocios.ToString() != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", aux.FechaAsambleaSocios.Value) : string.Empty);
+                                        break;
+                                }
+                            }
+
+                            Paragraph parrafouno = new Paragraph(parrafox, _fontStandard);
+                            parrafouno.Alignment = Element.ALIGN_JUSTIFIED;
+
+                            doc.Add(SaltoLinea);
+                            doc.Add(parrafouno);
+                            doc.Add(SaltoLinea);
+                        }
+                    }
+
+                    //DESCOMENTAR ESTA PARTE POR FAVOR ANNNNDOOOOOOO
+                    else
+                    {
+                        throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
+                            "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
+                    }
+
+                    //if (aux.Anterior == true)
+                    //{
+                    //    if (aux.ComisionAnterior)
+                    //    {
+                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
+                    //    }
+                    //    else
+                    //    {
+                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
+                    //    }
+
+                    //}
+                    //else if (aux.Anterior == false)
+                    //{
+                    //    if (aux.ComisionPosterior)
+                    //    {
+                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
+                    //    }
+                    //    else
+                    //    {
+                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
+                    //    }
+                    //}
+
+                    //AQUI IBA EL PRINT DEL PARRAFO
+
+                }
+
+                //Si el parrafo 2 no se encuentra null (Revisar esta parte)
+                if (!string.IsNullOrWhiteSpace(parrafo_dos))
+                {
+                    if (organizacion.FechaCelebracion.HasValue)
+                    {
+                        parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
+                    }
+
+                }
+
+
+                //OLD
+
+                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
                     if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                     {
@@ -1096,11 +1094,11 @@ namespace DAES.BLL
                             if (item.EsMiembro)
                             {
                                 var cargo = context.Cargo.FirstOrDefault(q => q.CargoId == item.CargoId);
-                                
+
                                 table.AddCell(new PdfPCell(new Phrase(item.NombreCompleto, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });
                                 if (cargo != null)
                                 {
-                                    table.AddCell(new PdfPCell(new Phrase(cargo.Nombre, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });                                    
+                                    table.AddCell(new PdfPCell(new Phrase(cargo.Nombre, _fontStandard)) { HorizontalAlignment = Element.ALIGN_JUSTIFIED });
                                 }
                                 else
                                 {
@@ -1113,713 +1111,677 @@ namespace DAES.BLL
                             }
                         }
 
-                        if (aux.Anterior == true)
-                        {
-                            doc.Add(SaltoLinea);
-                            doc.Add(paragraphUNO);
-                            doc.Add(SaltoLinea);
-                            doc.Add(paragraphTRES);
-                            table.SpacingBefore = 15f;
-                            if (aux.ComisionAnterior)
-                            {
-                                doc.Add(table);
-                            }
-                            doc.Add(SaltoLinea);
-                            doc.Add(paragraphCUATRO);
-                            
-                        }
-                        else
-                        {
-                            doc.Add(SaltoLinea);
-                            doc.Add(paragraphDOS);
-                            doc.Add(SaltoLinea);
-                            doc.Add(paragraphTRES);
-                            table.SpacingBefore = 15f;
-                            if (aux.ComisionPosterior)
-                            {
-                                doc.Add(table);
-                            }
-                            doc.Add(SaltoLinea);
-                            doc.Add(paragraphCUATRO);
-                        }
-                        
-                        /*doc.Add(SaltoLinea);
-                        doc.Add(paragraphUNO);
-                        doc.Add(SaltoLinea);*/
-                        
-                        
+                        //if (aux.Anterior == true)
+                        //{
+                        //    doc.Add(SaltoLinea);
+                        //    doc.Add(paragraphUNO);
+                        //    doc.Add(SaltoLinea);
+                        //    doc.Add(paragraphTRES);
+                        //    table.SpacingBefore = 15f;
+                        //    if (aux.ComisionAnterior)
+                        //    {
+                        //        doc.Add(table);
+                        //    }
+                        //    doc.Add(SaltoLinea);
+                        //    doc.Add(paragraphCUATRO);
+
+                        //}
+                        //else
+                        //{
+                        //    doc.Add(SaltoLinea);
+                        //    doc.Add(paragraphDOS);
+                        //    doc.Add(SaltoLinea);
+                        //    doc.Add(paragraphTRES);
+                        //    table.SpacingBefore = 15f;
+                        //    if (aux.ComisionPosterior)
+                        //    {
+                        //        doc.Add(table);
+                        //    }
+                        //    doc.Add(SaltoLinea);
+                        //    doc.Add(paragraphCUATRO);
+                        //}
                     }
                     else if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
-                        aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                              aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
                     {
-                        doc.Add(SaltoLinea);
-                        doc.Add(paragraphUNO);
-                        doc.Add(SaltoLinea);
-                        doc.Add(paragraphTRES);
-
+                        //doc.Add(SaltoLinea);
+                        //doc.Add(paragraphUNO);
+                        //doc.Add(SaltoLinea);
+                        //doc.Add(paragraphTRES);
                     }
-                    /*doc.Add(paragraphDOS);*/
                 }
 
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId != 103 && organizacion.Documentos.FirstOrDefault().TipoDocumentoId != 106)
+                //Revisar esto y ver que hace
+                //Corregir y dejarlo con enum
+                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId != (int)Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                    organizacion.Documentos.FirstOrDefault().TipoDocumentoId != (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
                     doc.Add(SaltoLinea);
                     doc.Add(paragraphUNO);
                     doc.Add(SaltoLinea);
-
                 }
 
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
+
+                //Si se esta solicitando un certificado de vigencia de estatutos
+                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.VigenciaEstatutos)
                 {
-                    if (organizacion.ExistenciaLegals.Any()|| organizacion.Saneamientos.Any() || organizacion.ExistenciaAnteriors.Any() || organizacion.ExistenciaPosteriors.Any() || organizacion.ReformaAGACs.Any() || organizacion.ReformaAnteriors.Any() || organizacion.ReformaPosteriors.Any())
+                    if (organizacion.ExistenciaLegals.Any() || organizacion.Saneamientos.Any() || organizacion.ExistenciaAnteriors.Any() ||
+                        organizacion.ExistenciaPosteriors.Any() || organizacion.ReformaAGACs.Any() || organizacion.ReformaAnteriors.Any() ||
+                        organizacion.ReformaPosteriors.Any())
                     {
 
 
-                        if (organizacion.TipoOrganizacionId == 1)
+                        if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                         {
-                            parrafo_uno = parrafo_uno.Replace("[SIGLA]", organizacion.Sigla ?? string.Empty);
+                            List<string> campos_parrafo1 = new List<string>();
+                            foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Split())
+                            {
+                                if (item.Contains("[") && item.Contains("]"))
+                                {
+                                    campos_parrafo1.Add(item);
+                                }
+                            }
 
-                            parrafo_uno = parrafo_uno.Replace("[RAZONSOCIAL]", organizacion.RazonSocial ?? string.Empty);
-
-                            //parrafo_uno = parrafo_uno.Replace("[RAZONSOCIAL]", new Phrase(organizacion.RazonSocial, _fontStandardBold).ToString());
-
-                            parrafo_uno = parrafo_uno.Replace("[TIPOORGANIZACION]", "<strong>organizacion.TipoOrganizacion.Nombre</strong>" ?? string.Empty);
-
-                            parrafo_uno = parrafo_uno.Replace("[ROL]", organizacion.NumeroRegistro ?? string.Empty);
-
-                            parrafo_uno = parrafo_uno.Replace("[VIGENTE]", organizacion.Estado.Nombre ?? string.Empty);
+                            //ESTO ES PARRAFO 1
+                            for (int i = 0; i < campos_parrafo1.Count; i++)
+                            {
+                                var value = campos_parrafo1[i];
+                                switch (value)
+                                {
+                                    case "[RAZONSOCIAL]":
+                                        parrafo_uno = parrafo_uno.Replace(value, organizacion.RazonSocial != null ? organizacion.RazonSocial : string.Empty);
+                                        break;
+                                    case "[ROL]":
+                                        parrafo_uno = parrafo_uno.Replace(value, organizacion.NumeroRegistro != null ? organizacion.NumeroRegistro : string.Empty);
+                                        break;
+                                    case "[SIGLA]":
+                                        parrafo_uno = parrafo_uno.Replace(value, organizacion.Sigla != null ? organizacion.Sigla : string.Empty);
+                                        break;
+                                    case "[TIPOORGANIZACION]":
+                                        parrafo_uno = parrafo_uno.Replace(value, organizacion.TipoOrganizacion.Nombre != null ? organizacion.TipoOrganizacion.Nombre : string.Empty);
+                                        break;
+                                    case "[VIGENTE]":
+                                        parrafo_uno = parrafo_uno.Replace(value, organizacion.Estado.Nombre != null ? organizacion.Estado.Nombre : string.Empty);
+                                        break;
+                                }
+                            }
 
                             Paragraph parrafouno = new Paragraph(parrafo_uno, _fontStandard);
                             parrafouno.Alignment = Element.ALIGN_JUSTIFIED;
-
 
                             doc.Add(SaltoLinea);
                             doc.Add(parrafouno);
                             doc.Add(SaltoLinea);
 
+                            //Revisar esto
                             if (organizacion.ExistenciaPosteriors.Any() && organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn != null)
                             {
-
-                                if (organizacion.ExistenciaPosteriors.Any(q => q.FechaConstitutivaSocios != null))
+                                //Parrafo 2 por default es para Existencia Posterior
+                                string parrafo = string.Format(configuracioncertificado.Parrafo2ExPosterior != null ? configuracioncertificado.Parrafo2ExPosterior : string.Empty);
+                                List<string> campos_parrafo2 = new List<string>();
+                                foreach (var item in parrafo.Replace(",", " ").Replace(".", " ").Split())
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", "Según se acreditó en los antecedentes legales acompañados para su inscripción, el acta de la junta general constitutiva de la cooperativa, celebrada con fecha " + organizacion.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios.Value.ToString("dd/MM/yyyy") + ", " ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaPosteriors.Any(q => q.FechaEscrituraPublica != null))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", "fue reducida a escritura pública con fecha " + organizacion.ExistenciaPosteriors.FirstOrDefault().FechaEscrituraPublica.Value.ToString("dd/MM/yyyy") ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAESCRITURAPUBLICA]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaPosteriors.Any(q => q.DatosGeneralesNotario != null))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSGENERALNOTARIO]", ", ante el " + organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSGENERALNOTARIO]", string.Empty);
+                                    if (item.Contains("[") && item.Contains("]"))
+                                    {
+                                        campos_parrafo2.Add(item);
+                                    }
                                 }
 
 
-                                if (organizacion.ExistenciaPosteriors.Any(q => q.FechaPublicacionn != null))
+
+                                for (int i = 0; i < campos_parrafo2.Count; i++)
                                 {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", ", cuyo extracto fue publicado en el Diario Oficial de fecha " + organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn.Value.ToString("dd/MM/yyyy") ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAPUBLICACIONN]", string.Empty);
+                                    var value = campos_parrafo2[i];
+                                    switch (value)
+                                    {
+                                        //Existencia Posterior
+                                        //Esto no me aparece (REVISAR)
+                                        case "[FECHACONSTITUTIVASOCIOS]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios.Value != null ?
+                                                                                string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios.Value) : string.Empty);
+                                            break;
+                                        case "[FECHAESCRITURAPUBLICA]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().FechaEscrituraPublica.Value != null ?
+                                                                                string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaPosteriors.FirstOrDefault().FechaEscrituraPublica.Value) : string.Empty);
+                                            break;
+                                        case "[DATOSGENERALESNOTARIO]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() != null ?
+                                                                                organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() : string.Empty);
+                                            break;
+                                        //Revisar esto
+                                        case "[FECHAPUBLICACIONN]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn.Value != null ?
+                                                                                string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn.Value) : string.Empty);
+                                            break;
+                                        case "[FOJAS]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().Fojas != null ?
+                                                                                organizacion.ExistenciaPosteriors.FirstOrDefault().Fojas : string.Empty);
+                                            break;
+                                        case "[FECHAINSCRIPCION]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion.ToString() != null ?
+                                                                                organizacion.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion.ToString() : string.Empty);
+                                            break;
+                                        case "[DATOSCBR]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().DatosCBR.ToString() != null ?
+                                                                                organizacion.ExistenciaPosteriors.FirstOrDefault().DatosCBR.ToString() : string.Empty);
+                                            break;
+
+                                    }
                                 }
 
-                                if (organizacion.ExistenciaPosteriors.Any(q => q.Fojas != null))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FOJAS]", " e inscrito a fojas " + organizacion.ExistenciaPosteriors.FirstOrDefault().Fojas.ToString());
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FOJAS]", string.Empty);
-                                }
-
-
-                                if (organizacion.ExistenciaPosteriors.Any(q => q.DatosCBR != null))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", ", en el " + organizacion.ExistenciaPosteriors.FirstOrDefault().DatosCBR.ToString() + " ");
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[DATOSCBR]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaPosteriors.Any(q => q.AnoInscripcion != null))
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]", "correspondiente al año " + organizacion.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion.ToString() + ".");
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAINSCRIPCION]", string.Empty);
-                                }
-
-
-                                Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
+                                //if (organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion != null)
+                                //{
+                                //    //crear metodo para definir el ultimo indice del texto = ej 200
+                                //    parrafo = parrafo.Insert(201, "Con fecha publicacion en diario oficial" + )
+                                //}
+                                Paragraph parrafoDos = new Paragraph(parrafo, _fontStandard);
                                 parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
-
-
-
-
                                 doc.Add(parrafoDos);
                                 doc.Add(SaltoLinea);
                             }
 
-                            if (organizacion.ExistenciaAnteriors.Any() && organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion != null)
+                            if (organizacion.ExistenciaAnteriors.Any() && organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.ToString() != string.Empty)
                             {
-
-
-                                if (organizacion.ExistenciaAnteriors.Any(q => q.TipoNormaId != null))
+                                var parrafo = string.Format(configuracioncertificado.Parrafo2ExAnterior != null ? configuracioncertificado.Parrafo2ExAnterior : string.Empty);
+                                List<string> campos_parrafo2 = new List<string>();
+                                foreach (var item in parrafo.Replace(",", " ").Replace(".", " ").Split())
                                 {
-                                    parrafo_cinco = parrafo_cinco.Replace("[TIPONORMA]", "Según se acreditó en los antecedentes legales acompañados para su inscripción, se autorizó la existencia legal por " + organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() + " " ?? string.Empty);
+                                    if (item.Contains("[") && item.Contains("]"))
+                                    {
+                                        campos_parrafo2.Add(item);
+                                    }
                                 }
-                                else
+                                //Esto es PARRAFO 2 /SI
+                                for (int i = 0; i < campos_parrafo2.Count; i++)
                                 {
-                                    parrafo_cinco = parrafo_cinco.Replace("[TIPONORMA]", string.Empty);
+                                    var value = campos_parrafo2[i];
+                                    switch (value)
+                                    {
+                                        //Existencia Anterior
+                                        case "[TIPONORMA]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() != null ?
+                                                                                  organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() : string.Empty);
+                                            break;
+                                        case "[NUMERONORMA]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() != null ?
+                                                                                  organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() : string.Empty);
+                                            break;
+                                        case "[FECHANORMA]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value != null ?
+                                                                                  string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value) : string.Empty);
+                                            break;
+                                        case "[AUTORIZADOPOR]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() != null ?
+                                                                                   organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() : string.Empty);
+                                            break;
+                                        case "[FECHAPUBLICACIONN]":
+                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value != null ?
+                                                                                   string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value) : string.Empty);
+                                            break;
+                                    }
                                 }
 
-                                if (organizacion.ExistenciaAnteriors.Any(q => q.NNorma != null))
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[NUMERONORMA]", " N° " + organizacion.ExistenciaAnteriors.FirstOrDefault().NNorma.ToString() ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[NUMERONORMA]", string.Empty);
-                                }
+                                ////Esto va ?
+                                //parrafo_cinco = parrafo_cinco.Replace("[EspaciosDoc]", string.Empty);
 
-                                if (organizacion.ExistenciaAnteriors.Any(q => q.FNorma != null))
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[FECHANORMA]", " de fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FNorma.Value.ToString("dd/MM/yyyy") ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[FECHANORMA]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaAnteriors.Any(q => q.Autorizado != null))
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[AUTORIZADOPOR]", " del " + organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() + " " ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[AUTORIZADOPOR]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaAnteriors.Any(q => q.FechaPublicacion != null))
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[FECHAPUBLICACIONN]", "publicada en el Diario Oficial con fecha " + organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value.ToString("dd/MM/yyyy") + "." ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_cinco = parrafo_cinco.Replace("[FECHAPUBLICACIONN]", string.Empty);
-                                }
-                                parrafo_cinco = parrafo_cinco.Replace("[EspaciosDoc]", string.Empty);
-
-
-
-
-                                Paragraph parrafoCinco = new Paragraph(parrafo_cinco, _fontStandard);
-                                parrafoCinco.Alignment = Element.ALIGN_JUSTIFIED;
-                                doc.Add(parrafoCinco);
+                                Paragraph parrafox = new Paragraph(parrafo, _fontStandard);
+                                parrafox.Alignment = Element.ALIGN_JUSTIFIED;
+                                doc.Add(parrafox);
                                 doc.Add(SaltoLinea);
 
                             }
-
 
                             //Saneamiento
-
                             if (organizacion.Saneamientos.Any())
                             {
-                                if (organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa != null)
+                                string parrafo = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : string.Empty);
+                                List<string> campos_parrafo2 = new List<string>();
+                                foreach (var item in parrafo.Replace(",", " ").Replace(".", " ").Split())
                                 {
-                                    parrafo_tres = parrafo_tres.Replace("[FECHAESCRITURAPUBLICA]", organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa.Value.ToString("dd/MM/yyyy"));
+                                    if (item.Contains("[") && item.Contains("]"))
+                                    {
+                                        campos_parrafo2.Add(item);
+                                    }
                                 }
-                                else
+                                //ESto es parrafo 3
+                                for (int i = 0; i < campos_parrafo2.Count; i++)
                                 {
-                                    parrafo_tres = parrafo_tres.Replace("[FECHAESCRITURAPUBLICA]", string.Empty);
-                                }
-
-                                if (organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario != null)
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[FECHAPUBLICACIONDIARIO]", organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario.Value.ToString("dd/MM/yyyy"));
-                                }
-                                else
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[FECHAPUBLICACIONDIARIO]", string.Empty);
-                                }
-
-                                if (organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario != null)
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[DATOSGENERALESNOTARIO]", organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString());
-                                }
-                                else
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[DATOSGENERALESNOTARIO]", string.Empty);
-                                }
-
-                                if (organizacion.Saneamientos.FirstOrDefault().Fojass != null)
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[FOJAS]", organizacion.Saneamientos.FirstOrDefault().Fojass);
-                                }
-                                else
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[FOJAS]", string.Empty);
-                                }
-
-                                if (organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion != null)
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[FECHAINSCRIPCION]", organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString());
-                                }
-                                else
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[FECHAINSCRIPCION]", string.Empty);
-                                }
-
-                                if (organizacion.Saneamientos.FirstOrDefault().DatossCBR != null)
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[DATOSCBR]", organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString());
-                                }
-                                else
-                                {
-                                    parrafo_tres = parrafo_tres.Replace("[DATOSCBR]", string.Empty);
+                                    var value = campos_parrafo2[i];
+                                    switch (value)
+                                    {
+                                        case "[FECHAESCRITURAPUBLICA]":
+                                            parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa.ToString() != null ?
+                                                                                string.Format("{0:dd/MM/yyyy}", organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa) : string.Empty);
+                                            break;
+                                        case "[FECHAPUBLICACIONDIARIO]":
+                                            parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario.ToString() != null ?
+                                                                                string.Format("{0:dd/MM/yyyy}", organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario) : string.Empty);
+                                            break;
+                                        case "[DATOSGENERALESNOTARIO]":
+                                            parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString() != null ?
+                                                                                organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString() : string.Empty);
+                                            break;
+                                        case "[FOJAS]":
+                                            parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().Fojass != null ?
+                                                                                organizacion.Saneamientos.FirstOrDefault().Fojass : string.Empty);
+                                            break;
+                                        //case "[VIGENTE]":
+                                        //    parrafo_tres = parrafo_tres.Replace(value, organizacion.Estado.Nombre != null ? organizacion.Estado.Nombre : string.Empty);
+                                        //    break;
+                                        case "[FECHAINSCRIPCION]":
+                                            parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() != null ?
+                                                                                organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() : string.Empty);
+                                            break;
+                                        case "[DATOSCBR]":
+                                            parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString() != null ?
+                                                                                organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString() : string.Empty);
+                                            break;
+                                    }
                                 }
 
-                                Paragraph parr3 = new Paragraph(parrafo_tres, _fontStandard);
-                                parr3.Alignment = Element.ALIGN_JUSTIFIED;
-                                doc.Add(parr3);
+                                Paragraph parr2 = new Paragraph(parrafo, _fontStandard);
+                                parr2.Alignment = Element.ALIGN_JUSTIFIED;
+                                doc.Add(parr2);
                                 doc.Add(SaltoLinea);
+                                //List<string> campos_parrafo3 = new List<string>();
+                                //foreach (var item in configuracioncertificado.Parrafo3.Replace(",", " ").Replace(".", " ").Split())
+                                //{
+                                //    if (item.Contains("[") && item.Contains("]"))
+                                //    {
+                                //        campos_parrafo3.Add(item);
+                                //    }
+                                //}
+                                ////ESto es parrafo 3
+                                //for (int i = 0; i < campos_parrafo3.Count; i++)
+                                //{
+                                //    var value = campos_parrafo3[i];
+                                //    switch (value)
+                                //    {
+                                //        case "[FECHAESCRITURAPUBLICA]":
+                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa.ToString() != null ?
+                                //                                                string.Format("{0:dd/MM/yyyy}", organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa) : string.Empty);
+                                //            break;
+                                //        case "[FECHAPUBLICACIONDIARIO]":
+                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario.ToString() != null ?
+                                //                                                string.Format("{0:dd/MM/yyyy}", organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario) : string.Empty);
+                                //            break;
+                                //        case "[DATOSGENERALESNOTARIO]":
+                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString() != null ?
+                                //                                                organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString() : string.Empty);
+                                //            break;
+                                //        case "[FOJAS]":
+                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().Fojass != null ?
+                                //                                                organizacion.Saneamientos.FirstOrDefault().Fojass : string.Empty);
+                                //            break;
+                                //        case "[VIGENTE]":
+                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Estado.Nombre != null ? organizacion.Estado.Nombre : string.Empty);
+                                //            break;
+                                //        case "[FECHAINSCRIPCION]":
+                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() != null ?
+                                //                                                organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() : string.Empty);
+                                //            break;
+                                //        case "[DATOSCBR]":
+                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString() != null ?
+                                //                                                organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString() : string.Empty);
+                                //            break;
+                                //    }
+                                //}
+
+
                             }
-
-
 
                             if (organizacion.ReformaAnteriors.Any() == true && organizacion.ReformaAnteriors.FirstOrDefault().FechaReforma != null)
                             {
                                 var contRef = 0;
+                                string parrafo = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : " ");
+                                //string parrafoEspacio = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
+                                var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
+
+                                List<string> campos_parrafo4 = new List<string>();
+                                foreach (var item in parrafo.Replace(",", " ").Replace(".", " ").Split())
+                                {
+                                    if (item.Contains("[") && item.Contains("]"))
+                                    {
+                                        campos_parrafo4.Add(item);
+                                    }
+                                }
+
                                 foreach (var item in organizacion.ReformaAnteriors.ToList().OrderByDescending(q => q.FechaReforma).ToList())
                                 {
-                                    //Esto lanza error 
-                                    string parrafo = string.Format(configuracioncertificado.Parrafo4);
-                                    string parrafoEspacio = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : string.Empty);
-
-                                    var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
-
-
+                                    //Revisar Esto
                                     contRef++;
-                                    if (organizacion.ReformaAnteriors.Any() && contRef == 1)
+                                    if (organizacion.ReformaAnteriors.Any() && contRef == 1 /*&& !organizacion.ReformaPosteriors.Any()*/)
                                     {
-                                        parrafo = parrafo.Replace("[INTRO1]", "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" + "\n" + "\n");
+                                        //para insertar en un indice especificado
+                                        parrafo = parrafo.Insert(0, "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" +
+                                                                           "\n" + "\n" + "REFORMA(AS) ANTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
+
                                     }
-                                    else
+                                    else if (organizacion.ReformaAnteriors.Any() && contRef == 1 && organizacion.ReformaPosteriors.Any())
                                     {
-                                        parrafo = parrafo.Replace("[INTRO1]", string.Empty);
+                                        parrafo = parrafo.Insert(0, "REFORMA(AS) ANTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
                                     }
 
-                                    if (contRef == 1)
+                                    for (int i = 0; i < campos_parrafo4.Count; i++)
                                     {
-                                        parrafo = parrafo.Replace("[COUNTREF]", "REFORMA(S) ANTERIOR(ES) AL AÑO 2003:" + "\n" + "\n");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[COUNTREF]", string.Empty);
-                                    }
+                                        var value = campos_parrafo4[i];
 
-                                    //parrafo = parrafo.Replace("[CONTADORREFORMAS]", contRef.ToString()+".- ");
-
-                                    if (item.TipoNormaId != null)
-                                    {
-                                        parrafo = parrafo.Replace("[TIPONORMAREF]", contRef.ToString() + ".- " + "Reforma de estatutos aprobada por " + item.TipoNorma.Nombre.ToString());
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[TIPONORMAREF]", string.Empty);
-                                    }
-
-                                    if (item.NNorma != null)
-                                    {
-                                        parrafo = parrafo.Replace("[NUMERONORMARREF]", " N° " + item.NNorma.ToString() + " ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[NUMERONORMARREF]", string.Empty);
-                                    }
-
-                                    if (item.FechaNorma != null)
-                                    {
-                                        parrafo = parrafo.Replace("[FECHANORMAREF]", "de fecha " + item.FechaNorma.Value.ToString("dd/MM/yyyy") + ", ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[FECHANORMAREF]", string.Empty);
-                                    }
-
-                                    if (item.DatosNotario != null)
-                                    {
-                                        parrafo = parrafo.Replace("[DATOGENERALNOTARIOREF]", "del " + item.DatosNotario.ToString());
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[DATOGENERALNOTARIOREF]", string.Empty);
-                                    }
-
-
-                                    if (item.FechaPublicDiario != null)
-                                    {
-                                        parrafo = parrafo.Replace("[FECHAPUBLICACIONDIARIOREF]", ", cuyo extracto fue publicado en el Diario Oficial de fecha " + item.FechaPublicDiario.Value.ToString("dd/MM/yyyy") + ". ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[FECHAPUBLICACIONDIARIOREF]", string.Empty);
-                                    }
-
-                                    if (item.EspaciosDocAnterior != null)
-                                    {
-                                        parrafoEspacio = parrafoEspacio.Replace("[EspaciosDocAnterior]", item.EspaciosDocAnterior);
-                                    }
-                                    else
-                                    {
-                                        parrafoEspacio = parrafoEspacio.Replace("[EspaciosDocAnterior]", string.Empty);
+                                        switch (value)
+                                        {
+                                            case "[COUNT]":
+                                                parrafo = parrafo.Replace(value, "<strong>" + contRef.ToString() + ".- </strong>");
+                                                break;
+                                            case "[TIPONORMAREF]":
+                                                parrafo = parrafo.Replace(value, item.TipoNorma.Nombre != null ? item.TipoNorma.Nombre : string.Empty);
+                                                break;
+                                            case "[NUMERONORMAREF]":
+                                                parrafo = parrafo = parrafo.Replace(value, item.NNorma != null ? item.NNorma : string.Empty);
+                                                break;
+                                            case "[FECHANORMAREF]":
+                                                parrafo = parrafo.Replace(value, item.FechaNorma.Value != null ?
+                                                                                              string.Format("{0:dd/MM/yyyy}", item.FechaNorma) : string.Empty);
+                                                break;
+                                            case "[DATOSGENERALNOTARIOREF]":
+                                                parrafo = parrafo.Replace(value, item.DatosNotario != null ? item.DatosNotario : string.Empty);
+                                                break;
+                                            case "[FECHAPUBLICACIONDIARIOREF]":
+                                                parrafo = parrafo.Replace(value, item.FechaPublicDiario.Value != null ?
+                                                                                              string.Format("{0:dd/MM/yyyy}", item.FechaPublicDiario) : string.Empty);
+                                                break;
+                                        }
                                     }
 
 
 
-                                    if (organizacion.TipoOrganizacionId == 1)
-                                    {
-                                        parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAPUBLICACIONREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[anoinscripcion]", string.Empty);
-                                        parrafo = parrafo.Replace("[DATOSCBRREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAOFICIOREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[NUMEROOFICIOREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[APROBACION]", string.Empty);
-                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                        parrafo = parrafo.Replace("[Fojas]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAREFORMAA]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAREFORMA]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHANORMAREFPOST]", string.Empty);
-                                        parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAPUBLICDIARIO]", string.Empty);
-                                        parrafo = parrafo.Replace("[INTRO2]", string.Empty);
-                                        parrafoEspacio = parrafoEspacio.Replace("[TIPONORMA]", string.Empty);
-                                        parrafoEspacio = parrafoEspacio.Replace("[NUMERONORMA]", string.Empty);
-                                        parrafoEspacio = parrafoEspacio.Replace("[FECHANORMA]", string.Empty);
-                                        parrafoEspacio = parrafoEspacio.Replace("[AUTORIZADOPOR]", string.Empty);
-                                        parrafoEspacio = parrafoEspacio.Replace("[FECHAPUBLICACIONN]", string.Empty);
-                                        parrafoEspacio = parrafoEspacio.Replace("[EspaciosDoc]", string.Empty);
-                                    }
+
+                                    //if (item.EspaciosDocAnterior != null)
+                                    //{
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[EspaciosDocAnterior]", item.EspaciosDocAnterior);
+                                    //}
+                                    //else
+                                    //{
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[EspaciosDocAnterior]", string.Empty);
+                                    //}
+                                    //revisar esta parte
+
+                                    //if (organizacion.TipoOrganizacionId == 1)
+                                    //{
+                                    //    parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[FECHAPUBLICACIONREF]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[anoinscripcion]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[DATOSCBRREF]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[FECHAOFICIOREF]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[NUMEROOFICIOREF]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[APROBACION]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[Fojas]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[FECHAREFORMAA]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[FECHAREFORMA]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[FECHANORMAREFPOST]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[FECHAPUBLICDIARIO]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[INTRO2]", string.Empty);
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[TIPONORMA]", string.Empty);
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[NUMERONORMA]", string.Empty);
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[FECHANORMA]", string.Empty);
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[AUTORIZADOPOR]", string.Empty);
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[FECHAPUBLICACIONN]", string.Empty);
+                                    //    parrafoEspacio = parrafoEspacio.Replace("[EspaciosDoc]", string.Empty);
+                                    //}
 
                                     Paragraph parro = new Paragraph(parrafo, _fontStandard);
                                     parro.Alignment = Element.ALIGN_JUSTIFIED;
 
-                                    Paragraph parroEspacios = new Paragraph(parrafoEspacio, _fontStandard);
-                                    parroEspacios.Alignment = Element.ALIGN_JUSTIFIED;
 
                                     doc.Add(parro);
                                     doc.Add(SaltoLinea);
-                                    doc.Add(parroEspacios);
 
                                 }
                             }
 
                             if (organizacion.ReformaPosteriors.Any())
                             {
+                                //Contador de reformas posterioress
                                 var contRefPost = 0;
-                                foreach (var item in organizacion.ReformaPosteriors.ToList().OrderByDescending(q => q.FReforma).ToList())
-                                {
-                                    string parrafo = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
-                                    string parrafoEspacioPost = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
 
-                                    //string parrafo = string.Format(configuracioncertificado.Parrafo4);
-                                    //string parrafoEspacioPost = string.Format(configuracioncertificado.Parrafo5);
+                                string parrafoEspacioPost = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
+
+                                List<string> campos_parrafo3 = new List<string>();
+                                foreach (var item in configuracioncertificado.Parrafo4RePosterior.Replace(",", " ").Replace(".", " ").Split())
+                                {
+                                    if (item.Contains("[") && item.Contains("]"))
+                                    {
+                                        campos_parrafo3.Add(item);
+                                    }
+                                }
+
+
+                                //Aqui cambié el OrdeByDescending a OrderBy (Para que ordene de manera ascendente)
+                                foreach (var item in organizacion.ReformaPosteriors.ToList().OrderBy(q => q.FReforma).ToList())
+                                {
                                     contRefPost++;
+                                    string parrafo = string.Format(configuracioncertificado.Parrafo4RePosterior != null ? configuracioncertificado.Parrafo4RePosterior : " ");
+
                                     var fechaMayorr = organizacion.ReformaPosteriors.OrderByDescending(q => q.FReforma).FirstOrDefault();
 
-                                    if (!organizacion.ReformaAnteriors.Any() && contRefPost == 1)
+                                    //Revisar esta parte
+                                    if (organizacion.ReformaPosteriors.Any() && contRefPost == 1 && !organizacion.ReformaAnteriors.Any())
                                     {
-                                        parrafo = parrafo.Replace("[INTRO2]", "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" + "\n" + "\n");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[INTRO2]", string.Empty);
-                                    }
-
-
-                                    if (contRefPost == 1)
-                                    {
-                                        parrafo = parrafo.Replace("[COUNTREF]", "REFORMA(AS) POSTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[COUNTREF]", string.Empty);
-                                    }
-
-                                    if (item.FechaJuntGeneralSocios != null)//organizacion.ReformaPosteriors.FirstOrDefault().FechaJuntGeneralSocios
-                                    {
-                                        parrafo = parrafo.Replace("[FECHAREFORMAA]", contRefPost.ToString() + ".- " + "Reforma de estatutos acordada por la junta general extraordinaria de socios celebrada con fecha " + item.FechaJuntGeneralSocios.Value.ToString("dd/MM/yyyy") + ", ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[FECHAREFORMAA]", string.Empty);
-                                    }
-
-
-                                    if (item.FechaEscrituraPublica != null)
-                                    {
-                                        parrafo = parrafo.Replace("[FECHANORMAREFPOST]", "cuya acta fue reducida a escritura pública con fecha " + item.FechaEscrituraPublica.Value.ToString("dd/MM/yyyy") + ", ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[FECHANORMAREFPOST]", string.Empty);
-                                    }
-
-                                    if (item.FechaPubliDiario != null)
-                                    {
-                                        parrafo = parrafo.Replace("[FECHAPUBLICDIARIO]", " publicada en el diario oficial con fecha " + item.FechaPubliDiario.Value.ToString("dd/MM/yyyy")+" ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[FECHAPUBLICDIARIO]", string.Empty);
-                                    }
-
-                                    if (item.DatosGeneralNotario != null)
-                                    {
-                                        parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", "otorgada ante el " + item.DatosGeneralNotario.ToString());
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", string.Empty);
-                                    }
-
-                                    if (item.FojasNumero != null)
-                                    {
-                                        parrafo = parrafo.Replace("[Fojas]", "e inscrita a fojas " + item.FojasNumero.ToString() + " ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[Fojas]", string.Empty);
-                                    }
-
-                                    if (item.DatosCBR != null)
-                                    {
-                                        parrafo = parrafo.Replace("[DATOSCBRREF]", "del " + item.DatosCBR.ToString());
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[DATOSCBRREF]", string.Empty);
-                                    }
-
-                                    if (organizacion.TipoOrganizacionId == 1)
-                                    {
-
-                                        parrafo = parrafo.Replace("[FECHAPUBLICACIONDIARIOREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[DATOGENERALNOTARIOREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[TIPONORMAREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAPUBLICACIONREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[DATOSCBRREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAOFICIOREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[NUMEROOFICIOREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[APROBACION]", string.Empty);
-                                        parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHAREFORMA]", string.Empty);
-                                        parrafo = parrafo.Replace("[NUMERONORMARREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[FECHANORMAREF]", string.Empty);
-                                        parrafo = parrafo.Replace("[INTRO1]", string.Empty);
-                                        parrafo = parrafo.Replace("[EspaciosDocAnterior]", string.Empty);
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[TIPONORMA]", string.Empty);
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[NUMERONORMA]", string.Empty);
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[FECHANORMA]", string.Empty);
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[AUTORIZADOPOR]", string.Empty);
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[FECHAPUBLICACIONN]", string.Empty);
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDocAnterior]", string.Empty);
+                                        //para insertar en un indice especificado
+                                        parrafo = parrafo.Insert(0, "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" +
+                                                                           "\n" + "\n" + "REFORMA(AS) POSTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
 
                                     }
-
-                                    if (item.AnoInscripcion != null)
+                                    else if (organizacion.ReformaPosteriors.Any() && contRefPost == 1 && organizacion.ReformaAnteriors.Any())
                                     {
-                                        parrafo = parrafo.Replace("[anoinscripcion]", ", correspondiente al año " + item.AnoInscripcion + ". ");
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[anoinscripcion]", string.Empty);
+                                        parrafo = parrafo.Insert(0, "REFORMA(AS) POSTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
                                     }
 
-                                    if (item.EspaciosDoc != null)
+                                    for (int i = 0; i < campos_parrafo3.Count; i++)
                                     {
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDoc]", item.EspaciosDoc);
+
+                                        var value = campos_parrafo3[i];
+
+                                        switch (value)
+                                        {
+                                            case "[COUNT]":
+                                                parrafo = parrafo.Replace(value, contRefPost.ToString() + ".- ");
+                                                break;
+                                            case "[FECHAREFORMAA]":
+                                                parrafo = parrafo.Replace(value, item.FechaJuntGeneralSocios.Value != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", item.FechaJuntGeneralSocios.Value) : string.Empty);
+                                                break;
+                                            case "[FECHAREFORMAPOST]":
+                                                parrafo = parrafo.Replace(value, item.FechaEscrituraPublica.Value != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", item.FechaEscrituraPublica.Value) : string.Empty);
+                                                break;
+                                            case "[FECHAPUBLICDIARIO]":
+                                                parrafo = parrafo.Replace(value, item.FechaPubliDiario.Value != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", item.FechaPubliDiario.Value) : string.Empty);
+                                                break;
+                                            case "[DATOSGENERALESNOTARIO]":
+                                                parrafo = parrafo.Replace(value, item.DatosGeneralNotario != null ? item.DatosGeneralNotario : string.Empty);
+                                                break;
+                                            case "[FOJAS]":
+                                                parrafo = parrafo.Replace(value, item.FojasNumero != null ? item.FojasNumero : string.Empty);
+                                                break;
+                                            case "[DATOSCBRREF]":
+                                                parrafo = parrafo.Replace(value, item.DatosCBR != null ? item.DatosCBR : string.Empty);
+                                                break;
+                                            case "[ANOINSCRIPCION]":
+                                                parrafo = parrafo.Replace(value, item.AnoInscripcion != null ? item.AnoInscripcion : string.Empty);
+                                                break;
+                                        }
                                     }
-                                    else
-                                    {
-                                        parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDoc]", string.Empty);
-                                    }
-
-
-
 
                                     Paragraph parraf = new Paragraph(parrafo, _fontStandard);
                                     parraf.Alignment = Element.ALIGN_JUSTIFIED;
 
-                                    Paragraph parrafoEspacio = new Paragraph(parrafoEspacioPost, _fontStandard);
-                                    parrafoEspacio.Alignment = Element.ALIGN_JUSTIFIED;
-
                                     doc.Add(parraf);
                                     doc.Add(SaltoLinea);
-                                    doc.Add(parrafoEspacio);
-                                    
 
-                                }
-                            }
+                                    //Esto se debe borrar
+                                    if (organizacion.TipoOrganizacionId == 1)
+                                    {
+
+                                        //parrafo = parrafo.Replace("[FECHAPUBLICACIONDIARIOREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[DATOGENERALNOTARIOREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[TIPONORMAREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", string.Empty);
+                                        //parrafo = parrafo.Replace("[FECHAPUBLICACIONREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[DATOSCBRREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[FECHAOFICIOREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[NUMEROOFICIOREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[APROBACION]", string.Empty);
+                                        //parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
+                                        //parrafo = parrafo.Replace("[FECHAREFORMA]", string.Empty);
+                                        //parrafo = parrafo.Replace("[NUMERONORMARREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[FECHANORMAREF]", string.Empty);
+                                        //parrafo = parrafo.Replace("[INTRO1]", string.Empty);
+                                        //parrafo = parrafo.Replace("[EspaciosDocAnterior]", string.Empty);
+                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[TIPONORMA]", string.Empty);
+                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[NUMERONORMA]", string.Empty);
+                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[FECHANORMA]", string.Empty);
+                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[AUTORIZADOPOR]", string.Empty);
+                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[FECHAPUBLICACIONN]", string.Empty);
+                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDocAnterior]", string.Empty);
+
+                                    }
 
 
-                        }
-                        if (organizacion.TipoOrganizacionId == 2 || organizacion.TipoOrganizacionId == 3)
-                        {
-                            parrafoone = parrafoone.Replace("[SIGLA]", organizacion.Sigla ?? string.Empty);
-
-                            parrafoone = parrafoone.Replace("[RAZONSOCIAL]", organizacion.RazonSocial ?? string.Empty);
-
-                            parrafoone = parrafoone.Replace("[TIPOORGANIZACION]", organizacion.TipoOrganizacion.Nombre ?? string.Empty);
-
-                            parrafoone = parrafoone.Replace("[ROL]", organizacion.NumeroRegistro ?? string.Empty);
-
-                            parrafoone = parrafoone.Replace("[VIGENTE]", organizacion.Estado.Nombre ?? string.Empty);
-
-                            Paragraph parrafounoo = new Paragraph(parrafoone, _fontStandard);
-                            parrafounoo.Alignment = Element.ALIGN_JUSTIFIED;
-                            doc.Add(SaltoLinea);
-                            doc.Add(parrafounoo);
-
-
-                            if (organizacion.ExistenciaLegals.Any())
-                            {
-
-                                if (organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios != null)
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios.Value.ToString("dd/MM/yyyy") ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio != null)
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio + ", " ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio != null)
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", "con fecha de oficio " + organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio.Value.ToString("dd/MM/yyyy") ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", string.Empty);
-                                }
-
-                                if (organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion != null && organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre != null)
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[APROBACION]",  organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre ?? string.Empty);
-                                }
-                                else
-                                {
-                                    parrafo_dos = parrafo_dos.Replace("[APROBACION]", string.Empty);
-                                }
-
-                                Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
-                                parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
-
-                                Paragraph parrafoonee = new Paragraph(parrafoone, _fontStandard);
-                                parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
-
-                                
-                                doc.Add(SaltoLinea);
-                                doc.Add(parrafoDos);
-                                doc.Add(SaltoLinea);
-
-                            }
-                            if (organizacion.ReformaAGACs.Any())
-                            {
-                                var contRefAGAC = 0;
-                                foreach (var item in organizacion.ReformaAGACs.ToList().OrderByDescending(q => q.FechaAsambleaDep).ToList())
-                                {
-                                    string parrafo = string.Format(configuracioncertificado.Parrafo4);
-                                    string parrafosss = string.Format(configuracioncertificado.Parrafo5);
-
-                                    var fechaMayor = organizacion.ReformaAGACs.OrderByDescending(q => q.FechaAsambleaDep).FirstOrDefault();
-
-                                    //if (fechaMayor.FechaAsambleaDep == item.FechaAsambleaDep)
+                                    //if (item.AnoInscripcion != null)
                                     //{
-                                    //    parrafo = parrafo.Replace("[ULTIMA]", "Esta es la última reforma. ");
-
+                                    //    parrafo = parrafo.Replace("[anoinscripcion]", ", correspondiente al año " + item.AnoInscripcion + ". ");
                                     //}
                                     //else
                                     //{
-                                    //    parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
+                                    //    parrafo = parrafo.Replace("[anoinscripcion]", string.Empty);
                                     //}
-                                    contRefAGAC++;
 
-                                    if (contRefAGAC != 0)
-                                    {
-                                        parrafo = parrafo.Replace("[COUNTREF]",  contRefAGAC.ToString() + ".- " );
-                                    }
-                                    else
-                                    {
-                                        parrafo = parrafo.Replace("[COUNTREF]", string.Empty);
-                                    }
+                                    //if (item.EspaciosDoc != null)
+                                    //{
+                                    //    parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDoc]", item.EspaciosDoc);
+                                    //}
+                                    //else
+                                    //{
+                                    //    parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDoc]", string.Empty);
+                                    //}
 
-                                    parrafo = parrafo.Replace("[ASAMBLEA]", item.AsambleaDeposito.Descripcion);
 
-                                    parrafo = parrafo.Replace("[FECHAASAMBLEA]", item.FechaAsambleaDep.Value.ToString("dd/MM/yyyy"));
 
-                                    parrafo = parrafo.Replace("[NUMEROOFICIO]", item.NumeroOficio);
 
-                                    //parrafo = parrafo.Replace("[FECHAOFICIO]", item.FechaOficio.Value.ToString("dd/MM/yyyy"));
-
-                                    parrafo = parrafo.Replace("[APROBACION]", item.Aprobacion.Nombre + ", ");
-
-                                    
-                                    if (item.EspaciosDocAGAC != null)
-                                    {
-                                        parrafosss = parrafosss.Replace("[ESPACIOS]", item.EspaciosDocAGAC);
-                                    }
-                                    else
-                                    {
-                                        parrafosss = parrafosss.Replace("[ESPACIOS]", string.Empty);
-                                    }
-
-                                    Paragraph parrafoss = new Paragraph(parrafo, _fontStandard);
-                                    parrafoss.Alignment = Element.ALIGN_JUSTIFIED;
-
-                                    Paragraph parrafoEspacio = new Paragraph(parrafosss, _fontStandard);
-                                    parrafoEspacio.Alignment = Element.ALIGN_JUSTIFIED;
-                                    
-
-                                    doc.Add(parrafoss);
-                                    doc.Add(SaltoLinea);
-                                    doc.Add(parrafoEspacio);
 
                                 }
                             }
 
+                            if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+                                organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
+                            {
+                                parrafoone = parrafoone.Replace("[SIGLA]", organizacion.Sigla ?? string.Empty);
+                                parrafoone = parrafoone.Replace("[RAZONSOCIAL]", organizacion.RazonSocial ?? string.Empty);
+                                parrafoone = parrafoone.Replace("[TIPOORGANIZACION]", organizacion.TipoOrganizacion.Nombre ?? string.Empty);
+                                parrafoone = parrafoone.Replace("[ROL]", organizacion.NumeroRegistro ?? string.Empty);
+                                parrafoone = parrafoone.Replace("[VIGENTE]", organizacion.Estado.Nombre ?? string.Empty);
+
+                                Paragraph parrafounoo = new Paragraph(parrafoone, _fontStandard);
+                                parrafounoo.Alignment = Element.ALIGN_JUSTIFIED;
+                                doc.Add(SaltoLinea);
+                                doc.Add(parrafounoo);
+                                //A
+
+                                if (organizacion.ExistenciaLegals.Any())
+                                {
+                                    if (organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios != null)
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios.Value.ToString("dd/MM/yyyy") ?? string.Empty);
+                                    }
+                                    else
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", string.Empty);
+                                    }
+
+                                    if (organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio != null)
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio + ", " ?? string.Empty);
+                                    }
+                                    else
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", string.Empty);
+                                    }
+
+                                    if (organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio != null)
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio.Value.ToString("dd/MM/yyyy") ?? string.Empty);
+                                    }
+                                    else
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", string.Empty);
+                                    }
+
+                                    if (organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion != null && organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre != null)
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[APROBACION]", organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre ?? string.Empty);
+                                    }
+                                    else
+                                    {
+                                        parrafo_dos = parrafo_dos.Replace("[APROBACION]", string.Empty);
+                                    }
+
+                                    Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
+                                    parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
+
+                                    Paragraph parrafoonee = new Paragraph(parrafoone, _fontStandard);
+                                    parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
+
+
+                                    doc.Add(SaltoLinea);
+                                    doc.Add(parrafoDos);
+                                    doc.Add(SaltoLinea);
+                                }
+
+                                if (organizacion.ReformaAGACs.Any())
+                                {
+                                    var contRefAGAC = 0;
+                                    foreach (var item in organizacion.ReformaAGACs.ToList().OrderByDescending(q => q.FechaAsambleaDep).ToList())
+                                    {
+                                        //string parrafo = string.Format(configuracioncertificado.Parrafo4);
+                                        //string parrafosss = string.Format(configuracioncertificado.Parrafo5);
+                                        string parrafo = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo4 : " ");
+                                        string parrafosss = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
+                                        var fechaMayor = organizacion.ReformaAGACs.OrderByDescending(q => q.FechaAsambleaDep).FirstOrDefault();
+
+                                        contRefAGAC++;
+                                        if (contRefAGAC != 0)
+                                        {
+                                            parrafo = parrafo.Replace("[COUNTREF]", contRefAGAC.ToString() + ".- ");
+                                        }
+                                        else
+                                        {
+                                            parrafo = parrafo.Replace("[COUNTREF]", string.Empty);
+                                        }
+
+                                        parrafo = parrafo.Replace("[ASAMBLEA]", item.AsambleaDeposito.Descripcion);
+                                        parrafo = parrafo.Replace("[FECHAASAMBLEA]", item.FechaAsambleaDep.Value.ToString("dd/MM/yyyy"));
+                                        parrafo = parrafo.Replace("[NUMEROOFICIO]", item.NumeroOficio);
+                                        parrafo = parrafo.Replace("[APROBACION]", item.Aprobacion.Nombre + ", ");
+
+                                        Paragraph parrafoss = new Paragraph(parrafo, _fontStandard);
+                                        parrafoss.Alignment = Element.ALIGN_JUSTIFIED;
+
+                                        Paragraph parrafoEspacio = new Paragraph(parrafosss, _fontStandard);
+                                        parrafoEspacio.Alignment = Element.ALIGN_JUSTIFIED;
+
+
+                                        doc.Add(parrafoss);
+                                        doc.Add(SaltoLinea);
+                                        doc.Add(parrafoEspacio);
+                                    }
+                                }
+                            }
                         }
                     }
-
                     else
                     {
                         throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
@@ -1827,17 +1789,39 @@ namespace DAES.BLL
                     }
                 }
 
-
                 if (configuracioncertificado.TieneDirectorio)
                 {
+                    var parrafo = string.Format(configuracioncertificado.Parrafo2 != null ? configuracioncertificado.Parrafo2 : " ");
+                    List<string> campos_parrafo2 = new List<string>();
+                    foreach (var item in parrafo.Replace(",", " ").Replace(".", " ").Split())
+                    {
+                        if (item.Contains("[") && item.Contains("]"))
+                        {
+                            campos_parrafo2.Add(item);
+                        }
+                    }
+
+                    for (int i = 0; i < campos_parrafo2.Count; i++)
+                    {
+                        var value = campos_parrafo2[i];
+                        switch (value)
+                        {
+                            case "[FECHACELEBRACION]":
+                                parrafo = parrafo.Replace(value, organizacion.FechaCelebracion.ToString() != null ?
+                                                          string.Format("{0:dd/MM/yyyy}", organizacion.FechaCelebracion.Value) : string.Empty);
+                                break;
+                        }
+                    }
+
+                    Paragraph parrafito = new Paragraph(parrafo, _fontStandard);
+                    parrafito.Alignment = Element.ALIGN_JUSTIFIED;
+                    doc.Add(parrafito);
+                    doc.Add(SaltoLinea);
+
                     var directorio = context.Directorio.Where(q => q.OrganizacionId == organizacion.OrganizacionId).OrderBy(q => q.Cargo.Secuencia);
                     if (directorio.Any())
                     {
-
-                        #region directorio
-
                         doc.Add(paragraphDOS);
-
                         if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                         {
                             PdfPTable table = new PdfPTable(2);
@@ -1937,8 +1921,6 @@ namespace DAES.BLL
                             table.SpacingBefore = 15f;
                             doc.Add(table);
                         }
-
-                        #endregion directorio
                     }
                     else
                     {
@@ -1957,14 +1939,22 @@ namespace DAES.BLL
                     }
                 }
 
-                if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa) // Cooperativa
+                if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                 {
                     //string orden = "Por orden del Subsecretario";
-                    doc.Add(SaltoLinea);
+                    //Se quita salto de linea, esto porque queda muy separado del párrafo anterior
+                    //doc.Add(SaltoLinea);
                     if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
                     {
-                        string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa." +
-                             "\n" + "\n" +
+                        //string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa." +
+                        //     "\n" + "\n" +
+                        //    "DECRETO TRAN N° 119247/1/2021, DEL 01 DE FEBRERO DE 2021." + "\n" + "\n" +
+                        //    "DECRETO CON FUERZA DE LEY N°5 DE 25 DE SEPTIEMBRE DE 2003 DEL MINISTERIO DE ECONOMIA, FOMENTO Y RECONSTRUCCIÓN, QUE FIJA EL TEXTO REFUNDIDO,
+                        //    CONCORDADO Y SISTEMATIZADODE LA LEY GENERAL DE COOPERATIVAS." + "\n" + "\n" +
+                        //    "Saluda atentamente a ustedes";
+
+                        string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de " +
+                            "la personalidad jurídica de dicha Cooperativa." + "\n" + "\n" +
                             "Saluda atentamente a ustedes";
 
                         Paragraph porOrden = new Paragraph(orden, _fontStandard);
@@ -1979,19 +1969,21 @@ namespace DAES.BLL
                         Paragraph porOrden = new Paragraph(orden, _fontStandard);
                         porOrden.Alignment = Element.ALIGN_JUSTIFIED;
                         doc.Add(porOrden);
+
+
                     }
                 }
-                //doc.Add(SaltoLinea);
 
-                if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores) // Cooperativa
+                if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+                    organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
                 {
                     //string orden = "Por orden del Subsecretario";
                     doc.Add(SaltoLinea);
                     if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
                     {
                         string orden =
-                             //    "DECRETO TRAN N° 119247/1/2021, DEL 01 DE FEBRERO DE 2021." + "\n" + "\n" +
-                             "\n" + "\n" +
+                            //"DECRETO TRAN N° 119247/1/2021, DEL 01 DE FEBRERO DE 2021." + "\n" + "\n" +
+                            // "\n" + "\n" +
                             "Saluda atentamente a ustedes";
 
                         Paragraph porOrden = new Paragraph(orden, _fontStandard);
@@ -2007,18 +1999,10 @@ namespace DAES.BLL
                     }
                 }
                 doc.Add(SaltoLinea);
-
-                //if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)// Asoc. Gremial
-                //{
-                //    orden = "Por orden del Ministro";
-                //}
-
                 if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio == organizacion.Documentos.FirstOrDefault().TipoDocumentoId)
                 {
-
                     doc.Add(rae);
                 }
-
                 //imagen firma
                 var configFirma = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.URLImagenRubrica);
                 if (configFirma == null)
@@ -2031,10 +2015,10 @@ namespace DAES.BLL
                     throw new Exception("La configuración de url de rúbrica es inválida.");
                 }
 
-                Image imagenFirma = Image.GetInstance(configFirma.Valor + firmante.IdFirma + ".png");
-                imagenFirma.Alignment = Element.ALIGN_CENTER;
-                imagenFirma.ScalePercent(65);
-                doc.Add(imagenFirma);
+                //Image imagenFirma = Image.GetInstance(configFirma.Valor + firmante.IdFirma + ".png");
+                //imagenFirma.Alignment = Element.ALIGN_CENTER;
+                //imagenFirma.ScalePercent(65);
+                //doc.Add(imagenFirma);
 
                 Paragraph responsable = new Paragraph(firmante.Nombre, _fontStandardBold);
                 responsable.Alignment = centrar;
@@ -2050,43 +2034,45 @@ namespace DAES.BLL
 
                 doc.Add(SaltoLinea);
 
-                var configmensajeVerificacion = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.MensajeVerificacionCertificado);
-                if (configmensajeVerificacion == null)
-                {
-                    throw new Exception("No existe la configuración de mensaje de verificación de certificados");
-                }
+                //var configmensajeVerificacion = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.MensajeVerificacionCertificado);
+                //if (configmensajeVerificacion == null)
+                //{
+                //    throw new Exception("No existe la configuración de mensaje de verificación de certificados");
+                //}
 
-                if (configmensajeVerificacion != null && configmensajeVerificacion.Valor.IsNullOrWhiteSpace())
-                {
-                    throw new Exception("La configuración de mensaje de verificación de certificados es inválida");
-                }
+                //if (configmensajeVerificacion != null && configmensajeVerificacion.Valor.IsNullOrWhiteSpace())
+                //{
+                //    throw new Exception("La configuración de mensaje de verificación de certificados es inválida");
+                //}
 
-                if (!string.IsNullOrEmpty(configmensajeVerificacion.Valor))
-                {
-                    Paragraph url = new Paragraph(configmensajeVerificacion.Valor + " usando el código " + id, _fontStandard);
-                    url.Alignment = Element.ALIGN_CENTER;
-                    doc.Add(url);
-                }
+                //if (!string.IsNullOrEmpty(configmensajeVerificacion.Valor))
+                //{
+                //    Paragraph url = new Paragraph(configmensajeVerificacion.Valor + " usando el código " + id, _fontStandard);
+                //    url.Alignment = Element.ALIGN_CENTER;
+                //    doc.Add(url);
+                //}
 
                 //mensaje de pie de firma
-                var configmensajePie = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.MensajePieFirmaCertificado);
-                if (configmensajePie == null)
-                {
-                    throw new Exception("No existe la configuración de mensaje pié de firma de certificados");
-                }
+                //var configmensajePie = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.MensajePieFirmaCertificado);
+                //if (configmensajePie == null)
+                //{
+                //    throw new Exception("No existe la configuración de mensaje pié de firma de certificados");
+                //}
 
-                if (configmensajePie != null && configmensajePie.Valor.IsNullOrWhiteSpace())
-                {
-                    throw new Exception("La configuración de mensaje de pié de firma de certificados es inválida");
-                }
+                //if (configmensajePie != null && configmensajePie.Valor.IsNullOrWhiteSpace())
+                //{
+                //    throw new Exception("La configuración de mensaje de pié de firma de certificados es inválida");
+                //}
 
-                Paragraph pie = new Paragraph(configmensajePie.Valor, _fontStandard);
-                pie.Alignment = Element.ALIGN_CENTER;
-                doc.Add(pie);
+                //Paragraph pie = new Paragraph(configmensajePie.Valor, _fontStandard);
+                //pie.Alignment = Element.ALIGN_CENTER;
+                //doc.Add(pie);
 
                 doc.Close();
                 return memStream.ToArray();
+
             }
+
         }
 
         public void ReformaCreate(Reforma reforma, Organizacion or)
@@ -2176,7 +2162,7 @@ namespace DAES.BLL
                         DatosCBR = reforma.DatosCBR,
                         FechaPubliDiario = reforma.FechaPubliDiario,
                         EspaciosDoc = reforma.EspaciosDoc
-                        
+
 
 
                     });
@@ -2606,6 +2592,9 @@ namespace DAES.BLL
                     Cargo = obj.Solicitante.Cargo
                 };
 
+
+
+
                 //en el caso de que el proceso se origine a partir de un documento, asociar datos
                 if (obj.DocumentoId > 0)
                 {
@@ -2761,7 +2750,7 @@ namespace DAES.BLL
                                 RepresentanteLegalId = UpRepre.RepresentanteLegalId,
                                 Habilitado = true,
                                 Eliminado = false,
-                                ActualizacionSupervisorId=UpSuper.ActualizacionSupervisorId
+                                ActualizacionSupervisorId = UpSuper.ActualizacionSupervisorId
                             });
                         }
 
@@ -2776,7 +2765,7 @@ namespace DAES.BLL
                                 RUN = item.PersonaFacultadas[i].RUN,
                                 PersonaFacultadaId = item.PersonaFacultadas[i].PersonaFacultadaId,
                                 ActualizacionSupervisorId = UpSuper.ActualizacionSupervisorId,
-                                Habilitado=true
+                                Habilitado = true
                             });
                         }
                     }
@@ -2786,56 +2775,56 @@ namespace DAES.BLL
                 //if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
                 //{
 
-                    if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
+                if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.EstudioSocioEconomicos)
+                {
+                    foreach (var item in obj.EstudioSocioEconomicos)
                     {
-                        foreach (var item in obj.EstudioSocioEconomicos)
+                        proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
                         {
-                            proceso.EstudioSocioEconomicos.Add(new EstudioSocioEconomico
-                            {
-                                FechaCreacion = item.FechaCreacion,
-                                DocumentoAdjunto = item.DocumentoAdjunto,
-                                Proceso = proceso
-                            });
+                            FechaCreacion = item.FechaCreacion,
+                            DocumentoAdjunto = item.DocumentoAdjunto,
+                            Proceso = proceso
+                        });
 
-                        }
-                        //si viene datos de una organizacion, usarlos para crea la nueva
-                        if (obj.Organizacion != null)
-                        {
-                            proceso.Organizacion = obj.Organizacion;
-                        }
-
-                        //si no vienen datos, crear una nueva organizacion
-                        proceso.Organizacion = new Organizacion()
-                        {
-
-                            RazonSocial = obj.Organizacion.RazonSocial,
-                            RubroId = obj.Organizacion.RubroId,
-                            SubRubroId = obj.Organizacion.SubRubroId,
-                            RUT = obj.Organizacion.RUT,
-                            Sigla = obj.Organizacion.Sigla,
-                            Fono = obj.Organizacion.Fono,
-                            Email = obj.Organizacion.Email,
-                            Direccion = obj.Organizacion.Direccion,
-                            RegionId = obj.Organizacion.RegionId,
-                            ComunaId = obj.Organizacion.ComunaId,
-                            FechaCreacion = DateTime.Now,
-                            SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
-                            TipoOrganizacionId = 1,
-                            EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
-                            EsGeneroFemenino = false,
-                            EsImportanciaEconomica = false
-                        };
                     }
-                    //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
-                    else
+                    //si viene datos de una organizacion, usarlos para crea la nueva
+                    if (obj.Organizacion != null)
                     {
-                        if (obj.OrganizacionId != null)
-                        {
-
-                            proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
-                        }
+                        proceso.Organizacion = obj.Organizacion;
                     }
-                
+
+                    //si no vienen datos, crear una nueva organizacion
+                    proceso.Organizacion = new Organizacion()
+                    {
+
+                        RazonSocial = obj.Organizacion.RazonSocial,
+                        RubroId = obj.Organizacion.RubroId,
+                        SubRubroId = obj.Organizacion.SubRubroId,
+                        RUT = obj.Organizacion.RUT,
+                        Sigla = obj.Organizacion.Sigla,
+                        Fono = obj.Organizacion.Fono,
+                        Email = obj.Organizacion.Email,
+                        Direccion = obj.Organizacion.Direccion,
+                        RegionId = obj.Organizacion.RegionId,
+                        ComunaId = obj.Organizacion.ComunaId,
+                        FechaCreacion = DateTime.Now,
+                        SituacionId = (int)Infrastructure.Enum.Situacion.Inactiva,
+                        TipoOrganizacionId = 1,
+                        EstadoId = (int)Infrastructure.Enum.Estado.RolAsignado,
+                        EsGeneroFemenino = false,
+                        EsImportanciaEconomica = false
+                    };
+                }
+                //en el caso de un proceso distinto de constitucion asignar organizacion seleccionada
+                else
+                {
+                    if (obj.OrganizacionId != null)
+                    {
+
+                        proceso.Organizacion = context.Organizacion.FirstOrDefault(q => q.OrganizacionId == obj.OrganizacionId);
+                    }
+                }
+
 
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.ConstitucionWeb)
                 {
@@ -2861,7 +2850,7 @@ namespace DAES.BLL
                     };
 
                 }
-                
+
 
                 //}
                 //    else
@@ -3078,6 +3067,23 @@ namespace DAES.BLL
 
                     context.SaveChanges();
                 }
+
+                //en el caso de que el proceso sea de generar el certificado de TEST
+                //if (proceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.ConfiguracionCertificadoTEST)
+                //{
+                //    var documento = obj.Documentos.FirstOrDefault();
+                //    var configuracionCertificado = context.ConfiguracionCertificado.FirstOrDefault(q => q.TipoDocumentoId == documento.TipoDocumentoId && q.TipoOrganizacionId == proceso.Organizacion.TipoOrganizacionId);
+                //    documento.Content = CrearCertificadoTEST(configuracionCertificado, proceso.Organizacion, documento.Firmante, documento.DocumentoId, documento.TipoDocumentoId);
+                //    documento.FileName = string.Concat(documento.DocumentoId, ".pdf");
+
+                //    context.SaveChanges();
+
+                //    //var documento = proceso.Documentos.FirstOrDefault() == null ? new Documento() 
+                //    //                { TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.OficioTEST } : null;
+                //    //var configuracionCertificado = context.ConfiguracionCertificado.FirstOrDefault();
+
+
+                //}
 
                 //notificar al solicitante via correo el inicio del proceso
                 NotificarProceso(proceso, proceso.Solicitante.Email);

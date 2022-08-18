@@ -25,7 +25,7 @@ namespace DAES.Model.SistemaIntegrado
         public int TipoOrganizacionId { get; set; }
         public virtual TipoOrganizacion TipoOrganizacion { get; set; }
 
-        [Required(ErrorMessage = "Es necesario especificar este dato")]
+        //[Required(ErrorMessage = "Es necesario especificar este dato")]
         [DataType(DataType.MultilineText)]
         [Display(Name = "Párrafo 1")]
         public string Parrafo1 { get; set; }
@@ -69,5 +69,29 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Tiene estatúto?")]
         public bool TieneEstatuto { get; set; }
+
+        //Parrafo 2 con Existencia Anterior
+        [DataType(DataType.MultilineText)]
+        public string Parrafo2ExAnterior { get; set; }
+
+        //Parrafo 2 con Existencia Posterior
+        [DataType(DataType.MultilineText)]
+        public string Parrafo2ExPosterior { get; set; }
+
+        //Párrafo 4 con Reforma Anterior
+        [DataType(DataType.MultilineText)]
+        public string Parrafo4ReAnterior { get; set; }
+
+        //Parrafo 4 con ReformaPosterior
+        [DataType(DataType.MultilineText)]
+        public string Parrafo4RePosterior { get; set; }
+
+        //Parrafo 1 con Disulucion Anterior a 2003
+        [DataType(DataType.MultilineText)]
+        public string Parrafo1DisAnt { get; set; }
+
+        //Parrafo 1 con Disolucion Posterior a 2003
+        [DataType(DataType.MultilineText)]
+        public string Parrafo1DisPos { get; set; }
     }
 }

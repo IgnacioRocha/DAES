@@ -178,7 +178,10 @@
             FichaDatos = 101,
             VigenciaEstatutos = 103,
             InformeComisionRevisodoraCuentas = 102,
-            CertificadoDisolucionTest = 106
+            CertificadoDisolucionTest = 106,
+            //TEST
+            OficioTEST = 107
+
         }
 
         public enum TipoOrganizacion
@@ -222,7 +225,10 @@
             ActualizacionSupervisorAuxiliar = 1109*/
             //Test
             IngresoSupervisorAuxiliar = 110,
-            ActualizacionSupervisorAuxiliar = 112
+            ActualizacionSupervisorAuxiliar = 112,
+
+            //Nuevo
+            ConfiguracionCertificadoTEST = 115
         }
 
         public enum TipoAprobacion
