@@ -1042,6 +1042,7 @@
     <Content Include="Views\Task\Sign.cshtml" />
     <Content Include="Views\Task\_Message.cshtml" />
     <Content Include="Views\Task\SignResolucion.cshtml" />
+    <Content Include="Views\Task\CambioBandeja.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

@@ -1818,8 +1818,6 @@ namespace DAES.BLL
                             }
 
                         }
-
-
                     }
 
                     else
@@ -2240,7 +2238,6 @@ namespace DAES.BLL
                     });
                     context.SaveChanges();
                 }
-
 
             }
         }
@@ -3245,7 +3242,7 @@ namespace DAES.BLL
                         nuevoworkflow.DefinicionWorkflow = siguientedefinicionworkflow;
                         nuevoworkflow.Proceso = proceso;
                         nuevoworkflow.PerfilId = siguientedefinicionworkflow.PerfilId;
-                        nuevoworkflow.UserId = userid != null ? userid : workflow.UserId;
+                        nuevoworkflow.UserId = w.UserId != null ? workflow.UserId : userid;
 
                         //si es mas de 1 usuario agrupar las tareas y hacerlas paralelas
                         if (listausuarios.Count() > 1)
@@ -3279,6 +3276,53 @@ namespace DAES.BLL
                         NotificarTarea(item.WorkflowId);
                     }
                 }
+            }
+        }
+
+        public void CambioDeBandeja(Workflow w, int? DefinicionWorkflowId)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                if (w == null)
+                {
+                    throw new Exception("Debe especificar un workflow.");
+                }
+
+                var workflow = context.Workflow.FirstOrDefault(q => q.WorkflowId == w.WorkflowId);
+                if (workflow == null)
+                {
+                    throw new Exception("No se encontró el workflow.");
+                }
+
+                var proceso = context.Proceso.FirstOrDefault(q => q.ProcesoId == workflow.ProcesoId);
+                if (proceso == null)
+                {
+                    throw new Exception("No se encontró el proceso asociado al workflow.");
+                }
+
+                var definicionproceso = context.DefinicionProceso.FirstOrDefault(q => q.DefinicionProcesoId == proceso.DefinicionProcesoId);
+                if (definicionproceso == null)
+                {
+                    throw new Exception("No se encontró la definición de proceso asociado al workflow.");
+                }
+
+                var definicionworkflowlist = context.DefinicionWorkflow.Where(q => q.Habilitado && q.DefinicionProcesoId == proceso.DefinicionProcesoId).OrderBy(q => q.Secuencia).ThenBy(q => q.DefinicionWorkflowId);
+                if (!definicionworkflowlist.Any())
+                {
+                    throw new Exception("No se encontró la definición de tarea del proceso asociado al workflow.");
+                }
+
+                //terminar tarea actual
+                workflow.Observacion = w.Observacion;
+                workflow.UserId = w.UserId;
+
+                //si la tarea es despacho de documentos, notificar a jefatura
+                if (workflow.DefinicionWorkflow.TipoWorkflow.Nombre.ToUpper() == "ARCHIVAR")
+                {
+                    NotificarArchivo(workflow.WorkflowId);
+                }
+
+                context.SaveChanges();
             }
         }
 

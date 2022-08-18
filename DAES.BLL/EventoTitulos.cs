@@ -38,45 +38,45 @@ namespace DAES.BLL
             cb.RestoreState();
         }
 
-        public override void OnEndPage(PdfWriter writer, Document document)
-        {
-            PdfContentByte cb = writer.DirectContent;
-            cb.SaveState();
-            cb.BeginText();
-            cb.SetFontAndSize(helv, 7);
-            string sPiePagina = "";
+        //public override void OnEndPage(PdfWriter writer, Document document)
+        //{
+        //    PdfContentByte cb = writer.DirectContent;
+        //    cb.SaveState();
+        //    cb.BeginText();
+        //    cb.SetFontAndSize(helv, 7);
+        //    string sPiePagina = "";
 
-            float textSize = 7;
-            float textBase = 200; // Este lo pone la informacion en la parte inferior
+        //    float textSize = 7;
+        //    float textBase = 200; // Este lo pone la informacion en la parte inferior
 
-            sPiePagina = "______________________________________________________________________________________________________________________";
-            cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER, sPiePagina, 310, 50, 0);
-            cb.AddTemplate(total, document.Right + textSize, textBase);
+        //    sPiePagina = "______________________________________________________________________________________________________________________";
+        //    cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER, sPiePagina, 310, 50, 0);
+        //    cb.AddTemplate(total, document.Right + textSize, textBase);
 
 
-            var db = new SistemaIntegradoContext();
-            var configLinea1 = db.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.DireccionLinea1);
-            if (configLinea1 == null)
-                throw new Exception("No se encontró la configuración la línea 1 de dirección.");
-            if (configLinea1 != null && configLinea1.Valor.IsNullOrWhiteSpace())
-                throw new Exception("La configuración la línea 1 de dirección es inválida.");
+        //    var db = new SistemaIntegradoContext();
+        //    var configLinea1 = db.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.DireccionLinea1);
+        //    if (configLinea1 == null)
+        //        throw new Exception("No se encontró la configuración la línea 1 de dirección.");
+        //    if (configLinea1 != null && configLinea1.Valor.IsNullOrWhiteSpace())
+        //        throw new Exception("La configuración la línea 1 de dirección es inválida.");
 
-            var configLinea2 = db.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.DireccionLinea2);
-            if (configLinea2 == null)
-                throw new Exception("No se encontró la configuración la línea 2 de dirección.");
-            if (configLinea2 != null && configLinea2.Valor.IsNullOrWhiteSpace())
-                throw new Exception("La configuración la línea 2 de dirección es inválida.");
+        //    var configLinea2 = db.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.DireccionLinea2);
+        //    if (configLinea2 == null)
+        //        throw new Exception("No se encontró la configuración la línea 2 de dirección.");
+        //    if (configLinea2 != null && configLinea2.Valor.IsNullOrWhiteSpace())
+        //        throw new Exception("La configuración la línea 2 de dirección es inválida.");
 
-            sPiePagina = configLinea1.Valor;
-            cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER, sPiePagina, 310, 32, 0);
-            cb.AddTemplate(total, document.Right + textSize, textBase);
+        //    sPiePagina = configLinea1.Valor;
+        //    cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER, sPiePagina, 310, 32, 0);
+        //    cb.AddTemplate(total, document.Right + textSize, textBase);
 
-            sPiePagina = configLinea2.Valor;
-            cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER, sPiePagina, 310, 22, 0);
+        //    sPiePagina = configLinea2.Valor;
+        //    cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER, sPiePagina, 310, 22, 0);
 
-            cb.EndText();
-            cb.AddTemplate(total, document.Right + textSize, textBase);
-            cb.RestoreState();
-        }
+        //    cb.EndText();
+        //    cb.AddTemplate(total, document.Right + textSize, textBase);
+        //    cb.RestoreState();
+        //}
     }
 }

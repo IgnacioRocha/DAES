@@ -338,26 +338,26 @@ namespace DAES.Web.BackOffice.Controllers {
             if (ModelState.IsValid)
             {
                 //var user = await UserManager.FindByNameAsync(model.Email);
-                var a = await UserManager.FindByEmailAsync(model.Email);
-                if (a == null || !(await UserManager.IsEmailConfirmedAsync(a.Id)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
-                }
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                //{
+                //    // Don't reveal that the user does not exist or is not confirmed
+                //    return View("ForgotPasswordConfirmation");
+                //}
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link 
-                string code = await UserManager.GeneratePasswordResetTokenAsync(a.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = a.Id, code = code }, protocol: Request.Url.Scheme);
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 //await UserManager.SendEmailAsync(a.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 //UserManager.SendEmail(a.Id, "reset password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 emailMsg.IsBodyHtml = true;
                 emailMsg.Subject = "Restablecer contraseña sistema DAES";
                 emailMsg.Body = "Resetea tu contraseña haciendo click en el siguiente enlace: <a href=\"" + callbackUrl + "\">here</a>";
                 emailMsg.To.Clear();
-                if (a != null)
+                if (user != null)
                 {
-                    foreach (var to in a.Email.Split(';'))
+                    foreach (var to in user.Email.Split(';'))
                     {
                         if (!to.IsNullOrWhiteSpace())
                         {

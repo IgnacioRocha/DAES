@@ -131,6 +131,9 @@ namespace DAES.Web.BackOffice.Controllers
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             model.Users = db.Users.Where(q => q.Habilitado).OrderBy(q => q.UserName).Select(item => new DAES.Model.DTO.DTOUser() { Id = item.Id, Nombre = item.Nombre, UserName = item.UserName, Selected = false }).ToList();
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
+
 
             return View(model);
         }
@@ -168,6 +171,8 @@ namespace DAES.Web.BackOffice.Controllers
             var model = new TaskModel();
             model.Workflow = workflow;
             model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).ToList();
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -206,7 +211,7 @@ namespace DAES.Web.BackOffice.Controllers
                 TempData["Message"] = Properties.Settings.Default.Success;
                 return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
             }
-
+            
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre", model.Documento.TipoDocumentoId);
             ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre", model.Documento.TipoPrivacidadId);
 
@@ -245,6 +250,8 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -316,6 +323,8 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
             ViewBag.TipoPersonaJuridicaId = new SelectList(db.TipoPersonaJuridicas.OrderBy(q => q.TipoPersonaJuridicaId), "TipoPersonaJuridicaId", "NombrePersonaJuridica");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -484,6 +493,9 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
             ViewBag.TipoNormaID = new SelectList(db.TipoNorma.OrderBy(q => q.TipoNormaId), "TipoNormaId", "Nombre");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
+
 
             return View(model);
         }
@@ -717,6 +729,8 @@ namespace DAES.Web.BackOffice.Controllers
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).ToList();
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -774,6 +788,8 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.GeneroGerenteId = db.Genero.OrderBy(q => q.Nombre);
             ViewBag.RegionId = db.Region.OrderBy(q => q.Nombre);
             ViewBag.ComunaId = db.Comuna.OrderBy(q => q.Nombre);
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -799,8 +815,59 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
+        public ActionResult CambioBandeja(int WorkflowId)
+        {
+            var model = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            ViewBag.TipoAprobacionId = new SelectList(db.TipoAprobacion.Where(q => q.TipoAprobacionId > 1).OrderBy(q => q.Nombre), "TipoAprobacionId", "Nombre");
+            ViewBag.DefinicionWorkflowId = new SelectList(db.DefinicionWorkflow.Where(q => q.DefinicionWorkflowDependeDeId == model.DefinicionWorkflowId).OrderBy(q => q.Secuencia).AsEnumerable().Select(q => new { Value = q.DefinicionWorkflowId.ToString(), Text = q.TipoWorkflow.Nombre }), "Value", "Text");
+            ViewBag.UserId = new SelectList(db.Users.Where(q => q.Habilitado).OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { Text = string.Format("{0} - {1}", q.Nombre, q.Perfil.Nombre), Value = q.Id }), "Value", "Text");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CambioBandeja(Workflow workflow, int? DefinicionWorkflowId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var help = db.Workflow.Find(workflow.WorkflowId);
+                    var Defwork = db.DefinicionWorkflow.Find(help.DefinicionWorkflowId);
+
+                    if (Defwork.TipoWorkflowId == 28)
+                    {
+                        var proc = db.Proceso.Find(help.ProcesoId);
+                        var super = db.SupervisorAuxiliars.Where(q => q.ProcesoId == proc.ProcesoId).ToList();
+
+                        foreach (var item in super)
+                        {
+                            item.Aprobado = true;
+                        }
+                        db.SaveChanges();
+                    }
+
+                    _custom.CambioDeBandeja(workflow, DefinicionWorkflowId);
+                    TempData["Message"] = Properties.Settings.Default.Success;
+                    return RedirectToAction("Index", "Inbox");
+                }
+                catch (Exception ex)
+                {
+                    TempData["Error"] = ex.Message;
+                }
+            }
+
+            ViewBag.TipoAprobacionId = new SelectList(db.TipoAprobacion.Where(q => q.TipoAprobacionId > 1).OrderBy(q => q.Nombre), "TipoAprobacionId", "Nombre", workflow.TipoAprobacionId);
+            ViewBag.DefinicionWorkflowId = new SelectList(db.DefinicionWorkflow.Where(q => q.DefinicionWorkflowDependeDeId == workflow.DefinicionWorkflowId).OrderBy(q => q.Secuencia).AsEnumerable().Select(q => new { Value = q.DefinicionWorkflowId.ToString(), Text = q.TipoWorkflow.Nombre }), "Value", "Text", DefinicionWorkflowId);
+
+            return View(workflow);
+        }
+
         public ActionResult Send(int WorkflowId)
         {
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
             var model = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             ViewBag.TipoAprobacionId = new SelectList(db.TipoAprobacion.Where(q => q.TipoAprobacionId > 1).OrderBy(q => q.Nombre), "TipoAprobacionId", "Nombre");
             ViewBag.DefinicionWorkflowId = new SelectList(db.DefinicionWorkflow.Where(q => q.DefinicionWorkflowDependeDeId == model.DefinicionWorkflowId).OrderBy(q => q.Secuencia).AsEnumerable().Select(q => new { Value = q.DefinicionWorkflowId.ToString(), Text = q.TipoWorkflow.Nombre }), "Value", "Text");
@@ -831,7 +898,6 @@ namespace DAES.Web.BackOffice.Controllers
                         }
                         db.SaveChanges();
                     }
-
                     _custom.ProcesoUpdate(workflow, DefinicionWorkflowId);
                     TempData["Message"] = Properties.Settings.Default.Success;
                     return RedirectToAction("Index", "Inbox");
@@ -856,6 +922,8 @@ namespace DAES.Web.BackOffice.Controllers
 
             ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.Where(q => q.TipoOrganizacionId != (int)Infrastructure.Enum.TipoOrganizacion.AunNoDefinida).OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -884,20 +952,18 @@ namespace DAES.Web.BackOffice.Controllers
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             var rubrica = db.Rubrica;
-           
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
+
             model.Documentos = db.Documento.Where(q => q.Activo && q.Workflow.ProcesoId == model.Workflow.Proceso.ProcesoId).ToList();
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre");
             ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre");
             ViewBag.RubricaID = new SelectList(db.Rubrica, "Email", "IdentificadorFirma").ToList();
-
             ViewBag.procesoId = model.Workflow.ProcesoId;
-            
+
             return View(model);
         }
 
-
-        
-        
         //Nuevo metodo de firma 
         public class DTOFileUploadEdit
         {
@@ -982,7 +1048,7 @@ namespace DAES.Web.BackOffice.Controllers
         [HttpPost]
         public ActionResult SignResolucion(int id, int idProceso, string RubricaID)
         {
-            
+
             Custom _custom = new Custom();
 
             var doc = db.Documento.FirstOrDefault(q => q.DocumentoId == id);
@@ -1005,7 +1071,7 @@ namespace DAES.Web.BackOffice.Controllers
                 TempData["Message"] = Properties.Settings.Default.Success;
                 return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
             }
-                
+
 
             foreach (var item in _UseCaseResponseMessage.Errors)
             {
@@ -1025,6 +1091,8 @@ namespace DAES.Web.BackOffice.Controllers
             model.Organizacion = db.Organizacion.Find(model.Workflow.Proceso.OrganizacionId);
             model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).ToList();
             model.Articulo91 = db.Articulo91.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
             return View(model);
         }
 
@@ -1038,7 +1106,7 @@ namespace DAES.Web.BackOffice.Controllers
                 db.SaveChanges();
 
                 TempData["Message"] = Properties.Settings.Default.Success;
-                return RedirectToAction("Articulo91", new { model.WorkflowId});
+                return RedirectToAction("Articulo91", new { model.WorkflowId });
             }
             return View(model);
         }
@@ -1064,6 +1132,9 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.Responsable1 = new SelectList(db.Users.Where(q => (bool)q.Habilitado && q.Perfil.Nombre.ToUpper().Contains("CONTABLE") || q.Perfil.Nombre.ToUpper().Contains("LEGAL")).OrderBy(q => q.UserName).ToList(), "UserName", "UserName");
             ViewBag.Responsable2 = new SelectList(db.Users.Where(q => (bool)q.Habilitado && q.Perfil.Nombre.ToUpper().Contains("CONTABLE") || q.Perfil.Nombre.ToUpper().Contains("LEGAL")).OrderBy(q => q.UserName).ToList(), "UserName", "UserName");
             ViewBag.Responsable3 = new SelectList(db.Users.Where(q => (bool)q.Habilitado && q.Perfil.Nombre.ToUpper().Contains("CONTABLE") || q.Perfil.Nombre.ToUpper().Contains("LEGAL")).OrderBy(q => q.UserName).ToList(), "UserName", "UserName");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
+
 
             return View(model);
         }
