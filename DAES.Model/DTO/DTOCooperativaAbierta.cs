@@ -116,5 +116,6 @@ namespace DAES.Model.DTO
         public string FonoSolicitante { get; set; }
 
         public string Observacion { get; set; }
+
     }
 }

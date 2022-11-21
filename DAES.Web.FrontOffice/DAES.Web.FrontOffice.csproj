@@ -304,6 +304,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ActualizacionSupervisorController.cs" />
+    <Compile Include="Controllers\ActualizarAsambleaOrdinariaAGACController.cs" />
+    <Compile Include="Controllers\ActualizarJuntaGeneralSociosCoopController.cs" />
     <Compile Include="Controllers\AsambleaExtraOrdinariaAsociacionController.cs" />
     <Compile Include="Controllers\AsociacionConsumidorController.cs" />
     <Compile Include="Controllers\CooperativaAbiertaController.cs" />
@@ -614,6 +616,23 @@
     <Content Include="Views\DisolucionCooperativa\Search.cshtml" />
     <Content Include="Views\Articulo90IncisoPrimero\Index.cshtml" />
     <Content Include="Views\Articulo90IncisoSegundo\Index.cshtml" />
+    <Content Include="Views\ActualizarAsambleaOrdinariaAGAC\Index.cshtml" />
+    <Content Include="Views\ActualizarAsambleaOrdinariaAGAC\Search.cshtml" />
+    <Content Include="Views\ActualizarAsambleaOrdinariaAGAC\Create.cshtml" />
+    <Content Include="Views\Shared\_ActualizarAsambleaOrdinariaAGAC.cshtml" />
+    <Content Include="Views\ActualizarJuntaGeneralSociosCoop\Index.cshtml" />
+    <Content Include="Views\ActualizarJuntaGeneralSociosCoop\Search.cshtml" />
+    <Content Include="Views\ActualizarJuntaGeneralSociosCoop\Create.cshtml" />
+    <Content Include="Views\Shared\_JuntaGeneralSociosCoop.cshtml" />
+    <Content Include="Views\ActualizarAsambleaOrdinariaAGAC\Finish.cshtml" />
+    <Content Include="Views\ActualizarJuntaGeneralSociosCoop\Finish.cshtml" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\CorreoAutomatico.html" />
@@ -627,15 +646,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Certificado\Emitir.cshtml" />

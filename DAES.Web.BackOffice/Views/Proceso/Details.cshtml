@@ -277,6 +277,17 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
                             </dl>
 
                             <hr />
+                            
+                            @{ 
+                                if (ViewBag.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador ||
+                                    ViewBag.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Jefatura ||
+                                    ViewBag.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Secretaria)
+                                {
+
+                                }
+                            }
+
+
                             @Html.ActionLink("Detalles", "Details", "Workflow", new { id = workflow.WorkflowId }, null) |
                             @Html.ActionLink("Editar", "Edit", "Workflow", new { id = workflow.WorkflowId }, null) |
                             @Html.ActionLink("Terminar", "Stop", "Workflow", new { id = workflow.WorkflowId }, null)

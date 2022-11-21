@@ -115,7 +115,7 @@ namespace DAES.Model.SistemaIntegrado
 
         //[Display(Name = "Firmado")]
         //public bool Signed { get; set; } = false;
-        [NotMapped]
+
         [Display(Name = "Folio")]
         public string Folio { get; set; }
         [NotMapped]

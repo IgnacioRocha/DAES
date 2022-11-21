@@ -20,14 +20,14 @@
         background-color: darkcyan;
     }
 </style>
-@if (ViewBag.TipoUsuario == "Administrador")
-{
-    <div id="capa2">
-        @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
+@*@if (ViewBag.TipoUsuario == "Administrador")
+    {
+        <div id="capa2">
+            @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
 
-    </div>
+        </div>
 
-}
+    }*@
 <div id="capa1">
     @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed" })
 </div>
@@ -80,12 +80,17 @@
 
                                     @if (item.Content != null)
                                     {
-                                        @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
+                                        if (item.FileName.Contains(".pdf"))
+                                        {
+                                            @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
+                                        }
+
+                                        if (item.Url != null)
+                                        {
+                                            <a href="@item.Url" target="_blank">@item.FileName</a>
+                                        }
                                     }
-                                    @if (item.Url != null)
-                                    {
-                                        <a href="@item.Url" target="_blank">@item.FileName</a>
-                                    }
+
                                 </td>
                                 <td>
                                     @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)

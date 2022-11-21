@@ -47,5 +47,9 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Género")]
         public int GeneroId { get; set; }
         public virtual Genero Genero { get; set; }
+
+        //TODO: Se agrega esto
+        public int? DirectorioUpdateId { get; set; }
+
     }
 }

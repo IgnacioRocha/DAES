@@ -2,6 +2,7 @@
 using DAES.BLL.Interfaces;
 using DAES.Infrastructure.Interfaces;
 using DAES.Infrastructure.SistemaIntegrado;
+using DAES.Model.Core;
 using DAES.Model.FirmaDocumento;
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
@@ -32,7 +33,9 @@ namespace DAES.Web.BackOffice.Controllers
         public Articulo91 Articulo91 { get; set; }
         public Fiscalizacion Fiscalizacion { get; set; }
         public Hallazgo Hallazgo { get; set; }
-
+        
+        //TODO: esto no se si funque
+        public ActualizacionOrganizacionDirectorio ActualizacionOrganizacionDirectorio { get; set; }
         public ActualizacionEscrituraConstitucion ActualizacionEscrituraConstitucion { get; set; }
         public ActualizacionExtractoAuxiliar ActualizacionExtractoAuxiliar { get; set; }
         public ActualizacionPersonaFacultada ActualizacionPersonaFacultada { get; set; }
@@ -125,6 +128,7 @@ namespace DAES.Web.BackOffice.Controllers
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+
 
         public ActionResult AsignarResponsable(int WorkflowId)
         {
@@ -250,8 +254,6 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
-            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
-            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -960,6 +962,8 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre");
             ViewBag.RubricaID = new SelectList(db.Rubrica, "Email", "IdentificadorFirma").ToList();
             ViewBag.procesoId = model.Workflow.ProcesoId;
+            ViewBag.WorkflowId = WorkflowId;
+
 
             return View(model);
         }
@@ -1046,7 +1050,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         //método de firma para FEA
         [HttpPost]
-        public ActionResult SignResolucion(int id, int idProceso, string RubricaID)
+        public ActionResult SignResolucion(int id, int idProceso, string RubricaID, int? idWorkflow)
         {
 
             Custom _custom = new Custom();
@@ -1054,22 +1058,31 @@ namespace DAES.Web.BackOffice.Controllers
             var doc = db.Documento.FirstOrDefault(q => q.DocumentoId == id);
             var email = Helper.Helper.CurrentUser.Email;
 
-
-            var model = db.Workflow.Where(q => q.ProcesoId == idProceso).First().WorkflowId;
+            //ESTO ESTABA ESCRITO
+            //var model = db.Workflow.Where(q => q.ProcesoId == idProceso).First().WorkflowId;
             //var workflowId = model.WorkflowId;
 
+            //ESTO ES NUEVO
+            //Obtengo lista de tareas en ese proceso
+            var model = db.Workflow.Where(q => q.WorkflowId == idWorkflow);
+            var workflowId = model.First().WorkflowId;
+
+
+            doc.File = doc.Content;
             var _useCaseInteractor = new TaskController(_repository, _sigper, _file, _folio, _hsm, _email);
             var deff = db.DefinicionProceso.ToArray();
             var obj = db.Proceso.FirstOrDefault(q => q.ProcesoId == idProceso);
             doc.TipoDocumentoId = 12;
 
-            var _UseCaseResponseMessage = _custom.SignReso(doc, RubricaID, idProceso);
+            var _UseCaseResponseMessage = _custom.SignReso(doc, email, idProceso);
 
             //Si es valida la firma 
             if (_UseCaseResponseMessage.IsValid)
             {
                 TempData["Message"] = Properties.Settings.Default.Success;
-                return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
+
+                //return Redirect(Request.UrlReferrer.ToString());
+                return RedirectToAction("FirmarDocumentos", new { WorkflowId = workflowId });
             }
 
 
@@ -1083,8 +1096,7 @@ namespace DAES.Web.BackOffice.Controllers
             //return Redirect("/Inbox/Index");
             return Redirect(Request.UrlReferrer.ToString());
 
-
-            return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
+            //return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
         }
 
 
