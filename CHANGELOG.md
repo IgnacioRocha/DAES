@@ -4,7 +4,16 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
-<<<<<<< HEAD
+## [2.3.2 Front Office] - 06-12-2022
+
+### Changed
+
+- Se modificaron las referencias de google Analytics.
+
+### Added
+
+- Se agregaron, en algunos tramites, el Fin de la solicitud para la metrica de Analytics.
+
 ## [2.3 - backoffice y front office] - 08-08-2022
 
 ### Change
@@ -18,6 +27,7 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 - Se utilizará la capa infraestructure para agregar interfaces
 
 ### Added
+
 - Se agregaron nuevos datos a la grilla de tareas y documentos
 - Se agrego api para consultar HSM
 - se agregaron clases para poder preguntar a sigper
@@ -32,8 +42,9 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 - Se agregó API FirmaEloc para ser consumido
 
 ### Deleted
+
 - Se quito antiguo método de firma
-=======
+
 ## [2.2.0 - FrontOffice] - 05-07-2022
 
 ### Added
@@ -50,7 +61,6 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 ### Changed
 
 - Se modificaron las versiones de Jquery-UI y JQuery a las versiones 1.13.1 y 3.6.0 respectivamente.
->>>>>>> feature-certificados
 
 ## [2.2.0 - BackOffice] - 20-05-2022
 
@@ -96,4 +106,3 @@ Se crearon, para este tramite, 3 nuevas tablas Disolucion, ComisionLiquidadora y
 ## Cambios Grandes
 
 Por un error personal durante el desarrollo, se modifico una variable en TODO el projecto y en la base de datos. Originalmente la variable era FechaPubliccionDiarioOficial y yo la modifique a FechaPublicacionDiarioOficial por lo cual si llegara a haber un error en relacion a dicha Fecha, en tablas o durante la prueba de este proyecto puede deberse a este cambio que puede generar un gran impacto.
-

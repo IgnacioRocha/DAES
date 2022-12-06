@@ -256,15 +256,23 @@
 </div>
 
 
-
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-30"></script>
 <script type="text/javascript">
+
+    $(document).ready(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-30');
+        gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540007'
+        });
+    });
 
 
     $('#TipoOrganizacionId option[value="1"]').attr("selected", true);
     $("#TipoOrganizacionId").prop("disabled", true);
-
-
-
     $('#RubroId option[value="6"]').attr("selected", true);
     $("#RubroId").prop("disabled", true);
     $('#SubRubroId option[value="15"]').attr("selected", true);
@@ -349,14 +357,5 @@
     //google analitycs
 
     //TODO Agregar ID de Analytics
-    @*$('#linkGo').click(function () {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-149680284-18');
-        gtag('event', 'Inicio de la solicitud', {
-            'event_category': 'Trámite digital',
-            'event_label': 'Trámite - ID 0800540007'
-        });
-    });*@
+    
 </script>

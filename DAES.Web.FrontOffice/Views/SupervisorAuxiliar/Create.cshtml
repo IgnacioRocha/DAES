@@ -189,10 +189,21 @@
     Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
 </div>
 
-@*TODO Agregar UA de Analytics
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-20"></script>*@
-
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-32"></script>
 <script type="text/javascript">
+    $(document).ready(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-32');
+        gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540005'
+        });
+    });
+
     const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file;
     var max = 10, x = 1, cont = 1;
 
@@ -263,17 +274,4 @@
             console.log(archivo);
         }
     });
-
-    @*TODO Agregar ID Analytics
-        $('#linkGo').click(function () {
-        window.dataLayer = window.dataLayer || [];
-    function gtag() {dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'UA-149680284-20');
-    gtag('event', 'Inicio de la solicitud', {
-        'event_category': 'Trámite digital',
-    'event_label': 'Trámite - ID 0800540005'
-    });*@
-});
-
 </script>
