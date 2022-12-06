@@ -13,22 +13,22 @@ namespace DAES.Web.FrontOffice.Controllers
         public ActionResult Start()
         {
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Update";
-
-            /*Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            {
-                nombres = new System.Collections.Generic.List<string> { "IGNACIO", "ALFREDO" },
-                apellidos = new System.Collections.Generic.List<string> { "ROCHA", "PAVEZ" }
-            };
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-
-            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            {
-                numero = 17957898,
-                DV = "0",
-                tipo = "RUN"
-            };*/
             return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            /*return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);*/
+
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "IGNACIO", "ALFREDO" },
+            //    apellidos = new System.Collections.Generic.List<string> { "ROCHA", "PAVEZ" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 17957898,
+            //    DV = "0",
+            //    tipo = "RUN"
+            //};
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
         // GET: ActualizacionSupervisor

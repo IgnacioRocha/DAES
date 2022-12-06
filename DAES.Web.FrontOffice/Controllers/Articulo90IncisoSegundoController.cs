@@ -191,7 +191,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, proceso.Solicitante.Email);
 
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Finish");
                 }
                 catch (Exception ex)
                 {
@@ -209,6 +209,11 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "JuntaGeneralSociosObligatoriaCooperativa";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Index";
             return Redirect();
+        }
+
+        public ActionResult Finish()
+        {
+            return View();
         }
     }
 }

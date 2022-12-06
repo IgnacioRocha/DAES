@@ -8,11 +8,14 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 
 ### Changed
 
-- Se modificaron las referencias de google Analytics.
+- Se modificaron las referencias de Google Analytics.
+- Se modifico en Supervisor Auxiliar las referencias de inicio de tramite de Analytics
+- Se agregaron en algunos metodos, el bypass de clave unica.
 
 ### Added
 
 - Se agregaron, en algunos tramites, el Fin de la solicitud para la metrica de Analytics.
+- Se crearon 2 vistas nuevas para ambos incisos del articulo nuevo, las cuales corresponden a la finalización del tramite.
 
 ## [2.3 - backoffice y front office] - 08-08-2022
 

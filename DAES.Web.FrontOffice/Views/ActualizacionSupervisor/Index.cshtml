@@ -15,7 +15,7 @@
     Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-31"></script>
+@*<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-31"></script>*@
 <script>
     $(document).ready(function () {
         $("#confirmar").change(function () {
@@ -25,16 +25,5 @@
                 $("#linkGo").css('pointer-events', 'none')
             }
         });
-    });
-
-    $(document).ready(function () {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'UA-149680284-31');
-        gtag('event', 'Inicio de la solicitud', {
-            'event_category': 'Trámite digital',
-            'event_label': 'Trámite - ID 800540064'
-        });
-    });
+    });    
 </script>
