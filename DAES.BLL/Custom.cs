@@ -850,7 +850,7 @@ namespace DAES.BLL
                 //2. Parrafo1DiPos
 
                 //CertificadoDisolucionTest = 106 | CertificadoDisolucion = 4
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+                if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
                     string parrafo = aux.Anterior == true ? configuracioncertificado.Parrafo1DisAnt : configuracioncertificado.Parrafo1DisPos;
                     if (aux != null)
@@ -1078,7 +1078,7 @@ namespace DAES.BLL
 
                 //OLD
 
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+                if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
                     if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                     {
@@ -1153,8 +1153,8 @@ namespace DAES.BLL
 
                 //Revisar esto y ver que hace
                 //Corregir y dejarlo con enum
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId != (int)Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
-                    organizacion.Documentos.FirstOrDefault().TipoDocumentoId != (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+                if (TipoDocumentoId != (int)Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                    TipoDocumentoId != (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
                     doc.Add(SaltoLinea);
                     doc.Add(paragraphUNO);
@@ -1163,7 +1163,7 @@ namespace DAES.BLL
 
 
                 //Si se esta solicitando un certificado de vigencia de estatutos
-                if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.VigenciaEstatutos)
+                if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.VigenciaEstatutos)
                 {
                     if (organizacion.ExistenciaLegals.Any() || organizacion.Saneamientos.Any() || organizacion.ExistenciaAnteriors.Any() ||
                         organizacion.ExistenciaPosteriors.Any() || organizacion.ReformaAGACs.Any() || organizacion.ReformaAnteriors.Any() ||
@@ -1944,7 +1944,7 @@ namespace DAES.BLL
                     //string orden = "Por orden del Subsecretario";
                     //Se quita salto de linea, esto porque queda muy separado del párrafo anterior
                     //doc.Add(SaltoLinea);
-                    if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
+                    if (TipoDocumentoId == 103)
                     {
                         //string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa." +
                         //     "\n" + "\n" +
@@ -1979,7 +1979,7 @@ namespace DAES.BLL
                 {
                     //string orden = "Por orden del Subsecretario";
                     doc.Add(SaltoLinea);
-                    if (organizacion.Documentos.FirstOrDefault().TipoDocumentoId == 103)
+                    if (TipoDocumentoId == 103)
                     {
                         string orden =
                             //"DECRETO TRAN N° 119247/1/2021, DEL 01 DE FEBRERO DE 2021." + "\n" + "\n" +
@@ -1999,7 +1999,7 @@ namespace DAES.BLL
                     }
                 }
                 doc.Add(SaltoLinea);
-                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio == organizacion.Documentos.FirstOrDefault().TipoDocumentoId)
+                if ((int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio == TipoDocumentoId)
                 {
                     doc.Add(rae);
                 }
