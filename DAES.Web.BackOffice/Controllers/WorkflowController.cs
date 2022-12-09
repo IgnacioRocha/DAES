@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -39,6 +40,8 @@ namespace DAES.Web.BackOffice.Controllers
             public string NombreFuncionario { get; set; }
             public DateTime FechaCreacionProcess { get; set; }
             public DateTime FechaCreacionWorkFlow { get; set; }
+            public string EstadoTarea { get; set; }
+
         }
 
         public JsonResult Update(int elementId, string targetId)
@@ -56,6 +59,7 @@ namespace DAES.Web.BackOffice.Controllers
 
             if (Helper.Helper.CurrentUser.PerfilId == (int)Infrastructure.Enum.Perfil.Admininstrador)
             {
+
                 model.AddRange(db.Workflow.Where(q => !q.Terminada).Select(q => new DTOWorkflow
                 {
                     Formulario = q.DefinicionWorkflow.TipoWorkflow.Formulario,
@@ -72,10 +76,12 @@ namespace DAES.Web.BackOffice.Controllers
                     Observacion = q.Observacion,
                     NombreFuncionario = q.User.Nombre,
                     FechaCreacionProcess = q.Proceso.FechaCreacion,
-                    FechaCreacionWorkFlow = q.Proceso.Workflows.FirstOrDefault().FechaCreacion
+                    FechaCreacionWorkFlow = q.FechaCreacion,
+                    EstadoTarea = (DateTime.Now < q.Proceso.FechaVencimiento ? "En curso normal" : (DateTime.Now == q.Proceso.FechaVencimiento ? "Por Vencer" : "Atrasado")),
+
+                }).OrderByDescending(q => q.FechaCreacionProcess).ToList());
 
 
-                }).ToList()) ;
             }
             else
             {
@@ -92,9 +98,17 @@ namespace DAES.Web.BackOffice.Controllers
                     NumeroRegistro = q.Proceso.Organizacion.NumeroRegistro,
                     Correlativo = q.Proceso.Correlativo,
                     //Observacion = q.Proceso.Workflows.Any(i => i.Observacion != null) ? q.Proceso.Workflows.OrderByDescending(i => i.WorkflowId).FirstOrDefault(i => i.Observacion != null).Observacion : string.Empty
-                    Observacion = q.Observacion
-                }).ToList());
+                    Observacion = q.Observacion,
+                    FechaCreacionProcess = q.Proceso.FechaCreacion,
+                    FechaCreacionWorkFlow = q.FechaCreacion,
+                    EstadoTarea = (DateTime.Now < q.Proceso.FechaVencimiento ? "En curso normal" : (DateTime.Now == q.Proceso.FechaVencimiento ? "Por Vencer" : "Atrasado")),
+                    //EstadoTarea = (DateTime.Now < q.Proceso.FechaVencimiento ? "En curso normal" /*: (DateTime.Now.Date == q.Proceso.FechaVencimiento) ? "Por vencer"*/ : "Atrasado"),
+                    NombreFuncionario = q.User.Nombre
+
+                }).OrderByDescending(q => q.FechaCreacionProcess).ToList());
             }
+
+            
 
             return View(model);
         }

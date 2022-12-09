@@ -93,5 +93,10 @@ namespace DAES.Model.SistemaIntegrado
         //Parrafo 1 con Disolucion Posterior a 2003
         [DataType(DataType.MultilineText)]
         public string Parrafo1DisPos { get; set; }
+
+        //TODO: Aqui va el parrafo observacion
+        [DataType(DataType.MultilineText)]
+        [Display(Name = "Parrafo de Observaciones")]
+        public string ParrafoObservacion { get; set; }
     }
 }

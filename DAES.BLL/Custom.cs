@@ -30,7 +30,7 @@ namespace DAES.BLL
         private SmtpClient smtpClient = new SmtpClient();
         private MailMessage emailMsg = new MailMessage();
         private GestionDocumentalContext gestionDocumentalContext = new GestionDocumentalContext();
-      
+
 
         private void Send()
         {
@@ -191,7 +191,7 @@ namespace DAES.BLL
             }
         }
 
-        public List<string> DirectorioUpdate(List<Directorio> list)
+        public List<string> DirectorioUpdateDev(List<ActualizacionOrganizacionDirectorio> list)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
             {
@@ -201,6 +201,42 @@ namespace DAES.BLL
                 {
                     return returnValue;
                 }
+
+                context.SaveChanges();
+
+
+                foreach (var item in list)
+                {
+                    var directorio = context.Directorio.FirstOrDefault(q => q.DirectorioId == item.DirectorioUpdateId);
+                    if (directorio != null)
+                    {
+                        //directorio.CargoId = item.CargoId;
+                        //directorio.NombreCompleto = item.NombreCompleto;
+                        //directorio.Rut = item.Rut;
+                        //directorio.FechaInicio = item.FechaInicio;
+                        //directorio.FechaTermino = item.FechaTermino;
+                        //directorio.GeneroId = item.GeneroId;
+
+
+                    }
+                }
+                context.SaveChanges();
+                return returnValue;
+            }
+        }
+
+        public List<string> DirectorioUpdate(List<Directorio> list /*int? organizacionId*/)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var returnValue = new List<string>();
+
+                if (list == null)
+                {
+                    return returnValue;
+                }
+
+                context.SaveChanges();
 
                 foreach (var item in list)
                 {
@@ -215,7 +251,6 @@ namespace DAES.BLL
                         directorio.GeneroId = item.GeneroId;
                     }
                 }
-
                 context.SaveChanges();
                 return returnValue;
             }
@@ -712,6 +747,282 @@ namespace DAES.BLL
             }
         }
 
+        //TODO: Se crea nuevo metodo para documento configuracion
+        public byte[] CrearDocumentoConfiguracion(ConfiguracionCertificado configuracioncertificado)
+        {
+            #region Configurar PreDocumento
+            EventoTitulos ev = new EventoTitulos();
+            Font _fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY);
+            Font _fontNumero = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD, BaseColor.DARK_GRAY);
+            Font _fontFirmante = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.DARK_GRAY);
+            Font _fontStandard = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.DARK_GRAY);
+            Font _fontStandardBold = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.DARK_GRAY);
+
+            MemoryStream memStream = new MemoryStream();
+            Document doc = new Document(PageSize.LEGAL);
+            PdfWriter write = PdfWriter.GetInstance(doc, memStream);
+            write.PageEvent = ev;
+            Chunk SaltoLinea = Chunk.NEWLINE;
+
+            //NEW
+            doc.Open();
+            doc.AddTitle(configuracioncertificado.Titulo);
+
+            var centrar = Element.ALIGN_CENTER;
+            Paragraph paragraphTITULO = new Paragraph(configuracioncertificado.Titulo, _fontTitulo);
+            paragraphTITULO.Alignment = centrar;
+
+            var logo = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.URLImagenLogo);
+            if (logo == null)
+            {
+                throw new Exception("No se encontró la configuración de url de rúbrica.");
+            }
+
+            if (logo != null && logo.Valor.IsNullOrWhiteSpace())
+            {
+                throw new Exception("La configuración de url de rúbrica es inválida.");
+            }
+
+            Image imagenLogo = Image.GetInstance(logo.Valor);
+            imagenLogo.ScalePercent(20);
+
+            PdfPTable tableHeader = new PdfPTable(3);
+            tableHeader.WidthPercentage = 100f;
+            tableHeader.DefaultCell.Border = Rectangle.NO_BORDER;
+            tableHeader.DefaultCell.Border = 0;
+
+            //logo
+            PdfPCell cell = new PdfPCell(imagenLogo);
+            cell.HorizontalAlignment = Element.ALIGN_LEFT;
+            cell.BorderWidth = 0;
+            cell.PaddingTop = 20;
+            cell.Border = Rectangle.NO_BORDER;
+            tableHeader.AddCell(cell);
+
+            //title
+            cell = new PdfPCell(new Phrase(configuracioncertificado.Titulo, _fontTitulo));
+            cell.HorizontalAlignment = Element.ALIGN_CENTER;
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderWidth = 0;
+            cell.PaddingTop = 20;
+            cell.Border = Rectangle.NO_BORDER;
+            tableHeader.AddCell(cell);
+
+            //Id
+            var paragrafId = new Paragraph(string.Format("Nro Folio XX"), _fontNumero);
+            paragrafId.Alignment = Element.ALIGN_RIGHT;
+
+            var paragrafDate = new Paragraph(string.Format("{0:dd-MM-yyyy HH:mm:ss}", DateTime.Now), _fontStandard);
+            paragrafDate.Alignment = Element.ALIGN_RIGHT;
+
+            cell = new PdfPCell();
+            cell.AddElement(paragrafId);
+            cell.AddElement(paragrafDate);
+
+            cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderWidth = 0;
+            cell.PaddingTop = 20;
+            cell.Border = Rectangle.NO_BORDER;
+            tableHeader.AddCell(cell);
+
+            doc.Add(tableHeader);
+            doc.Add(SaltoLinea);
+            doc.Add(new Paragraph());
+
+
+            ////Configuracion - Parrafos / Se deben agregar todos los parrafos aqui
+            string parrafo_1 = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : string.Empty);
+            string parrafo_2 = string.Format(configuracioncertificado.Parrafo2 != null ? configuracioncertificado.Parrafo2 : string.Empty);
+            string parrafo_3 = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : string.Empty);
+            string parrafo_4 = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : string.Empty);
+            string parrafo_5 = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : string.Empty);
+            string parrafo1DisPos = string.Format(configuracioncertificado.Parrafo1DisPos != null ? configuracioncertificado.Parrafo1DisPos : string.Empty);
+            string parrafo1DisAnt = string.Format(configuracioncertificado.Parrafo1DisAnt != null ? configuracioncertificado.Parrafo1DisAnt : string.Empty);
+            string parrafo2ExAnterior = string.Format(configuracioncertificado.Parrafo2ExAnterior != null ? configuracioncertificado.Parrafo2ExAnterior : string.Empty);
+            string parrafo2ExPosterior = string.Format(configuracioncertificado.Parrafo2ExPosterior != null ? configuracioncertificado.Parrafo2ExPosterior : string.Empty);
+            string parrafo4ReAnterior = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : string.Empty);
+            string parrafo4RePosterior = string.Format(configuracioncertificado.Parrafo4RePosterior != null ? configuracioncertificado.Parrafo4RePosterior : string.Empty);
+            string parrafoObservacion = string.Format(configuracioncertificado.ParrafoObservacion != null ? configuracioncertificado.ParrafoObservacion : string.Empty);
+
+            //para cuando se necesite con color
+            string parrafo_fin = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa."
+                             + "\n" + "\n" + "Saluda atentamente a ustedes";
+
+            //para cuando se necesite sin color
+            string parrafo_final = "Saluda atentamente a ustedes.";
+            #endregion
+
+            #region Declarar / Configurar Parrafos
+            Paragraph paragraphUNO = new Paragraph(parrafo_1, _fontStandard);
+            paragraphUNO.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphDOS = new Paragraph(parrafo_2, _fontStandard);
+            paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphTRES = new Paragraph(parrafo_3, _fontStandard);
+            paragraphTRES.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCUATRO = new Paragraph(parrafo_4, _fontStandard);
+            paragraphCUATRO.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCINCO = new Paragraph(parrafo_5, _fontStandard);
+            paragraphCINCO.Alignment = Element.ALIGN_JUSTIFIED;
+
+            //Parrafos "Dinamicos de cada Organizacion"
+
+            Paragraph paragraphUNODISANT = new Paragraph(parrafo1DisAnt, _fontStandard);
+            paragraphUNODISANT.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphUNODISPOST = new Paragraph(parrafo1DisPos, _fontStandard);
+            paragraphUNODISPOST.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphDOSEXANT = new Paragraph(parrafo2ExAnterior, _fontStandard);
+            paragraphDOSEXANT.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphDOSEXPOST = new Paragraph(parrafo2ExPosterior, _fontStandard);
+            paragraphDOSEXPOST.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCUATROREANT = new Paragraph(parrafo4ReAnterior, _fontStandard);
+            paragraphCUATROREANT.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCUATROREPOST = new Paragraph(parrafo4RePosterior, _fontStandard);
+            paragraphCUATROREPOST.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphOBSERVACION = new Paragraph(parrafoObservacion, _fontStandard);
+            paragraphOBSERVACION.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphFINAL = new Paragraph(parrafo_final, _fontStandard);
+            paragraphFINAL.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphFIN = new Paragraph(parrafo_fin, _fontStandard);
+            paragraphFIN.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph responsable = new Paragraph("Texto para Responsable", _fontStandardBold);
+            responsable.Alignment = centrar;
+
+            Paragraph _cargo = new Paragraph("Texto para cargo de Responsable", _fontStandardBold);
+            _cargo.Alignment = centrar;
+
+            Paragraph _unidad = new Paragraph("Unidad a la que pertenece el Responsable", _fontStandardBold);
+            _unidad.Alignment = centrar;
+
+            #endregion
+
+            //cambiar disolucion de Cooperativas usa mas parrafos
+            var definicion = "";
+            switch (configuracioncertificado.ConfiguracionCertificadoId)
+            {
+                case 1009:
+                case 1008:
+                    definicion = "Disolucion";
+                    break;
+                case 1010:
+                    definicion = "DisolucionCOOP";
+                    break;
+                case 4:
+                case 6:
+                case 1:
+                    definicion = "Vigencia";
+                    break;
+                case 17:
+                case 18:
+                    definicion = "VigenciaEstatutosAGAC";
+                    break;
+                case 16:
+                    definicion = "VigenciaEstatutosCOOP";
+                    break;
+                case 3:
+                case 2:
+                case 5:
+                    definicion = "VigenciaDirectorio";
+                    break;
+            }
+
+            switch (definicion)
+            {
+                case "Disolucion":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "DisolucionCOOP":
+                    doc.Add(paragraphUNODISANT);
+                    doc.Add(paragraphUNODISPOST);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "Vigencia":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "VigenciaEstatutosAGAC":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOS);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphCUATRO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "VigenciaEstatutosCOOP":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphTRES);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOSEXANT);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOSEXPOST);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphCUATROREANT);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphCUATROREPOST);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFIN);
+                    break;
+                case "VigenciaDirectorio":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOS);
+                    doc.Add(SaltoLinea);
+
+                    PdfPTable table = new PdfPTable(4);
+                    table.WidthPercentage = 100.0f;
+                    table.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.DefaultCell.BorderColor = BaseColor.LIGHT_GRAY;
+                    table.AddCell(new PdfPCell(new Phrase("Cargo", _fontStandard)));
+                    table.AddCell(new PdfPCell(new Phrase("Nombre", _fontStandard)));
+                    table.AddCell(new PdfPCell(new Phrase("Vigencia Desde", _fontStandardBold)));
+                    table.AddCell(new PdfPCell(new Phrase("Vigencia Hasta", _fontStandardBold)));
+
+                    doc.Add(table);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+            }
+
+            doc.Add(SaltoLinea);
+            doc.Add(responsable);
+            doc.Add(_cargo);
+            doc.Add(_unidad);
+            doc.Close();
+            return memStream.ToArray();
+        }
+
+
         public byte[] CrearCertificadoPDF(ConfiguracionCertificado configuracioncertificado, Organizacion organizacion, Firmante firmante, int id, int TipoDocumentoId)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
@@ -729,20 +1040,14 @@ namespace DAES.BLL
                 write.PageEvent = ev;
                 Chunk SaltoLinea = Chunk.NEWLINE;
 
-
-                //Traer todos los parrafos en la bd (incluyendo 4 y 5 ?)
                 string parrafo_uno = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : " ");
                 string parrafo_dos = string.Format(configuracioncertificado.Parrafo2 != null ? configuracioncertificado.Parrafo2 : " ");
                 string parrafo_tres = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : " ");
                 string parrafo_cuatro = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
                 string parrafo_cinco = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
-
-                //Revisar esto
                 string parrafoone = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : " ");
                 string parrafos = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : " ");
 
-                //Revisar esto
-                //En teoria, esta informacion se va utilizar siempre para el certificado de vigencia, dado que solo utiliza el párrafo 1
                 if (!string.IsNullOrEmpty(organizacion.NumeroRegistro))
                 {
                     parrafo_uno = parrafo_uno.Replace("[ROL]", organizacion.NumeroRegistro);
@@ -751,7 +1056,6 @@ namespace DAES.BLL
                 {
                     parrafo_uno = parrafo_uno.Replace("[RAZONSOCIAL]", organizacion.RazonSocial);
                 }
-                //porque no va con is null or empty (?)
                 if (organizacion.Region != null)
                 {
                     parrafo_uno.Replace("[REGION]", organizacion.Region.Nombre);
@@ -762,10 +1066,8 @@ namespace DAES.BLL
                 }
 
                 var aux = organizacion.Disolucions.FirstOrDefault();
-
-                //NEW
                 doc.Open();
-                
+
                 doc.AddTitle(configuracioncertificado.Titulo);
                 doc.AddAuthor(firmante.Nombre);
 
@@ -824,16 +1126,16 @@ namespace DAES.BLL
                 cell.Border = Rectangle.NO_BORDER;
                 tableHeader.AddCell(cell);
 
-                //Id
-                var paragrafId = new Paragraph(string.Format("N° {0}", id), _fontNumero);
-                paragrafId.Alignment = Element.ALIGN_RIGHT;
+                ////Id
+                //var paragrafId = new Paragraph(string.Format("N° {0}", id), _fontNumero);
+                //paragrafId.Alignment = Element.ALIGN_RIGHT;
 
-                var paragrafDate = new Paragraph(string.Format("Emitido el {0:dd-MM-yyyy HH:mm:ss}", DateTime.Now), _fontStandard);
-                paragrafDate.Alignment = Element.ALIGN_RIGHT;
+                //var paragrafDate = new Paragraph(string.Format("Emitido el {0:dd-MM-yyyy HH:mm:ss}", DateTime.Now), _fontStandard);
+                //paragrafDate.Alignment = Element.ALIGN_RIGHT;
 
                 cell = new PdfPCell();
-                cell.AddElement(paragrafId);
-                cell.AddElement(paragrafDate);
+                //cell.AddElement(paragrafId);
+                //cell.AddElement(paragrafDate);
 
                 cell.HorizontalAlignment = Element.ALIGN_RIGHT;
                 cell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -852,18 +1154,19 @@ namespace DAES.BLL
                 //CertificadoDisolucionTest = 106 | CertificadoDisolucion = 4
                 if (TipoDocumentoId == (int)Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
                 {
-                    string parrafo = aux.Anterior == true ? configuracioncertificado.Parrafo1DisAnt : configuracioncertificado.Parrafo1DisPos;
                     if (aux != null)
                     {
+                        string parrafo = aux.Anterior == true ? configuracioncertificado.Parrafo1DisAnt : configuracioncertificado.Parrafo1DisPos;
+
+
+                        //if (aux != null)
+                        //{
 
                         if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                         {
-                            //Si la Disolucion es Anterior a 2003*
                             if (aux.Anterior == true)
                             {
                                 List<string> campos_parrafo1 = new List<string>();
-                                //foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Split())
-                                //Esto se modificó porque en la BD los campos venian todos juntos por lo que no reconoce cuantos son en realidad
                                 foreach (var item in configuracioncertificado.Parrafo1DisAnt.Replace(",", " ").Replace(".", " ").Replace("]", "] ").Split())
                                 {
                                     if (item.Contains("[") && item.Contains("]"))
@@ -904,13 +1207,10 @@ namespace DAES.BLL
                                     }
                                 }
                             }
-                            //Disolucion posterior a 2003
                             else
                             {
 
                                 List<string> campos_parrafo1 = new List<string>();
-                                //foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Split())
-                                //Esto se modificó porque en la BD los campos venian todos juntos por lo que no reconoce cuantos son en realidad
                                 foreach (var item in configuracioncertificado.Parrafo1DisPos.Replace(",", " ").Replace(".", " ").Replace("]", "] ").Split())
                                 {
                                     if (item.Contains("[") && item.Contains("]"))
@@ -961,22 +1261,17 @@ namespace DAES.BLL
                             Paragraph parrafouno = new Paragraph(parrafo, _fontStandard);
                             parrafouno.Alignment = Element.ALIGN_JUSTIFIED;
 
-
                             doc.Add(SaltoLinea);
                             doc.Add(parrafouno);
                             doc.Add(SaltoLinea);
 
                         }
-                        //Revisar Esto
-                        //Si la organizacion no es Cooperativa pero puede ser Asociacion de Consumidores o Asociacion Gremial
                         else if (aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
                                  aux.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
                         {
 
                             string parrafox = string.Format(configuracioncertificado.Parrafo1);
                             List<string> campos_parrafo1 = new List<string>();
-                            //foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Split())
-                            //Esto se modificó porque en la BD los campos venian todos juntos por lo que no reconoce cuantos son en realidad
                             foreach (var item in configuracioncertificado.Parrafo1.Replace(",", " ").Replace(".", " ").Replace("]", "] ").Split())
                             {
                                 if (item.Contains("[") && item.Contains("]"))
@@ -1029,50 +1324,22 @@ namespace DAES.BLL
                             doc.Add(SaltoLinea);
                         }
                     }
+                    //}
 
-                    //DESCOMENTAR ESTA PARTE POR FAVOR ANNNNDOOOOOOO
                     else
                     {
                         throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
                             "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
                     }
 
-                    //if (aux.Anterior == true)
-                    //{
-                    //    if (aux.ComisionAnterior)
-                    //    {
-                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
-                    //    }
-                    //    else
-                    //    {
-                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
-                    //    }
-
-                    //}
-                    //else if (aux.Anterior == false)
-                    //{
-                    //    if (aux.ComisionPosterior)
-                    //    {
-                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "La última Comisión Liquidadora, registrada por esta División, estaba integrada por las siguientes personas: ");
-                    //    }
-                    //    else
-                    //    {
-                    //        parrafo_tres = parrafo_tres.Replace("[COMISION]", "No existe Comisión Liquidadora vigente a esta fecha, registrada por esta División.");
-                    //    }
-                    //}
-
-                    //AQUI IBA EL PRINT DEL PARRAFO
-
                 }
 
-                //Si el parrafo 2 no se encuentra null (Revisar esta parte)
                 if (!string.IsNullOrWhiteSpace(parrafo_dos))
                 {
                     if (organizacion.FechaCelebracion.HasValue)
                     {
                         parrafo_dos = parrafo_dos.Replace("[FECHACELEBRACION]", string.Format("{0:dd-MM-yyyy}", organizacion.FechaCelebracion.Value));
                     }
-
                 }
 
 
@@ -1110,44 +1377,6 @@ namespace DAES.BLL
                                 }
                             }
                         }
-
-                        //if (aux.Anterior == true)
-                        //{
-                        //    doc.Add(SaltoLinea);
-                        //    doc.Add(paragraphUNO);
-                        //    doc.Add(SaltoLinea);
-                        //    doc.Add(paragraphTRES);
-                        //    table.SpacingBefore = 15f;
-                        //    if (aux.ComisionAnterior)
-                        //    {
-                        //        doc.Add(table);
-                        //    }
-                        //    doc.Add(SaltoLinea);
-                        //    doc.Add(paragraphCUATRO);
-
-                        //}
-                        //else
-                        //{
-                        //    doc.Add(SaltoLinea);
-                        //    doc.Add(paragraphDOS);
-                        //    doc.Add(SaltoLinea);
-                        //    doc.Add(paragraphTRES);
-                        //    table.SpacingBefore = 15f;
-                        //    if (aux.ComisionPosterior)
-                        //    {
-                        //        doc.Add(table);
-                        //    }
-                        //    doc.Add(SaltoLinea);
-                        //    doc.Add(paragraphCUATRO);
-                        //}
-                    }
-                    else if (aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
-                              aux.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
-                    {
-                        //doc.Add(SaltoLinea);
-                        //doc.Add(paragraphUNO);
-                        //doc.Add(SaltoLinea);
-                        //doc.Add(paragraphTRES);
                     }
                 }
 
@@ -1182,7 +1411,6 @@ namespace DAES.BLL
                                 }
                             }
 
-                            //ESTO ES PARRAFO 1
                             for (int i = 0; i < campos_parrafo1.Count; i++)
                             {
                                 var value = campos_parrafo1[i];
@@ -1213,10 +1441,8 @@ namespace DAES.BLL
                             doc.Add(parrafouno);
                             doc.Add(SaltoLinea);
 
-                            //Revisar esto
                             if (organizacion.ExistenciaPosteriors.Any() && organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn != null)
                             {
-                                //Parrafo 2 por default es para Existencia Posterior
                                 string parrafo = string.Format(configuracioncertificado.Parrafo2ExPosterior != null ? configuracioncertificado.Parrafo2ExPosterior : string.Empty);
                                 List<string> campos_parrafo2 = new List<string>();
                                 foreach (var item in parrafo.Replace(",", " ").Replace(".", " ").Split())
@@ -1234,8 +1460,6 @@ namespace DAES.BLL
                                     var value = campos_parrafo2[i];
                                     switch (value)
                                     {
-                                        //Existencia Posterior
-                                        //Esto no me aparece (REVISAR)
                                         case "[FECHACONSTITUTIVASOCIOS]":
                                             parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios.Value != null ?
                                                                                 string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios.Value) : string.Empty);
@@ -1248,7 +1472,6 @@ namespace DAES.BLL
                                             parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() != null ?
                                                                                 organizacion.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario.ToString() : string.Empty);
                                             break;
-                                        //Revisar esto
                                         case "[FECHAPUBLICACIONN]":
                                             parrafo = parrafo.Replace(value, organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn.Value != null ?
                                                                                 string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn.Value) : string.Empty);
@@ -1269,18 +1492,13 @@ namespace DAES.BLL
                                     }
                                 }
 
-                                //if (organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion != null)
-                                //{
-                                //    //crear metodo para definir el ultimo indice del texto = ej 200
-                                //    parrafo = parrafo.Insert(201, "Con fecha publicacion en diario oficial" + )
-                                //}
                                 Paragraph parrafoDos = new Paragraph(parrafo, _fontStandard);
                                 parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
                                 doc.Add(parrafoDos);
                                 doc.Add(SaltoLinea);
                             }
 
-                            if (organizacion.ExistenciaAnteriors.Any() && organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.ToString() != string.Empty)
+                            if (organizacion.ExistenciaAnteriors.Any() /*&& organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.ToString() != string.Empty*/)
                             {
                                 var parrafo = string.Format(configuracioncertificado.Parrafo2ExAnterior != null ? configuracioncertificado.Parrafo2ExAnterior : string.Empty);
                                 List<string> campos_parrafo2 = new List<string>();
@@ -1291,13 +1509,12 @@ namespace DAES.BLL
                                         campos_parrafo2.Add(item);
                                     }
                                 }
-                                //Esto es PARRAFO 2 /SI
+
                                 for (int i = 0; i < campos_parrafo2.Count; i++)
                                 {
                                     var value = campos_parrafo2[i];
                                     switch (value)
                                     {
-                                        //Existencia Anterior
                                         case "[TIPONORMA]":
                                             parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() != null ?
                                                                                   organizacion.ExistenciaAnteriors.FirstOrDefault().tipoNorma.Nombre.ToString() : string.Empty);
@@ -1314,15 +1531,21 @@ namespace DAES.BLL
                                             parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() != null ?
                                                                                    organizacion.ExistenciaAnteriors.FirstOrDefault().Autorizado.ToString() : string.Empty);
                                             break;
-                                        case "[FECHAPUBLICACIONN]":
-                                            parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value != null ?
-                                                                                   string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value) : string.Empty);
-                                            break;
+                                            //case "[FECHAPUBLICACIONN]":
+                                            //    parrafo = parrafo.Replace(value, organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value != null ?
+                                            //                                           string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value) : string.Empty);
+                                            //    break;
                                     }
                                 }
 
-                                ////Esto va ?
-                                //parrafo_cinco = parrafo_cinco.Replace("[EspaciosDoc]", string.Empty);
+                                if (organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion != null)
+                                {
+                                    parrafo = parrafo + " con fecha de publicacion en el Diario Oficial: " + string.Format("{0:dd/MM/yyyy}", organizacion.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion.Value) + ".";
+                                }
+                                else
+                                {
+                                    parrafo = parrafo + ".";
+                                }
 
                                 Paragraph parrafox = new Paragraph(parrafo, _fontStandard);
                                 parrafox.Alignment = Element.ALIGN_JUSTIFIED;
@@ -1331,7 +1554,6 @@ namespace DAES.BLL
 
                             }
 
-                            //Saneamiento
                             if (organizacion.Saneamientos.Any())
                             {
                                 string parrafo = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : string.Empty);
@@ -1343,7 +1565,7 @@ namespace DAES.BLL
                                         campos_parrafo2.Add(item);
                                     }
                                 }
-                                //ESto es parrafo 3
+
                                 for (int i = 0; i < campos_parrafo2.Count; i++)
                                 {
                                     var value = campos_parrafo2[i];
@@ -1365,9 +1587,6 @@ namespace DAES.BLL
                                             parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().Fojass != null ?
                                                                                 organizacion.Saneamientos.FirstOrDefault().Fojass : string.Empty);
                                             break;
-                                        //case "[VIGENTE]":
-                                        //    parrafo_tres = parrafo_tres.Replace(value, organizacion.Estado.Nombre != null ? organizacion.Estado.Nombre : string.Empty);
-                                        //    break;
                                         case "[FECHAINSCRIPCION]":
                                             parrafo = parrafo.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() != null ?
                                                                                 organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() : string.Empty);
@@ -1383,50 +1602,6 @@ namespace DAES.BLL
                                 parr2.Alignment = Element.ALIGN_JUSTIFIED;
                                 doc.Add(parr2);
                                 doc.Add(SaltoLinea);
-                                //List<string> campos_parrafo3 = new List<string>();
-                                //foreach (var item in configuracioncertificado.Parrafo3.Replace(",", " ").Replace(".", " ").Split())
-                                //{
-                                //    if (item.Contains("[") && item.Contains("]"))
-                                //    {
-                                //        campos_parrafo3.Add(item);
-                                //    }
-                                //}
-                                ////ESto es parrafo 3
-                                //for (int i = 0; i < campos_parrafo3.Count; i++)
-                                //{
-                                //    var value = campos_parrafo3[i];
-                                //    switch (value)
-                                //    {
-                                //        case "[FECHAESCRITURAPUBLICA]":
-                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa.ToString() != null ?
-                                //                                                string.Format("{0:dd/MM/yyyy}", organizacion.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa) : string.Empty);
-                                //            break;
-                                //        case "[FECHAPUBLICACIONDIARIO]":
-                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario.ToString() != null ?
-                                //                                                string.Format("{0:dd/MM/yyyy}", organizacion.Saneamientos.FirstOrDefault().FechaaPublicacionDiario) : string.Empty);
-                                //            break;
-                                //        case "[DATOSGENERALESNOTARIO]":
-                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString() != null ?
-                                //                                                organizacion.Saneamientos.FirstOrDefault().DatoGeneralesNotario.ToString() : string.Empty);
-                                //            break;
-                                //        case "[FOJAS]":
-                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().Fojass != null ?
-                                //                                                organizacion.Saneamientos.FirstOrDefault().Fojass : string.Empty);
-                                //            break;
-                                //        case "[VIGENTE]":
-                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Estado.Nombre != null ? organizacion.Estado.Nombre : string.Empty);
-                                //            break;
-                                //        case "[FECHAINSCRIPCION]":
-                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() != null ?
-                                //                                                organizacion.Saneamientos.FirstOrDefault().FechaaInscripcion.ToString() : string.Empty);
-                                //            break;
-                                //        case "[DATOSCBR]":
-                                //            parrafo_tres = parrafo_tres.Replace(value, organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString() != null ?
-                                //                                                organizacion.Saneamientos.FirstOrDefault().DatossCBR.ToString() : string.Empty);
-                                //            break;
-                                //    }
-                                //}
-
 
                             }
 
@@ -1434,7 +1609,6 @@ namespace DAES.BLL
                             {
                                 var contRef = 0;
                                 string parrafo = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : " ");
-                                //string parrafoEspacio = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
                                 var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
 
                                 List<string> campos_parrafo4 = new List<string>();
@@ -1448,19 +1622,17 @@ namespace DAES.BLL
 
                                 foreach (var item in organizacion.ReformaAnteriors.ToList().OrderByDescending(q => q.FechaReforma).ToList())
                                 {
-                                    //Revisar Esto
                                     contRef++;
                                     if (organizacion.ReformaAnteriors.Any() && contRef == 1 /*&& !organizacion.ReformaPosteriors.Any()*/)
                                     {
-                                        //para insertar en un indice especificado
                                         parrafo = parrafo.Insert(0, "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" +
                                                                            "\n" + "\n" + "REFORMA(AS) ANTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
 
                                     }
-                                    else if (organizacion.ReformaAnteriors.Any() && contRef == 1 && organizacion.ReformaPosteriors.Any())
-                                    {
-                                        parrafo = parrafo.Insert(0, "REFORMA(AS) ANTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
-                                    }
+                                    //else if (organizacion.ReformaAnteriors.Any() && contRef == 1 && organizacion.ReformaPosteriors.Any())
+                                    //{
+                                    //    parrafo = parrafo.Insert(0, "REFORMA(AS) ANTERIOR(ES) AL AÑO 2003*:" + "\n" + "\n");
+                                    //}
 
                                     for (int i = 0; i < campos_parrafo4.Count; i++)
                                     {
@@ -1469,7 +1641,7 @@ namespace DAES.BLL
                                         switch (value)
                                         {
                                             case "[COUNT]":
-                                                parrafo = parrafo.Replace(value, "<strong>" + contRef.ToString() + ".- </strong>");
+                                                parrafo = parrafo.Replace(value, contRef.ToString() + ".- ");
                                                 break;
                                             case "[TIPONORMAREF]":
                                                 parrafo = parrafo.Replace(value, item.TipoNorma.Nombre != null ? item.TipoNorma.Nombre : string.Empty);
@@ -1490,49 +1662,8 @@ namespace DAES.BLL
                                                 break;
                                         }
                                     }
-
-
-
-
-                                    //if (item.EspaciosDocAnterior != null)
-                                    //{
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[EspaciosDocAnterior]", item.EspaciosDocAnterior);
-                                    //}
-                                    //else
-                                    //{
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[EspaciosDocAnterior]", string.Empty);
-                                    //}
-                                    //revisar esta parte
-
-                                    //if (organizacion.TipoOrganizacionId == 1)
-                                    //{
-                                    //    parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[FECHAPUBLICACIONREF]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[anoinscripcion]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[DATOSCBRREF]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[FECHAOFICIOREF]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[NUMEROOFICIOREF]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[APROBACION]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[Fojas]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[FECHAREFORMAA]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[FECHAREFORMA]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[FECHANORMAREFPOST]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[DATOSGENERALESNOTARIO]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[FECHAPUBLICDIARIO]", string.Empty);
-                                    //    parrafo = parrafo.Replace("[INTRO2]", string.Empty);
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[TIPONORMA]", string.Empty);
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[NUMERONORMA]", string.Empty);
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[FECHANORMA]", string.Empty);
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[AUTORIZADOPOR]", string.Empty);
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[FECHAPUBLICACIONN]", string.Empty);
-                                    //    parrafoEspacio = parrafoEspacio.Replace("[EspaciosDoc]", string.Empty);
-                                    //}
-
                                     Paragraph parro = new Paragraph(parrafo, _fontStandard);
                                     parro.Alignment = Element.ALIGN_JUSTIFIED;
-
 
                                     doc.Add(parro);
                                     doc.Add(SaltoLinea);
@@ -1542,9 +1673,7 @@ namespace DAES.BLL
 
                             if (organizacion.ReformaPosteriors.Any())
                             {
-                                //Contador de reformas posterioress
                                 var contRefPost = 0;
-
                                 string parrafoEspacioPost = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
 
                                 List<string> campos_parrafo3 = new List<string>();
@@ -1556,8 +1685,6 @@ namespace DAES.BLL
                                     }
                                 }
 
-
-                                //Aqui cambié el OrdeByDescending a OrderBy (Para que ordene de manera ascendente)
                                 foreach (var item in organizacion.ReformaPosteriors.ToList().OrderBy(q => q.FReforma).ToList())
                                 {
                                     contRefPost++;
@@ -1621,163 +1748,123 @@ namespace DAES.BLL
                                     doc.Add(parraf);
                                     doc.Add(SaltoLinea);
 
-                                    //Esto se debe borrar
-                                    if (organizacion.TipoOrganizacionId == 1)
-                                    {
-
-                                        //parrafo = parrafo.Replace("[FECHAPUBLICACIONDIARIOREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[DATOGENERALNOTARIOREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[TIPONORMAREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[FECHAJUNTAGENERAL]", string.Empty);
-                                        //parrafo = parrafo.Replace("[FECHAPUBLICACIONREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[DATOSCBRREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[FECHAESCRITURAPUBLICAREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[FECHAOFICIOREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[NUMEROOFICIOREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[APROBACION]", string.Empty);
-                                        //parrafo = parrafo.Replace("[ULTIMA]", string.Empty);
-                                        //parrafo = parrafo.Replace("[FECHAREFORMA]", string.Empty);
-                                        //parrafo = parrafo.Replace("[NUMERONORMARREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[FECHANORMAREF]", string.Empty);
-                                        //parrafo = parrafo.Replace("[INTRO1]", string.Empty);
-                                        //parrafo = parrafo.Replace("[EspaciosDocAnterior]", string.Empty);
-                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[TIPONORMA]", string.Empty);
-                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[NUMERONORMA]", string.Empty);
-                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[FECHANORMA]", string.Empty);
-                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[AUTORIZADOPOR]", string.Empty);
-                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[FECHAPUBLICACIONN]", string.Empty);
-                                        //parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDocAnterior]", string.Empty);
-
-                                    }
-
-
-                                    //if (item.AnoInscripcion != null)
-                                    //{
-                                    //    parrafo = parrafo.Replace("[anoinscripcion]", ", correspondiente al año " + item.AnoInscripcion + ". ");
-                                    //}
-                                    //else
-                                    //{
-                                    //    parrafo = parrafo.Replace("[anoinscripcion]", string.Empty);
-                                    //}
-
-                                    //if (item.EspaciosDoc != null)
-                                    //{
-                                    //    parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDoc]", item.EspaciosDoc);
-                                    //}
-                                    //else
-                                    //{
-                                    //    parrafoEspacioPost = parrafoEspacioPost.Replace("[EspaciosDoc]", string.Empty);
-                                    //}
-
-
-
-
-
                                 }
                             }
 
-                            if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+
+                        }
+
+                        if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
                                 organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
+                        {
+                            parrafoone = parrafoone.Replace("[SIGLA]", organizacion.Sigla ?? string.Empty);
+                            parrafoone = parrafoone.Replace("[RAZONSOCIAL]", organizacion.RazonSocial ?? string.Empty);
+                            parrafoone = parrafoone.Replace("[TIPOORGANIZACION]", organizacion.TipoOrganizacion.Nombre ?? string.Empty);
+                            parrafoone = parrafoone.Replace("[ROL]", organizacion.NumeroRegistro ?? string.Empty);
+                            parrafoone = parrafoone.Replace("[VIGENTE]", organizacion.Estado.Nombre ?? string.Empty);
+
+                            Paragraph parrafounoo = new Paragraph(parrafoone, _fontStandard);
+                            parrafounoo.Alignment = Element.ALIGN_JUSTIFIED;
+                            doc.Add(SaltoLinea);
+                            doc.Add(parrafounoo);
+
+                            if (organizacion.ExistenciaLegals.Any())
                             {
-                                parrafoone = parrafoone.Replace("[SIGLA]", organizacion.Sigla ?? string.Empty);
-                                parrafoone = parrafoone.Replace("[RAZONSOCIAL]", organizacion.RazonSocial ?? string.Empty);
-                                parrafoone = parrafoone.Replace("[TIPOORGANIZACION]", organizacion.TipoOrganizacion.Nombre ?? string.Empty);
-                                parrafoone = parrafoone.Replace("[ROL]", organizacion.NumeroRegistro ?? string.Empty);
-                                parrafoone = parrafoone.Replace("[VIGENTE]", organizacion.Estado.Nombre ?? string.Empty);
-
-                                Paragraph parrafounoo = new Paragraph(parrafoone, _fontStandard);
-                                parrafounoo.Alignment = Element.ALIGN_JUSTIFIED;
-                                doc.Add(SaltoLinea);
-                                doc.Add(parrafounoo);
-                                //A
-
-                                if (organizacion.ExistenciaLegals.Any())
+                                if (organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios != null)
                                 {
-                                    if (organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios != null)
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios.Value.ToString("dd/MM/yyyy") ?? string.Empty);
-                                    }
-                                    else
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", string.Empty);
-                                    }
-
-                                    if (organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio != null)
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio + ", " ?? string.Empty);
-                                    }
-                                    else
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", string.Empty);
-                                    }
-
-                                    if (organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio != null)
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio.Value.ToString("dd/MM/yyyy") ?? string.Empty);
-                                    }
-                                    else
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", string.Empty);
-                                    }
-
-                                    if (organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion != null && organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre != null)
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[APROBACION]", organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre ?? string.Empty);
-                                    }
-                                    else
-                                    {
-                                        parrafo_dos = parrafo_dos.Replace("[APROBACION]", string.Empty);
-                                    }
-
-                                    Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
-                                    parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
-
-                                    Paragraph parrafoonee = new Paragraph(parrafoone, _fontStandard);
-                                    parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
-
-
-                                    doc.Add(SaltoLinea);
-                                    doc.Add(parrafoDos);
-                                    doc.Add(SaltoLinea);
+                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", organizacion.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios.Value.ToString("dd/MM/yyyy") ?? string.Empty);
+                                }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[FECHACONSTITUTIVASOCIOS]", string.Empty);
                                 }
 
-                                if (organizacion.ReformaAGACs.Any())
+                                if (organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio != null)
                                 {
-                                    var contRefAGAC = 0;
-                                    foreach (var item in organizacion.ReformaAGACs.ToList().OrderByDescending(q => q.FechaAsambleaDep).ToList())
+                                    parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", organizacion.ExistenciaLegals.FirstOrDefault().NumeroOficio + ", " ?? string.Empty);
+                                }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[NUMEROOFICIO]", string.Empty);
+                                }
+
+                                if (organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio != null)
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", organizacion.ExistenciaLegals.FirstOrDefault().FechaOficio.Value.ToString("dd/MM/yyyy") ?? string.Empty);
+                                }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[FECHAOFICIO]", string.Empty);
+                                }
+
+                                if (organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion != null && organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre != null)
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[APROBACION]", organizacion.ExistenciaLegals.FirstOrDefault().Aprobacion.Nombre ?? string.Empty);
+                                }
+                                else
+                                {
+                                    parrafo_dos = parrafo_dos.Replace("[APROBACION]", string.Empty);
+                                }
+
+                                Paragraph parrafoDos = new Paragraph(parrafo_dos, _fontStandard);
+                                parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
+
+                                Paragraph parrafoonee = new Paragraph(parrafoone, _fontStandard);
+                                parrafoDos.Alignment = Element.ALIGN_JUSTIFIED;
+
+
+                                doc.Add(SaltoLinea);
+                                doc.Add(parrafoDos);
+                                doc.Add(SaltoLinea);
+                            }
+
+                            if (organizacion.ReformaAGACs.Any())
+                            {
+                                var contRefAGAC = 0;
+
+
+                                List<string> campos_parrafo4 = new List<string>();
+                                foreach (var item in configuracioncertificado.Parrafo4.Replace(",", " ").Replace(".", " ").Split())
+                                {
+                                    if (item.Contains("[") && item.Contains("]"))
                                     {
-                                        //string parrafo = string.Format(configuracioncertificado.Parrafo4);
-                                        //string parrafosss = string.Format(configuracioncertificado.Parrafo5);
-                                        string parrafo = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo4 : " ");
-                                        string parrafosss = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : " ");
-                                        var fechaMayor = organizacion.ReformaAGACs.OrderByDescending(q => q.FechaAsambleaDep).FirstOrDefault();
-
-                                        contRefAGAC++;
-                                        if (contRefAGAC != 0)
-                                        {
-                                            parrafo = parrafo.Replace("[COUNTREF]", contRefAGAC.ToString() + ".- ");
-                                        }
-                                        else
-                                        {
-                                            parrafo = parrafo.Replace("[COUNTREF]", string.Empty);
-                                        }
-
-                                        parrafo = parrafo.Replace("[ASAMBLEA]", item.AsambleaDeposito.Descripcion);
-                                        parrafo = parrafo.Replace("[FECHAASAMBLEA]", item.FechaAsambleaDep.Value.ToString("dd/MM/yyyy"));
-                                        parrafo = parrafo.Replace("[NUMEROOFICIO]", item.NumeroOficio);
-                                        parrafo = parrafo.Replace("[APROBACION]", item.Aprobacion.Nombre + ", ");
-
-                                        Paragraph parrafoss = new Paragraph(parrafo, _fontStandard);
-                                        parrafoss.Alignment = Element.ALIGN_JUSTIFIED;
-
-                                        Paragraph parrafoEspacio = new Paragraph(parrafosss, _fontStandard);
-                                        parrafoEspacio.Alignment = Element.ALIGN_JUSTIFIED;
-
-
-                                        doc.Add(parrafoss);
-                                        doc.Add(SaltoLinea);
-                                        doc.Add(parrafoEspacio);
+                                        campos_parrafo4.Add(item);
                                     }
+                                }
+
+                                foreach (var item in organizacion.ReformaAGACs.ToList().OrderByDescending(q => q.FechaAsambleaDep).ToList())
+                                {
+                                    contRefAGAC++;
+                                    string parrafo4_VE = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : " ");
+                                    for (int i = 0; i < campos_parrafo4.Count; i++)
+                                    {
+                                        var value = campos_parrafo4[i];
+                                        switch (value)
+                                        {
+                                            case "[COUNTREF]":
+                                                parrafo4_VE = parrafo4_VE.Replace(value, contRefAGAC.ToString() + ".- ");
+                                                break;
+                                            case "[ASAMBLEA]":
+                                                parrafo4_VE = parrafo4_VE.Replace(value, item.AsambleaDeposito.Descripcion != null ? item.AsambleaDeposito.Descripcion : string.Empty);
+                                                break;
+                                            case "[FECHAASAMBLEA]":
+                                                parrafo4_VE = parrafo4_VE.Replace(value, item.FechaAsambleaDep.Value != null ?
+                                                                                  string.Format("{0:dd/MM/yyyy}", item.FechaAsambleaDep.Value) : string.Empty);
+                                                break;
+                                            case "[NUMEROOFICIO]":
+                                                parrafo4_VE = parrafo4_VE.Replace(value, item.NumeroOficio != null ? item.NumeroOficio : string.Empty);
+                                                break;
+                                            case "[APROBACION]":
+                                                parrafo4_VE = parrafo4_VE.Replace(value, item.Aprobacion.Nombre != null ? item.Aprobacion.Nombre : string.Empty);
+                                                break;
+                                        }
+                                    }
+
+                                    Paragraph parrafoss = new Paragraph(parrafo4_VE, _fontStandard);
+                                    parrafoss.Alignment = Element.ALIGN_JUSTIFIED;
+
+                                    doc.Add(parrafoss);
+                                    doc.Add(SaltoLinea);
                                 }
                             }
                         }
@@ -1816,12 +1903,14 @@ namespace DAES.BLL
                     Paragraph parrafito = new Paragraph(parrafo, _fontStandard);
                     parrafito.Alignment = Element.ALIGN_JUSTIFIED;
                     doc.Add(parrafito);
-                    doc.Add(SaltoLinea);
+                    //Esto se borra porque hay un salto de linea adicional
+                    //doc.Add(SaltoLinea);
 
                     var directorio = context.Directorio.Where(q => q.OrganizacionId == organizacion.OrganizacionId).OrderBy(q => q.Cargo.Secuencia);
                     if (directorio.Any())
                     {
-                        doc.Add(paragraphDOS);
+                        //Esto duplica el parrafo 2
+                        //doc.Add(paragraphDOS);
                         if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                         {
                             PdfPTable table = new PdfPTable(2);
@@ -1939,6 +2028,13 @@ namespace DAES.BLL
                     }
                 }
 
+                //TODO: Aqui va el parrafo de Observacion
+                var parrafo_observacion = string.Format(configuracioncertificado.ParrafoObservacion != null ? configuracioncertificado.ParrafoObservacion : " ");
+                Paragraph parraOb = new Paragraph(parrafo_observacion, _fontStandard);
+                doc.Add(SaltoLinea);
+                doc.Add(parraOb);
+                doc.Add(SaltoLinea);
+
                 if (organizacion.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
                 {
                     //string orden = "Por orden del Subsecretario";
@@ -1946,13 +2042,6 @@ namespace DAES.BLL
                     //doc.Add(SaltoLinea);
                     if (TipoDocumentoId == 103)
                     {
-                        //string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa." +
-                        //     "\n" + "\n" +
-                        //    "DECRETO TRAN N° 119247/1/2021, DEL 01 DE FEBRERO DE 2021." + "\n" + "\n" +
-                        //    "DECRETO CON FUERZA DE LEY N°5 DE 25 DE SEPTIEMBRE DE 2003 DEL MINISTERIO DE ECONOMIA, FOMENTO Y RECONSTRUCCIÓN, QUE FIJA EL TEXTO REFUNDIDO,
-                        //    CONCORDADO Y SISTEMATIZADODE LA LEY GENERAL DE COOPERATIVAS." + "\n" + "\n" +
-                        //    "Saluda atentamente a ustedes";
-
                         string orden = "Se hace presente que no se registra en nuestros archivos la cancelación de " +
                             "la personalidad jurídica de dicha Cooperativa." + "\n" + "\n" +
                             "Saluda atentamente a ustedes";
@@ -2015,10 +2104,6 @@ namespace DAES.BLL
                     throw new Exception("La configuración de url de rúbrica es inválida.");
                 }
 
-                //Image imagenFirma = Image.GetInstance(configFirma.Valor + firmante.IdFirma + ".png");
-                //imagenFirma.Alignment = Element.ALIGN_CENTER;
-                //imagenFirma.ScalePercent(65);
-                //doc.Add(imagenFirma);
 
                 Paragraph responsable = new Paragraph(firmante.Nombre, _fontStandardBold);
                 responsable.Alignment = centrar;
@@ -2031,46 +2116,10 @@ namespace DAES.BLL
                 Paragraph _unidad = new Paragraph(firmante.UnidadOrganizacional, _fontStandardBold);
                 _unidad.Alignment = centrar;
                 doc.Add(_unidad);
-
                 doc.Add(SaltoLinea);
-
-                //var configmensajeVerificacion = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.MensajeVerificacionCertificado);
-                //if (configmensajeVerificacion == null)
-                //{
-                //    throw new Exception("No existe la configuración de mensaje de verificación de certificados");
-                //}
-
-                //if (configmensajeVerificacion != null && configmensajeVerificacion.Valor.IsNullOrWhiteSpace())
-                //{
-                //    throw new Exception("La configuración de mensaje de verificación de certificados es inválida");
-                //}
-
-                //if (!string.IsNullOrEmpty(configmensajeVerificacion.Valor))
-                //{
-                //    Paragraph url = new Paragraph(configmensajeVerificacion.Valor + " usando el código " + id, _fontStandard);
-                //    url.Alignment = Element.ALIGN_CENTER;
-                //    doc.Add(url);
-                //}
-
-                //mensaje de pie de firma
-                //var configmensajePie = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.MensajePieFirmaCertificado);
-                //if (configmensajePie == null)
-                //{
-                //    throw new Exception("No existe la configuración de mensaje pié de firma de certificados");
-                //}
-
-                //if (configmensajePie != null && configmensajePie.Valor.IsNullOrWhiteSpace())
-                //{
-                //    throw new Exception("La configuración de mensaje de pié de firma de certificados es inválida");
-                //}
-
-                //Paragraph pie = new Paragraph(configmensajePie.Valor, _fontStandard);
-                //pie.Alignment = Element.ALIGN_CENTER;
-                //doc.Add(pie);
-
                 doc.Close();
-                return memStream.ToArray();
 
+                return memStream.ToArray();
             }
 
         }
@@ -2334,7 +2383,7 @@ namespace DAES.BLL
             }
         }
 
-        
+
 
         public byte[] SignPDF(int id, string folio, byte[] content, string nombre, Firmante firmante, bool AgregarRubrica, int TipoDocumentoId, int TipoOrganizacionId)
         {
@@ -2489,6 +2538,17 @@ namespace DAES.BLL
             }
         }
 
+        //public void ActualizarDirectorioA(Proceso obj)
+        //{
+        //    var directorios_update = obj.ActualizacionOrganizacions.FirstOrDefault().Directorio.ToList();
+        //    var modelo_update = db.ActualizacionOrganizacionDirectorio.Where(q => q.DirectorioUpdateId == 65489648).ToList();
+        //    foreach (var item in modelo_update)
+        //    {
+        //        item.DirectorioUpdateId = obj.ActualizacionOrganizacions.FirstOrDefault().ActualizacionOrganizacionId;
+        //    }
+        //    db.SaveChanges();
+        //}
+
         public Proceso ProcesoStart(Proceso obj)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
@@ -2504,7 +2564,7 @@ namespace DAES.BLL
                 }
 
                 if (obj.Solicitante != null && obj.Solicitante.Email.IsNullOrWhiteSpace())
-                {   
+                {
                     throw new Exception("Debe especificar el email del solicitante");
                 }
 
@@ -2946,6 +3006,7 @@ namespace DAES.BLL
                 if (obj.ActualizacionOrganizacions.Any())
                 {
                     proceso.ActualizacionOrganizacions.Add(obj.ActualizacionOrganizacions.FirstOrDefault());
+
                 }
 
                 //si el proceso trae articulo 91, asociarlo
@@ -3046,13 +3107,15 @@ namespace DAES.BLL
                 context.Proceso.Add(proceso);
                 context.SaveChanges();
 
+
+
                 //en el caso de que sea certificado automático, generar pdf firmado
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico)
                 {
 
                     var documento = proceso.Documentos.FirstOrDefault();
                     var firmantes = db.Firmante.First(q => q.EsActivo == true);
-                    
+
                     //var firmanteMail = sg.GetUserByRut(/*firmantes.IdFirma*/16366481);
                     //var firEmail = "";
                     var configuracionCertificado = context.ConfiguracionCertificado.FirstOrDefault(q => q.TipoDocumentoId == documento.TipoDocumentoId && q.TipoOrganizacionId == proceso.Organizacion.TipoOrganizacionId);
@@ -3064,6 +3127,8 @@ namespace DAES.BLL
                     documento.Content = a;
                     documento.FileName = string.Concat(documento.DocumentoId, ".pdf");
                     documento.Firmado = true;
+
+
 
                     context.SaveChanges();
                 }
@@ -3210,6 +3275,12 @@ namespace DAES.BLL
                         definicionworkflowlist.FirstOrDefault(q => q.DefinicionWorkflowId == workflow.DefinicionWorkflow.DefinicionWorkflowRechazoId);
                 }
 
+                //Si la tarea se rechaza, se vuelve a la anterior
+                if (w.TipoAprobacionId == (int)Infrastructure.Enum.TipoAprobacion.Rechazada)
+                {
+
+                }
+
                 // si existe siguiente tarea, agregarla
                 var nuevastareas = new List<Workflow>();
                 if (siguientedefinicionworkflow != null)
@@ -3230,6 +3301,11 @@ namespace DAES.BLL
                     //determinar lista de usuarios de la siguiente tarea
                     var listausuarios = !string.IsNullOrWhiteSpace(workflow.NextUserId) ? workflow.NextUserId.Split(',') : siguientedefinicionworkflow.UserId.Split(',');
 
+
+                    //20102022
+                    var definicion_wor = db.DefinicionWorkflow.Where(q => q.DefinicionWorkflowId == w.DefinicionWorkflowId).ToList();
+                    var definicion_pro = db.DefinicionProceso.Where(q => q.DefinicionProcesoId == definicion_wor.First().DefinicionProcesoId);
+
                     //asignar tareas a la lista de usuarios
                     foreach (var userid in listausuarios)
                     {
@@ -3248,7 +3324,18 @@ namespace DAES.BLL
                         nuevoworkflow.DefinicionWorkflow = siguientedefinicionworkflow;
                         nuevoworkflow.Proceso = proceso;
                         nuevoworkflow.PerfilId = siguientedefinicionworkflow.PerfilId;
-                        nuevoworkflow.UserId = w.UserId != null ? workflow.UserId : userid;
+
+                        //TODO: se modifica esto para hacer efectivo el cambio de destino
+                        if (w.UserId != null)
+                        {
+                            nuevoworkflow.UserId = w.UserId;
+                        }
+                        else
+                        {
+                            nuevoworkflow.UserId = w.UserId != null ? workflow.UserId : userid;
+                        }
+
+                        //nuevoworkflow.UserId = w.UserId != null ? workflow.UserId : userid;
 
                         //si es mas de 1 usuario agrupar las tareas y hacerlas paralelas
                         if (listausuarios.Count() > 1)
@@ -3327,6 +3414,9 @@ namespace DAES.BLL
                 {
                     NotificarArchivo(workflow.WorkflowId);
                 }
+
+                //Notificar tarea a nuevo ejecutante
+                NotificarTarea(w.WorkflowId);
 
                 context.SaveChanges();
             }
@@ -3999,7 +4089,7 @@ namespace DAES.BLL
 
             if (response.IsValid)
             {
-                
+
                 var firmaDocumento = _repository.GetFirst<FirmaDocumento>(q => q.FirmaDocumentoId == obj.FirmaDocumentoId);
                 if (firmaDocumento != null)
                 {
@@ -4099,7 +4189,7 @@ namespace DAES.BLL
                     responseCaseUse.Errors.Add(ex.Message);
                 }
             }
-            
+
             if (!responseCaseUse.IsValid)
                 return responseCaseUse;
 
@@ -4167,11 +4257,9 @@ namespace DAES.BLL
         private SistemaIntegradoContext db = new SistemaIntegradoContext();
         private SistemaIntegradoContext context = new SistemaIntegradoContext();
         private UseCaseSigper sg = new UseCaseSigper();
-        private  DAES.Infrastructure.File.File fl = new DAES.Infrastructure.File.File();
+        private DAES.Infrastructure.File.File fl = new DAES.Infrastructure.File.File();
         private Infrastructure.Folio.Folio folio = new Infrastructure.Folio.Folio();
         private Infrastructure.Hsm.HSM hsms = new Infrastructure.Hsm.HSM();
-
-
 
 
         public ResponseMessage SignReso(Documento obj, string email, int HorasExtrasId)
@@ -4281,8 +4369,8 @@ namespace DAES.BLL
                             case var pa when a.Contains("Certificado"):
                                 TipoDocto = "CERT";
                                 break;
-                            default: 
-                                TipoDocto ="OTRO";
+                            default:
+                                TipoDocto = "OTRO";
                                 break;
                         }
                         var proceso = db.Proceso.FirstOrDefault(q => q.ProcesoId == documento.ProcesoId);
@@ -4328,7 +4416,7 @@ namespace DAES.BLL
                         documento.Firmado = true;
 
                         context.SaveChanges();
-                       
+
                     }
                 }
                 catch (Exception ex)
@@ -4337,10 +4425,11 @@ namespace DAES.BLL
                 }
 
             }
-                
+
 
             return response;
         }
+
         public byte[] SignResoAuto(Documento obj, string email, int HorasExtrasId)
         {
             var response = new ResponseMessage();
@@ -4447,8 +4536,8 @@ namespace DAES.BLL
                             case var pa when a.Contains("Certificado"):
                                 TipoDocto = "CERT";
                                 break;
-                            default: 
-                                TipoDocto ="OTRO";
+                            default:
+                                TipoDocto = "OTRO";
                                 break;
                         }
                         var proceso = db.Proceso.FirstOrDefault(q => q.ProcesoId == documento.ProcesoId);
@@ -4493,7 +4582,7 @@ namespace DAES.BLL
                         documento.Firmado = true;
                         response.Documento = documento.Content;
                         context.SaveChanges();
-                       
+
                     }
                 }
                 catch (Exception ex)
@@ -4502,7 +4591,7 @@ namespace DAES.BLL
                 }
 
             }
-                
+
 
             return response.Documento;
         }

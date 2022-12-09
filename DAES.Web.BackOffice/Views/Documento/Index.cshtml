@@ -49,13 +49,20 @@
                         {
                             <span class="label label-danger label-as-badge">Atrasado</span>
                         }
+
+
                     }
                 </td>
                 <td>
-                    @if (item.HasContent && !string.IsNullOrWhiteSpace(item.FileName))
+
+                    @if (item.HasContent)
                     {
-                        @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
+                        if (item.FileName.Contains(".pdf"))
+                        {
+                            @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
+                        }
                     }
+
                 </td>
 
                 <td>

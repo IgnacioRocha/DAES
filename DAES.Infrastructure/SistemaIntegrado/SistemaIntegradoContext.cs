@@ -19,6 +19,10 @@ namespace DAES.Infrastructure.SistemaIntegrado
             return new SistemaIntegradoContext();
         }
 
+        //TODO: Se agrega nueva tabla
+
+
+        public virtual DbSet<DocumentoConfiguracion> DocumentoConfiguracion { get; set; }
         public virtual DbSet<Cargo> Cargo { get; set; }
         public virtual DbSet<Ciudad> Ciudad { get; set; }
         public virtual DbSet<Comuna> Comuna { get; set; }
@@ -55,6 +59,9 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<ActaFiscalizacionFiscalizadorContable> ActaFiscalizacionFiscalizadorContable { get; set; }
         public virtual DbSet<ActaFiscalizacionFiscalizadorLegal> ActaFiscalizacionFiscalizadorLegal { get; set; }
         public virtual DbSet<Solicitante> Solicitante { get; set; }
+
+        //public virtual DbSet<ActualizacionOrganizacionDirectorio> ActualizacionOrganizacionDirectorio { get; set; }
+
         public virtual DbSet<ActualizacionOrganizacion> ActualizacionOrganizacion { get; set; }
         public virtual DbSet<ActualizacionOrganizacionbkp> ActualizacionOrganizacionbkp { get; set; }
         public virtual DbSet<Situacion> Situacion { get; set; }

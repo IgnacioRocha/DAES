@@ -4,6 +4,13 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.4 DAES Completo 09-12-2022]
+
+### Changed
+
+- Se unifica proyecto bajo Azure, haciendo pull de los cambios en TFS.
+- Se cambia forma de consultar Tipo Documento al momento de generar un PDF.
+
 ## [2.3.2 Front Office] - 06-12-2022
 
 ### Changed

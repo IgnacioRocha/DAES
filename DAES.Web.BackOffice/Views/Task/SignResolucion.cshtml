@@ -41,10 +41,11 @@
             @*<div id="@String.Concat("#modal", 773)" class="modal">*@
             <div class="modal-content">
                 <h4>Confirma Firma de Documento</h4>
-                @using (Html.BeginForm("SignResolucion", "Task", new { id = Model.FirmaDocumentoId, idProceso = Model.ProcesoId }, FormMethod.Post, new {  enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("SignResolucion", "Task", new { id = Model.FirmaDocumentoId, idProceso = Model.ProcesoId, idWorkflow = ViewBag.WorkflowId }, FormMethod.Post, new {  enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.HiddenFor(model => Model.ProcesoId)
+                    @Html.HiddenFor(model => model.WorkflowId)
                     <button class="waves-effect waves-light btn blue" type="submit">Aceptar</button>
                 }
             </div>

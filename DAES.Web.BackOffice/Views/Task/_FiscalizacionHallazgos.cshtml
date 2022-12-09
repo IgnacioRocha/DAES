@@ -46,6 +46,8 @@
         @Html.Partial("_WorkflowDetails", Model.Workflow)
         @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
         @*@Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })*@
+
+        @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
     </div>
     <div class="tab-pane fade in active" id="Do">
         <br />

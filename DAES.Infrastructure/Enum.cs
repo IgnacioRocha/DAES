@@ -180,7 +180,11 @@
             InformeComisionRevisodoraCuentas = 102,
             CertificadoDisolucionTest = 106,
             //TEST
-            OficioTEST = 107
+            OficioTEST = 107,
+
+            
+
+
 
         }
 
@@ -228,7 +232,15 @@
             ActualizacionSupervisorAuxiliar = 112,
 
             //Nuevo
-            ConfiguracionCertificadoTEST = 115
+            ConfiguracionCertificadoTEST = 115,
+
+            //Nuevos tramites en Prod
+            //ActualizacionConsejoAdmninistracion = 131,
+            //AsambleaOrdinaria = 86,
+
+            //Nuevos tramites en Test
+            ActualizacionConsejoAdmninistracion = 118,
+            AsambleaOrdinaria = 117,
         }
 
         public enum TipoAprobacion

@@ -19,14 +19,14 @@
         background-color: darkcyan;
     }
 </style>
-@if (ViewBag.TipoUsuario == "Administrador")
+@*@if (ViewBag.TipoUsuario == "Administrador")
 {
     <div id="capa2">
         @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
 
     </div>
 
-}
+}*@
 <div id="capa1">
     @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed" })
 </div>
