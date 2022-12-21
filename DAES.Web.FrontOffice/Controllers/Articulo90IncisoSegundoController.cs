@@ -67,6 +67,10 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Index()
         {
+            if (!Global.CurrentClaveUnica.IsAutenticated)
+            {
+                return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+            }
             return View(new Search());
         }
 

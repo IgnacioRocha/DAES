@@ -4,6 +4,13 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.4.1 DAES FrontOffice - 21-12-2022]
+
+## Changed
+
+- Se modifico webconfig actualizandolo con el más actualizado en el TFS.
+- Se agregaron observaciones segun lo indicado por Control de Gestión algunos tramites digitales.
+
 ## [2.4 DAES Completo 09-12-2022]
 
 ### Changed

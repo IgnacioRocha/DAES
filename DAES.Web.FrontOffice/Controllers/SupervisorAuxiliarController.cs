@@ -105,6 +105,10 @@ namespace DAES.Web.FrontOffice.Controllers
             var representante = new RepresentanteLegal() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
             var escritura = new EscrituraConstitucion() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };
             var facultadas = new PersonaFacultada() { SupervisorAuxiliarId = super.SupervisorAuxiliarId };*/
+            if (!Global.CurrentClaveUnica.IsAutenticated)
+            {
+                return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+            }
 
             var super = new SupervisorAuxiliar() 
             {
@@ -220,6 +224,11 @@ namespace DAES.Web.FrontOffice.Controllers
         /*Funcion para gestionar la busqueda de un supervisor para su posterior actualizacion*/
         public ActionResult Update(Search model)
         {
+            if (!Global.CurrentClaveUnica.IsAutenticated)
+            {
+                return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+            }
+
             IQueryable<SupervisorAuxiliar> query = db.SupervisorAuxiliars;
 
             if (!string.IsNullOrEmpty(model.Query))
