@@ -160,7 +160,7 @@ namespace DAES.Web.FrontOffice.Controllers
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             ViewBag.RegionId = new SelectList(db.Region, "RegionId", "Nombre", model.RegionId);
-            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { q.TipoDocumentoId, Nombre = string.Format("{0} ({1})", q.Nombre, q.GeneracionManual ? "Manual" : "Emisión inmediata") }), "TipoDocumentoId", "Nombre", model.TipoDocumentoId);
+            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.Where(q=>q.EsExterno).OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { q.TipoDocumentoId, Nombre = string.Format("{0} ({1})", q.Nombre, q.GeneracionManual ? "Manual" : "Emisión inmediata") }), "TipoDocumentoId", "Nombre", model.TipoDocumentoId);
 
             return View(model);
         }
