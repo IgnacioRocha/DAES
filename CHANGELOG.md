@@ -4,6 +4,12 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.4.1 DAES FrontOffice - 28-12-2022]
+
+### Added
+
+- Se agregaron en los tramites: Articulo 90, Registro Supervisor, Estudio Ahorro Credito y Cooperativa Abierta, Tags de GA para el paso 1.
+
 ## [2.4.1 DAES FrontOffice - 23-12-2022]
 
 ### Changed
