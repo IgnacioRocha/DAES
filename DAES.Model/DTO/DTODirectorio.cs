@@ -51,5 +51,6 @@ namespace DAES.Model.DTO
         public int GeneroId { get; set; }
         public virtual Genero Genero { get; set; }
 
+        public int ActualizacionOrganizacionDirectorioId { get; set; }
     }
 }

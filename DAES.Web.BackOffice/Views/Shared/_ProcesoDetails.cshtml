@@ -263,14 +263,14 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
                                         </p>
                                     }
                                 }*@
-
-                            @if (workflow.Documentos.Any())
+                           
+                            @if (workflow.Documentos.Any(q=>q.Activo == true))
                             {
                                 <hr />
                                 <div class="panel panel-default">
                                     <div class="panel-heading">Documentos de la tarea</div>
                                     <div class="panel-body">
-
+                                        @ViewBag.persona
                                         <table class="table table-hover table-striped datatable">
                                             <thead>
                                                 <tr>
@@ -305,31 +305,39 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
                                                                 if (item.Content != null)
                                                                 {
                                                                     //si el perfil esta dentro de los roles
-                                                                    if (ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador ||
-                                                                        ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.Jefatura ||
-                                                                        ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.AreaContable ||
-                                                                        ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.AreaLegal ||
-                                                                        ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.AreaRegistro ||
-                                                                        ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.Secretaria)
+                                                                    @*if (ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador ||
+                                                                            ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.Jefatura ||
+                                                                            ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.AreaContable ||
+                                                                            ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.AreaLegal ||
+                                                                            ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.AreaRegistro ||
+                                                                            ViewBag.persona == (int)DAES.Infrastructure.Enum.Perfil.Secretaria)
+                                                                        {
+                                                                            @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @Html.DisplayFor(model => item.FileName)
+                                                                        }*@
+                                                                    if (!string.IsNullOrWhiteSpace(item.FileName))
                                                                     {
                                                                         @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
                                                                     }
-                                                                    else
+                                                                    if (item.Url != null)
                                                                     {
-                                                                        @Html.DisplayFor(model => item.FileName)
+                                                                        <a href="@item.Url" target="_blank">@item.FileName</a>
                                                                     }
                                                                 }
                                                             }
 
                                                             @*Se deja como link*@
-                                                            @*@if (item.Content != null && !string.IsNullOrWhiteSpace(item.FileName) && ViewBag.persona == 1)
+                                                            @if (item.Content != null && !string.IsNullOrWhiteSpace(item.FileName) && ViewBag.persona == 1)
                                                                 {
                                                                     @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
                                                                 }
                                                                 @if (item.Url != null)
                                                                 {
                                                                     <a href="@item.Url" target="_blank">@item.FileName</a>
-                                                                }*@
+                                                                }
 
 
 

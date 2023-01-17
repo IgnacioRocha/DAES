@@ -191,7 +191,40 @@ namespace DAES.BLL
             }
         }
 
-        public List<string> DirectorioUpdateDev(List<ActualizacionOrganizacionDirectorio> list)
+        //public List<string> DirectorioUpdateDev(List<ActualizacionOrganizacionDirectorio> list)
+        //{
+        //    using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+        //    {
+        //        var returnValue = new List<string>();
+
+        //        if (list == null)
+        //        {
+        //            return returnValue;
+        //        }
+
+        //        context.SaveChanges();
+
+
+        //        foreach (var item in list)
+        //        {
+        //            var directorio = context.Directorio.FirstOrDefault(q => q.DirectorioId == item.DirectorioUpdateId);
+        //            if (directorio != null)
+        //            {
+        //                //directorio.CargoId = item.CargoId;
+        //                //directorio.NombreCompleto = item.NombreCompleto;
+        //                //directorio.Rut = item.Rut;
+        //                //directorio.FechaInicio = item.FechaInicio;
+        //                //directorio.FechaTermino = item.FechaTermino;
+        //                //directorio.GeneroId = item.GeneroId;
+
+
+        //            }
+        //        }
+        //        context.SaveChanges();
+        //        return returnValue;
+        //    }
+        //}
+        public List<string> DirectorioUpdateDev(List<ActualizacionDirectorioOrganizacion> list, int organizacionId, int? actualizacionOrganizacionId)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
             {
@@ -204,6 +237,104 @@ namespace DAES.BLL
 
                 context.SaveChanges();
 
+                var directorio_update = context.ActualizacionDirectorioOrganizacion.Where(q => q.ActualizacionOrganizacionId == actualizacionOrganizacionId).ToList();
+                var directorio_actual = context.Directorio.Where(q => q.OrganizacionId == organizacionId).ToList();
+                var eliminar = false;
+
+                foreach (var item in list/*.OrderBy(q => q.NombreCompleto)*/)
+                {
+                    //Se busca por el rut
+                    var directorio = context.Directorio.Where(q => q.OrganizacionId == organizacionId && q.Rut == item.Rut).FirstOrDefault();
+                    //Ahora se busca por el nombre del integrante de directorio
+                    var directorio_n = context.Directorio.Where(q => q.OrganizacionId == organizacionId && q.NombreCompleto.ToUpper() == item.NombreCompleto.ToUpper()).FirstOrDefault();
+
+                    //eh?
+                    var dir = directorio != null ? directorio : directorio_n;
+
+                    //Si el miembro existe, se actualiza o se mantiene
+                    if (dir != null)
+                    {
+                        dir.CargoId = item.CargoId;
+                        dir.NombreCompleto = item.NombreCompleto;
+                        dir.Rut = item.Rut;
+                        dir.FechaInicio = item.FechaInicio;
+                        dir.FechaTermino = item.FechaTermino;
+                        dir.GeneroId = item.GeneroId;
+                        dir.Eliminar = false;
+                    }
+                    else
+                    {
+                        //se esta agregando un nuevo miembro
+                        context.Directorio.Add(new Directorio
+                        {
+                            OrganizacionId = organizacionId,
+                            NombreCompleto = item.NombreCompleto,
+                            Rut = item.Rut,
+                            FechaInicio = item.FechaInicio,
+                            FechaTermino = item.FechaTermino,
+                            CargoId = item.CargoId,
+                            GeneroId = item.GeneroId,
+                            Eliminar = false
+                        });
+                    }
+
+                }
+                context.SaveChanges();
+
+                //cuando se desea eliminar
+                if (directorio_update.Count() < directorio_actual.Count())
+                    eliminar = true;
+
+                if (eliminar)
+                {
+                    List<Directorio> directorios_del = new List<Directorio>();
+                    List<ComisionLiquidadora> comision_del = new List<ComisionLiquidadora>();
+                    foreach (var item in directorio_actual)
+                    {
+                        if (item.Eliminar)
+                        {
+                            directorios_del.Add(item);
+                        }
+                    }
+                    foreach (var help in directorios_del)
+                    {
+                        var comision_help = context.ComisionLiquidadora.Where(q => q.DirectorioId == help.DirectorioId).FirstOrDefault();
+                        if (comision_help != null)
+                        {
+                            comision_del.Add(comision_help);
+                        }
+                    }
+
+                    //Antes de eliminar, se debe verificar su existencia dentro de la comision liquidadora y eliminarlo
+                    foreach (var item in comision_del)
+                    {
+                        context.ComisionLiquidadora.Remove(item);
+                    }
+
+
+                    foreach (var item in directorios_del)
+                    {
+                        context.Directorio.Remove(item);
+                    }
+
+                    context.SaveChanges();
+                }
+
+                return returnValue;
+            }
+        }
+        public List<string> DirectorioUpdate(List<Directorio> list /*int? organizacionId*/)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var returnValue = new List<string>();
+
+                if (list == null)
+                {
+                    return returnValue;
+                }
+
+                context.SaveChanges();
 
                 foreach (var item in list)
                 {
@@ -470,7 +601,7 @@ namespace DAES.BLL
                         reforma.NumeroOficio = item.NumeroOficio;
                         reforma.FechaAsambleaDep = item.FechaAsambleaDep;
                         reforma.AprobacionId = item.AprobacionId;
-                        reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
+                        //reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
                     }
                 }
 
@@ -501,7 +632,7 @@ namespace DAES.BLL
                         reforma.NumeroOficio = item.NumeroOficio;
                         reforma.FechaOficio = item.FechaOficio;
                         reforma.AprobacionId = item.AprobacionId;
-                        reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
+                        //reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
 
                     }
                 }
@@ -745,6 +876,281 @@ namespace DAES.BLL
 
                 context.SaveChanges();
             }
+        }
+
+        //TODO: Se crea nuevo metodo para documento configuracion
+        public byte[] CrearDocumentoConfiguracion(ConfiguracionCertificado configuracioncertificado)
+        {
+            #region Configurar PreDocumento
+            EventoTitulos ev = new EventoTitulos();
+            Font _fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY);
+            Font _fontNumero = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD, BaseColor.DARK_GRAY);
+            Font _fontFirmante = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.DARK_GRAY);
+            Font _fontStandard = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.DARK_GRAY);
+            Font _fontStandardBold = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.DARK_GRAY);
+
+            MemoryStream memStream = new MemoryStream();
+            Document doc = new Document(PageSize.LEGAL);
+            PdfWriter write = PdfWriter.GetInstance(doc, memStream);
+            write.PageEvent = ev;
+            Chunk SaltoLinea = Chunk.NEWLINE;
+
+            //NEW
+            doc.Open();
+            doc.AddTitle(configuracioncertificado.Titulo);
+
+            var centrar = Element.ALIGN_CENTER;
+            Paragraph paragraphTITULO = new Paragraph(configuracioncertificado.Titulo, _fontTitulo);
+            paragraphTITULO.Alignment = centrar;
+
+            var logo = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.URLImagenLogo);
+            if (logo == null)
+            {
+                throw new Exception("No se encontró la configuración de url de rúbrica.");
+            }
+
+            if (logo != null && logo.Valor.IsNullOrWhiteSpace())
+            {
+                throw new Exception("La configuración de url de rúbrica es inválida.");
+            }
+
+            Image imagenLogo = Image.GetInstance(logo.Valor);
+            imagenLogo.ScalePercent(20);
+
+            PdfPTable tableHeader = new PdfPTable(3);
+            tableHeader.WidthPercentage = 100f;
+            tableHeader.DefaultCell.Border = Rectangle.NO_BORDER;
+            tableHeader.DefaultCell.Border = 0;
+
+            //logo
+            PdfPCell cell = new PdfPCell(imagenLogo);
+            cell.HorizontalAlignment = Element.ALIGN_LEFT;
+            cell.BorderWidth = 0;
+            cell.PaddingTop = 20;
+            cell.Border = Rectangle.NO_BORDER;
+            tableHeader.AddCell(cell);
+
+            //title
+            cell = new PdfPCell(new Phrase(configuracioncertificado.Titulo, _fontTitulo));
+            cell.HorizontalAlignment = Element.ALIGN_CENTER;
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderWidth = 0;
+            cell.PaddingTop = 20;
+            cell.Border = Rectangle.NO_BORDER;
+            tableHeader.AddCell(cell);
+
+            //Id
+            var paragrafId = new Paragraph(string.Format("Nro Folio XX"), _fontNumero);
+            paragrafId.Alignment = Element.ALIGN_RIGHT;
+
+            var paragrafDate = new Paragraph(string.Format("{0:dd-MM-yyyy HH:mm:ss}", DateTime.Now), _fontStandard);
+            paragrafDate.Alignment = Element.ALIGN_RIGHT;
+
+            cell = new PdfPCell();
+            cell.AddElement(paragrafId);
+            cell.AddElement(paragrafDate);
+
+            cell.HorizontalAlignment = Element.ALIGN_RIGHT;
+            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+            cell.BorderWidth = 0;
+            cell.PaddingTop = 20;
+            cell.Border = Rectangle.NO_BORDER;
+            tableHeader.AddCell(cell);
+
+            doc.Add(tableHeader);
+            doc.Add(SaltoLinea);
+            doc.Add(new Paragraph());
+
+
+            ////Configuracion - Parrafos / Se deben agregar todos los parrafos aqui
+            string parrafo_1 = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : string.Empty);
+            string parrafo_2 = string.Format(configuracioncertificado.Parrafo2 != null ? configuracioncertificado.Parrafo2 : string.Empty);
+            string parrafo_3 = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : string.Empty);
+            string parrafo_4 = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : string.Empty);
+            string parrafo_5 = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : string.Empty);
+            string parrafo1DisPos = string.Format(configuracioncertificado.Parrafo1DisPos != null ? configuracioncertificado.Parrafo1DisPos : string.Empty);
+            string parrafo1DisAnt = string.Format(configuracioncertificado.Parrafo1DisAnt != null ? configuracioncertificado.Parrafo1DisAnt : string.Empty);
+            string parrafo2ExAnterior = string.Format(configuracioncertificado.Parrafo2ExAnterior != null ? configuracioncertificado.Parrafo2ExAnterior : string.Empty);
+            string parrafo2ExPosterior = string.Format(configuracioncertificado.Parrafo2ExPosterior != null ? configuracioncertificado.Parrafo2ExPosterior : string.Empty);
+            string parrafo4ReAnterior = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : string.Empty);
+            string parrafo4RePosterior = string.Format(configuracioncertificado.Parrafo4RePosterior != null ? configuracioncertificado.Parrafo4RePosterior : string.Empty);
+            string parrafoObservacion = string.Format(configuracioncertificado.ParrafoObservacion != null ? configuracioncertificado.ParrafoObservacion : string.Empty);
+
+            //para cuando se necesite con color
+            string parrafo_fin = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa."
+                             + "\n" + "\n" + "Saluda atentamente a ustedes";
+
+            //para cuando se necesite sin color
+            string parrafo_final = "Saluda atentamente a ustedes.";
+            #endregion
+
+            #region Declarar / Configurar Parrafos
+            Paragraph paragraphUNO = new Paragraph(parrafo_1, _fontStandard);
+            paragraphUNO.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphDOS = new Paragraph(parrafo_2, _fontStandard);
+            paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphTRES = new Paragraph(parrafo_3, _fontStandard);
+            paragraphTRES.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCUATRO = new Paragraph(parrafo_4, _fontStandard);
+            paragraphCUATRO.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCINCO = new Paragraph(parrafo_5, _fontStandard);
+            paragraphCINCO.Alignment = Element.ALIGN_JUSTIFIED;
+
+            //Parrafos "Dinamicos de cada Organizacion"
+
+            Paragraph paragraphUNODISANT = new Paragraph(parrafo1DisAnt, _fontStandard);
+            paragraphUNODISANT.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphUNODISPOST = new Paragraph(parrafo1DisPos, _fontStandard);
+            paragraphUNODISPOST.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphDOSEXANT = new Paragraph(parrafo2ExAnterior, _fontStandard);
+            paragraphDOSEXANT.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphDOSEXPOST = new Paragraph(parrafo2ExPosterior, _fontStandard);
+            paragraphDOSEXPOST.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCUATROREANT = new Paragraph(parrafo4ReAnterior, _fontStandard);
+            paragraphCUATROREANT.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphCUATROREPOST = new Paragraph(parrafo4RePosterior, _fontStandard);
+            paragraphCUATROREPOST.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphOBSERVACION = new Paragraph(parrafoObservacion, _fontStandard);
+            paragraphOBSERVACION.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphFINAL = new Paragraph(parrafo_final, _fontStandard);
+            paragraphFINAL.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph paragraphFIN = new Paragraph(parrafo_fin, _fontStandard);
+            paragraphFIN.Alignment = Element.ALIGN_JUSTIFIED;
+
+            Paragraph responsable = new Paragraph("Texto para Responsable", _fontStandardBold);
+            responsable.Alignment = centrar;
+
+            Paragraph _cargo = new Paragraph("Texto para cargo de Responsable", _fontStandardBold);
+            _cargo.Alignment = centrar;
+
+            Paragraph _unidad = new Paragraph("Unidad a la que pertenece el Responsable", _fontStandardBold);
+            _unidad.Alignment = centrar;
+
+            #endregion
+
+            //cambiar disolucion de Cooperativas usa mas parrafos
+            var definicion = "";
+            switch (configuracioncertificado.ConfiguracionCertificadoId)
+            {
+                case 1009:
+                case 1008:
+                    definicion = "Disolucion";
+                    break;
+                case 1010:
+                    definicion = "DisolucionCOOP";
+                    break;
+                case 4:
+                case 6:
+                case 1:
+                    definicion = "Vigencia";
+                    break;
+                case 17:
+                case 18:
+                    definicion = "VigenciaEstatutosAGAC";
+                    break;
+                case 16:
+                    definicion = "VigenciaEstatutosCOOP";
+                    break;
+                case 3:
+                case 2:
+                case 5:
+                    definicion = "VigenciaDirectorio";
+                    break;
+            }
+
+            switch (definicion)
+            {
+                case "Disolucion":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "DisolucionCOOP":
+                    doc.Add(paragraphUNODISANT);
+                    doc.Add(paragraphUNODISPOST);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "Vigencia":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "VigenciaEstatutosAGAC":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOS);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphCUATRO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+                case "VigenciaEstatutosCOOP":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphTRES);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOSEXANT);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOSEXPOST);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphCUATROREANT);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphCUATROREPOST);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFIN);
+                    break;
+                case "VigenciaDirectorio":
+                    doc.Add(paragraphUNO);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphDOS);
+                    doc.Add(SaltoLinea);
+
+                    PdfPTable table = new PdfPTable(4);
+                    table.WidthPercentage = 100.0f;
+                    table.HorizontalAlignment = Element.ALIGN_CENTER;
+                    table.DefaultCell.BorderColor = BaseColor.LIGHT_GRAY;
+                    table.AddCell(new PdfPCell(new Phrase("Cargo", _fontStandard)));
+                    table.AddCell(new PdfPCell(new Phrase("Nombre", _fontStandard)));
+                    table.AddCell(new PdfPCell(new Phrase("Vigencia Desde", _fontStandardBold)));
+                    table.AddCell(new PdfPCell(new Phrase("Vigencia Hasta", _fontStandardBold)));
+
+                    doc.Add(table);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphOBSERVACION);
+                    doc.Add(SaltoLinea);
+                    doc.Add(paragraphFINAL);
+                    break;
+            }
+
+            doc.Add(SaltoLinea);
+            doc.Add(responsable);
+            doc.Add(_cargo);
+            doc.Add(_unidad);
+            doc.Close();
+            return memStream.ToArray();
         }
 
         //TODO: Se crea nuevo metodo para documento configuracion
@@ -1377,6 +1783,8 @@ namespace DAES.BLL
                                 }
                             }
                         }
+                            table.SpacingBefore = 15f;
+                            doc.Add(table);
                     }
                 }
 
@@ -1969,7 +2377,6 @@ namespace DAES.BLL
                                 table.AddCell(new PdfPCell(new Phrase("*NOTA", _fontStandard)));
                                 table.AddCell(new PdfPCell(new Phrase(organizacion.NotaDirectorio, _fontStandardBold)) { Colspan = 3, HorizontalAlignment = Element.ALIGN_JUSTIFIED });
                             }
-
                             table.SpacingBefore = 15f;
                             doc.Add(table);
                         }
@@ -2181,7 +2588,7 @@ namespace DAES.BLL
                         NumeroOficio = reforma.NumeroOficio,
                         FechaOficio = reforma.FechaOficio,
                         AprobacionId = reforma.AprobacionId,
-                        EspaciosDocAGAC = reforma.EspaciosDocAGAC
+                        //EspaciosDocAGAC = reforma.EspaciosDocAGAC
 
                     });
                     context.SaveChanges();

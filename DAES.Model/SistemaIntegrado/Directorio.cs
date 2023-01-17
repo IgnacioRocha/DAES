@@ -47,5 +47,8 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Género")]
         public int GeneroId { get; set; }
         public virtual Genero Genero { get; set; }
+
+        [NotMapped]
+        public bool Eliminar { get; set; } = true;
     }
 }

@@ -3,22 +3,22 @@
 <table class="table table-responsive">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().NombreCompleto)
+            @Html.LabelFor(model => model.Directorio.FirstOrDefault().NombreCompleto, "(*)nombre Completo")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().Rut)
+            @Html.LabelFor(model => model.Directorio.FirstOrDefault().Rut, "(*)Rut")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().Cargo.Nombre)
+            @Html.LabelFor(model => model.Directorio.FirstOrDefault().Cargo.Nombre, "(*)Cargo")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().Genero.Nombre)
+            @Html.LabelFor(model => model.Directorio.FirstOrDefault().Genero.Nombre,"Género")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().FechaInicio)
+            @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaInicio, "(*)Fecha Inicio")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().FechaTermino)
+            @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaTermino, "(*)Fecha Termino")
         </th>
         <th></th>
     </tr>

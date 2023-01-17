@@ -31,5 +31,14 @@ namespace DAES.Web.BackOffice.Properties {
                 return ((string)(this["Success"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Solo se puede adjuntar archivos PDF, WORD, EXCEL")]
+        public string Error {
+            get {
+                return ((string)(this["Error"]));
+            }
+        }
     }
 }

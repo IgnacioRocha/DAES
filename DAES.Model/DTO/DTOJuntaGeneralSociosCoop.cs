@@ -85,5 +85,6 @@ namespace DAES.Model.DTO
         public HttpPostedFileBase File4 { get; set; }
 
         public virtual List<DTODirectorio> Directorio { get; set; }
+
     }
 }

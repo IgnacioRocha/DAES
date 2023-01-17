@@ -173,14 +173,12 @@ namespace DAES.Web.BackOffice.Controllers
 
                     if (model.DefinicionProcesoId != (int)Infrastructure.Enum.DefinicionProceso.ConstitucionOP)
                     {
-
                         var organizacion = db.Organizacion.FirstOrDefault(q => q.OrganizacionId == model.OrganizacionId);
                         proceso.Organizacion = new Organizacion()
                         {
                             OrganizacionId = organizacion.OrganizacionId,
                             TipoOrganizacionId = organizacion.TipoOrganizacionId
                         };
-
                         proceso.OrganizacionId = model.OrganizacionId.Value;
                     }
 

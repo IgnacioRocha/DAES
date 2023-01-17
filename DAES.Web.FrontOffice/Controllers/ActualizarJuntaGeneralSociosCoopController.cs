@@ -44,23 +44,23 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "ActualizarJuntaGeneralSociosCoop";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
 
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            {
-                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            };
-            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            {
-                numero = 44444444,
-                DV = "4",
-                tipo = "RUN"
-            };
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
 
 
             //a
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
         public ActionResult Search()
@@ -136,6 +136,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 ApellidosSolicitante = string.Join(" ", Global.CurrentClaveUnica.ClaveUnicaUser.name.apellidos).ToUpperNull(),
                 //TODO: revisar si llega bien el dato de correo
                 EmailSolicitante = model.EmailSolicitante,
+                FonoSolicitante = model.FonoSolicitante,
 
                 OrganizacionId = organizacion.OrganizacionId,
                 TipoOrganizacionId = organizacion.TipoOrganizacionId,
@@ -158,6 +159,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 Directorio = organizacion.Directorios.Select(q => new DTODirectorio
 
                 {
+                    Rut = q.Rut,
                     DirectorioId = q.DirectorioId,
                     OrganizacionId = q.OrganizacionId,
                     GeneroId = q.GeneroId,
@@ -168,6 +170,8 @@ namespace DAES.Web.FrontOffice.Controllers
                 }).ToList()
             };
 
+            var cont = model.Directorio.Count();
+            ViewBag.cont = cont;
             return View(model);
         }
 
@@ -217,7 +221,8 @@ namespace DAES.Web.FrontOffice.Controllers
                     Rut = model.RUTSolicitante,
                     Nombres = model.NombresSolicitante,
                     Apellidos = model.ApellidosSolicitante,
-                    Email = model.EmailSolicitante
+                    Email = model.EmailSolicitante,
+                    Fono = model.FonoSolicitante
                 };
                 proceso.ActualizacionOrganizacions.Add(new ActualizacionOrganizacion()
                 {
@@ -239,7 +244,17 @@ namespace DAES.Web.FrontOffice.Controllers
                     NumeroRegistro = model.NumeroRegistro,
                     RazonSocial = model.RazonSocial,
                     Direccion = model.Direccion,
-                    Directorio = model.Directorio.Select(q => new ActualizacionOrganizacionDirectorio
+                    //Directorio = model.Directorio.Select(q => new ActualizacionOrganizacionDirectorio
+                    //{
+                    //    CargoId = q.CargoId,
+                    //    FechaInicio = q.FechaInicio,
+                    //    FechaTermino = q.FechaTermino,
+                    //    GeneroId = q.GeneroId,
+                    //    NombreCompleto = q.NombreCompleto,
+                    //    Rut = q.Rut,
+
+                    //}).ToList()
+                    Directorio = model.Directorio.Select(q => new ActualizacionDirectorioOrganizacion
                     {
                         CargoId = q.CargoId,
                         FechaInicio = q.FechaInicio,
@@ -247,8 +262,7 @@ namespace DAES.Web.FrontOffice.Controllers
                         GeneroId = q.GeneroId,
                         NombreCompleto = q.NombreCompleto,
                         Rut = q.Rut,
-                        DirectorioUpdateId = 65489648
-
+                        ActualizacionDirectorioOrganizacionId = q.ActualizacionOrganizacionDirectorioId
                     }).ToList()
                 });
 
@@ -258,15 +272,18 @@ namespace DAES.Web.FrontOffice.Controllers
                     var target = new MemoryStream();
                     file.InputStream.CopyTo(target);
 
-                    proceso.Documentos.Add(new Documento()
+                    if (file.FileName != "")
                     {
-                        FechaCreacion = DateTime.Now,
-                        Content = target.ToArray(),
-                        FileName = file.FileName,
-                        Organizacion = proceso.Organizacion,
-                        TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.SinClasificar,
-                        TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Privado
-                    });
+                        proceso.Documentos.Add(new Documento()
+                        {
+                            FechaCreacion = DateTime.Now,
+                            Content = target.ToArray(),
+                            FileName = file.FileName,
+                            Organizacion = proceso.Organizacion,
+                            TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.SinClasificar,
+                            TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Privado
+                        });
+                    }
                 }
 
                 try
@@ -286,6 +303,8 @@ namespace DAES.Web.FrontOffice.Controllers
 
             }
 
+            model.Rubro = _db.Rubro.Where(q => q.RubroId == model.RubroId).First();
+            model.SubRubro = _db.SubRubro.Where(q => q.SubRubroId == model.SubRubroId).First();
             return View(model);
 
         }
@@ -295,7 +314,7 @@ namespace DAES.Web.FrontOffice.Controllers
             var directorio = new DTODirectorio()
             {
                 OrganizacionId = model.OrganizacionId,
-                NombreCompleto = "?",
+                NombreCompleto = "",
                 GeneroId = (int)Infrastructure.Enum.Genero.SinGenero,
                 CargoId = (int)Infrastructure.Enum.Cargo.Defecto,
             };
