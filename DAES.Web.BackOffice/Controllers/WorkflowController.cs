@@ -80,8 +80,6 @@ namespace DAES.Web.BackOffice.Controllers
                     EstadoTarea = (DateTime.Now < q.Proceso.FechaVencimiento ? "En curso normal" : (DateTime.Now == q.Proceso.FechaVencimiento ? "Por Vencer" : "Atrasado")),
 
                 }).OrderByDescending(q => q.FechaCreacionProcess).ToList());
-
-
             }
             else
             {

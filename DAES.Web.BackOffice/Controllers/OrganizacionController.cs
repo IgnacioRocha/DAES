@@ -393,7 +393,6 @@ namespace DAES.Web.BackOffice.Controllers
                 _custom.ModificacionUpdate(model.ModificacionEstatutos);
                 _custom.DisolucionUpdate(model.Disolucions, disolucion, model.ComisionLiquidadoras);
 
-
                 //model.Reformas = null;
                 //db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
@@ -816,6 +815,35 @@ namespace DAES.Web.BackOffice.Controllers
 
             var model = db.Organizacion.Find(OrganizacionId);
             return PartialView("_Reforma", model);
+        }
+
+        public ActionResult EliminarSanemiento(int IdSaneamiento, int IdOrganizacion)
+        {
+            var saneamiento = db.Saneamiento.FirstOrDefault(q => q.IdSaneamiento == IdSaneamiento);
+            if (saneamiento != null)
+            {
+                db.Saneamiento.Remove(saneamiento);
+                db.SaveChanges();
+            }
+            var model = db.Organizacion.Find(IdOrganizacion);
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre", model.CiudadId);
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre", model.ComunaId);
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.EstadoId);
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.RegionId);
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre", model.RubroId);
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre", model.SubRubroId);
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.TipoOrganizacionId);
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.SituacionId);
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
+            ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
+
+
+            ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
+            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
+
+            return View("Edit", model);
         }
 
         public ActionResult DisolucionDelete(int DisolucionId, int OrganizacionId)

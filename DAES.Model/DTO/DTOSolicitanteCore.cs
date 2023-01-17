@@ -27,8 +27,12 @@ namespace DAES.Model.DTO
         public string ApellidosSolicitante { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el dato Email Solicitante")]
-        [Display(Name = "Email Solicitante")]
+        [Display(Name = "(*) Email Solicitante")]
         public string EmailSolicitante { get; set; }
+
+        [Required(ErrorMessage = "Es necesario especificar el dato Fono Solicitante")]
+        [Display(Name = "(*) Fono Solicitante")]
+        public string FonoSolicitante { get; set; }
 
     }
 }

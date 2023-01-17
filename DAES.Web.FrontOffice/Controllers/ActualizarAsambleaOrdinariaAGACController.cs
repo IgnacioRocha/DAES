@@ -51,23 +51,23 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "ActualizarAsambleaOrdinariaAGAC";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
 
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            {
-                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            };
-            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            {
-                numero = 44444444,
-                DV = "4",
-                tipo = "RUN"
-            };
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
 
 
-            //a
-            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            ////a
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
 
         }
 
@@ -164,6 +164,11 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(model);
         }
 
+        public ActionResult Finish()
+        {
+            return View();
+        }
+
         // POST: ActualizarAsambleOrdinariaAGAC/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -202,7 +207,10 @@ namespace DAES.Web.FrontOffice.Controllers
                 {
                     Rut = model.RUTSolicitante,
                     Nombres = model.NombresSolicitante,
-                    Apellidos = model.ApellidosSolicitante
+                    Apellidos = model.ApellidosSolicitante,
+                    Email = model.EmailSolicitante,
+                    Fono = model.FonoSolicitante
+
                 };
                 proceso.ActualizacionOrganizacions.Add(new ActualizacionOrganizacion()
                 {
@@ -224,14 +232,25 @@ namespace DAES.Web.FrontOffice.Controllers
                     NumeroRegistro = model.NumeroRegistro,
                     RazonSocial = model.RazonSocial,
                     Direccion = model.Direccion,
-                    Directorio = model.Directorio.Select(q => new ActualizacionOrganizacionDirectorio
+                    //Directorio = model.Directorio.Select(q => new ActualizacionOrganizacionDirectorio
+                    //{
+                    //    CargoId = q.CargoId,
+                    //    FechaInicio = q.FechaInicio,
+                    //    FechaTermino = q.FechaTermino,
+                    //    GeneroId = q.GeneroId,
+                    //    NombreCompleto = q.NombreCompleto,
+                    //    Rut = q.Rut,
+                    //    ActualizacionOrganizacionDirectorioId = 1
+                    //}).ToList()
+                    Directorio = model.Directorio.Select(q => new ActualizacionDirectorioOrganizacion
                     {
                         CargoId = q.CargoId,
                         FechaInicio = q.FechaInicio,
                         FechaTermino = q.FechaTermino,
                         GeneroId = q.GeneroId,
                         NombreCompleto = q.NombreCompleto,
-                        Rut = q.Rut
+                        Rut = q.Rut,
+                        ActualizacionDirectorioOrganizacionId = q.ActualizacionOrganizacionDirectorioId
                     }).ToList()
                 });
 
@@ -241,15 +260,21 @@ namespace DAES.Web.FrontOffice.Controllers
                     var target = new MemoryStream();
                     file.InputStream.CopyTo(target);
 
-                    proceso.Documentos.Add(new Documento()
+                    if (file.FileName != "")
                     {
-                        FechaCreacion = DateTime.Now,
-                        Content = target.ToArray(),
-                        FileName = file.FileName,
-                        Organizacion = proceso.Organizacion,
-                        TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.SinClasificar,
-                        TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Privado
-                    });
+                        proceso.Documentos.Add(new Documento()
+                        {
+                            FechaCreacion = DateTime.Now,
+                            Content = target.ToArray(),
+                            FileName = file.FileName,
+                            Organizacion = proceso.Organizacion,
+                            TipoDocumentoId = (int)Infrastructure.Enum.TipoDocumento.SinClasificar,
+                            TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Privado
+
+                        });
+                    }
+
+
                 }
 
                 try
@@ -271,6 +296,10 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.TipoOrganizacionId = new SelectList(_db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.TipoOrganizacionId);
             ViewBag.CargoId = new SelectList(_db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(_db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+
+
+            model.Rubro = _db.Rubro.Where(q => q.RubroId == model.RubroId).FirstOrDefault();
+            model.SubRubro = _db.SubRubro.Where(q => q.SubRubroId == model.SubRubroId).FirstOrDefault();
 
             return View(model);
         }

@@ -4,6 +4,10 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.5.0 DAES Completo - 17-01-2023]
+
+## //TODO AGREGAR CAMBIOS GIO
+
 ## [2.4.1 DAES FrontOffice - 28-12-2022]
 
 ### Added

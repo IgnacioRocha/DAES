@@ -1057,6 +1057,9 @@
     <Content Include="Views\Task\SignResolucion.cshtml" />
     <Content Include="Views\Task\CambioBandeja.cshtml" />
     <Content Include="Views\Task\ActualizarDirectorioCoop.cshtml" />
+    <Content Include="Views\Task\VerificacionActualizacion.cshtml" />
+    <Content Include="Views\Task\ActualizarJuntaGeneralSocios.cshtml" />
+    <Content Include="Views\Task\ActualizarDirectorio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

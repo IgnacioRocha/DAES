@@ -5,5 +5,8 @@
     <Setting Name="Success" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Operación completada correctamente</Value>
     </Setting>
+    <Setting Name="Error" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Solo se puede adjuntar archivos PDF, WORD, EXCEL</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

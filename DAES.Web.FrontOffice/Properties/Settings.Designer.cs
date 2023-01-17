@@ -34,33 +34,6 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("b2d5390a03e642b799ac7dd61c1d453d")]
-        public string client_id {
-            get {
-                return ((string)(this["client_id"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("13a684fb85f649fb860171f6714c8a31")]
-        public string client_secret {
-            get {
-                return ((string)(this["client_secret"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://tramite.economia.cl/claveunica")]
-        public string redirect_uri {
-            get {
-                return ((string)(this["redirect_uri"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://gestionprocesos.economia.cl")]
         public string url_gestion_procesos {
             get {
@@ -74,6 +47,42 @@ namespace DAES.Web.FrontOffice.Properties {
         public string max_tamano_file {
             get {
                 return ((string)(this["max_tamano_file"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("44568175e9ff4fdcb98cd4e9d368ce11")]
+        public string client_id {
+            get {
+                return ((string)(this["client_id"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3803b17e50314a92972f9dec211df530")]
+        public string client_secret {
+            get {
+                return ((string)(this["client_secret"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://tramites.economia.gob.cl/claveunica")]
+        public string redirect_uri {
+            get {
+                return ((string)(this["redirect_uri"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Solo se puede adjuntar archivos PDF, WORD, EXCEL")]
+        public string Error {
+            get {
+                return ((string)(this["Error"]));
             }
         }
     }

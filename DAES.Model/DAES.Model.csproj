@@ -152,6 +152,7 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoLegal.cs" />
+    <Compile Include="SistemaIntegrado\ActualizacionDirectorioOrganizacion.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionEscrituraConstitucion.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionExtractoAuxiliar.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionPersonaFacultada.cs" />
