@@ -67,6 +67,10 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Index()
         {
+            if (!Global.CurrentClaveUnica.IsAutenticated)
+            {
+                return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+            }
             return View(new Search());
         }
 
@@ -191,7 +195,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, proceso.Solicitante.Email);
 
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Finish");
                 }
                 catch (Exception ex)
                 {
@@ -209,6 +213,11 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "JuntaGeneralSociosObligatoriaCooperativa";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Index";
             return Redirect();
+        }
+
+        public ActionResult Finish()
+        {
+            return View();
         }
     }
 }

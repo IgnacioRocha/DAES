@@ -15,7 +15,7 @@ namespace DAES.Model.SistemaIntegrado
         public int GeneroId { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar este dato")]
-        [Display(Name = "Nombre género")]
+        [Display(Name = "Género")]
         public string Nombre { get; set; }
     }
 }

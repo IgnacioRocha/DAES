@@ -20,14 +20,14 @@
         background-color: darkcyan;
     }
 </style>
-@if (ViewBag.TipoUsuario == "Administrador")
-{
-    <div id="capa2">
-        @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
+@*@if (ViewBag.TipoUsuario == "Administrador")
+    {
+        <div id="capa2">
+            @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
 
-    </div>
+        </div>
 
-}
+    }*@
 <div id="capa1">
     @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed" })
 </div>
@@ -39,7 +39,6 @@
         <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
     </li>
 </ul>
-
 
 <div class="tab-content">
     <div class="tab-pane fade in active" id="Info">
@@ -59,6 +58,188 @@
                     <table class="table table-hover table-striped datatable">
                         <thead>
                             <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().DocumentoId)
+                                </th>
+                                <th>
+                                    Documento
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FechaCreacion)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().TipoDocumento.Nombre)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Autor)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Firmado)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Descripcion)
+                                </th>
+                                <th>
+                                    Seleccione Firmante
+                                </th>
+                                <th>
+                                    Contenido Documento
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Documentos.Count(); i++)
+                            {
+                                @*using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.Hidden("WorkflowId", Model.Documentos.ToArray()[i].WorkflowId)
+                                        @Html.Hidden("DocumentoId", Model.Documentos.ToArray()[i].DocumentoId)
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos.ToArray()[i].DocumentoId)
+                                    </td>
+                                    <td>
+                                        @if (Model.Documentos.ToArray()[i].Content != null && !string.IsNullOrWhiteSpace(Model.Documentos.ToArray()[i].FileName))
+                                        {
+                                            @Html.ActionLink(Model.Documentos.ToArray()[i].FileName, "Download", "Documento", new { id = Model.Documentos.ToArray()[i].DocumentoId }, null)
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos.ToArray()[i].FechaCreacion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos.ToArray()[i].TipoDocumento.Nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Autor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Firmado)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Descripcion)
+                                    </td>
+                                    <td>
+                                        @*<input type="submit" value="Firmar documento" class="btn btn-primary" />*@
+                                        @*@Html.ActionLink("Firmar documento", "FirmarDocumentosPost", null, new { id = Model.Documentos.ToArray()[i].DocumentoId }, new { @class = "btn btn-primary" })*@
+                                        @*@using (Html.BeginForm("SignResolucion", "Task", new { id = Model.Documentos.ToArray()[i].DocumentoId, idProceso = Model.Documentos.ToArray()[i].ProcesoId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                            {
+
+                                                @Html.DropDownList("RubricaID", null, "Seleccione...", new { @class = "form-control" })
+                                                @Html.AntiForgeryToken()
+                                                @Html.HiddenFor(model => Model.ProcesoId)
+                                                <br /> <br />
+                                                <button class="btn btn-primary" type="submit">Firmar Documento</button>
+                                            }*@
+
+
+                                    </td>
+
+                                    <td style="width:500px">
+
+                                        @if (Model.Documentos[i].Content != null)
+                                        {
+                                            if (Model.Documentos[i].FileName.Contains(".pdf"))
+                                            {
+                                                <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+                                            }
+                                        }
+
+
+
+
+                                    </td>
+
+                                </tr>
+                                @*}*@
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Nuevo documento</div>
+            <div class="panel-body">
+
+                <p class="text-danger">
+                    Recuerde, si el documento va a ser firmado electrónicamente, debe adjuntarlo en formato pdf.
+                </p>
+
+                <div class="col-md-5">
+                    @using (Html.BeginForm("CrearDocumento", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(model => model.Workflow.WorkflowId)
+                        @Html.HiddenFor(model => model.Workflow.ProcesoId)
+                        @Html.HiddenFor(model => model.Workflow.Proceso.OrganizacionId)
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-horizontal">
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Documento.File, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.Documento.File, new { type = "file" })
+                                    @Html.ValidationMessageFor(model => model.Documento.File, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TipoDocumentoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.TipoDocumentoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoDocumentoId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.TipoPrivacidadId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.DropDownListFor(model => model.TipoPrivacidadId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.TipoPrivacidadId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Documento.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Documento.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Documento.Descripcion, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Documento.FechaRespuesta, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Documento.FechaRespuesta, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                                    @Html.ValidationMessageFor(model => model.Documento.FechaRespuesta, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Documento.Recordatorio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Documento.Recordatorio, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Documento.Recordatorio, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Adjuntar archivo" class="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                @if (Model.Documentos.Count() > 0)
+                {
+                    <table class="table table-hover table-striped datatable">
+                        <thead>
+                            <tr>
                                 <th>Archivo</th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FechaCreacion)
@@ -73,54 +254,54 @@
                                     @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Descripcion)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Periodo)
-                                </th>
-                                <th>
+
                                 </th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            @foreach (var item in Model.Documentos)
+                            @for (int i = 0; i < Model.Documentos.Count; i++)
                             {
                                 <tr>
-                                    <td>
-                                        @if (item.Content != null && !string.IsNullOrEmpty(item.FileName))
-                                        {
-                                            @Html.ActionLink(item.FileName, "Download", "Documento", new { id = item.DocumentoId }, null)
-                                        }
-                                        @if (item.Url != null)
-                                        {
-                                            <a href="@item.Url" target="_blank">@item.FileName</a>
-                                        }
-                                    </td>
-                                    <td>
-                                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => item.TipoDocumento.Nombre)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => item.Autor)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => item.Descripcion)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => item.Periodo)
-                                    </td>
+
+                                    @Html.HiddenFor(model => Model.Documentos[i].DocumentoId)
 
                                     <td>
-                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=@string.Concat("#modal1", item.DocumentoId) id=@string.Concat("button1", item.DocumentoId)>
+                                        @if (Model.Documentos[i].Content != null && !string.IsNullOrEmpty(Model.Documentos[i].FileName))
+                                        {
+                                            @Html.ActionLink(Model.Documentos[i].FileName, "Download", "Documento", new { id = Model.Documentos[i].DocumentoId }, null)
+                                        }
+                                    </td>
+                                    <td>
+                                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.Documentos[i].FechaCreacion)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos[i].TipoDocumento.Nombre)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos[i].Autor)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => Model.Documentos[i].Descripcion)
+                                    </td>
+                                    <td>
+                                        @if (Model.Documentos[i].Autor == User.Identity.Name || ViewBag.TipoUsuario == "Administrador")
+                                        {
+                                            @Html.ActionLink("Eliminar", "CrearDocumentoDelete", "Task", new { Model.Documentos[i].DocumentoId, Model.Workflow.WorkflowId }, null)
+                                        }
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=@string.Concat("#modal2",Model.Documentos[i].DocumentoId) id=@string.Concat("button2",Model.Documentos[i].DocumentoId)>
                                             Detalle
                                         </button>
-                                        <div class="modal fade" id=@string.Concat("modal1", item.DocumentoId) tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id=@string.Concat("modal2",Model.Documentos[i].DocumentoId) tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h3 class="modal-title" id="exampleModalLabel">Detalles del documento</h3>
                                                     </div>
                                                     <div class="modal-body">
-                                                        @Html.Action("Details", "Documento", new { id = item.DocumentoId })
+                                                        @Html.Action("Details", "Documento", new { id = Model.Documentos[i].DocumentoId })
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
@@ -128,111 +309,48 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </td>
-
                                 </tr>
                             }
                         </tbody>
+
                     </table>
-                </div>
+                }
+
             </div>
-        }
-
-        <div class="panel panel-default">
-            <div class="panel-heading">Nuevo documento</div>
-            <div class="panel-body">
-                <table>
-                    <tr>
-
-                        <p class="text-danger">
-                            Recuerde, si el documento va a ser firmado electrónicamente, debe adjuntarlo en formato pdf.
-                        </p>
-
-
-                        @using (Html.BeginForm("CrearDocumento", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            @Html.HiddenFor(model => model.Workflow.WorkflowId)
-                            @Html.HiddenFor(model => model.Workflow.ProcesoId)
-                            @Html.HiddenFor(model => model.Workflow.Proceso.OrganizacionId)
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                            <div class="form-horizontal" style="float:left">
-
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Documento.File, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.TextBoxFor(model => model.Documento.File, new { type = "file" })
-                                        @Html.ValidationMessageFor(model => model.Documento.File, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TipoDocumentoId, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.DropDownListFor(model => model.TipoDocumentoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.TipoDocumentoId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.TipoPrivacidadId, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.DropDownListFor(model => model.TipoPrivacidadId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.TipoPrivacidadId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Documento.Descripcion, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.EditorFor(model => model.Documento.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Documento.Descripcion, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Documento.FechaRespuesta, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.EditorFor(model => model.Documento.FechaRespuesta, new { htmlAttributes = new { @class = "form-control datepicker" } })
-                                        @Html.ValidationMessageFor(model => model.Documento.FechaRespuesta, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(model => model.Documento.Recordatorio, htmlAttributes: new { @class = "control-label col-md-4" })
-                                    <div class="col-md-6">
-                                        @Html.EditorFor(model => model.Documento.Recordatorio, new { htmlAttributes = new { @class = "form-control" } })
-                                        @Html.ValidationMessageFor(model => model.Documento.Recordatorio, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-md-offset-2 col-md-4">
-                                        <input type="submit" value="Adjuntar archivo" class="btn btn-primary" />
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="panel-body">
-                                @for (int i = 0; i < Model.Documentos.Count(); i++)
-                                {
-                                    <div style="width:700px; float:right" class="col-md-6">
-                                        <a>@Model.Documentos.ToArray()[i].FileName</a>
-                                        <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="400" type="application/pdf">
-                                    </div>
-                                }
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-
         </div>
+
+
+
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script type="text/javascript">
+    const MAXIMO_TAMANIO_BYTES = 52428800; // 1MB = 1 millón de bytes
+
+    // Obtener referencia al elemento
+    const $miInput = document.querySelector("#Documento_File");
+
+    $miInput.addEventListener("change", function () {
+        // si no hay archivos, regresamos
+        if (this.files.length <= 0) return;
+
+        // Validamos el primer archivo únicamente
+        const archivo = this.files[0];
+        if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+            const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
+            alert(`El tamaño máximo es ${tamanioEnMb} MB`);
+            // Limpiar
+            $miInput.value = "";
+        } else {
+            // Validación pasada. Envía el formulario o haz lo que tengas que hacer
+        }
+    });
+</script>
 
 
 

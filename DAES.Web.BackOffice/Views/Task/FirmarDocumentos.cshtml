@@ -28,14 +28,14 @@
 
 </div>
 
-@if (ViewBag.TipoUsuario == "Administrador")
-{
-    <div id="capa2">
-        @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
+@*@if (ViewBag.TipoUsuario == "Administrador")
+    {
+        <div id="capa2">
+            @Html.ActionLink("Cambiar ejecutante ", "CambioBandeja", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed; background-color:darkcyan" })
 
-    </div>
+        </div>
 
-}
+    }*@
 <ul class="nav nav-tabs">
     <li class="active">
         <a href="#Info" data-toggle="tab">Información de la tarea</a>
@@ -67,6 +67,7 @@
         }
         else
         {
+
             <table class="table table-hover table-striped datatable">
                 <thead>
                     <tr>
@@ -89,7 +90,7 @@
                             @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Descripcion)
                         </th>
                         <th>
-                            <label>Seleccione firmante</label>
+                            Seleccione Firmante
                         </th>
                         <th>
                             Contenido Documento
@@ -130,80 +131,58 @@
                             </td>
                             <td>
                                 @*<input type="submit" value="Firmar documento" class="btn btn-primary" />*@
-                                @Html.ActionLink("Firmar documento", "FirmarDocumentosPost", null, new { id = Model.Documentos.ToArray()[i].DocumentoId }, new { @class = "btn btn-primary" })
+                                @*@Html.ActionLink("Firmar documento", "FirmarDocumentosPost", null, new { id = Model.Documentos.ToArray()[i].DocumentoId }, new { @class = "btn btn-primary" })*@
+                                @using (Html.BeginForm("SignResolucion", "Task", new { id = Model.Documentos.ToArray()[i].DocumentoId, idProceso = Model.Documentos.ToArray()[i].ProcesoId, idWorkflow = ViewBag.WorkflowId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @*@Html.DropDownList("RubricaID", null, "Seleccione...", new { @class = "form-control" })*@
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(model => Model.ProcesoId)
+                                    <br /> <br />
+
+                                    if (Model.Documentos[i].FileName != null)
+                                    {
+                                        if (Model.Documentos[i].FileName.Contains(".pdf"))
+                                        {
+                                            <button class="btn btn-primary" type="submit">Firmar Documento</button>
+                                        }
+                                    }
+
+
+                                }
+
+
                             </td>
 
-                            <td style="width:300px">
-                                <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+                            <td style="width:500px">
+
+                                @if (Model.Documentos[i].Content != null)
+                                {
+                                    if (Model.Documentos[i].FileName != null)
+                                    {
+                                        if (Model.Documentos[i].FileName.Contains(".pdf"))
+                                        {
+                                            <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+                                        }
+                                    }
+
+                                }
+
                             </td>
 
                         </tr>
                         @*}*@
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].DocumentoId)
-                            </td>
-                            <td>
-                                @if (Model.Documentos.ToArray()[i].Content != null && !string.IsNullOrWhiteSpace(Model.Documentos.ToArray()[i].FileName))
-                                {
-                                    @Html.ActionLink(Model.Documentos.ToArray()[i].FileName, "Download", "Documento", new { id = Model.Documentos.ToArray()[i].DocumentoId }, null)
-                                }
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].FechaCreacion)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].TipoDocumento.Nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Firmado)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(model => Model.Documentos.ToArray()[i].Descripcion)
-                            </td>
-                            <td>
-                                @using (Html.BeginForm("SignResolucion", "Task", new { id = Model.Documentos.ToArray()[i].DocumentoId, idProceso = Model.Documentos.ToArray()[i].ProcesoId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-                                {
-
-                                    @Html.DropDownList("RubricaID", null, "Seleccione...", new { @class = "form-control" })
-                                    @Html.AntiForgeryToken()
-                                    @Html.HiddenFor(model => Model.ProcesoId)
-                                    <button class="btn btn-primary" type="submit">Firmar</button>
-                                }
-                            </td>
-                            
-                        </tr>
                     }
                 </tbody>
             </table>
         }
-        <div class="panel panel-default">
-            <div class="panel-heading">Documentos</div>
-            <div class="panel-body">
-                <table>
-                    <tr>
-                        <td>
-                            <div class="panel-body">
-
-                                @for (int i = 0; i < Model.Documentos.Count(); i++)
-                                {
-                                    <div style="width:700px; float:right; padding-left:20px" class="col-md-6">
-                                        <a>@Model.Documentos.ToArray()[i].FileName</a>
-                                        <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="400" type="application/pdf">
-                                    </div>
-                                }
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+    </div>
+</div>
     </div>
 
 
 
 
 
-    @*@section Scripts {
-            @Scripts.Render("~/bundles/jqueryval")
-        }*@
+@*@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }*@

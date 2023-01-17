@@ -2,6 +2,7 @@
 using DAES.BLL.Interfaces;
 using DAES.Infrastructure.Interfaces;
 using DAES.Infrastructure.SistemaIntegrado;
+using DAES.Model.Core;
 using DAES.Model.FirmaDocumento;
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
@@ -32,6 +33,9 @@ namespace DAES.Web.BackOffice.Controllers
         public Articulo91 Articulo91 { get; set; }
         public Fiscalizacion Fiscalizacion { get; set; }
         public Hallazgo Hallazgo { get; set; }
+
+        //TODO: esto no se si funque
+        public ActualizacionOrganizacionDirectorio ActualizacionDirectorioOrganizacion { get; set; }
 
         public ActualizacionEscrituraConstitucion ActualizacionEscrituraConstitucion { get; set; }
         public ActualizacionExtractoAuxiliar ActualizacionExtractoAuxiliar { get; set; }
@@ -126,6 +130,7 @@ namespace DAES.Web.BackOffice.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
+
         public ActionResult AsignarResponsable(int WorkflowId)
         {
             var model = new TaskModel();
@@ -170,7 +175,7 @@ namespace DAES.Web.BackOffice.Controllers
             var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             var model = new TaskModel();
             model.Workflow = workflow;
-            model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).ToList();
+            model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).OrderBy(q => q.FechaCreacion).ToList();
             var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
             ViewBag.TipoUsuario = tipoDeUsuario;
 
@@ -186,32 +191,61 @@ namespace DAES.Web.BackOffice.Controllers
 
                 var file = Request.Files[0];
                 var target = new MemoryStream();
-                file.InputStream.CopyTo(target);
-
-                db.Documento.Add(new Documento()
+                using (MemoryStream ms = new MemoryStream())
                 {
-                    FechaCreacion = DateTime.Now,
-                    Autor = User.Identity.Name,
-                    Descripcion = model.Documento.Descripcion,
-                    FileName = file.FileName,
-                    Content = target.ToArray(),
-                    FechaRecordatorio = model.Documento.FechaRespuesta,
-                    Recordatorio = model.Documento.Recordatorio,
-                    Resuelto = false,
-                    TipoDocumentoId = model.TipoDocumentoId,
-                    Firmado = false,
-                    //Signed = false,
-                    WorkflowId = model.Workflow.WorkflowId,
-                    ProcesoId = model.Workflow.ProcesoId,
-                    OrganizacionId = model.Workflow.Proceso.OrganizacionId,
-                    TipoPrivacidadId = model.TipoPrivacidadId
-                });
+                    file.InputStream.CopyTo(target);
+                    //extension del archivo
+                    string filename = Path.GetFileName(file.FileName);
+                    string fileEx = System.IO.Path.GetExtension(filename); // Obtenga el nombre del sufijo requerido
+                    fileEx = fileEx.ToLower();
+                    if (file != null && ms.Length < 52428800 && file.ContentLength > 0 && file.FileName != "" )
+                    {
+                        if (fileEx == ".pdf" || fileEx == ".xls" || fileEx == ".doc" || fileEx == ".docx")
+                        {
 
-                db.SaveChanges();
-                TempData["Message"] = Properties.Settings.Default.Success;
-                return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
+
+                            db.Documento.Add(new Documento()
+                            {
+                                FechaCreacion = DateTime.Now,
+                                Autor = User.Identity.Name,
+                                Descripcion = model.Documento.Descripcion,
+                                FileName = file.FileName,
+                                Content = target.ToArray(),
+                                FechaRecordatorio = model.Documento.FechaRespuesta,
+                                Recordatorio = model.Documento.Recordatorio,
+                                Resuelto = false,
+                                TipoDocumentoId = model.TipoDocumentoId,
+                                Firmado = false,
+                                //Signed = false,
+                                WorkflowId = model.Workflow.WorkflowId,
+                                ProcesoId = model.Workflow.ProcesoId,
+                                OrganizacionId = model.Workflow.Proceso.OrganizacionId,
+                                TipoPrivacidadId = model.TipoPrivacidadId
+                            });
+                            db.SaveChanges();
+                            TempData["Message"] = Properties.Settings.Default.Success;
+                            return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
+                        }
+                        else
+                        {
+                            TempData["Message"] = Properties.Settings.Default.Error;
+                            return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
+                        }
+                    }
+                    else
+                    {
+                        TempData["Message"] = Properties.Settings.Default.Error;
+                        return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
+
+                    }
+
+
+
+                }
+
+
             }
-            
+
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre", model.Documento.TipoDocumentoId);
             ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre", model.Documento.TipoPrivacidadId);
 
@@ -250,8 +284,6 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
-            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
-            ViewBag.TipoUsuario = tipoDeUsuario;
 
             return View(model);
         }
@@ -735,6 +767,41 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ActualizarOrganizacionDirectorio(TaskModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var modelo_update = db.ActualizacionDirectorioOrganizacion.Where(q => q.ActualizacionOrganizacionId == model.ActualizacionOrganizacion.ActualizacionOrganizacionId).ToList();
+                //db.Entry(model.Organizacion).State = EntityState.Modified;
+                //db.SaveChanges();
+                //_custom.DirectorioUpdate(model.ActualizacionOrganizacion.Directorio/*, model.ActualizacionOrganizacion.OrganizacionId*/);
+                _custom.DirectorioUpdateDev(modelo_update, model.Organizacion.OrganizacionId, model.ActualizacionOrganizacion.ActualizacionOrganizacionId);
+
+                TempData["Message"] = Properties.Settings.Default.Success;
+                return RedirectToAction("ActualizarJuntaGeneralSocios", new { model.Workflow.WorkflowId });
+            }
+
+
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre", model.Organizacion.CiudadId);
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre", model.Organizacion.ComunaId);
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.Organizacion.EstadoId);
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.Organizacion.SituacionId);
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.Organizacion.RegionId);
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre", model.Organizacion.RubroId);
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre", model.Organizacion.SubRubroId);
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.Organizacion.TipoOrganizacionId);
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+
+
+
+            return View(model);
+        }
+
         public ActionResult ActaFiscalizacion(int WorkflowId)
         {
             var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
@@ -960,6 +1027,8 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre");
             ViewBag.RubricaID = new SelectList(db.Rubrica, "Email", "IdentificadorFirma").ToList();
             ViewBag.procesoId = model.Workflow.ProcesoId;
+            ViewBag.WorkflowId = WorkflowId;
+
 
             return View(model);
         }
@@ -970,6 +1039,7 @@ namespace DAES.Web.BackOffice.Controllers
             public int FirmaDocumentoId { get; set; }
             public int? ProcesoId { get; set; }
             public int? WorkflowId { get; set; }
+
             [Display(Name = "Comentario")]
             public string Comentario { get; set; }
             public string Autor { get; set; }
@@ -1046,7 +1116,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         //método de firma para FEA
         [HttpPost]
-        public ActionResult SignResolucion(int id, int idProceso, string RubricaID)
+        public ActionResult SignResolucion(int id, int idProceso, string RubricaID, int? idWorkflow)
         {
 
             Custom _custom = new Custom();
@@ -1054,22 +1124,31 @@ namespace DAES.Web.BackOffice.Controllers
             var doc = db.Documento.FirstOrDefault(q => q.DocumentoId == id);
             var email = Helper.Helper.CurrentUser.Email;
 
-
-            var model = db.Workflow.Where(q => q.ProcesoId == idProceso).First().WorkflowId;
+            //ESTO ESTABA ESCRITO
+            //var model = db.Workflow.Where(q => q.ProcesoId == idProceso).First().WorkflowId;
             //var workflowId = model.WorkflowId;
 
+            //ESTO ES NUEVO
+            //Obtengo lista de tareas en ese proceso
+            var model = db.Workflow.Where(q => q.WorkflowId == idWorkflow);
+            var workflowId = model.First().WorkflowId;
+
+
+            doc.File = doc.Content;
             var _useCaseInteractor = new TaskController(_repository, _sigper, _file, _folio, _hsm, _email);
             var deff = db.DefinicionProceso.ToArray();
             var obj = db.Proceso.FirstOrDefault(q => q.ProcesoId == idProceso);
             doc.TipoDocumentoId = 12;
 
-            var _UseCaseResponseMessage = _custom.SignReso(doc, RubricaID, idProceso);
+            var _UseCaseResponseMessage = _custom.SignReso(doc, email, idProceso);
 
             //Si es valida la firma 
             if (_UseCaseResponseMessage.IsValid)
             {
                 TempData["Message"] = Properties.Settings.Default.Success;
-                return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
+
+                //return Redirect(Request.UrlReferrer.ToString());
+                return RedirectToAction("FirmarDocumentos", new { WorkflowId = workflowId });
             }
 
 
@@ -1083,8 +1162,7 @@ namespace DAES.Web.BackOffice.Controllers
             //return Redirect("/Inbox/Index");
             return Redirect(Request.UrlReferrer.ToString());
 
-
-            return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
+            //return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
         }
 
 
@@ -1329,6 +1407,223 @@ namespace DAES.Web.BackOffice.Controllers
             }
             return Redirect(Request.UrlReferrer.ToString());
         }
+
+        public ActionResult VerificacionActualizacion(int WorkflowId)
+        {
+            var model = new TaskModel();
+            var wf = db.Workflow.Find(WorkflowId);
+
+
+
+            //var def_workflow = model.Workflow.DefinicionWorkflow;
+            model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            //Se debe ver la forma en que no actualice la informacion de la organizacion
+            model.Organizacion = db.Organizacion.Find(model.Workflow.Proceso.OrganizacionId);
+            model.Directorios = db.Directorio.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
+            model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
+            var modelos = db.ActualizacionDirectorioOrganizacion.Where(q => q.ActualizacionOrganizacionId
+                                                        == model.ActualizacionOrganizacion.ActualizacionOrganizacionId).ToList();
+
+
+
+            var i = model.Workflow.DefinicionWorkflow.DefinicionProcesoId;
+            switch (i)
+            {
+                case 117:
+                    ViewBag.Definicion = "Directorio";
+                    break;
+                case 118:
+                    ViewBag.Definicion = "Consejo de Administración";
+                    break;
+            }
+
+
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre");
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre");
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre");
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
+            ViewBag.modelos = modelos;
+
+
+
+            var listado = db.ComisionLiquidadora.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId && q.EsMiembro).ToList();
+            var listado_count = listado.Count();
+
+
+
+            ViewBag.listado_count = listado_count;
+            ViewBag.listado = listado;
+
+
+
+
+            return View(model);
+        }
+
+        public ActionResult ActualizarDirectorio(int WorkflowId)
+        {
+            var model = new TaskModel();
+            var wf = db.Workflow.Find(WorkflowId);
+
+
+
+            //var def_workflow = model.Workflow.DefinicionWorkflow;
+            model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            //Se debe ver la forma en que no actualice la informacion de la organizacion
+            model.Organizacion = db.Organizacion.Find(model.Workflow.Proceso.OrganizacionId);
+            model.Directorios = db.Directorio.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
+            model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
+            var modelos = db.ActualizacionDirectorioOrganizacion.Where(q => q.ActualizacionOrganizacionId
+                                                        == model.ActualizacionOrganizacion.ActualizacionOrganizacionId).ToList();
+
+
+
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre");
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre");
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre");
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
+            ViewBag.modelos = modelos;
+
+
+
+            //Mejorar
+            //Definir si es la ultima tarea o no
+            var definicion_ = wf.DefinicionWorkflow.Secuencia;
+            ViewBag.validador = wf.DefinicionWorkflow.Secuencia != 2 ? true : false;
+
+
+
+            var listado = db.ComisionLiquidadora.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId && q.EsMiembro).ToList();
+            var listado_count = listado.Count();
+
+
+
+            ViewBag.listado_count = listado_count;
+            ViewBag.listado = listado;
+
+
+
+            return View(model);
+        }
+
+        public ActionResult ActualizarJuntaGeneralSocios(int WorkflowId)
+        {
+            var model = new TaskModel();
+            var wf = db.Workflow.Find(WorkflowId);
+
+
+
+            //var def_workflow = model.Workflow.DefinicionWorkflow;
+            model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            //Se debe ver la forma en que no actualice la informacion de la organizacion
+            model.Organizacion = db.Organizacion.Find(model.Workflow.Proceso.OrganizacionId);
+            model.Directorios = db.Directorio.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId).ToList();
+            model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);
+            var modelos = db.ActualizacionDirectorioOrganizacion.Where(q => q.ActualizacionOrganizacionId
+                                                        == model.ActualizacionOrganizacion.ActualizacionOrganizacionId).ToList();
+
+
+
+
+            ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
+            ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
+            ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
+            ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre");
+            ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
+            ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre");
+            ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre");
+            ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre");
+            ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
+            ViewBag.TipoUsuario = tipoDeUsuario;
+            ViewBag.modelos = modelos;
+
+
+
+            //Mejorar
+            //Definir si es la ultima tarea o no
+            var definicion_ = wf.DefinicionWorkflow.Secuencia;
+            ViewBag.validador = wf.DefinicionWorkflow.Secuencia != 2 ? true : false;
+
+
+
+            var listado = db.ComisionLiquidadora.Where(q => q.OrganizacionId == model.Organizacion.OrganizacionId && q.EsMiembro).ToList();
+            var listado_count = listado.Count();
+
+
+
+            ViewBag.listado_count = listado_count;
+            ViewBag.listado = listado;
+
+
+
+
+            return View(model);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ActualizarOrganizacionDirectorio(TaskModel model)
+        //{
+
+
+
+        //    if (ModelState.IsValid)
+        //    {
+
+
+
+        //        var modelo_update = db.ActualizacionDirectorioOrganizacion.Where(q => q.ActualizacionOrganizacionId == model.ActualizacionOrganizacion.ActualizacionOrganizacionId).ToList();
+        //        //db.Entry(model.Organizacion).State = EntityState.Modified;
+        //        //db.SaveChanges();
+
+
+
+        //        //_custom.DirectorioUpdate(model.ActualizacionOrganizacion.Directorio/*, model.ActualizacionOrganizacion.OrganizacionId*/);
+        //        _custom.DirectorioUpdateDev(modelo_update, model.Organizacion.OrganizacionId, model.ActualizacionOrganizacion.ActualizacionOrganizacionId);
+
+
+
+        //        TempData["Message"] = Properties.Settings.Default.Success;
+        //        return RedirectToAction("ActualizarJuntaGeneralSocios", new { model.Workflow.WorkflowId });
+        //    }
+
+
+
+        //    ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre", model.Organizacion.CiudadId);
+        //    ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre", model.Organizacion.ComunaId);
+        //    ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.Organizacion.EstadoId);
+        //    ViewBag.SituacionId = new SelectList(db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.Organizacion.SituacionId);
+        //    ViewBag.RegionId = new SelectList(db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.Organizacion.RegionId);
+        //    ViewBag.RubroId = new SelectList(db.Rubro.OrderBy(q => q.Nombre), "RubroId", "Nombre", model.Organizacion.RubroId);
+        //    ViewBag.SubRubroId = new SelectList(db.SubRubro.OrderBy(q => q.Nombre), "SubRubroId", "Nombre", model.Organizacion.SubRubroId);
+        //    ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.Organizacion.TipoOrganizacionId);
+        //    ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+        //    ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+
+
+
+        //    return View(model);
+        //}
 
         protected override void Dispose(bool disposing)
         {

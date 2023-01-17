@@ -392,6 +392,11 @@
                 </div>
                 <br />
                 <input type="button" value="Limpiar campos" id="limpiarSan" class="btn btn-primary" />
+                @if (Model.Saneamientos.Any())
+                {
+
+                    @Html.ActionLink("Eliminar saneamiento", "EliminarSanemiento", "Organizacion", new { IdSaneamiento = Model.Saneamientos.FirstOrDefault().IdSaneamiento, IdOrganizacion = Model.OrganizacionId }, htmlAttributes: new { @class = "btn btn-success" })
+                }
             </div>
         }
     </div>
@@ -505,7 +510,7 @@ else
     <input id="tieneRefA" value="0" type="hidden" />
 }
 
-@Html.ActionLink("Volver al listado", "Index",null,null, htmlAttributes: new { @class = "btn btn-info" })
+@Html.ActionLink("Volver al listado", "Index", null, null, htmlAttributes: new { @class = "btn btn-info" })
 
 
 

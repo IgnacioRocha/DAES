@@ -4,7 +4,45 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
-<<<<<<< HEAD
+## [2.4.1 DAES FrontOffice - 28-12-2022]
+
+### Added
+
+- Se agregaron en los tramites: Articulo 90, Registro Supervisor, Estudio Ahorro Credito y Cooperativa Abierta, Tags de GA para el paso 1.
+
+## [2.4.1 DAES FrontOffice - 23-12-2022]
+
+### Changed
+
+- Se realizo cambio en el metodo Post de Emitir certificado para que no cargue los tramites que no corresponden.
+
+## [2.4.1 DAES FrontOffice - 21-12-2022]
+
+### Changed
+
+- Se modifico webconfig actualizandolo con el más actualizado en el TFS.
+- Se agregaron observaciones segun lo indicado por Control de Gestión algunos tramites digitales.
+
+## [2.4 DAES Completo 09-12-2022]
+
+### Changed
+
+- Se unifica proyecto bajo Azure, haciendo pull de los cambios en TFS.
+- Se cambia forma de consultar Tipo Documento al momento de generar un PDF.
+
+## [2.3.2 Front Office] - 06-12-2022
+
+### Changed
+
+- Se modificaron las referencias de Google Analytics.
+- Se modifico en Supervisor Auxiliar las referencias de inicio de tramite de Analytics
+- Se agregaron en algunos metodos, el bypass de clave unica.
+
+### Added
+
+- Se agregaron, en algunos tramites, el Fin de la solicitud para la metrica de Analytics.
+- Se crearon 2 vistas nuevas para ambos incisos del articulo nuevo, las cuales corresponden a la finalización del tramite.
+
 ## [2.3 - backoffice y front office] - 08-08-2022
 
 ### Change
@@ -18,6 +56,7 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 - Se utilizará la capa infraestructure para agregar interfaces
 
 ### Added
+
 - Se agregaron nuevos datos a la grilla de tareas y documentos
 - Se agrego api para consultar HSM
 - se agregaron clases para poder preguntar a sigper
@@ -32,8 +71,9 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 - Se agregó API FirmaEloc para ser consumido
 
 ### Deleted
+
 - Se quito antiguo método de firma
-=======
+
 ## [2.2.0 - FrontOffice] - 05-07-2022
 
 ### Added
@@ -50,7 +90,6 @@ Cambios realizados en la solución, tanto adherencias, como modificaciones y eli
 ### Changed
 
 - Se modificaron las versiones de Jquery-UI y JQuery a las versiones 1.13.1 y 3.6.0 respectivamente.
->>>>>>> feature-certificados
 
 ## [2.2.0 - BackOffice] - 20-05-2022
 
@@ -96,4 +135,3 @@ Se crearon, para este tramite, 3 nuevas tablas Disolucion, ComisionLiquidadora y
 ## Cambios Grandes
 
 Por un error personal durante el desarrollo, se modifico una variable en TODO el projecto y en la base de datos. Originalmente la variable era FechaPubliccionDiarioOficial y yo la modifique a FechaPublicacionDiarioOficial por lo cual si llegara a haber un error en relacion a dicha Fecha, en tablas o durante la prueba de este proyecto puede deberse a este cambio que puede generar un gran impacto.
-

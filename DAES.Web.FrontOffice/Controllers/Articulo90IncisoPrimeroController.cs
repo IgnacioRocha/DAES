@@ -177,7 +177,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
                     TempData["Success"] = string.Format("Trámite número {0} terminado correctamente. Se ha enviado una notificación al correo {1} con los detalles.", p.ProcesoId, proceso.Solicitante.Email);
 
-                    return RedirectToAction("Create");
+                    return RedirectToAction("Finish");
                 }
                 catch (Exception ex)
                 {
@@ -188,6 +188,11 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.RegionSolicitanteId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.RegionSolicitanteId);
 
             return View(model);
+        }
+
+        public ActionResult Finish()
+        {
+            return View();
         }
     }
 }

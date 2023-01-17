@@ -261,15 +261,15 @@ namespace DAES.Web.FrontOffice.Controllers
                     FechaCancelacion = model.FechaCancelacion,
                     FechaInexistencia = model.FechaInexistencia,
                     FechaAsignacionRol = model.FechaAsignacionRol,
-                    Directorio = model.Directorio.Select(q => new ActualizacionOrganizacionDirectorio
-                    {
-                        CargoId = q.CargoId,
-                        FechaInicio = q.FechaInicio,
-                        FechaTermino = q.FechaTermino,
-                        GeneroId = q.GeneroId,
-                        NombreCompleto = q.NombreCompleto,
-                        Rut = q.Rut
-                    }).ToList()
+                    //Directorio = model.Directorio.Select(q => new ActualizacionOrganizacionDirectorio
+                    //{
+                    //    CargoId = q.CargoId,
+                    //    FechaInicio = q.FechaInicio,
+                    //    FechaTermino = q.FechaTermino,
+                    //    GeneroId = q.GeneroId,
+                    //    NombreCompleto = q.NombreCompleto,
+                    //    Rut = q.Rut
+                    //}).ToList()
                 });
 
                 foreach (string fileName in Request.Files)

@@ -95,6 +95,7 @@
     <Compile Include="DTO\DTOArticulo90IncisoPrimero.cs" />
     <Compile Include="DTO\DTOAsambleaExtraOrdinaria.cs" />
     <Compile Include="DTO\DTOAsambleaOrdinaria.cs" />
+    <Compile Include="DTO\DTOAsambleaOrdinariaDirectorio.cs" />
     <Compile Include="DTO\DTOCEstatutosAnterior.cs" />
     <Compile Include="DTO\DTOConstitucion.cs" />
     <Compile Include="DTO\DTOCooperativaAbierta.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="DTO\DTOFileMetadata.cs" />
     <Compile Include="DTO\DTOFileUploadEdit.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
+    <Compile Include="DTO\DTOJuntaGeneralSociosCoop.cs" />
     <Compile Include="DTO\DTORespuestaOficio.cs" />
     <Compile Include="DTO\DTOCreacionOrganizacion.cs" />
     <Compile Include="DTO\DTOConsultaProceso.cs" />
@@ -120,6 +122,7 @@
     <Compile Include="DTO\DTOSolicitante.cs" />
     <Compile Include="DTO\DTOArticulo90IncisoSegundo.cs" />
     <Compile Include="DTO\DTOInformacionAnual.cs" />
+    <Compile Include="DTO\DTOSolicitanteCore.cs" />
     <Compile Include="DTO\DTOSolicitud.cs" />
     <Compile Include="DTO\DTOSupervisionCAC.cs" />
     <Compile Include="DTO\DTOSupervisionNOCAC.cs" />
@@ -149,6 +152,7 @@
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorLegal.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionFiscalizadorContable.cs" />
     <Compile Include="SistemaIntegrado\ActaFiscalizacionHechoLegal.cs" />
+    <Compile Include="SistemaIntegrado\ActualizacionDirectorioOrganizacion.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionEscrituraConstitucion.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionExtractoAuxiliar.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionPersonaFacultada.cs" />
@@ -159,6 +163,7 @@
     <Compile Include="SistemaIntegrado\Certificado.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionSupervisor.cs" />
     <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
+    <Compile Include="SistemaIntegrado\DocumentoConfiguracion.cs" />
     <Compile Include="SistemaIntegrado\EscrituraConstitucion.cs" />
     <Compile Include="SistemaIntegrado\EstudioSocioEconomico.cs" />
     <Compile Include="SistemaIntegrado\ExistenciaAGAC.cs" />

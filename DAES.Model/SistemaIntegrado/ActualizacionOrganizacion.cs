@@ -10,7 +10,8 @@ namespace DAES.Model.SistemaIntegrado
     {
         public ActualizacionOrganizacion()
         {
-            Directorio = new List<ActualizacionOrganizacionDirectorio>();
+            //Directorio = new List<ActualizacionOrganizacionDirectorio>();
+            Directorio = new List<ActualizacionDirectorioOrganizacion>();
         }
 
         [Key]
@@ -181,6 +182,6 @@ namespace DAES.Model.SistemaIntegrado
         public int? ProcesoId { get; set; }
         public virtual Proceso Proceso { get; set; }
 
-        public virtual List<ActualizacionOrganizacionDirectorio> Directorio { get; set; }
+        public virtual List<ActualizacionDirectorioOrganizacion> Directorio { get; set; }
     }
 }

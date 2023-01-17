@@ -4,9 +4,16 @@ using DAES.Web.BackOffice.Helper;
 using System;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+
+
+//using iTextSharp.text;
+//using iTextSharp.text.pdf;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace DAES.Web.BackOffice.Controllers
 {
@@ -15,6 +22,19 @@ namespace DAES.Web.BackOffice.Controllers
     [Authorize]
     public class ConfiguracionCertificadoController : Controller
     {
+        //Se va a generar un DTO para crear un documento momentaneo y descargarlo
+        public class DTODocumentTest
+        {
+            public DTODocumentTest() { }
+            public byte[] Content { get; set; }
+            public string FileName { get; set; }
+            public byte[] File { get; set; }
+            public string Metadata { get; set; }
+
+            [DataType(DataType.MultilineText)]
+            public string parrafo1 { get; set; }
+        }
+
         private SistemaIntegradoContext db = new SistemaIntegradoContext();
         private BLL.Custom _custom = new BLL.Custom();
 
@@ -64,6 +84,12 @@ namespace DAES.Web.BackOffice.Controllers
             return View(configuracionCertificado);
         }
 
+        public async Task<ActionResult> ShowDoc(int id)
+        {
+            var model = await db.DocumentoConfiguracion.Where(q => q.ConfiguracionCertificadoId == id).FirstAsync();
+            return File(model.Content, "application/pdf");
+        }
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,24 +103,60 @@ namespace DAES.Web.BackOffice.Controllers
             }
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre", configuracionCertificado.TipoDocumentoId);
             ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", configuracionCertificado.TipoOrganizacionId);
+
+            
+            var documentoconfig = db.DocumentoConfiguracion.Where(q => q.ConfiguracionCertificadoId == id).FirstOrDefault();
+            if (documentoconfig != null)
+            {
+                ViewBag.DocumentoConfiguracion = documentoconfig.ConfiguracionCertificadoId;
+            }
+            
             return View(configuracionCertificado);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ConfiguracionCertificadoId,Nombre,TipoDocumentoId,TipoOrganizacionId,Parrafo1,Parrafo2,Parrafo3,Parrafo4,Parrafo5,Titulo,Ciudad,Departamento,XML,IsActivo,TieneDirectorio," +
-            "TieneEstatuto,Parrafo2ExAnterior,Parrafo2ExPosterior,Parrafo4ReAnterior,Parrafo4RePosterior,Parrafo1DisAnt,Parrafo1DisPos")] ConfiguracionCertificado configuracionCertificado)
+            "TieneEstatuto,Parrafo2ExAnterior,Parrafo2ExPosterior,Parrafo4ReAnterior,Parrafo4RePosterior,Parrafo1DisAnt,Parrafo1DisPos,ParrafoObservacion")] ConfiguracionCertificado configuracionCertificado)
         {
+
+            if (ModelState.IsValid)
+            {
+                var doc_conf = db.DocumentoConfiguracion.Where(q => q.ConfiguracionCertificadoId == configuracionCertificado.ConfiguracionCertificadoId).FirstOrDefault();
+                if (doc_conf == null)
+                {
+                    var nuevodoc = new DocumentoConfiguracion
+                    {
+                        Descripcion = "Configuracion para Certificado",
+                        FileName = "CertificadoConfiguracion" + string.Format("{0:dd/MM/yyyy}", DateTime.Now) + ".pdf",
+                        Content = _custom.CrearDocumentoConfiguracion(configuracionCertificado),
+                        ConfiguracionCertificadoId = configuracionCertificado.ConfiguracionCertificadoId,
+                    };
+                    db.DocumentoConfiguracion.Add(nuevodoc);
+                }
+                else
+                {
+                    doc_conf.Content = _custom.CrearDocumentoConfiguracion(configuracionCertificado);
+                }
+
+                db.SaveChanges();
+
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(configuracionCertificado).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                TempData["Message"] = Properties.Settings.Default.Success;
+                return RedirectToAction("Edit", new { id = configuracionCertificado.ConfiguracionCertificadoId });
             }
             var errors = ModelState.Values.SelectMany(v => v.Errors);
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre", configuracionCertificado.TipoDocumentoId);
             ViewBag.TipoOrganizacionId = new SelectList(db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", configuracionCertificado.TipoOrganizacionId);
             return View(configuracionCertificado);
+
+
         }
 
         public ActionResult Delete(int? id)
@@ -118,48 +180,6 @@ namespace DAES.Web.BackOffice.Controllers
             ConfiguracionCertificado configuracionCertificado = db.ConfiguracionCertificado.Find(id);
             db.ConfiguracionCertificado.Remove(configuracionCertificado);
             db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        //CREAR CERTIFICADO TEST
-        public ActionResult CrearCertiticadoTEST(int id_doc, int id_org)
-        {
-            var proceso = new Proceso()
-            {
-                DefinicionProcesoId = (int)Infrastructure.Enum.DefinicionProceso.ConfiguracionCertificadoTEST,
-                OrganizacionId = id_org
-            };
-
-            proceso.Solicitante = new Solicitante()
-            {
-                Rut = "19",
-                Nombres = "Certificado TEST",
-                Apellidos = "Certificado TEST",
-                Email = "sconsterla@economia.cl",
-                Fono = "65296825"
-            };
-
-            proceso.Documentos.Add(new Documento()
-            {
-                DocumentoId = 5432,
-                TipoDocumentoId = id_doc,
-                TipoPrivacidadId = (int)Infrastructure.Enum.TipoPrivacidad.Privado
-            });
-
-            try
-            {
-                var p = _custom.ProcesoStart(proceso);
-                if (ModelState.IsValid)
-                {
-
-                }
-            }
-            catch (System.Exception)
-            {
-
-                throw;
-            }
-            
             return RedirectToAction("Index");
         }
 

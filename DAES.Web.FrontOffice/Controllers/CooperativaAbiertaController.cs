@@ -32,6 +32,7 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "CooperativaAbierta";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Create";
+            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
 
             //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
@@ -47,9 +48,8 @@ namespace DAES.Web.FrontOffice.Controllers
             //};
 
 
-            //a
+            ////a
             //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
 

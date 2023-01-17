@@ -1,7 +1,7 @@
 ﻿@model DAES.Web.BackOffice.Controllers.HomeController.DTOResume
 @*@{
-    ViewBag.Title = "Sistema integrado DAES";
-}*@
+        ViewBag.Title = "Sistema integrado DAES";
+    }*@
 
 @if (HttpContext.Current.User.Identity.IsAuthenticated && Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador && Model.ProcesoCount > 0)
 {
@@ -65,12 +65,12 @@
                             <li>@Html.ActionLink("Subrubros", "Index", "SubRubro")</li>
                             <li>@Html.ActionLink("Tipos de documentos", "Index", "TipoDocumento")</li>
                             <li>@Html.ActionLink("Tipos de organizaciones", "Index", "TipoOrganizacion")</li>
-                            
                             <li>@Html.ActionLink("Tipos de materia", "Index", "TipoMateria")</li>
                             <li>@Html.ActionLink("Tipos de criterios", "Index", "TipoCriterio")</li>
                             <li>@Html.ActionLink("Tipos de fiscaliazción", "Index", "TipoFiscalizacion")</li>
                             <li>@Html.ActionLink("Tipos de hallazgos", "Index", "TipoHallazgo")</li>
                             <li>@Html.ActionLink("Tipos de oficios", "Index", "TipoOficio")</li>
+                            <li><a href="http://djdaes.economia.cl/">Buscar Documentos con Redes con Neuronas</a></li>
                         </ul>
                     </div>
                 </div>
@@ -167,10 +167,16 @@
                         <h3 class="panel-title">Procesos</h3>
                     </div>
                     <div class="panel-body">
+                        Iniciar Procesos
                         <ul>
                             <li>@Html.ActionLink("Iniciar proceso desde gestión documental", "Documento", "Proceso")</li>
                             <li>@Html.ActionLink("Iniciar proceso manualmente", "Create", "Proceso")</li>
+                            @*<li>@Html.ActionLink("Administrar procesos", "Index", "Proceso")</li>*@
+                        </ul>
+                        Gestión de procesos
+                        <ul>
                             <li>@Html.ActionLink("Administrar procesos", "Index", "Proceso")</li>
+
                         </ul>
                     </div>
                 </div>
@@ -209,23 +215,29 @@
                     </div>
                 </div>
             </div>
+
         }
 
 
         if (Model.PerfilId != (int)DAES.Infrastructure.Enum.Perfil.SIAC)
         {
             <div class="col-md-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">Mis tareas y documentos</h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul>
-                            <li>@Html.ActionLink("Mis tareas y documentos", "Index", "Inbox")</li>
-                        </ul>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Mis tareas y documentos</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                <li>@Html.ActionLink("Mis tareas y documentos", "Index", "Inbox")</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
+        }
+
+        if (Model.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.RepresentanteOrganizacion)
+        {
+
         }
 
         <div class="col-md-4">
@@ -239,8 +251,8 @@
                         <li>@Html.ActionLink("Procesos", "Index", "ProcesoConsultor")</li>
                         <li>@Html.ActionLink("Documentos", "Index", "DocumentoConsultor")</li>
                         <li>@Html.ActionLink("Ayuda", "Show", "Ayuda")</li>
-                        
-                        @if (Model.PerfilId != (int)DAES.Infrastructure.Enum.Perfil.SIAC)
+
+                        @if (Model.PerfilId != (int)DAES.Infrastructure.Enum.Perfil.SIAC && Model.PerfilId != (int)DAES.Infrastructure.Enum.Perfil.RepresentanteOrganizacion)
                         {
                             <li>@Html.ActionLink("Fiscalizaciones", "Index", "Fiscalizacion")</li>
                         }

@@ -30,5 +30,8 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Externo?")]
         public bool EsExterno { get; set; } = false;
+
+        /*[Display(Name = "Activo?")]
+        public bool Activo { get; set; }*/
     }
 }

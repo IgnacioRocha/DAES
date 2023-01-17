@@ -1,10 +1,11 @@
-
 using DAES.Model.Core;
 using DAES.Model.FirmaDocumento;
 using DAES.Model.SistemaIntegrado;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
+
+
 
 namespace DAES.Infrastructure.SistemaIntegrado
 {
@@ -14,11 +15,21 @@ namespace DAES.Infrastructure.SistemaIntegrado
         {
         }
 
+
+
         public static SistemaIntegradoContext Create()
         {
             return new SistemaIntegradoContext();
         }
 
+
+
+        //TODO: Se agrega nueva tabla
+
+
+
+
+        public virtual DbSet<DocumentoConfiguracion> DocumentoConfiguracion { get; set; }
         public virtual DbSet<Cargo> Cargo { get; set; }
         public virtual DbSet<Ciudad> Ciudad { get; set; }
         public virtual DbSet<Comuna> Comuna { get; set; }
@@ -55,6 +66,13 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<ActaFiscalizacionFiscalizadorContable> ActaFiscalizacionFiscalizadorContable { get; set; }
         public virtual DbSet<ActaFiscalizacionFiscalizadorLegal> ActaFiscalizacionFiscalizadorLegal { get; set; }
         public virtual DbSet<Solicitante> Solicitante { get; set; }
+
+
+
+        public virtual DbSet<ActualizacionOrganizacionDirectorio> ActualizacionOrganizacionDirectorio { get; set; }
+
+
+
         public virtual DbSet<ActualizacionOrganizacion> ActualizacionOrganizacion { get; set; }
         public virtual DbSet<ActualizacionOrganizacionbkp> ActualizacionOrganizacionbkp { get; set; }
         public virtual DbSet<Situacion> Situacion { get; set; }
@@ -96,15 +114,23 @@ namespace DAES.Infrastructure.SistemaIntegrado
         /*
          * Tablas de Actualizacion de Supervisor
          */
+
+
+
+        public virtual DbSet<ActualizacionDirectorioOrganizacion> ActualizacionDirectorioOrganizacion { get; set; }
         public virtual DbSet<ActualizacionSupervisor> ActualizacionSupervisors { get; set; }
         public virtual DbSet<ActualizacionEscrituraConstitucion> ActualizacionEscrituraConstitucions { get; set; }
         public virtual DbSet<ActualizacionPersonaFacultada> ActualizacionPersonaFacultadas { get; set; }
         public virtual DbSet<ActualizacionRepresentante> ActualizacionRepresentantes { get; set; }
         public virtual DbSet<ActualizacionExtractoAuxiliar> ActualizacionExtractoAuxiliars { get; set; }
 
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Database.SetInitializer<SistemaIntegradoContext>(null);
+
+
 
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();

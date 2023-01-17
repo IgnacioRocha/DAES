@@ -90,6 +90,96 @@
                 $('.dataTables_length').addClass('bs-select');
             }
         });
+
+        /*Esto se creó solo para datatable de mis tareas y documentos, en ella se agregan mas filtros y personalizaciones solicitadas*/
+        $(document).ready(function () {
+            $('#tareas thead tr')
+                .clone(true)
+                .addClass('filters')
+                .appendTo('#tareas thead');
+
+            var table = $('#tareas').DataTable({
+                orderCellsTop: true,
+                fixedHeader: true,
+                autoWidth: false,
+                buttons: [
+                    'copy', 'excel', 'pdf'
+                ],
+                "order": [],
+                "language":
+                {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate":
+                    {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+
+                initComplete: function () {
+                    var api = this.api();
+
+                    // For each column
+                    api
+                        .columns([0, 1, 2, 3, 4, 5, 6, 7, 8])
+                        .eq(0)
+                        .each(function (colIdx) {
+                            // Set the header cell to contain the input element
+                            var cell = $('.filters th').eq(
+                                $(api.column(colIdx).header()).index()
+                            );
+                            var title = $(cell).text();
+                            $(cell).html('<input type="text" placeholder="Buscar" class="form-control" style="width: 100% !important" />');
+
+                            // On every keypress in this input
+                            $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                                .off('keyup change')
+                                .on('change', function (e) {
+                                    // Get the search value
+                                    $(this).attr('title', $(this).val());
+                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+                                    var cursorPosition = this.selectionStart;
+                                    // Search the column for that value
+                                    api
+                                        .column(colIdx)
+                                        .search(
+                                            this.value != ''
+                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
+                                                : '',
+                                            this.value != '',
+                                            this.value == ''
+                                        )
+                                        .draw();
+                                })
+                                .on('keyup', function (e) {
+                                    e.stopPropagation();
+
+                                    $(this).trigger('change');
+                                    $(this)
+                                        .focus()[0]
+                                        .setSelectionRange(cursorPosition, cursorPosition);
+                                });
+                        });
+                },
+            });
+        });
     </script>
 </body>
 </html>
