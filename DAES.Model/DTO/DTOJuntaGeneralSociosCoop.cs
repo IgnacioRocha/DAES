@@ -65,22 +65,22 @@ namespace DAES.Model.DTO
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Es necesario especificar el dato Acta de la Junta General de Socios, debidamente autorizada ante Notario")]
-        [Display(Name = "Acta de la Junta General de Socios, debidamente autorizada ante Notario")]
+        [Display(Name = "(*) Acta de la Junta General de Socios, debidamente autorizada ante Notario.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File1 { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el dato Acta Constitutiva del Consejo de Administración, de acuerdo a lo dispuesto en el artículo 60, del reglamento de la Ley General de Cooperativas, debidamente autorizada ante Notario")]
-        [Display(Name = "Acta Constitutiva del Consejo de Administración, de acuerdo a lo dispuesto en el artículo 60, del reglamento de la Ley General de Cooperativas, debidamente autorizada ante Notario")]
+        [Display(Name = "(*) Acta Constitutiva del Consejo de Administración, de acuerdo a lo dispuesto en el artículo 60, del reglamento de la Ley General de Cooperativas, debidamente autorizada ante Notario.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File2 { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el dato Formalidades de convocatoria, esto es, copia del aviso de citación publicado; comprobantes de correo y(o copia del Libro de citaciones")]
-        [Display(Name = "Formalidades de convocatoria, esto es, copia del aviso de citación publicado; comprobantes de correo y(o copia del Libro de citaciones")]
+        [Display(Name = "(*) Formalidades de convocatoria, esto es, copia del aviso de citación publicado; comprobantes de correo y/o copia del Libro de citaciones.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File3 { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el dato Ficha de Datos, según lo dispuesto en el artículo 2, numeral 9 de la presente Resolución Administrativa 1321")]
-        [Display(Name = "Ficha de Datos, según lo dispuesto en el artículo 2, numeral 9 de la presente Resolución Administrativa 1321")]
+        [Display(Name = "Ficha de Datos, según lo dispuesto en el artículo 2, numeral 9 de la Resolución Administrativa 1321.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File4 { get; set; }
 

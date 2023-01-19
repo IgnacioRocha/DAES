@@ -268,12 +268,6 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DAES.Model\DAES.Model.csproj">
-      <Project>{fb48c751-5f76-4a5c-af8f-f7852d2bdf87}</Project>
-      <Name>DAES.Model</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Connected Services\FirmaElock\configuration.svcinfo" />
     <Content Include="Connected Services\FirmaElock\configuration91.svcinfo" />
     <Content Include="Connected Services\FirmaElock\Reference.svcmap">
@@ -287,6 +281,12 @@
       <LastGenOutput>Reference1.cs</LastGenOutput>
     </Content>
     <Content Include="Connected Services\HSMService\WSIntercambiaDoc.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DAES.Model\DAES.Model.csproj">
+      <Project>{fb48c751-5f76-4a5c-af8f-f7852d2bdf87}</Project>
+      <Name>DAES.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -668,6 +668,9 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\FirmaDocumento\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\DAES.BLL\DAES.BLL.csproj">
       <Project>{d9959543-ea88-4c94-ba20-8f70203297d5}</Project>
       <Name>DAES.BLL</Name>
@@ -680,9 +683,6 @@
       <Project>{fb48c751-5f76-4a5c-af8f-f7852d2bdf87}</Project>
       <Name>DAES.Model</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\FirmaDocumento\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

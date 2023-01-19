@@ -58,7 +58,7 @@ namespace DAES.Web.FrontOffice.Controllers
             //};
 
 
-            //a
+            ////a
             //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }

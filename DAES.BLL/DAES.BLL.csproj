@@ -102,7 +102,7 @@
       <Name>DAES.Infrastructure</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAES.Model\DAES.Model.csproj">
-      <Project>{FB48C751-5F76-4A5C-AF8F-F7852D2BDF87}</Project>
+      <Project>{fb48c751-5f76-4a5c-af8f-f7852d2bdf87}</Project>
       <Name>DAES.Model</Name>
     </ProjectReference>
   </ItemGroup>
