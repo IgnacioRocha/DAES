@@ -79,7 +79,7 @@ namespace DAES.Web.BackOffice.Controllers
                     FechaCreacionWorkFlow = q.FechaCreacion,
                     EstadoTarea = (DateTime.Now < q.Proceso.FechaVencimiento ? "En curso normal" : (DateTime.Now == q.Proceso.FechaVencimiento ? "Por Vencer" : "Atrasado")),
 
-                }).OrderByDescending(q => q.FechaCreacionProcess).ToList());
+                }).OrderByDescending(q => q.FechaCreacionWorkFlow).ToList());
             }
             else
             {

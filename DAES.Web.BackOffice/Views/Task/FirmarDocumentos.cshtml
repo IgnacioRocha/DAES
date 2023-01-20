@@ -21,6 +21,16 @@
         bottom: 50%;
         background-color: darkcyan;
     }
+    .btnNext {
+        display: inline-block;
+        border: 1px solid #444348;
+        border-radius: 3px;
+        margin: 5px;
+        color: #444348;
+        font-size: 14px;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
 </style>
 
 <div id="capa1">
@@ -101,11 +111,11 @@
                     @for (int i = 0; i < Model.Documentos.Count(); i++)
                     {
                         @*using (Html.BeginForm())
-                            {
-                                @Html.AntiForgeryToken()
-                                @Html.Hidden("WorkflowId", Model.Documentos.ToArray()[i].WorkflowId)
-                                @Html.Hidden("DocumentoId", Model.Documentos.ToArray()[i].DocumentoId)
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("WorkflowId", Model.Documentos.ToArray()[i].WorkflowId)
+                @Html.Hidden("DocumentoId", Model.Documentos.ToArray()[i].DocumentoId)
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
                         <tr>
                             <td>
                                 @Html.DisplayFor(model => Model.Documentos.ToArray()[i].DocumentoId)
@@ -143,7 +153,8 @@
                                     {
                                         if (Model.Documentos[i].FileName.Contains(".pdf"))
                                         {
-                                            <button class="btn btn-primary" type="submit">Firmar Documento</button>
+                                            <button class="btn btn-primary" type="submit" id="btn_firmar">Firmar Documento</button>
+
                                         }
                                     }
 
@@ -162,6 +173,7 @@
                                         if (Model.Documentos[i].FileName.Contains(".pdf"))
                                         {
                                             <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+
                                         }
                                     }
 
@@ -172,6 +184,12 @@
                         </tr>
                         @*}*@
                     }
+                    <div class="col-6 col-sm-3" id="btnNext">
+                        <a class="btn btn-primary btnNext">Next</a>
+                    </div>
+                    <div class="col-6 col-sm-3" id="btnPrevious">
+                        <a class="btn btn-primary btnPrevious">Previous</a>
+                    </div>
                 </tbody>
             </table>
         }
@@ -180,7 +198,19 @@
     </div>
 
 
+<script>
+    $(document).ready(function () {
+        
 
+        $('#btn_firmar').on('click', function () {
+           
+            $('.nav-tabs li:nth-child(1) a').tab('show');
+           
+            $('.nav-tabs li:nth-child(2) a').tab('hide');
+
+        });
+    });
+</script>
 
 
 @*@section Scripts {
