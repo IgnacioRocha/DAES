@@ -197,53 +197,28 @@ namespace DAES.Web.BackOffice.Controllers
                     //extension del archivo
                     string filename = Path.GetFileName(file.FileName);
                     string fileEx = System.IO.Path.GetExtension(filename); // Obtenga el nombre del sufijo requerido
-                    fileEx = fileEx.ToLower();
-                    if (file != null && ms.Length < 52428800 && file.ContentLength > 0 && file.FileName != "" )
+                    db.Documento.Add(new Documento()
                     {
-                        if (fileEx == ".pdf" || fileEx == ".xls" || fileEx == ".doc" || fileEx == ".docx")
-                        {
-
-
-                            db.Documento.Add(new Documento()
-                            {
-                                FechaCreacion = DateTime.Now,
-                                Autor = User.Identity.Name,
-                                Descripcion = model.Documento.Descripcion,
-                                FileName = file.FileName,
-                                Content = target.ToArray(),
-                                FechaRecordatorio = model.Documento.FechaRespuesta,
-                                Recordatorio = model.Documento.Recordatorio,
-                                Resuelto = false,
-                                TipoDocumentoId = model.TipoDocumentoId,
-                                Firmado = false,
-                                //Signed = false,
-                                WorkflowId = model.Workflow.WorkflowId,
-                                ProcesoId = model.Workflow.ProcesoId,
-                                OrganizacionId = model.Workflow.Proceso.OrganizacionId,
-                                TipoPrivacidadId = model.TipoPrivacidadId
-                            });
-                            db.SaveChanges();
-                            TempData["Message"] = Properties.Settings.Default.Success;
-                            return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
-                        }
-                        else
-                        {
-                            TempData["Message"] = Properties.Settings.Default.Error;
-                            return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
-                        }
-                    }
-                    else
-                    {
-                        TempData["Message"] = Properties.Settings.Default.Error;
-                        return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
-
-                    }
-
-
-
+                        FechaCreacion = DateTime.Now,
+                        Autor = User.Identity.Name,
+                        Descripcion = model.Documento.Descripcion,
+                        FileName = file.FileName,
+                        Content = target.ToArray(),
+                        FechaRecordatorio = model.Documento.FechaRespuesta,
+                        Recordatorio = model.Documento.Recordatorio,
+                        Resuelto = false,
+                        TipoDocumentoId = model.TipoDocumentoId,
+                        Firmado = false,
+                        //Signed = false,
+                        WorkflowId = model.Workflow.WorkflowId,
+                        ProcesoId = model.Workflow.ProcesoId,
+                        OrganizacionId = model.Workflow.Proceso.OrganizacionId,
+                        TipoPrivacidadId = model.TipoPrivacidadId
+                    });
+                    db.SaveChanges();
+                    TempData["Message"] = Properties.Settings.Default.Success;
+                    return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
                 }
-
-
             }
 
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre", model.Documento.TipoDocumentoId);
