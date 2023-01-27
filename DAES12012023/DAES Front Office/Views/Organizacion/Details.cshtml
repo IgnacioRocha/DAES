@@ -1,0 +1,316 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+
+@{
+    string url = "https://www.google.com/maps/embed/v1/place";
+    string key = "?key=AIzaSyBW9a-r2pTB29-ADxw8GKIkX0WOyfVvM9A";
+    string location = "&q=" + Model.Direccion;
+}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Detalle de organización</h1>
+        <p class="lead">
+            @Html.DisplayFor(m => Model.RazonSocial)
+        </p>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div class="card">
+        <div class="card-img">
+            @if (Model != null && !string.IsNullOrWhiteSpace(Model.Direccion))
+            {
+                if (Model.Comuna != null)
+                {
+                    location = string.Concat(location, ", ", Model.Comuna.Nombre);
+                }
+                if (Model.Ciudad != null && Model.CiudadId != 55)
+                {
+                    location = string.Concat(location, ", ", Model.Ciudad.Nombre);
+                }
+            }
+            <iframe width="100%" frameborder="0" height="400px" style="border:0" src="@string.Concat(url, key, location)" allowfullscreen></iframe>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Detalle de la organización</h5>
+            @*<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>*@
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.NumeroRegistro, new { @class = "font-weight-bold" })<br />
+                        @Html.DisplayFor(m => Model.NumeroRegistro)
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => Model.RazonSocial, new { @class = "font-weight-bold" })<br />
+                        @Html.DisplayFor(m => Model.RazonSocial)
+                    </div>
+                    @if (Model.TipoOrganizacion != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.TipoOrganizacion.Nombre, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.TipoOrganizacion.Nombre)
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Sigla))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Sigla, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.Sigla)
+                        </div>
+                    }
+
+                    @if (Model.Region != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Region.Nombre, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.Region.Nombre)
+                        </div>
+                    }
+                    @if (Model.Comuna != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Comuna.Nombre, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.Comuna.Nombre)
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Direccion))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Direccion, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.Direccion)
+                        </div>
+                    }
+                    @if (Model.Estado != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Estado.Nombre, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.Estado.Nombre)
+                        </div>
+                    }
+                    @if (Model.Situacion != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Situacion.Nombre, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.Situacion.Nombre)
+                        </div>
+                    }
+
+                    @if (Model.Rubro != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Rubro.Nombre, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.Rubro.Nombre)
+                        </div>
+                    }
+                    @if (Model.SubRubro != null)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SubRubro.Nombre, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.SubRubro.Nombre)
+                        </div>
+                    }
+
+                </div>
+                <div class="col-lg-6">
+                    @if (!string.IsNullOrWhiteSpace(Model.RUT))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RUT, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.RUT)
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Fono))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fono, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.Fono)
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Fax))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Fax, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.Fax)
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Email))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.Email)
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.URL))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.URL, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.URL)
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NumeroSociosConstituyentes, new { @class = "font-weight-bold" })<br />
+                        @Html.DisplayFor(model => model.NumeroSociosConstituyentes)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NumeroSocios, new { @class = "font-weight-bold" })<br />
+                        @Html.DisplayFor(model => model.NumeroSocios)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NumeroSociosHombres, new { @class = "font-weight-bold" })<br />
+                        @Html.DisplayFor(model => model.NumeroSociosHombres)
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NumeroSociosMujeres, new { @class = "font-weight-bold" })<br />
+                        @Html.DisplayFor(model => model.NumeroSociosMujeres)
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(Model.MinistroDeFe))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MinistroDeFe, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.MinistroDeFe)
+                        </div>
+                    }
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EsGeneroFemenino, new { @class = "font-weight-bold" })<br />
+                        @if ((bool)Model.EsGeneroFemenino)
+                        {
+                            <p>SI</p>
+                        }
+                        else
+                        {
+                            <p>NO</p>
+                        }
+                    </div>
+
+
+                    @if (!string.IsNullOrWhiteSpace(Model.CiudadAsamblea))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CiudadAsamblea, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.CiudadAsamblea)
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.NombreContacto))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.NombreContacto, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.NombreContacto)
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.DireccionContacto))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DireccionContacto, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.DireccionContacto)
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrWhiteSpace(Model.TelefonoContacto))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TelefonoContacto, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.TelefonoContacto)
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.EmailContacto))
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmailContacto, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(model => model.EmailContacto)
+                        </div>
+                    }
+                    @if (Model.FechaCreacion.HasValue)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaCreacion, new { @class = "font-weight-bold" })<br />
+                            @String.Format("{0:dd-MM-yyyy}", Model.FechaCreacion)
+                        </div>
+                    }
+                    @if (Model.FechaCelebracion.HasValue)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaCelebracion, new { @class = "font-weight-bold" })<br />
+                            @String.Format("{0:dd-MM-yyyy}", Model.FechaCelebracion)
+                        </div>
+                    }
+                    @if (Model.FechaPubliccionDiarioOficial.HasValue)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaPubliccionDiarioOficial, new { @class = "font-weight-bold" })<br />
+                            @String.Format("{0:dd-MM-yyyy}", Model.FechaPubliccionDiarioOficial)
+                        </div>
+                    }
+                    @if (Model.FechaActualizacion.HasValue)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.FechaActualizacion, new { @class = "font-weight-bold" })<br />
+                            @String.Format("{0:dd-MM-yyyy}", Model.FechaActualizacion)
+                        </div>
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.EsImportanciaEconomica, new { @class = "font-weight-bold" })<br />
+
+                        @if ((bool)Model.EsImportanciaEconomica)
+                        {
+                            <p>SI</p>
+                        }
+                        else
+                        {
+                            <p>NO</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Directorios.Any())
+{
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Directorio</h5>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Cargo y nombre
+                            </th>
+                            <th>
+                                Periodo
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Directorios)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cargo.Nombre) - @Html.DisplayFor(modelItem => item.NombreCompleto)
+                                </td>
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy}", item.FechaInicio) - @String.Format("{0:dd-MM-yyyy}", item.FechaTermino)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+}
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>

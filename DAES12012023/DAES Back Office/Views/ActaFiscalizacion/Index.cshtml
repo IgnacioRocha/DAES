@@ -1,0 +1,127 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.ActaFiscalizacion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Comuna.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeneroGerente.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeneroRepresentanteLegal.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Organizacion.NumeroRegistro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Region.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NOficioAcreditacioRequerimientos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaSalidaOficioAcreditacionRequerimientos)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NActaReunionFiscalizacionInSitu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaFiscalizacionInSitu)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RUT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RepresentanteLegal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VigenciaRepresentanteLegal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gerente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DireccionActual)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CambioDireccion)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comuna.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GeneroGerente.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GeneroRepresentanteLegal.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Organizacion.NumeroRegistro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Region.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fecha)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NOficioAcreditacioRequerimientos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaSalidaOficioAcreditacionRequerimientos)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NActaReunionFiscalizacionInSitu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFiscalizacionInSitu)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RUT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RepresentanteLegal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VigenciaRepresentanteLegal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gerente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DireccionActual)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CambioDireccion)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.ActaFiscalizacionId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.ActaFiscalizacionId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ActaFiscalizacionId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

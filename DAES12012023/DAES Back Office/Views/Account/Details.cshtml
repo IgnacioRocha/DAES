@@ -1,0 +1,66 @@
+﻿@model DAES.Model.SistemaIntegrado.ApplicationUser
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Cuenta de usuario";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailNotificacionTarea)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailNotificacionTarea)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Perfil.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Perfil.Nombre)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Organizacion.RazonSocial)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Organizacion.RazonSocial)
+        </dd>
+
+
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Volver a la lista", "Index") |
+    @Html.ActionLink("Editar", "Edit", new { id = Model.Id })
+    @*@Html.ActionLink("Eliminar", "Delete", new { id = Model.Id })*@
+</p>

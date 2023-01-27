@@ -1,0 +1,13 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutGP.cshtml";
+}
+
+@model System.Exception
+
+<div class="container">
+
+    <h1 class="display-4 my-3 text-danger">Problema encontrado</h1>
+    <p class="lead text-danger">@Model.Message</p>
+    <hr />
+    <a href="javascript:void(0);" onclick="history.go(-1);">Volver a página anterior</a>
+</div>

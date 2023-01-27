@@ -1,0 +1,19 @@
+﻿@if (TempData["Error"] != null)
+{
+    <div class="card text-white bg-danger mb-3">
+        <div class="card-body">
+            <h4 class="card-title">Problema encontrado</h4>
+            <p>@TempData["Error"]</p>
+        </div>
+    </div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="card text-white bg-success mb-3">
+        <div class="card-body">
+            <h4 class="card-title">Operación exitosa</h4>
+            <p>@TempData["Success"]</p>
+        </div>
+    </div>
+}

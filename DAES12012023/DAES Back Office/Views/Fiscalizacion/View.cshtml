@@ -1,0 +1,305 @@
+﻿@model DAES.Model.SistemaIntegrado.Proceso
+@{
+    var FiscalizacionNuevo = new DAES.Model.SistemaIntegrado.Fiscalizacion() { ProcesoId = Model.ProcesoId };
+    var HallazgoNuevo = new DAES.Model.SistemaIntegrado.Hallazgo();
+}
+
+<h2>Proceso de fiscalización</h2>
+<p class="my-2">
+    <br />
+    @Html.ActionLink("Volver a la lista de procesos", "Index", new { Model.ProcesoId })
+</p>
+<br />
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Info" data-toggle="tab">Información del proceso</a>
+    </li>
+    <li>
+        <a href="#Do" data-toggle="tab">Fiscalizaciones</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Info">
+        <br />
+        @Html.Partial("_ProcesoDetails", Model)
+    </div>
+    <div class="tab-pane fade in" id="Do">
+        <br />
+
+        @if (!Model.Fiscalizacions.Any())
+        {
+            <p>No existen fiscalizaciones</p>
+        }
+
+        @foreach (var fiscalizacion in Model.Fiscalizacions.Where(q => q.Activo))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <b> FISCALIZACION ID @fiscalizacion.FiscalizacionId</b>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.ProcesoRelacionadoId)
+                                </dt>
+                                <dd>
+                                    @if (fiscalizacion != null && fiscalizacion.ProcesoRelacionado != null)
+                                    {
+                                        @Html.ActionLink(fiscalizacion.ProcesoRelacionadoId.ToString(), "View", new { id = fiscalizacion.ProcesoRelacionadoId }, new { target = "_blank" })
+                                    }
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Fecha)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Fecha)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoFiscalizacion.Descripcion)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoFiscalizacion.Descripcion)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.NumeroIngreso)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.NumeroIngreso)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Observacion)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Observacion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoHallazgoId)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoHallazgo.Descripcion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoMateriaId)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoMateria.Descripcion)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.OficioAnterior)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.OficioAnterior)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.FechaOficioAnterior)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.FechaOficioAnterior)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.OficioRemitido)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.OficioRemitido)
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.FechaOficioRemitido)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.FechaOficioRemitido)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoOficioId)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoOficio.Descripcion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.NumeroReiteracion)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.NumeroReiteracion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.NumeroHallazgoPendientes)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.NumeroHallazgoPendientes)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Plazo)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Plazo)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Multa)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Multa)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Responsable1)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Responsable1)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Responsable2)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Responsable2)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Responsable3)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Responsable3)
+                                </dd>
+
+
+                                <dt>
+                                    Número de hallazgos
+                                </dt>
+                                <dd>
+                                    @fiscalizacion.Hallazgos.Count(q => q.Activo)
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+
+                    <hr />
+                    <p><b>DOCUMENTOS</b></p>
+
+                    @if (fiscalizacion.Proceso.Documentos.Any())
+                    {
+                        <table class="table table-hover table-striped datatable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Proceso.Documentos.FirstOrDefault().FechaCreacion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Proceso.Documentos.FirstOrDefault().Autor)
+                                    </th>
+                                    <th>
+                                        Archivo
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var documento in fiscalizacion.Proceso.Documentos)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => documento.FechaCreacion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => documento.Autor)
+                                        </td>
+                                        <td>
+                                            @if (documento.Content != null)
+                                            {
+                                                @Html.ActionLink(documento.FileName, "Download", "Documento", new { id = documento.DocumentoId }, null)
+                                            }
+                                        </td>
+
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                    <hr />
+                    <p><b>HALLAZGOS</b></p>
+                    @if (fiscalizacion.Hallazgos.Any(q => q.Activo))
+                    {
+                        <table class="table table-hover table-striped datatable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().TipoMateriaId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().TipoCriterioId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Descripcion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().TipoHallazgoId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Plazo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Respondido)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Resuelto)
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var hallazgo in fiscalizacion.Hallazgos.Where(q => q.Activo))
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.TipoMateria.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.TipoCriterio.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.TipoHallazgo.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Plazo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Respondido)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Resuelto)
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                </div>
+            </div>
+        }
+    </div>
+</div>

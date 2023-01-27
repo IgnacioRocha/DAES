@@ -1,0 +1,20 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Organización";
+}
+
+<h1>@Model.RazonSocial</h1>
+
+<p>
+    <a href="javascript:void(0);" onclick="history.go(-1);">Volver a la lista</a>
+</p>
+
+@Html.Partial("_OrganizacionDetails", Model)
+@Html.Partial("_OrganizacionDocumento", Model.DocumentoSinContenidos)
+@Html.Partial("_OrganizacionProceso", Model.Procesos)
+
+<p>
+    <a href="javascript:void(0);" onclick="history.go(-1);">Volver a la lista</a>
+</p>

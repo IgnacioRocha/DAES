@@ -1,0 +1,13 @@
+﻿@model System.Exception
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4 my-3">Solicitud de certificados</h1>
+        <p class="lead">La emisión de certificados manuales se encuentra condicionada a la disponibilidad de antecedentes para su otorgamiento</p>
+    </div>
+</div>
+
+<div class="container">
+    <p class="lead">@Model.Message</p>
+    <a href="javascript:void(0);" onclick="history.go(-1)">Volver a página anterior</a> | <a href="@Url.Action("Emitir","Certificado")">Ir al Certificado Disolución (Solicitar emisión)</a>
+</div>

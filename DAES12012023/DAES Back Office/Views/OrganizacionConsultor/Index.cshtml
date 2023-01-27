@@ -1,0 +1,73 @@
+﻿@model IEnumerable<DAES.Web.BackOffice.Controllers.OrganizacionConsultorController.DTOOrganizacion>
+@{
+    ViewBag.Title = "Organizaciones";
+}
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Filtros</div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Index", null, FormMethod.Get))
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.Label("Texto de búsqueda")
+                    @Html.Editor("Query", new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.Label("Tipo")
+                    @Html.DropDownList("TipoOrganizacionId", null, "Seleccione...", new { @class = "form-control" })
+                    @Html.Label("Estado")
+                    @Html.DropDownList("EstadoId", null, "Seleccione...", new { @class = "form-control" })
+                    @Html.Label("Situación")
+                    @Html.DropDownList("SituacionId", null, "Seleccione...", new { @class = "form-control" })
+                    @Html.Label("Rubro")
+                    @Html.DropDownList("RubroId", null, "Seleccione...", new { @class = "form-control" })
+                    @Html.Label("Región")
+                    @Html.DropDownList("RegionId", null, "Seleccione...", new { @class = "form-control" })
+                    @Html.Label("Comuna")
+                    @Html.DropDownList("ComunaId", null, "Seleccione...", new { @class = "form-control" })
+                    <br />
+                    <input type="submit" value="Buscar" class="btn btn-primary btn-block" />
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">Resultados</div>
+            <div class="panel-body">
+                <table class="table table-hover table-striped datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroRegistro)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FirstOrDefault().RazonSocial)
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroRegistro)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.RazonSocial)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Detalles", "Details", new { id = item.OrganizacionId })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.ActionLink("Volver al inicio", "Index", "Home")

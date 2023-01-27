@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.TipoCriterio>
+@{
+    ViewBag.Title = "Tipo de criterio";
+}
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TipoCriterioId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Descripcion)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoCriterioId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "Details", new { id = item.TipoCriterioId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Crear nuevo", "Create") |
+@Html.ActionLink("Volver al inicio", "Index", "Home")

@@ -1,0 +1,97 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+<div class="col-md-6">
+    <div class="panel panel-default" id="facultadas">
+        <div class="panel-heading">Solicitud de modificación: Personas Facultadas</div>
+        <div class="panel-body">
+            <dl class="form">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Rut
+                            </th>
+                            <th>
+                                Profesión
+                            </th>
+                            <th>
+                                Domicilio
+                            </th>
+                            <th>
+                                Nacionalidad
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ActualizacionSupervisor.Facultada)
+                        {
+                            @Html.HiddenFor(m => m.ActualizacionSupervisor.ProcesoId)
+                            @Html.HiddenFor(m => m.ActualizacionSupervisor.ActualizacionSupervisorId)
+                            if (item.Habilitado)
+                            {
+                        <tr>
+                            <td>@Html.EditorFor(model => item.NombreCompleto, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.RUN, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.Profesion, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.Domicilio, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.Nacionalidad, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            @*<td>@Ajax.ActionLink("Eliminar", "EliminarFacultadas", null, new { Model.Workflow.WorkflowId, item.ActualizacionPersonaFacultadaId }, new AjaxOptions { UpdateTargetId = "facultadas" })</td>*@
+                        </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="col-md-6">
+    <div class="panel panel-default" id="facultadas">
+        <div class="panel-heading">Datos actuales de Personas Facultadas</div>
+        <div class="panel-body">
+            <dl class="form">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Rut
+                            </th>
+                            <th>
+                                Profesión
+                            </th>
+                            <th>
+                                Domicilio
+                            </th>
+                            <th>
+                                Nacionalidad
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SupervisorAuxiliar.PersonaFacultadas)
+                        {
+                            @Html.HiddenFor(m => m.SupervisorAuxiliar.ProcesoId)
+                            @Html.HiddenFor(m => m.SupervisorAuxiliar.SupervisorAuxiliarId)
+                            if (!item.Eliminado && item.Habilitado)
+                            {
+                        <tr>
+                            <td>@Html.EditorFor(model => item.NombreCompleto, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.RUN, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.Profesion, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.Domicilio, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            <td>@Html.EditorFor(model => item.Nacionalidad, new { htmlAttributes = new { @class = "form-control col-md-10", @disabled = "disabled" } })</td>
+                            @*<td>@Ajax.ActionLink("Eliminar", "EliminarFacultadas", null, new { Model.Workflow.WorkflowId, item.ActualizacionPersonaFacultadaId }, new AjaxOptions { UpdateTargetId = "facultadas" })</td>*@
+                        </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </dl>
+        </div>
+    </div>
+</div>

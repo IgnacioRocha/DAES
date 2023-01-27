@@ -1,0 +1,92 @@
+﻿@model IEnumerable<DAES.Web.FrontOffice.Controllers.DTOInformeHSA>
+@using DAES.Web.FrontOffice.Models
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Informes HSA</h1>
+        @if (Global.CurrentClaveUnica != null && Global.CurrentClaveUnica.IsAutenticated)
+        {
+            <p class="lead">Ingreso y seguimiento de informes HSA de @Global.CurrentClaveUnica.User</p>
+        }
+        else
+        {
+            <p class="lead">Ingreso y seguimiento de informes HSA</p>
+        }
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+<div class="container my-3">
+    <a href="@Url.Action("Index","Home")">Volver al inicio</a>
+</div>
+<div class="container my-3">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Informes enviados</h5>
+            <p class="card-text">Listado de informes enviados anteriormente</p>
+
+            @if (!Model.Any())
+            {
+                <hr />
+                <p>No existe información</p>
+            }
+            else
+            {
+                <table class="table table-hover table-responsive">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                Id
+                            </th>
+                            <th>
+                                Fecha envío
+                            </th>
+                            <th>
+                                Actividades<br /> desde
+                            </th>
+                            <th>
+                                Actividades<br /> hasta
+                            </th>
+                            <th>
+                                N° Boleta
+                            </th>
+                            <th>
+                                Estado
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderByDescending(q => q.InformHSAId))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.InformHSAId)
+                                </td>
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaSolicitud)
+                                </td>
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy}", item.FechaDesde)
+                                </td>
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy}", item.FechaHasta)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.NumeroBoleta)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Estado)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+    <a href="@Url.Action("Create")" class="circular-float bg-primary">
+        <i class="fa fa-plus" style="margin-top: 22px"></i>
+    </a>
+</div>

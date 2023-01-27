@@ -1,0 +1,20 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Aviso</h1>
+        <p class="lead">Para proceder con este trámite es necesario confirmar la lectura de la Guía de Puesta en Marcha de Cooperativas, Asociaciones Gremiales y de Consumidores.</p>
+        <a class="btn btn-primary btn-rounded" href="@Url.Action("Start")" role="button">Confirmo lectura</a>
+        <div class="btn-group" role="group">
+            <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Ver guía
+            </button>
+            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" href="~/Content/GUIA_AC.pdf" target="_blank">Asociaciones de consumidores</a>
+                <a class="dropdown-item" href="~/Content/GUIA_AG.pdf" target="_blank">Asociaciones gremiales</a>
+                <a class="dropdown-item" href="~/Content/GUIA_COOPERATIVAS.pdf" target="_blank">Cooperativas</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>

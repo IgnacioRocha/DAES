@@ -1,0 +1,102 @@
+﻿
+@model DAES.Model.SistemaIntegrado.Organizacion
+@{
+    Model.ReformaPosteriors = Model.ReformaPosteriors.ToList().OrderByDescending(q => q.FReforma).ToList();
+   
+}
+
+<table class="table table-hover table-striped">
+    @for (var i = 0; i < Model.ReformaPosteriors.Count; i++)
+    {
+        @Html.HiddenFor(model => model.ReformaPosteriors[i].IdReformaPost)
+        @Html.HiddenFor(model => model.ReformaPosteriors[i].OrganizacionId)
+    <thead>
+
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FReforma)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FReforma, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaPubliDiario)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaPubliDiario, new { htmlAttributes = new { @class = "form-control", @style = "width: 170px;" } })
+            </th>
+
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaJuntGeneralSocios)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaJuntGeneralSocios, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FechaEscrituraPublica)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].FojasNumero)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].FojasNumero, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].AnoInscripcion)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].AnoInscripcion, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].DatosCBR)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].DatosCBR, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].DatosGeneralNotario)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].DatosGeneralNotario, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+            </th>
+        </tr>
+        <tr>
+            <th colspan="2">
+                @Html.DisplayNameFor(model => Model.ReformaPosteriors[i].EspaciosDoc)
+                @Html.EditorFor(model => Model.ReformaPosteriors[i].EspaciosDoc, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+            </th>
+        </tr>
+        <tr>
+            <td>
+
+                @Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.ReformaPosteriors.ToArray()[i].IdReformaPost, Model.ReformaPosteriors.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformaPost" }, htmlAttributes: new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    </thead>
+    }
+<tbody>
+
+    @for (var i = 0; i < Model.ReformaPosteriors.Count; i++)
+    {
+
+        @Html.HiddenFor(model => model.ReformaPosteriors[i].IdReformaPost)
+        @Html.HiddenFor(model => model.ReformaPosteriors[i].OrganizacionId)
+        <tr>
+
+            @if (Model.ReformaPosteriors[i].FReforma != null && Model.ReformaPosteriors[i].FReforma.Value.Date.CompareTo(Model.ReformaPosteriors.Where(q => q.FReforma == q.FReforma).OrderBy(q => q.FReforma).FirstOrDefault().FReforma) > 0)
+            {
+
+                <p class=" alert alert-success text-center">Esta es la última reforma</p>
+                
+                break;
+
+            }
+
+            @if (Model.ReformaPosteriors.Count == 1 && Model.ReformaPosteriors[i].FReforma != null)
+            {
+                <p class=" alert alert-success text-center">Esta es la última reforma</p>
+                
+                break;
+            }
+
+
+        </tr>
+
+    }
+</tbody>
+</table>

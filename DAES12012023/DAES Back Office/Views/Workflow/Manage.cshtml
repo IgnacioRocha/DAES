@@ -1,0 +1,126 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.ApplicationUser>
+@{
+    ViewBag.Title = "Administrar carga de trabajo";
+}
+
+<script type="text/javascript">
+    $(function () {
+        draggableInit();
+    });
+
+    function draggableInit() {
+        var sourceId;
+
+        $('[draggable=true]').bind('dragstart', function (event) {
+            sourceId = $(this).parent().attr('id');
+            event.originalEvent.dataTransfer.setData("text/plain", event.target.getAttribute('id'));
+        });
+
+        $('.panel-body').bind('dragover', function (event) {
+            event.preventDefault();
+        });
+
+        $('.panel-body').bind('drop', function (event) {
+            var children = $(this).children();
+            var targetId = children.attr('id');
+
+            var elementId = event.originalEvent.dataTransfer.getData("text/plain");
+            setTimeout(function () {
+                var element = document.getElementById(elementId);
+                children.prepend(element);
+
+                $.ajax({
+                    url: 'Update',
+                    data: { elementId, targetId }
+                }).done(function () {
+                    //alert('Added');
+                });
+            }, 0);
+
+            event.preventDefault();
+        });
+    }
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        @foreach (var user in Model.OrderByDescending(q => q.Workflows.Count(i=>!i.Terminada)))
+        {
+            <div class="col-lg-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading"><h4>@user.Nombre</h4> <small>@user.UserName</small></div>
+                    <div class="panel-body">
+                        <div id="@user.Id">
+                            @foreach (var workflow in user.Workflows.Where(q => !q.Terminada).OrderByDescending(q => q.FechaCreacion))
+                            {
+                                var duracion = DateTime.Now - workflow.FechaCreacion;
+
+                                <div class="panel-group" id="@workflow.WorkflowId" role="tablist" aria-multiselectable="true" draggable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="collapse-heading-@workflow.WorkflowId">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#@workflow.WorkflowId" href="#collapse-@workflow.WorkflowId" aria-expanded="true" aria-controls="collapse-@workflow.WorkflowId">
+                                                    @Html.DisplayFor(model => workflow.WorkflowId) - @Html.DisplayFor(model => workflow.DefinicionWorkflow.TipoWorkflow.Nombre)
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapse-@workflow.WorkflowId" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapse-heading-@workflow.WorkflowId">
+                                            <div class="panel-body">
+                                                <dl>
+                                                    <dt>Id de tarea:</dt>
+                                                    <dd>@Html.DisplayFor(model => workflow.WorkflowId)</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>Fecha de creación:</dt>
+                                                    <dd>@string.Format("{0:dd-MM-yyyy HH:mm:ss}", workflow.FechaCreacion)</dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Duración:</dt>
+                                                    <dd>@string.Format("{0} dias, {1} horas, {2} minutos, {3} segundos", duracion.Days, duracion.Hours, duracion.Minutes, duracion.Seconds)</dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Tarea asignada</dt>
+                                                    <dd>@Html.DisplayFor(model => workflow.DefinicionWorkflow.TipoWorkflow.Nombre)</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>Descripción de tarea:</dt>
+                                                    <dd>@Html.DisplayFor(model => workflow.DefinicionWorkflow.TipoWorkflow.Descripcion)</dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Id de proceso:</dt>
+                                                    <dd>@Html.DisplayFor(model => workflow.ProcesoId)</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>Tipo de proceso:</dt>
+                                                    <dd>@Html.DisplayFor(model => workflow.Proceso.DefinicionProceso.Nombre)</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>Número de registro de organización:</dt>
+                                                    <dd>@Html.DisplayFor(model => workflow.Proceso.Organizacion.NumeroRegistro)</dd>
+                                                </dl>
+                                                <dl>
+                                                    <dt>Razón social organización:</dt>
+                                                    <dd>@Html.DisplayFor(model => workflow.Proceso.Organizacion.RazonSocial)</dd>
+                                                </dl>
+
+                                                <hr />
+                                                @Html.ActionLink("Ver proceso completo", "Details", "ProcesoConsultor", new { id = workflow.ProcesoId }, null)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+

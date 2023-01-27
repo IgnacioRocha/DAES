@@ -1,0 +1,192 @@
+﻿@model DAES.Model.SistemaIntegrado.Documento
+@{
+    ViewBag.Title = "Editar";
+    ViewBag.SubTitle = "Documento";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">Documento</div>
+    <div class="panel-body">
+
+        <dl class="dl-horizontal">
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DocumentoId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DocumentoId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Codigo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Codigo)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NumeroFolio)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NumeroFolio)
+            </dd>
+
+            @*<dt>
+            @Html.DisplayNameFor(model => model.Url)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Url)
+        </dd>*@
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FileName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FileName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Autor)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Autor)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TipoDocumento.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TipoDocumento.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaCreacion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaCreacion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TipoPrivacidad.Nombre)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.TipoPrivacidad.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaResolucion)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaResolucion)
+            </dd>
+
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NumeroOficio)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NumeroOficio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaSalidaOficio)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaSalidaOficio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.FechaRecordatorio)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.FechaRecordatorio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Recordatorio)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Recordatorio)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Resuelto)
+            </dt>
+            <dd>
+                @(Model.Resuelto ? "SI" : "NO")
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Firmado)
+            </dt>
+            <dd>
+                @(Model.Firmado ? "SI" : "NO")
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Periodo)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Periodo)
+            </dd>
+
+            @if (Model.Content != null)
+            {
+                <dt>
+                    Documento
+                </dt>
+
+                <dd>
+                    @Html.ActionLink(Model.FileName, "Download", "Documento", new { id = Model.DocumentoId }, null)
+                </dd>
+            }
+
+
+
+
+
+        </dl>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Marcar como resuelto</div>
+    <div class="panel-body">
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.DocumentoId)
+            @Html.HiddenFor(model => model.WorkflowId)
+            @Html.HiddenFor(model => model.FechaResolucion)
+            @Html.HiddenFor(model => model.TipoPrivacidadId)
+
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.LabelFor(model => model.Resuelto, htmlAttributes: new { @class = "control-label col-md-2" })
+                </dt>
+
+                <dd>
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.Resuelto)
+                        @Html.ValidationMessageFor(model => model.Resuelto, "", new { @class = "text-danger" })
+                    </div>
+                </dd>
+            </dl>
+            <input type="submit" value="Guardar" class="btn btn-primary" />
+        }
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Volver a la lista", "Index", "inbox")
+</div>

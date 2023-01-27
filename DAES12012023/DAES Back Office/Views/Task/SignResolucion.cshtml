@@ -1,0 +1,75 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskController.DTOFileUploadEdit
+
+
+
+
+@Html.HiddenFor(q => q.WorkflowId)
+@Html.HiddenFor(q => q.ProcesoId)
+@*@ViewBag.idHoras
+    @ViewBag.IdProceso
+    @Html.Action("procesState", "HorasExtras", new { Model.WorkflowId })*@
+@Html.HiddenFor(q => q.FirmaDocumentoId)
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="input-field col s12 m10 l6">
+            @*<strong>
+                    @Html.DisplayNameFor(m => Model.HorasExtrasId)
+                </strong>
+
+
+
+                @Html.DisplayFor(m => Model.HorasExtrasId)*@
+
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6 l8">
+
+            <div class="section"></div>
+            <a class="waves-effect waves-light btn modal-trigger" href="#@String.Concat("#modal", Model.FirmaDocumentoId)">Firmar</a>
+
+        </div>
+
+
+
+        <div id="@String.Concat("#modal", Model.FirmaDocumentoId)" class="modal">
+            @*<div id="@String.Concat("#modal", 773)" class="modal">*@
+            <div class="modal-content">
+                <h4>Confirma Firma de Documento</h4>
+                @using (Html.BeginForm("SignResolucion", "Task", new { id = Model.FirmaDocumentoId, idProceso = Model.ProcesoId, idWorkflow = ViewBag.WorkflowId }, FormMethod.Post, new {  enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => Model.ProcesoId)
+                    @Html.HiddenFor(model => model.WorkflowId)
+                    <button class="waves-effect waves-light btn blue" type="submit">Aceptar</button>
+                }
+            </div>
+
+
+
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+@*@Html.Action("Footer", "Workflow", new { Model.WorkflowId })*@
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.modal').modal();
+        $('select').formSelect();
+    });
+</script>

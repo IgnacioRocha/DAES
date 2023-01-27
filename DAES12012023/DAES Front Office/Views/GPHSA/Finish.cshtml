@@ -1,0 +1,21 @@
+﻿@model Int32
+
+    <div class="jumbotron">
+        <div class="container">
+            <h1 class="display-4">Informes HSA</h1>
+            <p class="lead">
+                Ingreso y seguimiento de informes HSA
+            </p>
+        </div>
+    </div>
+<div class="container my-3">
+    <div class="card text-white bg-success">
+        <div class="card-body">
+            <h5 class="card-title">Confirmación</h5>
+            <p class="card-text">Informe de honorarios enviado correctamente. El número del proceso es @Model</p>
+        </div>
+    </div>
+</div>
+<div class="container my-3">
+    <a href="@Url.Action("Index", "GPHSA")" class="btn btn-primary btn-rounded my-3">Volver al inicio</a>
+</div>

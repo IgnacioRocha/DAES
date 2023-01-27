@@ -1,0 +1,39 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.TipoFiscalizacion>
+@{
+    ViewBag.Title = "Tipo de fiscalización";
+}
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TipoFiscalizacionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Descripcion)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoFiscalizacionId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Detalles", "Details", new { id = item.TipoFiscalizacionId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Crear nuevo", "Create") |
+@Html.ActionLink("Volver al inicio", "Index", "Home")

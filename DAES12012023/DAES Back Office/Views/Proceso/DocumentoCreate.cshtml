@@ -1,0 +1,313 @@
+﻿@model DAES.Model.DTO.DTOProceso
+@{
+    ViewBag.Title = "Crear";
+    ViewBag.SubTitle = "Proceso";
+}
+@using GridMvc.Html
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script>
+    $(document).ready(function () {
+        $("#NombreOrganizacion").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Proceso/GetOrganizacion/",
+                    data: { term: request.term },
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data,
+                            function (item) {
+                                return { id: item.id, value: item.value };
+                            }));
+                    }
+                });
+            },
+
+            select: function (event, ui) {
+                $("#NombreOrganizacion").val(ui.item.value);
+                $("#OrganizacionId").val(ui.item.id);
+                return false;
+            }
+        });
+
+        $('#DefinicionProcesoId').change(function () {
+            var value = $(this).val();
+            if (value != '51' && value != '82') {
+                $('#selector').show();
+            } else {
+                $('#selector').hide();
+                $("#NombreOrganizacion").val('');
+                $("#OrganizacionId").val('');
+            }
+        });
+
+    });
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Proceso</div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.DocumentoId)
+            @Html.HiddenFor(model => model.OrganizacionId)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-horizontal">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DefinicionProcesoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.DefinicionProcesoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DefinicionProcesoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div id="selector">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NombreOrganizacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NombreOrganizacion, null, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese razón social o número de registro" } })
+                            @Html.ValidationMessageFor(model => model.NombreOrganizacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.UserId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Iniciar proceso" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (Model.Documento != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">Documento</div>
+        <div class="panel-body">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.EntidadExterna.Ext_Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.EntidadExterna.Ext_Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.TipoDocumento.Tdo_Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.TipoDocumento.Tdo_Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.IdFuncionario)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.IdFuncionario)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_ParentId)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_ParentId)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_FechaIngreso)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_FechaIngreso)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_UnidadServicio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_UnidadServicio)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_UnidadServicio_Id)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_UnidadServicio_Id)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_NombreFuncionario)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_NombreFuncionario)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Correlativo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Correlativo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_NumeroExterno)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_NumeroExterno)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Asunto)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Asunto)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Referencia)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Referencia)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Codigo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Codigo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Descripcion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Descripcion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_FechaCreacion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_FechaCreacion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_FechaModificacion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_FechaModificacion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_EsInterno)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_EsInterno)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Version)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Version)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Final)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Final)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Activo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Activo)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Documento.Doc_Folio)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Documento.Doc_Folio)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+}
+
+@if (Model.Adjuntos != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">Archivos adjuntos</div>
+        <div class="panel-body">
+            @Html.Grid(Model.Adjuntos).Columns(columns =>
+       {
+       columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @<a href="@q.Adj_Url" target="_blank">@q.Adj_Nombre</a>).Titled("Archivo").Sortable(true).Filterable(true);
+           columns.Add(q => q.Adj_FechaCreacion).Titled("Fecha creación").RenderValueAs(q => string.Format("{0:dd-MM-yyyy HH:mm:ss}", q.Adj_FechaCreacion)).Sortable(true).Filterable(true);
+           columns.Add(q => q.Adj_Descripcion).Titled("Descripción").Sortable(true).Filterable(true);
+           columns.Add(q => q.Adj_TotalPaginas).Titled("Total páginas").Sortable(true).Filterable(true);
+           columns.Add(q => q.Adj_TotalPaginasSubidas).Titled("Total páginas subidas").Sortable(true).Filterable(true);
+       }).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+        </div>
+    </div>
+}
+@if (Model.ProcesoDocumentos != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">Historial de aprobaciones</div>
+        <div class="panel-body">
+            @Html.Grid(Model.ProcesoDocumentos).Columns(columns =>
+           {
+               columns.Add(q => q.Pdo_FechaCreacion).Titled("Fecha creación").RenderValueAs(q => string.Format("{0:dd-MM-yyyy HH:mm:ss}", q.Pdo_FechaCreacion)).Sortable(true).Filterable(true);
+               columns.Add(q => q.Pdo_NombreUnidadFuncionario).Titled("Unidad origen").Sortable(true).Filterable(true);
+               columns.Add(q => q.Pdo_NombreFuncionario).Titled("Funcionario origen").Sortable(true).Filterable(true);
+               columns.Add(q => q.Pdo_NombreUnidadEntidadDestino).Titled("Unidad destino").Sortable(true).Filterable(true);
+               columns.Add(q => q.Pdo_NombreUsuarioDestino).Titled("Funcionario destino").Sortable(true).Filterable(true);
+           }).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+        </div>
+    </div>
+}
+@Html.ActionLink("Volver al inicio", "Index", "Home")

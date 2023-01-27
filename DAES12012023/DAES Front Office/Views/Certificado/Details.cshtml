@@ -1,0 +1,47 @@
+﻿@model DAES.Model.SistemaIntegrado.Documento
+
+<h1 class="display-4 my-3">Detalles de documento</h1>
+<p class="lead"></p>
+
+<div class="jumbotron shadow-sm rounded">
+    <h3>Detalles</h3>
+    <hr class="my-4">
+    <div class="form-group">
+        @Html.LabelFor(m => Model.TipoDocumento.Nombre)<br />
+        @Html.DisplayFor(m => Model.TipoDocumento.Nombre)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => Model.FechaCreacion)<br />
+        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaCreacion)
+    </div>
+
+    @if (Model != null && Model.FechaValidoHasta.HasValue)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => Model.FechaValidoHasta)<br />
+            @string.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaValidoHasta)
+        </div>
+    }
+
+    @if (Model != null && Model.Proceso != null)
+    {
+        <div class="form-group">
+            <strong>Organización</strong><br />
+            @Model.Proceso.Organizacion.NumeroRegistro - @Model.Proceso.Organizacion.RazonSocial
+        </div>
+    }
+</div>
+
+@if (Model != null && Model.Content != null)
+{
+    <iframe src="@Url.Action("Download", new { id = Model.DocumentoId })" width="100%" height="650px">
+        [Your browser does <em>not</em> support <code>iframe</code>,
+        or has been configured not to display inline frames.
+        You can access <a href="GetPDF">the document</a>
+        via a link though.]
+    </iframe>
+}
+
+<p class="pb-3">
+    Volver al <a href='@Url.Action("Index", "Home")'>DAES digital</a>
+</p>

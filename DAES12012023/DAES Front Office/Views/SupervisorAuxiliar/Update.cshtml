@@ -1,0 +1,68 @@
+﻿@model DAES.Web.FrontOffice.Controllers.SupervisorAuxiliarController.Search
+@{ Model.SupervisoresAuxiliares = Model.SupervisoresAuxiliares.Where(q => q.Aprobado == true).ToList();}
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Actualización de Supervisores Auxiliares</h1>
+        <p class="lead">Este trámite permite actualizar los datos de un Supervisor Auxiliar. Además, permite presentar un informe anual sobre sus ingresos, hechos relevantes y la información anual de su cartera de clientes. </p>
+        <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+@using (Html.BeginForm("Update", null, FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Buscador de Supervisores Auxiliares</h5>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.Query)
+                    @Html.TextBoxFor(m => Model.Query, new { @class = "form-control", @placeholder = "Ingrese Razón Social" })
+                    @Html.ValidationMessageFor(m => Model.Query, "", new { @class = "text-danger" })
+                </div>
+                <input type="submit" value="Buscar Supervisores" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Query != null)
+{
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">Resultados</div>
+                @using GridMvc.Html
+                @Html.Grid(Model.SupervisoresAuxiliares).Columns(columns =>
+           {
+               columns.Add(q => q.Rut).Titled("Rut").Sortable(true).Filterable(true);
+               columns.Add(q => q.RazonSocial).Titled("Razón social").Sortable(true).Filterable(true);
+               columns.Add(q => q.TipoPersonaJuridica.NombrePersonaJuridica).Titled("Persona Jurídica").Sortable(true).Filterable(true);
+               columns.Add().Encoded(false).Sanitized(false).RenderValueAs(q => @Html.ActionLink("Editar", "UpdateSupervisor", new { id = q.SupervisorAuxiliarId }));
+           }).WithPaging(15).EmptyText("No se encontraron Supervisores").SetLanguage("es").Selectable(false).WithMultipleFilters()
+            </div>
+        </div>
+    </div>
+}
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-31"></script>
+<script>
+    $(document).ready(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-31');
+        gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540064'
+        });
+    });
+</script>

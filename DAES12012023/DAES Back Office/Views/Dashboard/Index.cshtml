@@ -1,0 +1,238 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Proceso>
+@using GridMvc.Html
+
+@{
+    ViewBag.Title = "Dashboard procesos";
+    ViewBag.SubTitle = "Estado de procesos al " + @DateTime.Now;
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel-group" id="collapse5" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="collapse-heading-five">
+                    <div class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#collapse5" href="#collapse-five" aria-expanded="false" aria-controls="collapse-five">
+                            <h1>@Model.Count()</h1>
+                        </a>
+                        Procesos totales
+                    </div>
+                </div>
+                <div id="collapse-five" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapse-heading-five">
+                    <div class="panel-body">
+                        @Html.Grid(Model.OrderByDescending(q => q.ProcesoId)).Columns(columns =>
+                   {
+                       columns.Add(q => q.ProcesoId).Titled("Id").Sortable(true).Filterable(true);
+                       columns.Add(q => q.FechaCreacion).Titled("Creación").RenderValueAs(q => string.Format("{0:dd-MM-yyyy hh:mm:ss}", q.FechaCreacion)).Sortable(true).Filterable(true);
+                       columns.Add(q => q.Solicitante.Email).Titled("Email").Sortable(true).Filterable(true);
+                       columns.Add(q => q.Correlativo).Titled("Correlativo GD").Sortable(true).Filterable(true);
+                       columns.Add(q => q.Organizacion.NumeroRegistro).Titled("Registro").Sortable(true).Filterable(true);
+                       columns.Add(q => q.FechaVencimiento).Titled("Vencimiento").RenderValueAs(q => string.Format("{0:dd-MM-yyyy}", q.FechaVencimiento)).Sortable(true).Filterable(true);
+                       columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.ProcesoId }));
+                   }).WithPaging(30).EmptyText("Sin información.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+                        <hr />
+                        @Html.ActionLink("Ir a consulta de procesos", "Index", "ProcesoConsultor")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel-group" id="collapse4" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-success">
+                <div class="panel-heading" role="tab" id="collapse-heading-four">
+                    <div class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#collapse4" href="#collapse-four" aria-expanded="false" aria-controls="collapse-four">
+                            <h1>@Model.Count(q => q.Terminada)</h1>
+                        </a>
+                        Procesos terminados
+                    </div>
+                </div>
+                <div id="collapse-four" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapse-heading-four">
+                    <div class="panel-body">
+                        @Html.Grid(Model.Where(q => q.Terminada).OrderByDescending(q => q.ProcesoId)).Columns(columns =>
+                   {
+                       columns.Add(q => q.ProcesoId).Titled("Id").Sortable(true).Filterable(true);
+                       columns.Add(q => q.FechaVencimiento).Titled("Vencimiento").RenderValueAs(q => string.Format("{0:dd-MM-yyyy}", q.FechaVencimiento)).Sortable(true).Filterable(true);
+                       columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.ProcesoId }));
+                   }).WithPaging(30).EmptyText("Sin información.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+                        <hr />
+                        @Html.ActionLink("Ir a consulta de procesos", "Index", "ProcesoConsultor")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel-group" id="collapse3" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="collapse-heading-three">
+                    <div class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#collapse3" href="#collapse-three" aria-expanded="false" aria-controls="collapse-three">
+                            <h1>@Model.Count(q => !q.Terminada && DateTime.Now.Date < q.FechaVencimiento.Date)</h1>
+                        </a>
+                        Procesos en curso
+                    </div>
+                </div>
+                <div id="collapse-three" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapse-heading-three">
+                    <div class="panel-body">
+                        @Html.Grid(Model.Where(q => !q.Terminada && DateTime.Now.Date < q.FechaVencimiento.Date).OrderByDescending(q => q.ProcesoId)).Columns(columns =>
+                   {
+                       columns.Add(q => q.ProcesoId).Titled("Id").Sortable(true).Filterable(true);
+                       columns.Add(q => q.FechaVencimiento).Titled("Vencimiento").RenderValueAs(q => string.Format("{0:dd-MM-yyyy}", q.FechaVencimiento)).Sortable(true).Filterable(true);
+                       columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.ProcesoId }));
+                   }).WithPaging(30).EmptyText("Sin información.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+                        <hr />
+                        @Html.ActionLink("Ir a consulta de procesos", "Index", "ProcesoConsultor")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel-group" id="collapse2" role="tablist" aria-multiselectable="true">
+
+            <div class="panel panel-warning">
+                <div class="panel-heading" role="tab" id="collapse-heading-two">
+                    <div class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#collapse2" href="#collapse-two" aria-expanded="false" aria-controls="collapse-two">
+                            <h1>@Model.Count(q => !q.Terminada && DateTime.Now.Date == q.FechaVencimiento.Date)</h1>
+                        </a>
+                        Procesos por vencer
+                    </div>
+                </div>
+                <div id="collapse-two" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapse-heading-two">
+                    <div class="panel-body">
+                        @Html.Grid(Model.Where(q => !q.Terminada && DateTime.Now.Date == q.FechaVencimiento.Date).OrderByDescending(q => q.ProcesoId)).Columns(columns =>
+                   {
+                       columns.Add(q => q.ProcesoId).Titled("Id").Sortable(true).Filterable(true);
+                       columns.Add(q => q.FechaVencimiento).Titled("Vencimiento").RenderValueAs(q => string.Format("{0:dd-MM-yyyy}", q.FechaVencimiento)).Sortable(true).Filterable(true);
+                       columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.ProcesoId }));
+                   }).WithPaging(30).EmptyText("Sin información.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+                        <hr />
+                        @Html.ActionLink("Ir a consulta de procesos", "Index", "ProcesoConsultor")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="panel-group" id="collapse" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-danger">
+                <div class="panel-heading" role="tab" id="collapse-heading-one">
+                    <div class="panel-title ">
+                        <a role="button" data-toggle="collapse" data-parent="#collapse" href="#collapse-one" aria-expanded="true" aria-controls="collapse-one">
+                            <h1>@Model.Count(q => !q.Terminada && DateTime.Now.Date > q.FechaVencimiento.Date)</h1>
+                        </a>
+                        Procesos atrasados
+                    </div>
+                </div>
+                <div id="collapse-one" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapse-heading-one">
+                    <div class="panel-body">
+                        @Html.Grid(Model.Where(q => !q.Terminada && DateTime.Now.Date > q.FechaVencimiento.Date).OrderByDescending(q => q.ProcesoId)).Columns(columns =>
+                   {
+                       columns.Add(q => q.ProcesoId).Titled("Id").Sortable(true).Filterable(true);
+                       columns.Add(q => q.FechaVencimiento).Titled("Vencimiento").RenderValueAs(q => string.Format("{0:dd-MM-yyyy}", q.FechaVencimiento)).Sortable(true).Filterable(true);
+                       columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.ProcesoId }));
+                   }).WithPaging(30).EmptyText("Sin información.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+                        <hr />
+                        @Html.ActionLink("Ir a consulta de procesos", "Index", "ProcesoConsultor")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.ActionLink("Volver al inicio", "Index", "Home")
+
+@section scripts {
+    <script src="~/Scripts/Chart.js"></script>
+    <script src="~/Scripts/Common.js"></script>
+    <script>
+
+        //var c = document.getElementById("PieNumeroProcesos");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/NumeroProcesos");
+        //var myPieChart = new Chart(ctx, {
+        //    type: 'doughnut',
+        //    data: tData
+        //});
+
+        //var c = document.getElementById("PieFuncionarioTareas");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/FuncionarioTareas");
+        //var myPieChart = new Chart(ctx, {
+        //    type: 'doughnut',
+        //    data: tData
+        //});
+
+        //var c = document.getElementById("PieOrganizacionProceso");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/OrganizacionProceso");
+        //var myPieChart = new Chart(ctx, {
+        //    type: 'doughnut',
+        //    data: tData
+        //});
+
+        //var c = document.getElementById("BarFuncionarioTareas");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/LineChart");
+        //var myBarChart = new Chart(ctx, {
+        //    type: 'line',
+        //    data: tData
+        //});
+
+        //var c = document.getElementById("Eficiencia");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/Eficiencia");
+        //var myBarChart = new Chart(ctx, {
+        //    type: 'line',
+        //    data: tData
+        //});
+
+        //var c = document.getElementById("DonutNumeroProcesos");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/NumeroProcesos");
+        //var myPieChart = new Chart(ctx, {
+        //    type: 'doughnut',
+        //    data: tData
+        //});
+        //var c = document.getElementById("BarNumeroProcesos");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/NumeroProcesos");
+        //var myBarChart = new Chart(ctx, {
+        //    type: 'bar',
+        //    data: tData
+        //});
+
+        //var c = document.getElementById("LineNumeroProcesos");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/NumeroProcesos");
+        //var myBarChart = new Chart(ctx, {
+        //    type: 'horizontalbar',
+        //    data: tData
+        //});
+
+
+        //var c = document.getElementById("DonutFuncionarioTareas");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/FuncionarioTareas");
+        //var myPieChart = new Chart(ctx, {
+        //    type: 'doughnut',
+        //    data: tData,
+        //});
+        //var c = document.getElementById("BarFuncionarioTareas");
+        //var ctx = c.getContext("2d");
+        //var tData = $.getValues("/Dashboard/FuncionarioTareas");
+        //var myBarChart = new Chart(ctx, {
+        //    type: 'bar',
+        //    data: tData
+        //});
+    </script>
+}

@@ -1,0 +1,48 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+
+@{
+    ViewBag.Title = "Crear";
+    ViewBag.SubTitle = "Correlativo organización";
+}
+
+<dl class="dl-horizontal">
+
+    <dt>
+        @Html.DisplayNameFor(model => model.OrganizacionId)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.OrganizacionId)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.TipoOrganizacion.Nombre)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.TipoOrganizacion.Nombre)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.NumeroRegistro)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.NumeroRegistro)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.RazonSocial)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.RazonSocial)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.RUT)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.RUT)
+    </dd>
+    <dt>
+        @Html.DisplayNameFor(model => model.Sigla)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Sigla)
+    </dd>
+</dl>
+
+@Html.ActionLink("Volver", "index")

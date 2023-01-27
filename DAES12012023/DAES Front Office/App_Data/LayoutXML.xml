@@ -1,0 +1,14 @@
+﻿<AgileSignerConfig>
+  <Application id="THIS-CONFIG">
+    <Signature>
+      <Visible active="true" layer2="true">
+        <llx>[LLX]</llx>
+        <lly>[LLY]</lly>
+        <urx>[URX]</urx> <!--ancho cuadro firma-->
+        <ury>[URY]</ury>
+        <page>LAST</page>
+        <image>[RUTAIMGFIRMA]</image>
+      </Visible>
+    </Signature>
+  </Application>
+</AgileSignerConfig>

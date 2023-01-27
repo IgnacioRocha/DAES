@@ -1,0 +1,58 @@
+﻿<meta name="robots" content="noindex,nofollow" />
+@model DAES.Web.FrontOffice.Controllers.GPDocumentoVerificacionController.DTODocumento
+@using reCAPTCHA.MVC
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Verificación de documentos</h1>
+        <p class="lead">
+            Verificación de documentos electrónicos
+        </p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+<div class="container my-3">
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-9">
+            <div class="card">
+                <div class="card-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(q => q.Id)
+
+                        <div class="row align-items-center">
+                            <div class="col-lg-2  col-md-9 col-sm-12 my-1">
+                                <i class="fa fa-file-pdf-o icon text-danger" style="font-size: 7em"></i>
+                            </div>
+                            <div class="col-lg-10 col-md-9 col-sm-12 my-1">
+                                <h5 class="card-title">@Html.DisplayFor(m => Model.Nombre)</h5>
+                                @Html.LabelFor(m => Model.Id): @Html.DisplayFor(m => Model.Id)<br />
+                                @Html.LabelFor(m => Model.FechaEmision): @string.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaEmision)<br />
+                                @Html.LabelFor(m => Model.Folio): @Html.DisplayFor(m => Model.Folio)
+                            </div>
+                        </div>
+                        <div class="form-group my-2">
+                            @Html.Recaptcha()
+                            @Html.ValidationMessage("ReCaptcha", "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group my-2">
+                            @if (Model.Pdf != null)
+                            {
+                                    <button class="btn btn-primary btn-rounded">Descargar</button>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="container my-3">
+    <a href="@Url.Action("Index","Home")">Volver al inicio</a>
+</div>

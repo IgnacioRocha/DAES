@@ -1,0 +1,120 @@
+﻿@model DAES.Model.DTO.DTOConsultaProceso
+@{
+    ViewBag.Title = "Procesos";
+}
+
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Filtros</div>
+            <div class="panel-body">
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.Label("Texto de búsqueda")
+                    @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control" } })
+                    <br />
+                    <label>
+                        @Html.EditorFor(model => model.MostrarSoloVigentes) @Html.DisplayNameFor(model => model.MostrarSoloVigentes)
+                    </label>
+                    <br />
+                    <br />
+
+                    @Html.Label("Procesos")
+                    <br />
+                    @Html.EditorFor(model => model.DefinicionProcesos)
+
+                    <br />
+                    <input type="submit" value="Buscar" class="btn btn-primary" />
+
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">Resultados</div>
+            <div class="panel-body">
+
+                <table class="table table-hover table-striped datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().ProcesoId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().Solicitante.Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().DefinicionProceso.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().Organizacion.NumeroRegistro)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().FechaVencimiento)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().Terminada)
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Procesos)
+                        {
+                        <tr>
+                            <td>
+                                @{
+                                    if (!item.Terminada && DateTime.Now.Date < item.FechaVencimiento.Date)
+                                    {
+                                        <span class="label label-success label-as-badge">En curso normal</span>
+                                    }
+                                    if (!item.Terminada && DateTime.Now.Date == item.FechaVencimiento.Date)
+                                    {
+                                        <span class="label label-warning label-as-badge">Proceso por vencer</span>
+                                    }
+
+                                    if (!item.Terminada && DateTime.Now.Date > item.FechaVencimiento.Date)
+                                    {
+                                        <span class="label label-danger label-as-badge">Proceso atrasado</span>
+                                    }
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ProcesoId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Solicitante.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DefinicionProceso.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Organizacion.NumeroRegistro)
+                            </td>
+                            <td>
+                                @String.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaVencimiento)
+                            </td>
+                            <td>
+                                @(item.Terminada ? "SI" : "NO")
+                            </td>
+                            <td>
+                                @Html.ActionLink("Detalles", "Details", new { id = item.ProcesoId })
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.ActionLink("Exportar procesos a Excel", "DownloadProcesos", "ProcesoConsultor") | @Html.ActionLink("Volver al inicio", "Index", "Home")

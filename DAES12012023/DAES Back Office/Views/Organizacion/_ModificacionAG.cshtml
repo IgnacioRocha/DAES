@@ -1,0 +1,80 @@
+﻿
+@model DAES.Model.SistemaIntegrado.Organizacion
+
+
+
+<table class="table table-hover">
+    @if (!Model.ExistenciaLegals.Any())
+    {
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios)
+                    @Html.EditorFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().NumeroOficio)
+                    @Html.EditorFor(model => Model.ExistenciaLegals.FirstOrDefault().NumeroOficio, new { htmlAttributes = new { min = 0, @class = "form-control", @style = "width: 190px;" } })
+                </th>
+
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaOficio)
+                    @Html.EditorFor(model => Model.ExistenciaLegals.FirstOrDefault().FechaOficio, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals.FirstOrDefault().AprobacionId) 
+                    @Html.DropDownListFor(model => model.ExistenciaLegals.FirstOrDefault().AprobacionId, null,"Selecione..", htmlAttributes: new { @class = "form-control", @style = "width: 190px;" })
+                    @*@Html.DropDownListFor(model => Model.ExistenciaLegals.FirstOrDefault().AprobacionId, new SelectList(ViewBag.AprobacionId, "Value", "Text", Model.ExistenciaLegals.FirstOrDefault().AprobacionId), "Seleccione...", new { @class = "form-control", @style = "width: 180px;" })*@
+                </th>
+            </tr>
+        </thead>
+
+    }
+    @for (var i = 0; i < Model.ExistenciaLegals.Count(); i++)
+    {
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].FechaConstitutivaSocios)
+                    @Html.EditorFor(model => Model.ExistenciaLegals[i].FechaConstitutivaSocios, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].NumeroOficio)
+                    @Html.EditorFor(model => Model.ExistenciaLegals[i].NumeroOficio, new { htmlAttributes = new { min = 0, @class = "form-control", @style = "width: 190px;" } })
+                </th>
+
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].FechaOficio)
+                    @Html.EditorFor(model => Model.ExistenciaLegals[i].FechaOficio, new { htmlAttributes = new { @class = "form-control", @style = "width: 190px;" } })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaLegals[i].AprobacionId)
+                    @Html.DropDownListFor(model => Model.ExistenciaLegals[i].AprobacionId, new SelectList(ViewBag.AprobacionId, "Value", "Text", Model.ExistenciaLegals[i].AprobacionId), "Seleccione...", new { @class = "form-control", @style = "width: 190px;" })
+                </th>
+
+            </tr>
+        </thead>
+    }
+    <tbody>
+
+        @for (var i = 0; i < Model.ExistenciaLegals.Count(); i++)
+        {
+            @Html.HiddenFor(model => model.ExistenciaLegals[i].ExistenciaId)
+            @Html.HiddenFor(model => model.ExistenciaLegals[i].OrganizacionId)
+            <tr>
+
+                <td>
+                    @*@Ajax.ActionLink("Eliminar", "ReformaDeletePost", null, new { Model.ExistenciaLegals.ToArray()[i].ExistenciaId, Model.ExistenciaLegals.ToArray()[i].OrganizacionId }, new AjaxOptions { UpdateTargetId = "reformas" })*@
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+       

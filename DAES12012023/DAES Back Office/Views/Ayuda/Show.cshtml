@@ -1,0 +1,17 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Ayuda>
+
+@{
+    ViewBag.Title = "Ayuda";
+    ViewBag.SubTitle = "Preguntas frecuentes";
+}
+
+@foreach (var item in Model)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading"><h3>@Html.DisplayFor(modelItem => item.Pregunta)</h3></div>
+        <div class="panel-body">
+            @Html.Raw(item.Respuesta)
+        </div>
+    </div>
+}
+

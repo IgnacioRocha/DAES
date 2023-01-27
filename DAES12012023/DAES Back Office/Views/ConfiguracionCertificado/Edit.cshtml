@@ -1,0 +1,1391 @@
+﻿@model DAES.Model.SistemaIntegrado.ConfiguracionCertificado
+
+@{
+    ViewBag.Title = "Editar";
+    ViewBag.SubTitle = "Configuración certificado";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+<style type="text/css">
+    .collapse .badge-secondary {
+        cursor: pointer;
+    }
+
+    .collapse h4 {
+        margin-left: 5px;
+    }
+
+    textarea {
+        max-width: none !important;
+        resize: none;
+        min-height: 150px;
+    }
+
+    .collapse td input[type="text"] {
+        background-color: white;
+        font-size: 12.5px;
+    }
+
+    .collapse td .bi {
+        cursor: pointer;
+    }
+
+    .multi-collapse {
+        padding-left: 126px;
+    }
+
+    .bi-clipboard {
+        height: 32px !important;
+        width: 32px !important;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ConfiguracionCertificadoId)
+    @Html.HiddenFor(model => model.TipoDocumentoId)
+    @Html.HiddenFor(model => model.TipoOrganizacionId)
+
+    <div class="alert alert-warning" role="alert">
+        <strong>Importante: </strong> La previsualización de cada certificado no incluirá folio ni pie de firma con verificación pero una vez emitidos sí.
+    </div>
+
+    <div class="row">
+        <div class="form-group">
+            @Html.Label("Tipo de Documento:", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TipoDocumentoId", null, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.TipoDocumentoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <br />
+        <br />
+
+        <div class="form-group">
+            @Html.Label("Tipo de Organízación:", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("TipoOrganizacionId", null, htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.TipoOrganizacionId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <div class="form-horizontal">
+        <div>
+            <p style="text-align: center">
+                @{
+
+                    //#Certificado de DISOLUCION
+                    if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+                    {
+                        //DISOLUCION PARA COOPERATIVAS
+                        if (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                        {
+                            <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDisolcion" aria-expanded="false" aria-controls="multiCollapseExample1" onclick="Ajustar()">Datos Disolución (Párrafo 1)</a>
+                        }
+
+                        //DISOLUCION PARA AG y AC
+                        if (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                            Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                        {
+                            <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDisolucionGenerico" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Párrafo 1</a>
+                        }
+                    }
+
+                    //#Certificado de VIGENCIA
+                    if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.Vigencia)
+                    {
+                        //Dado que las 3 tipos de Organizaciones (COOP - AG - AC) usan el mismo parrafo 1, se dejará solo ese
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVigenciaG" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Párrafo 1</a>
+                    }
+
+                    //#Certificado de VIGENCIA DE ESTATUTOS
+                    if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                        (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa))
+                    {
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOrganizacionV" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Organización (Párrafo 1)</a>
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExistencia" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Existencia (Párrafo 2)</a>
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSaneamiento" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Saneamiento (Párrafo 3)</a>
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReformas" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Reformas (Párrafo 4)</a>
+                    }
+
+                    //#Certificado de VIGENCIA DE ESTATUTOS (Para AC)
+                    if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                        (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                         Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial))
+                    {
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVigenciaG" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Párrafo 1</a>
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVigenciaX" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Vigencia (Párrafo 2)</a>
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseModificacionEstatuaria" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Modificación Estatuaria (Párrafo 4)</a>
+                    }
+
+                    //#Certificado de VIGENCIA Y DIRECTORIO
+                    if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio &&
+                        (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                         Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+                         Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa))
+                    {
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVDACAGCOOP" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Párrafo 1</a>
+                    }
+
+                    if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio &&
+                             Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                    {
+
+                        <a class="btn btn-primary" href="!#" type="button" data-bs-toggle="collapse" data-bs-target="#collapseVDParrafo2" aria-expanded="false" aria-controls="multiCollapseExample1">Configuración Párrafo 2</a>
+                    }
+
+                }
+
+            </p>
+            <br />
+
+            <div class="row col-md-12">
+
+                @*Párrafo 1 Vigencia y Directorio para AG AC y COOP*@
+                <div class="col-md-12 col-offset-md-2">
+                    <div class="collapse multi-collapse" id="collapseVDACAGCOOP" style=" padding-left: 126px; ">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordionab">
+                                <div class="panel panel-default" id="VigenciaDirec">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#Parrafo1VDirectorio" href="#Parrafo1VD">
+                                                <strong>Configuración Párrafo 1</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="Parrafo1VD" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Razón Social:</strong></p></td>
+                                                        <td><input type="text" value="[RAZONSOCIAL]" id="VigDirRazonSocial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigDirRazonSocial')"><i class="bi bi-clipboard" id="TVigDirRazonSocial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>ROL:</strong></td>
+                                                        <td><input type="text" value="[ROL]" id="VigDirROL" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigDirROL')"><i class="bi bi-clipboard" id="TVigDirROL" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*Párrafo 2 Vigencia y Directorio para AG AC y COOP*@
+                <div class="col-md-12 col-offset-md-2">
+                    <div class="collapse multi-collapse" id="collapseVDParrafo2" style=" padding-left: 126px; ">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordionaa">
+                                <div class="panel panel-default" id="VigenciaDirectorio">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#Parrafo1VDirectorio" href="#Parrafo2VD">
+                                                <strong>Configuración Párrafo 1</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="Parrafo2VD" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Fecha Celebración:</strong></p></td>
+                                                        <td><input type="text" value="[FECHACELEBRACION]" id="VigDirFechaCelebracion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigDirFechaCelebracion')"><i class="bi bi-clipboard" id="TVigDirFechaCelebracion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-offset-md-2">
+                    <div class="collapse multi-collapse" id="collapseOrganizacionV" style=" padding-left: 126px; ">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordiona">
+                                <div class="panel panel-default" id="VigenciaEst">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#Parrafo1" href="#Parrafo1">
+                                                <strong>Configuración Párrafo 1</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="Parrafo1" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Razón Social:</strong></p></td>
+                                                        <td><input type="text" value="[RAZONSOCIAL]" id="VigRazonSocial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigRazonSocial')"><i class="bi bi-clipboard" id="TVigRazonSocial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>ROL:</strong></td>
+                                                        <td><input type="text" value="[ROL]" id="VigRol" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigRol')"><i class="bi bi-clipboard" id="TVigRol" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Sigla:</strong></td>
+                                                        <td><input type="text" value="[SIGLA]" id="VigSigla" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigSigla')"><i class="bi bi-clipboard" id="TVigSigla" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Tipo Organización:</strong></td>
+                                                        <td><input type="text" value="[TIPOORGANIZACION]" id="VigTipoOrganizacion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigTipoOrganizacion')"><i class="bi bi-clipboard" id="TVigTipoOrganizacion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Estado Organizacion:</strong></td>
+                                                        <td><input type="text" value="[VIGENTE]" id="VigVigente" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigVigente')"><i class="bi bi-clipboard" id="TVigVigente" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-12 col-offset-md-2">
+                    <div class="collapse multi-collapse" id="collapseVigenciaX" style=" padding-left: 126px; ">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordiona">
+                                <div class="panel panel-default" id="VigenciaAC">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#VigenciaX" href="#VigenciaX">
+                                                <strong>Configuración Párrafo 2</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="VigenciaX" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Fecha Constitutiva Socios:</strong></p></td>
+                                                        <td><input type="text" value="[FECHACONSTITUTIVASOCIOS]" id="ViACFechaCSocios" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ViACFechaCSocios')"><i class="bi bi-clipboard" id="TViACFechaCSocios" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Aprobación:</strong></td>
+                                                        <td><input type="text" value="[APROBACION]" id="ViACAprobacion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ViACAprobacion')"><i class="bi bi-clipboard" id="TViACAprobacion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Nro. Oficio:</strong></td>
+                                                        <td><input type="text" value="[NUMEROOFICIO]" id="ViACNroOficio" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ViACNroOficio')"><i class="bi bi-clipboard" id="TViACNroOficio" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Oficio:</strong></td>
+                                                        <td><input type="text" value="[FECHAOFICIO]" id="ViACFechaOficio" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ViACFechaOficio')"><i class="bi bi-clipboard" id="TViACFechaOficio" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-offset-md-2">
+                    <div class="collapse multi-collapse" id="collapseModificacionEstatuaria" style=" padding-left: 126px; ">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordiona">
+                                <div class="panel panel-default" id="Modifcaciona">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#VigenciaX" href="#ModificacionEstatuaria">
+                                                <strong>Modificación Estatuaria</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="ModificacionEstatuaria" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Asamblea:</strong></p></td>
+                                                        <td><input type="text" value="[ASAMBLEA]" id="MEsAsamblea" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('MEsAsamblea')"><i class="bi bi-clipboard" id="TMEsAsamblea" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Asamblea:</strong></td>
+                                                        <td><input type="text" value="[FECHAASAMBLEA]" id="MesFechaAsamblea" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('MesFechaAsamblea')"><i class="bi bi-clipboard" id="TMesFechaAsamblea" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Aprobación:</strong></td>
+                                                        <td><input type="text" value="[APROBACION]" id="MesAprobacion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('MesAprobacion')"><i class="bi bi-clipboard" id="TMesAprobacion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Nro Oficio:</strong></td>
+                                                        <td><input type="text" value="[NUMEROOFICIO]" id="MesNroOficio" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('MesNroOficio')"><i class="bi bi-clipboard" id="TMesNroOficio" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-offset-md-2">
+                    <div class="collapse multi-collapse" id="collapseVigenciaG" style=" padding-left: 126px; ">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default" id="VigenciaP1G">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#VigenciaP1G" href="#DisolucionP1">
+                                                <strong>Configuración Párrafo 1</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="DisolucionP1" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Razón Social:</strong></p></td>
+                                                        <td><input type="text" value="[RAZONSOCIAL]" id="VigRazonSocial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigRazonSocial')"><i class="bi bi-clipboard" id="TVigRazonSocial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>ROL:</strong></td>
+                                                        <td><input type="text" value="[ROL]" id="VigRol" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigRol')"><i class="bi bi-clipboard" id="TVigRol" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Estado de Organización:</strong></td>
+                                                        <td><input type="text" value="[VIGENTE]" id="VigEstado" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('VigEstado')"><i class="bi bi-clipboard" id="TVigEstado" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12 col-offset-md-2">
+                    <div class="collapse multi-collapse" id="collapseDisolucionGenerico" style=" padding-left: 126px; ">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default" id="A">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#A" href="#panelDisolucionA">
+                                                <strong>Configuración Párrafo 1</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="panelDisolucionA" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Número Oficio:</strong></p></td>
+                                                        <td><input type="text" value="[NUMEROOFICIO]" id="DisGNroOficio" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisGNroOficio')"><i style="align-items:center" class="bi bi-clipboard rounded-lg" id="TDisGNroOficio" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Razón Social:</strong></td>
+                                                        <td><input type="text" value="[RAZONSOCIAL]" id="DisGRazonSocial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisGRazonSocial')"><i class="bi bi-clipboard" id="TDisGRazonSocial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha de Oficio:</strong></td>
+                                                        <td><input type="text" value="[FECHAOFICIO]" id="DisGFechaOficio" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisGFechaOficio')"><i class="bi bi-clipboard" id="TDisGFechaOficio" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Asamblea Socios:</strong></td>
+                                                        <td><input type="text" value="[FECHAASAMBLEASOCIOS]" id="DisGFASocios" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisGFASocios')"><i class="bi bi-clipboard" id="TDisGFASocios" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Nombre Notaría:</strong></td>
+                                                        <td><input type="text" value="[NOMBRENOTARIA]" id="DisGNombreNotaria" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisGNombreNotaria')"><i class="bi bi-clipboard" id="TDisGNombreNotaria" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Datos Notario:</strong></td>
+                                                        <td><input type="text" value="[DATOSNOTARIO]" id="DisGDatosNotario" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisGDatosNotario')"><i class="bi bi-clipboard" id="TDisGDatosNotario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Publicación Diario Oficial:</strong></td>
+                                                        <td><input type="text" value="[FECHAPUBLICCIONDIARIOOFICIAL]" id="DisGFPDOficial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisGFPDOficial')"><i class="bi bi-clipboard" id="TDisGFPDOficial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="collapse multi-collapse" id="collapseDisolcion">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordionDSA">
+                                <div class="panel panel-default" id="panelDisolucionAnt">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordionDSA" href="#DisolcionAnterior">
+                                                <strong>Disolución Anterior a 2003*</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="DisolcionAnterior" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Tipo Norma:</strong></p></td>
+                                                        <td><input type="text" value="[TIPONORMA]" id="DisAnTipoNorma" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisAnTipoNorma')"><i class="bi bi-clipboard" id="TDisAnTipoNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>N° Norma:</strong></td>
+                                                        <td><input type="text" value="[NUMERONORMA]" id="DisAnNroNorma" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisAnNroNorma')"><i class="bi bi-clipboard" id="TDisAnNroNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Norma:</strong></td>
+                                                        <td><input type="text" value="[FECHANORMA]" id="DisAnFechaNorma" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisAnFechaNorma')"><i class="bi bi-clipboard" id="TDisAnFechaNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Autorizado Por:</strong></td>
+                                                        <td><input type="text" value="[AUTORIZACION]" id="DisAnAutorizacion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisAnAutorizacion')"><i class="bi bi-clipboard" id="TDisAnAutorizacion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Publicación Diario Oficial:</strong></td>
+                                                        <td><input type="text" value="[FECHAPUBLICCIONDIARIOOFICIAL]" id="DisAnFechaPDOficial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisAnFechaPDOficial')"><i class="bi bi-clipboard" id="TDisAnFechaPDOficial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Junta Socios:</strong></td>
+                                                        <td><input type="text" value="[FECHAJUNTASOCIOS]" id="DisAnFechaJuntaSocios" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisAnFechaJuntaSocios')"><i class="bi bi-clipboard" id="TDisAnFechaJuntaSocios" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default" id="panelDisolucionPost">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordionDSA" href="#DisolucionPosterior">
+                                                <strong>Disolución Posterior a 2003*</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="DisolucionPosterior" class="panel-collapse collapse">
+                                        <div class="panel">
+
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Razón Social:</strong></p></td>
+                                                        <td><input type="text" value="[RAZONSOCIAL]" id="DisPosRazonSocial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosRazonSocial')"><i class="bi bi-clipboard" id="TDisPosRazonSocial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Junta Socios:</strong></td>
+                                                        <td><input type="text" value="[FECHAJUNTASOCIOS]" id="DisPosFechaJSocios" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosFechaJSocios')"><i class="bi bi-clipboard" id="TDisPosFechaJSocios" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Escritura Pública:</strong></td>
+                                                        <td><input type="text" value="[FECHAESCRITURAPUBLICA]" id="DisPosFechaEPublica" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosFechaEPublica')"><i class="bi bi-clipboard" id="TDisPosFechaEPublica" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Ministro de Fé:</strong></td>
+                                                        <td><input type="text" value="[MINISTRODEFE]" id="DisPosMinistroFe" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosMinistroFe')"><i class="bi bi-clipboard" id="TDisPosMinistroFe" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Publicación Diario Oficial:</strong></td>
+                                                        <td><input type="text" value="[FECHAPUBLICCIONDIARIOOFICIAL]" id="DisPosFechaPDOficial" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosFechaPDOficial')"><i class="bi bi-clipboard" id="TDisPosFechaPDOficial" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fojas:</strong></td>
+                                                        <td><input type="text" value="[NUMEROFOJAS]" id="DisPosFojas" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosFojas')"><i class="bi bi-clipboard" id="TDisPosFojas" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Datos CBR:</strong></td>
+                                                        <td><input type="text" value="[DATOSCBR]" id="DisPosDatosCBR" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosDatosCBR')"><i class="bi bi-clipboard" id="TDisPosDatosCBR" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Año Inscripción:</strong></td>
+                                                        <td><input type="text" value="[AÑOINSCRIPCION]" id="DisPosAñoInscripcion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('DisPosAñoInscripcion')"><i class="bi bi-clipboard" id="TDisPosAñoInscripcion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                @{
+                    if (Model.TipoDocumentoId != (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest)
+                    {
+
+                        <div class="col-md-12">
+                            <div class="collapse multi-collapse" id="collapseExistencia">
+                                <div class="card card-body">
+                                    <div class="panel-group" id="accordionExistenciasX">
+                                        <div class="panel panel-default" id="panelExistenciasX">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordionExistenciasX" href="#ExisAn">
+                                                        <strong>Existencia Anterior a 2003*</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="ExisAn" class="panel-collapse collapse">
+                                                <div class="panel">
+                                                    <table class="table table-striped table-hover" style="font-size: 15px">
+
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                                <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><p id="p1"><strong>Tipo Norma:</strong></p></td>
+                                                                <td><input type="text" value="[TIPONORMA]" id="ExAnTipoNorma" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExAnTipoNorma')"><i class="bi bi-clipboard" id="TExAnTipoNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>N° Norma:</strong></td>
+                                                                <td><input type="text" value="[NUMERONORMA]" id="ExAnNroNorma" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExAnNroNorma')"><i class="bi bi-clipboard" id="TExAnNroNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Fecha Norma:</strong></td>
+                                                                <td><input type="text" value="[FECHANORMA]" id="ExAnFechaNorma" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExAnFechaNorma')"><i class="bi bi-clipboard" id="TExAnFechaNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Autorizado Por:</strong></td>
+                                                                <td><input type="text" value="[AUTORIZADOPOR]" id="ExAnAutorizadoPor" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExAnAutorizadoPor')"><i class="bi bi-clipboard" id="TExAnAutorizadoPor" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Fecha Publicación:</strong></td>
+                                                                <td><input type="text" value="[FECHAPUBLICACIONN]" id="ExAnFechaPublicacionn" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExAnFechaPublicacionn')"><i class="bi bi-clipboard" id="TExAnFechaPublicacionn" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Fecha Inscripción:</strong></td>
+                                                                <td><input type="text" value="[FECHAINSCRIPCION]" id="ExAnFechaInscripcion" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExAnFechaInscripcion')"><i class="bi bi-clipboard" id="TExAnFechaInscripcion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default" id="panelExistenciasX">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordionExistenciasX" href="#ExisPos">
+                                                        <strong>Existencia Posterior a 2003*</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="ExisPos" class="panel-collapse collapse">
+                                                <div class="panel">
+
+                                                    <table class="table table-striped table-hover" style="font-size: 15px">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                                <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td><p id="p1"><strong>Fecha Constitutiva Socios:</strong></p></td>
+                                                                <td><input type="text" value="[FECHACONSTITUTIVASOCIOS]" id="ExPosFechaConstitutivaS" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExPosFechaConstitutivaS')"><i class="bi bi-clipboard" id="TExPosFechaConstitutivaS" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Datos Generales Notario:</strong></td>
+                                                                <td><input type="text" value="[DATOSGENERALESNOTARIO]" id="ExPosDatosGNotario" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExPosDatosGNotario')"><i class="bi bi-clipboard" id="TExPosDatosGNotario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Fecha Publicación:</strong></td>
+                                                                <td><input type="text" value="[FECHAPUBLICACIONN]" id="ExPosFechaPublicacionn" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExPosFechaPublicacionn')"><i class="bi bi-clipboard" id="TExPosFechaPublicacionn" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Fojas:</strong></td>
+                                                                <td><input type="text" value="[FOJAS]" id="ExPosFojas" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExPosFojas')"><i class="bi bi-clipboard" id="TExPosFojas" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Datos CBR:</strong></td>
+                                                                <td><input type="text" value="[DATOSCBR]" id="ExPosDatosCBR" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExPosDatosCBR')"><i class="bi bi-clipboard" id="ExPosDatosCBR" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Fecha Inscripción:</strong></td>
+                                                                <td><input type="text" value="[FECHAINSCRIPCION]" id="ExPosFechaInscripcion" readonly class="form-control" /></td>
+                                                                <td><a onclick="CopyToClipboard('ExPosFechaInscripcion')"><i class="bi bi-clipboard" id="TExPosFechaInscripcion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                }
+
+                <div class="col-md-12">
+                    <div class="collapse multi-collapse" id="collapseSaneamiento">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default" id="panelSaneamiento">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#saneamiento">
+                                                <strong>Saneamiento</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="saneamiento" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Fecha Escritura Pública:</strong></p></td>
+                                                        <td><input type="text" value="[FECHAESCRITURAPUBLICA]" id="SaFechaEscPublica" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('SaFechaEscPublica')"><i class="bi bi-clipboard" id="TSaFechaEscPublica" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Publicación Diario Oficial:</strong></td>
+                                                        <td><input type="text" value="[FECHAPUBLICACIONDIARIO]" id="SaFechaPubDiario" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('SaFechaPubDiario')"><i class="bi bi-clipboard" id="TSaFechaPubDiario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Datos Generales Notario:</strong></td>
+                                                        <td><input type="text" value="[DATOSGENERALESNOTARIO]" id="SaDatosGNotario" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('SaDatosGNotario')"><i class="bi bi-clipboard" id="TSaDatosGNotario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fojas:</strong></td>
+                                                        <td><input type="text" value="[FOJAS]" id="SaFojas" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('SaFojas')"><i class="bi bi-clipboard" id="TSaFojas" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Inscripción:</strong></td>
+                                                        <td><input type="text" value="[FECHAINSRIPCION]" id="SaFechaInscripcion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('SaFechaInscripcion')"><i class="bi bi-clipboard" id="TSaFechaInscripcion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Datos CBR:</strong></td>
+                                                        <td><input type="text" value="[DATOSCBR]" id="SaDatosCBR" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('SaDatosCBR')"><i class="bi bi-clipboard" id="TSaDatosCBR" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="collapse multi-collapse" id="collapseReformas">
+                        <div class="card card-body">
+                            <div class="panel-group" id="accordionC">
+                                <div class="panel panel-default" id="panelAnterior2">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordionC" href="#1a">
+                                                <strong>Reforma Anterior a 2003*</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="1a" class="panel-collapse collapse">
+                                        <div class="panel">
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Tipo Norma:</strong></p></td>
+                                                        <td><input type="text" value="[TIPONORMAREF]" id="ReAnTipoNorma" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ReAnTipoNorma')"><i class="bi bi-clipboard" id="TReAnTipoNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>N° Norma:</strong></td>
+                                                        <td><input type="text" value="[NUMERONORMAREF]" id="ReAnNroNorma" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ReAnNroNorma')"><i class="bi bi-clipboard" id="TReAnNroNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Norma:</strong></td>
+                                                        <td><input type="text" value="[FECHANORMAREF]" id="ReAnFechaNorma" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ReAnFechaNorma')"><i class="bi bi-clipboard" id="TReAnFechaNorma" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Autorizado Por:</strong></td>
+                                                        <td><input type="text" value="[DATOSGENERALNOTARIOREF]" id="ReAnDatosGNotario" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ReAnDatosGNotario')"><i class="bi bi-clipboard" id="TReAnDatosGNotario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Publicación Diario Oficial:</strong></td>
+                                                        <td><input type="text" value="[FECHAPUBLICACIONDIARIOREF]" id="ReAnFechaPubDiario" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('ReAnFechaPubDiario')"><i class="bi bi-clipboard" id="TReAnFechaPubDiario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default" id="panelAnterior2">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordionC" href="#2a">
+                                                <strong>Reforma Posterior a 2003*</strong>
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="2a" class="panel-collapse collapse">
+                                        <div class="panel">
+
+                                            <table class="table table-striped table-hover" style="font-size: 15px">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><h4><strong>Campo</strong></h4></th>
+                                                        <th scope="col"><h4><strong>Valor Campo</strong></h4></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><p id="p1"><strong>Fecha Junta General Socios:</strong></p></td>
+                                                        <td><input type="text" value="[FECHAREFORMAA]" id="RePosFechaJuntaG" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('RePosFechaJuntaG')"><i class="bi bi-clipboard" id="TRePosFechaJuntaG" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Escritura Pública:</strong></td>
+                                                        <td><input type="text" value="[FECHANORMAREFPOST]" id="RePosFechaEscPub" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('RePosFechaEscPub')"><i class="bi bi-clipboard" id="TRePosFechaEscPub" data-toggle="tooltip" title="Copiame!"></i></a></td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fecha Publicación Diario Oficial:</strong></td>
+                                                        <td><input type="text" value="[FECHAPUBLICDIARIO]" id="RePosPubDiario" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('RePosPubDiario')"><i class="bi bi-clipboard" id="TRePosPubDiario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Datos Generales Notario:</strong></td>
+                                                        <td><input type="text" value="[DATOSGENERALESNOTARIO]" id="RePosDatosGNotario" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('RePosDatosGNotario')"><i class="bi bi-clipboard" id="TRePosDatosGNotario" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Fojas:</strong></td>
+                                                        <td><input type="text" value="[FOJAS]" id="RePosFojas" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('RePosFojas')"><i class="bi bi-clipboard" id="TRePosFojas" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Datos CBR:</strong></td>
+                                                        <td><input type="text" value="[DATOSCBRREF]" id="RePosDatosCBR" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('RePosDatosCBR')"><i class="bi bi-clipboard" id="TRePosDatosCBR" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Año Inscripción:</strong></td>
+                                                        <td><input type="text" value="[ANOINSCRIPCION]" id="RePosAnoInscripcion" readonly class="form-control" /></td>
+                                                        <td><a onclick="CopyToClipboard('RePosAnoInscripcion')"><i class="bi bi-clipboard" id="TRePosAnoInscripcion" data-toggle="tooltip" title="Copiame!"></i></a></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-12" id="formulario-certificado">
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Titulo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Titulo, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "min-height: 10px" } })
+                            @Html.ValidationMessageFor(model => model.Titulo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Ciudad, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Ciudad, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @style = "min-height: 10px" } })
+                            @Html.ValidationMessageFor(model => model.Ciudad, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+
+                        @{
+                            if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest && Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                            {
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        @Html.Label("Párrafo 1", htmlAttributes: new { @class = "control-label col-offset-md-2" })
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="panel-group" id="accordionAX">
+                                            <div class="panel panel-default" id="PIKACHU">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion" href="#DisAnt">
+                                                            Párrafo 1 con <strong>Disolucion Anterior*</strong>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="DisAnt" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+                                                        @Html.EditorFor(model => model.Parrafo1DisAnt, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeExAAAAO()", @onblur = "ChangeExAAC()" } })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel panel-default" id="PIKACHUA">
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a data-toggle="collapse" data-parent="#accordion" href="#DisPost">
+                                                            Párrafo 1 con <strong>Disolucion Posterior*</strong>
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                <div id="DisPost" class="panel-collapse collapse">
+                                                    <div class="panel-body">
+
+                                                        @Html.EditorFor(model => model.Parrafo1DisPos, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeExAAPO()", @onblur = "ChangeEAxPC()" } })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            }
+                            else if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest && Model.TipoOrganizacionId != (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                            {
+                                @Html.LabelFor(model => model.Parrafo1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo1, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeC()", @onblur = "ChangeA()" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo1, "", new { @class = "text-danger" })
+                                </div>
+                            }
+
+                            if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio &&
+                                (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa ||
+                                 Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+                                 Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores))
+                            {
+                                @Html.LabelFor(model => model.Parrafo1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo1, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeC()", @onblur = "ChangeA()" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo1, "", new { @class = "text-danger" })
+                                </div>
+                            }
+
+                            @*Revisar esto*@
+                            if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                                (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa ||
+                                 Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores))
+                            {
+                                @Html.LabelFor(model => model.Parrafo1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo1, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeC()", @onblur = "ChangeA()" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo1, "", new { @class = "text-danger" })
+                                </div>
+                            }
+
+                            if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.Vigencia &&
+                                (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa ||
+                                 Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+                                 Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores))
+                            {
+                                @Html.LabelFor(model => model.Parrafo1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo1, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeC()", @onblur = "ChangeA()" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo1, "", new { @class = "text-danger" })
+                                </div>
+                            }
+
+                            if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                                Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                            {
+                                @Html.LabelFor(model => model.Parrafo1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo1, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeC()", @onblur = "ChangeA()" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo1, "", new { @class = "text-danger" })
+                                </div>
+                            }
+
+
+                        }
+
+                    </div>
+                    <div class="divider"></div>
+                    <br />
+                    @{
+
+                        if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio &&
+                            (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa ||
+                            Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                            Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial))
+                        {
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.Parrafo2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo2, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+
+                        if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                            (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial ||
+                             Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores))
+                        {
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    @Html.LabelFor(model => model.Parrafo2, htmlAttributes: new { @class = "control-label col-md-2" })
+                                </div>
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo2, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo2, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+                    @{
+                        if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                            Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                        {
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    @Html.Label("Párrafo 2", htmlAttributes: new { @class = "control-label col-offset-md-2" })
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="panel-group" id="accordionX">
+                                        <div class="panel panel-default" id="panelPosterior">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                                        Párrafo 2 con <strong>Existencia Anterior*</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse1" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    @Html.EditorFor(model => model.Parrafo2ExAnterior, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeExAO()", @onblur = "ChangeExAC()" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default" id="PanelAnteriorR">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                                        Párrafo 2 con <strong>Existencia Posterior*</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse2" class="panel-collapse collapse">
+                                                <div class="panel-body">
+
+                                                    @Html.EditorFor(model => model.Parrafo2ExPosterior, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeExPO()", @onblur = "ChangeExPC()" } })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Parrafo3, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo3, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeP3()", @onblur = "ChangeCP3()" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo3, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-2">
+                                    @Html.Label("Párrafo 4", htmlAttributes: new { @class = "control-label col-offset-md-2" })
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="panel-group" id="accordion">
+                                        <div class="panel panel-default" id="panelPosterior">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseB">
+                                                        Párrafo 4 con <strong>Reforma Anterior a 2003*</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseB" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    @Html.EditorFor(model => model.Parrafo4ReAnterior, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeCP4ReAO()", @onblur = "ChangeCP4ReAC()" } })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default" id="PanelAnteriorR">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseA">
+                                                        Párrafo 4 con <strong>Reforma Posterior a 2003*</strong>
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseA" class="panel-collapse collapse">
+                                                <div class="panel-body">
+
+                                                    @Html.EditorFor(model => model.Parrafo4RePosterior, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeCP4RePO()", @onblur = "ChangeCP4RePC()" } })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    @{
+                        if (Model.TipoDocumentoId == (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos &&
+                            (Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores ||
+                             Model.TipoOrganizacionId == (int)DAES.Infrastructure.Enum.TipoOrganizacion.AsociacionGremial))
+                        {
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Parrafo4, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Parrafo4, new { htmlAttributes = new { @class = "form-control", @onfocus = "ChangeP3()", @onblur = "ChangeCP3()" } })
+                                    @Html.ValidationMessageFor(model => model.Parrafo3, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        }
+                    }
+
+                    @*TODO Aqui va el parrafo de observacion*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ParrafoObservacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.ParrafoObservacion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.ParrafoObservacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.UnidadOrganizacional, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UnidadOrganizacional, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.UnidadOrganizacional, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.XML, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.XML, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.XML, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IsActivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.IsActivo)
+                                @Html.ValidationMessageFor(model => model.IsActivo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TieneDirectorio, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.TieneDirectorio)
+                                @Html.ValidationMessageFor(model => model.TieneDirectorio, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TieneEstatuto, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.TieneEstatuto)
+                                @Html.ValidationMessageFor(model => model.TieneEstatuto, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Guardar" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+
+                    @{
+                        if (ViewBag.DocumentoConfiguracion != null)
+                        {
+                            <embed src="@Url.Action("ShowDoc", "ConfiguracionCertificado", new { id = ViewBag.DocumentoConfiguracion })" width="96%" height="990px" type="application/pdf" />
+                        }
+                        <br />
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+}
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('[data-toggle="collapse"]').click(function () {
+            $('.collapse.in').collapse('hide')
+        });
+    })
+
+    function CopyToClipboard(campo) {
+        document.getElementById(campo).select();
+        document.execCommand('copy');
+
+        modificarIcono(campo);
+    }
+
+    function modificarIcono(campo) {
+        //Se modifica el texto
+        var copyText = document.getElementById(campo);
+        copyText.style.borderColor = "green";
+
+        //Se modifica el icono
+        var icono = document.getElementById('T' + campo);
+        icono.setAttribute('class', 'bi bi-clipboard-check');
+
+        //Modificar Tooltip
+        var tooltip = document.getElementById('T' + campo);
+        tooltip.setAttribute('title', 'Copiado!');
+
+        setTimeout(function () { resetIcono(campo); }, 1500);
+    }
+
+    function resetIcono(campo) {
+        //se reestablece el texto
+        var copyText = document.getElementById(campo);
+        copyText.style.borderColor = null;
+
+        //se reestablece el icono
+        var icono = document.getElementById('T' + campo);
+        icono.setAttribute('class', 'bi bi-clipboard');
+
+        //se reestablece tooltip
+        var tooltip = document.getElementById('T' + campo);
+        tooltip.setAttribute('title', 'Copiame!');
+    }
+
+</script>
+
+
+<div>
+    @Html.ActionLink("Volver a la lista", "Index")
+</div>

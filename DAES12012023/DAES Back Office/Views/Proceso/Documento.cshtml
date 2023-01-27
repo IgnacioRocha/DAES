@@ -1,0 +1,74 @@
+﻿@model IEnumerable<DAES.Model.DTO.DTODocumentoGD>
+@{
+    ViewBag.Title = "Documentos gestión documental";
+    var listIds = ViewBag.Ids as IEnumerable<int>;
+}
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Doc_Correlativo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Doc_FechaCreacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Tdo_Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Doc_Asunto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Doc_Referencia)
+            </th>
+            <th>
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (listIds.Any(i => i == item.Id))
+                    {
+                        <span class="label label-danger label-as-badge">Con procesos</span>
+                    }
+                    else
+                    {
+                        <span class="label label-success label-as-badge">Sin procesos</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Doc_Correlativo)
+                </td>
+                <td>
+                    @String.Format("{0:dd-MM-yyyy HH:mm:ss}", item.Doc_FechaCreacion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tdo_Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Doc_Asunto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Doc_Referencia)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Seleccionar", "DocumentoCreate", new { item.Id }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

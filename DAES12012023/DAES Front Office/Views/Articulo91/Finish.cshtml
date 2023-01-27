@@ -1,0 +1,28 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Cumplimiento del Artículo 91°</h1>
+    </div>
+</div>
+
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-13"></script>
+<script>
+    $(document).ready(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-13');
+        gtag('event', 'Fin de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540055'
+        });
+    });
+</script>
+

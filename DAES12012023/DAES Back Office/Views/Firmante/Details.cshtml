@@ -1,0 +1,57 @@
+﻿@model DAES.Model.SistemaIntegrado.Firmante
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Firmante";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnidadOrganizacional)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnidadOrganizacional)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdFirma)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdFirma)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsActivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsActivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cargo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cargo)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.FirmanteId }) |
+    @Html.ActionLink("Volver al listado", "Index")
+</p>

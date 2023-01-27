@@ -1,0 +1,113 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.ReformaAnterior>
+@using GridMvc.Html
+
+
+<div class="panel panel-default" style="overflow-x:scroll">
+    <div class="panel-heading">Reforma posterior al 2003</div>
+    <div class="panel-body">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    @if (Model.Any(q => q.FechaReforma != null))
+                    {
+        <th>
+            @Html.DisplayNameFor(model => model.FechaReforma)
+        </th>}
+
+                    @if (Model.Any(q => q.TipoNormaId != null))
+                    {
+        <th>
+            @Html.DisplayNameFor(model => model.TipoNormaId)
+        </th>}
+
+
+                    @if (Model.Any(q => q.FechaNorma != null))
+                    {
+        <th>
+            @Html.DisplayNameFor(model => model.FechaNorma)
+        </th>}
+                    @if (Model.Any(q => q.NNorma != null))
+                    {
+        <th>
+            @Html.DisplayNameFor(model => model.NNorma)
+        </th>}
+                    @if (Model.Any(q => q.FechaPublicDiario != null))
+                    {
+        <th>
+            @Html.DisplayNameFor(model => model.FechaPublicDiario)
+        </th>}
+                    @if (Model.Any(q => q.DatosNotario != null))
+                    {
+        <th>
+            @Html.DisplayNameFor(model => model.DatosNotario)
+        </th>}
+                    <th>
+                        <p>Última Reforma?</p>
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+    <tr>
+        @if (item.FechaReforma != null)
+        {
+<td>
+    @Html.DisplayFor(model => item.FechaReforma)
+</td>
+}
+        @if (item.TipoNormaId != null)
+        {
+<td>
+    @Html.DisplayFor(model => item.TipoNorma.Nombre)
+</td>
+}
+
+
+        @if (item.FechaNorma != null)
+        {
+<td>
+    @Html.DisplayFor(model => item.FechaNorma)
+</td>
+}
+        @if (item.NNorma != null)
+        {
+<td>
+    @Html.DisplayFor(model => item.NNorma)
+</td>
+}
+        @if (item.FechaPublicDiario != null)
+        {
+<td>
+    @Html.DisplayFor(model => item.FechaPublicDiario)
+</td>
+}
+        @if (item.DatosNotario != null)
+        {
+<td>
+    @Html.DisplayFor(model => item.DatosNotario)
+</td>
+}
+        <td>
+
+            @if (item.FechaReforma != null || item.FechaReforma != null)
+            {
+                var fechaMayorr = Model.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
+                var fechaMayor = Model.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
+                if (item.FechaReforma != null && fechaMayor.FechaReforma == item.FechaReforma)
+                {
+<p> Esta es la última reforma </p>}
+                }
+
+        </td>
+
+
+    </tr>}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

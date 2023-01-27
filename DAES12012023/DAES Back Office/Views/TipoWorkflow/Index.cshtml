@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.TipoWorkflow>
+
+@{
+    ViewBag.Title = "Tipo de tareas";
+}
+
+
+<table class="table table-hover table-striped datatable">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TipoWorkflowId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Formulario)
+            </th>
+            <th>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoWorkflowId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Formulario)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Detalles", "Details", new { id = item.TipoWorkflowId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@Html.ActionLink("Crear nuevo", "Create") |
+@Html.ActionLink("Volver al inicio", "Index", "Home")

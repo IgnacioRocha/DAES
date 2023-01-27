@@ -1,0 +1,27 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Constituir organización</h1>
+        <p class="lead">Permite inscribir la constitución de una cooperativa, asociación gremial y de consumidores, que cumplan con los requisitos que exigen las leyes y reglamentos que las rigen, las cuales quedarán en el registro de organizaciones  vigentes de la División de Asociatividad y Cooperativas de la Subsecretaría de Empresas de Menor Tamaño.</p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-3"></script>
+    <script>
+        $(document).ready(function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'UA-149680284-3');
+            gtag('event', 'Fin de la solicitud', {
+                'event_category': 'Trámite digital',
+                'event_label': 'Trámite - ID 800540003'
+            });
+        });
+    </script>
+

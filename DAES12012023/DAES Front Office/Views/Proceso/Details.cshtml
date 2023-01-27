@@ -1,0 +1,113 @@
+﻿@model DAES.Model.SistemaIntegrado.Proceso
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Detalle del proceso</h1>
+    </div>
+</div>
+
+<div class="container my-3">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Detalles del proceso</h5>
+            @*<p class="card-title">Ingrese el número del trámite</p>*@
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(model => model.ProcesoId, new { @class = "font-weight-bold" })<br />
+                @Html.DisplayFor(model => model.ProcesoId)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DefinicionProceso.Nombre, new { @class = "font-weight-bold" })<br />
+                @Html.DisplayFor(model => model.DefinicionProceso.Nombre)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Organizacion.NumeroRegistro, new { @class = "font-weight-bold" })<br />
+                @Html.DisplayFor(model => model.Organizacion.NumeroRegistro)
+            </div>
+            <div class="form-group">
+                <b>Tipo organización</b><br />
+                @Html.DisplayFor(model => model.Organizacion.TipoOrganizacion.Nombre)
+            </div>
+            <div class="form-group">
+                <b>Razón social</b><br />
+                @Html.DisplayFor(model => model.Organizacion.RazonSocial)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechaCreacion, new { @class = "font-weight-bold" })<br />
+                @String.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaCreacion)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.FechaVencimiento, new { @class = "font-weight-bold" })<br />
+                @String.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaVencimiento)
+            </div>
+
+            @if (Model.FechaTermino.HasValue)
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaTermino, new { @class = "font-weight-bold" })<br />
+                    @String.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.FechaTermino.Value)
+                </div>
+            }
+            <div class="form-group">
+                <b>Estado del proceso</b><br />
+                @(Model.Terminada ? "Terminado" : "En curso")
+            </div>
+        </div>
+    </div>
+ </div>
+<div class="container my-3">
+    @if (Model.Workflows.Any())
+    {
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Historial</h5>
+                @*<p class="card-title">Ingrese el número del trámite</p>*@
+                <table class="table table-hover ">
+                    <thead>
+                        <tr>
+
+                            <th>
+                                Tarea
+                            </th>
+                            <th>
+                                Desde
+                            </th>
+                            <th>
+                                Hasta
+                            </th>
+                            <th>
+                                Estado
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Workflows)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DefinicionWorkflow.TipoWorkflow.Nombre)
+                                </td>
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)
+                                </td>
+                                <td>
+                                    @if (item.FechaTermino.HasValue)
+                                    {
+                                        @String.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaTermino.Value)
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.TipoAprobacion.Nombre)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+

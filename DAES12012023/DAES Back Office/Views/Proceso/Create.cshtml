@@ -1,0 +1,100 @@
+﻿@model DAES.Model.DTO.DTOProceso
+
+@{
+    ViewBag.Title = "Crear";
+    ViewBag.SubTitle = "Proceso";
+}
+
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script>
+    $(document).ready(function () {
+        $("#NombreOrganizacion").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Proceso/GetOrganizacion/",
+                    data: { term: request.term },
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data,
+                            function (item) {
+                                return { id: item.id, value: item.value };
+                            }));
+                    }
+                });
+            },
+
+            select: function (event, ui) {
+                $("#NombreOrganizacion").val(ui.item.value);
+                $("#OrganizacionId").val(ui.item.id);
+                return false;
+            }
+        });
+
+        $('#DefinicionProcesoId').change(function () {
+            var value = $(this).val();
+            if (value != '51' && value != '82') {
+                $('#selector').show();
+            }  else {
+                $('#selector').hide();
+                $("#NombreOrganizacion").val('');
+                $("#OrganizacionId").val('');
+            }
+        });
+
+    });
+</script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.OrganizacionId)
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Proceso</div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DefinicionProcesoId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.DefinicionProcesoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DefinicionProcesoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div id="selector">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NombreOrganizacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.NombreOrganizacion, null, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese razón social o número de registro" } })
+                            @Html.ValidationMessageFor(model => model.NombreOrganizacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.UserId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Iniciar proceso" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@Html.ActionLink("Volver al inicio", "Index", "Home")

@@ -1,0 +1,144 @@
+﻿@model DAES.Model.DTO.DTOSupervisionNOCAC
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Modelo de Supervisión de importancia económica NO CACs</h1>
+        <p class="lead">Información al cierre de cada trimestre, que debe remitirse dentro de los primeros 10 días hábiles de los meses de Enero, Abril, Julio y Octubre</p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+@if (Model == null)
+{
+    return;
+}
+<div class="container my-3">
+
+    @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.RUTSolicitante)
+        @Html.HiddenFor(model => model.NombresSolicitante)
+        @Html.HiddenFor(model => model.ApellidosSolicitante)
+        @Html.HiddenFor(model => model.OrganizacionId)
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Periodo a informar</h5>
+                <p class="card-title">Seleccione el periodo a informar</p>
+                <hr />
+                <div class="form-group">
+                    @Html.LabelFor(m => Model.Periodo, new { @class = "font-weight-bold" })<br />
+                    @Html.DropDownListFor(model => Model.Periodo, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => Model.Periodo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Documentación</h5>
+                        <p class="card-title">Ingrese la documentación solicitada</p>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.BalanceV4, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/NOCAC/NOCACS_BALANCE_V4.xls">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.BalanceV4, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.BalanceV4, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.CarteraVencidaV3, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/NOCAC/NOCACS_CARTERA_VENCIDA_V3.XLS">Ver plantilla</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.CarteraVencidaV3, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.CarteraVencidaV3, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.DeudoresV4, new { @class = "font-weight-bold" })<br />
+                            <div class=" float-right">
+                                <a href="~/Content/NOCAC/NOCACS_DEUDORES_V3.XLS">Ver plantilla v3</a><br />
+                                <a href="~/Content/NOCAC/NOCACS_DEUDORES_V4.xlsx">Ver plantilla v4</a>
+                            </div>
+                            @Html.TextBoxFor(m => Model.DeudoresV4, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.DeudoresV4, "", new { @class = "text-danger" })
+                        </div>
+
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Observacion, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.Observacion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Solicitante</h5>
+                        <p class="card-title">Complete los datos de contacto</p>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RUTSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.RUTSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.NombresSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.NombresSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.ApellidosSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.ApellidosSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RegionSolicitanteId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(m => Model.RegionSolicitanteId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.RegionSolicitanteId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.FonoSolicitante, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.EmailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.EmailSolicitante, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
+    }
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "Supervision")'>DAES digital</a>
+</div>
+
+<script type="text/javascript">
+    $(document).on('submit', 'form', function () {
+        var buttons = $(this).find('[type="submit"]');
+        if ($(this).valid()) {
+            buttons.each(function (btn) {
+                $(buttons[btn]).prop('disabled', true);
+            });
+        } else {
+            buttons.each(function (btn) {
+                $(buttons[btn]).prop('disabled', false);
+            });
+        }
+    });
+
+</script>
