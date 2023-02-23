@@ -235,12 +235,12 @@
             ConfiguracionCertificadoTEST = 115,
 
             //Nuevos tramites en Prod
-            //ActualizacionConsejoAdmninistracion = 131,
-            //AsambleaOrdinaria = 86,
+            ActualizacionConsejoAdmninistracion = 131,
+            AsambleaOrdinaria = 86,
 
             //Nuevos tramites en Test
-            ActualizacionConsejoAdmninistracion = 118,
-            AsambleaOrdinaria = 117,
+            //ActualizacionConsejoAdmninistracion = 118,
+            //AsambleaOrdinaria = 117,
         }
 
         public enum TipoAprobacion
