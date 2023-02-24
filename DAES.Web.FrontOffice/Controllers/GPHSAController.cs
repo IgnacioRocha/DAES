@@ -150,6 +150,7 @@ namespace DAES.Web.FrontOffice.Controllers
             if (!Global.CurrentClaveUnica.IsAutenticated)
                 return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
 
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             var url = Properties.Settings.Default.url_gestion_procesos + "/InformeHSA/GetInformes/" + Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero;
             var client = new RestClient(url);
             var response = client.Execute(new RestRequest());
@@ -166,6 +167,7 @@ namespace DAES.Web.FrontOffice.Controllers
             if (!Global.CurrentClaveUnica.IsAutenticated)
                 return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
 
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             var url = Properties.Settings.Default.url_gestion_procesos + "/InformeHSA/GetHonorarioByRUT/" + Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero;
             var client = new RestClient(url);
             var response = client.Execute(new RestRequest());

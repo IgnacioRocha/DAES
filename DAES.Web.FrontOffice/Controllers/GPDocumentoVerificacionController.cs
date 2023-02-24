@@ -55,6 +55,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Details(string id)
         {
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             var url = Properties.Settings.Default.url_gestion_procesos + "/Documento/GetById/" + id;
             var client = new RestClient(url);
             var response = client.Execute(new RestRequest());
@@ -72,7 +73,7 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             if (!ModelState.IsValid || !captchaValid)
                 return Redirect(Request.UrlReferrer.ToString());
-
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             var url = Properties.Settings.Default.url_gestion_procesos + "/Documento/GetById/" + model.Id;
             var client = new RestClient(url);
             var response = client.Execute(new RestRequest());
