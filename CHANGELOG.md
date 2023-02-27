@@ -4,6 +4,13 @@ Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.c
 
 Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
 
+## [2.5.0.1 FrontOffice - 27-02-2023]
+
+### Added
+
+- Se agrego al web.config el token de reCAPTCHA para Tramites Digitales en Testing.
+- Se agrego a la Verificacion de Documentos de GP y GPHSA, Protocolo de Seguridad TSL/SSL.
+
 ## [2.5.0 DAES Completo - 17-01-2023]
 
 ## //TODO AGREGAR CAMBIOS GIO
