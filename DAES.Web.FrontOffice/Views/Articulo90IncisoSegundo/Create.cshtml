@@ -1,0 +1,104 @@
+﻿@model DAES.Model.DTO.DTOArticulo90IncisoSegundo
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Cumplimiento del Artículo 90°, inciso segundo</h1>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+@if (Model == null)
+{
+    return;
+}
+<div class="container my-3">
+    @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.RUTSolicitante)
+        @Html.HiddenFor(model => model.NombresSolicitante)
+        @Html.HiddenFor(model => model.ApellidosSolicitante)
+        @Html.HiddenFor(model => model.OrganizacionId)
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Documentación</h5>
+                        <p class="card-title">Ingrese la documentación solicitada</p>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.MemoriaCooperativa, new { @class = "font-weight-bold" })
+                            @Html.TextBoxFor(m => Model.MemoriaCooperativa, null, new { @type = "file", @accept = "application/pdf" })<br />
+                            @Html.ValidationMessageFor(model => model.MemoriaCooperativa, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.Observacion, new { @class = "font-weight-bold" })<br />
+                            @Html.EditorFor(m => Model.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Observacion, "", new { @class = "text-danger" })
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Solicitante</h5>
+                        <p class="card-title">Complete los datos de contacto</p>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RUTSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.RUTSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.NombresSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.NombresSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.ApellidosSolicitante, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.ApellidosSolicitante)
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RegionSolicitanteId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(m => Model.RegionSolicitanteId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.RegionSolicitanteId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.FonoSolicitante, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" })
+                            @Html.EditorFor(m => Model.EmailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(m => Model.EmailSolicitante, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
+    }
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "Articulo90")'>DAES digital</a> |  <a href='@Url.Action("JuntaGeneralSociosObligatoriaCooperativa")'>Actualizar Junta general de socios</a>
+</div>
+
+<script type="text/javascript">
+    $(document).on('submit', 'form', function () {
+        var buttons = $(this).find('[type="submit"]');
+        if ($(this).valid()) {
+            buttons.each(function (btn) {
+                $(buttons[btn]).prop('disabled', true);
+            });
+        } else {
+            buttons.each(function (btn) {
+                $(buttons[btn]).prop('disabled', false);
+            });
+        }
+    });
+</script>

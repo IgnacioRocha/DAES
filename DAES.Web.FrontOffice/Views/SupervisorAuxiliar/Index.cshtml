@@ -1,0 +1,37 @@
+﻿@model DAES.Model.SistemaIntegrado.SupervisorAuxiliar
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Supervisores Auxiliares</h1>
+        <p class="lead">
+            En esta sección se encuentran los trámites correspondientes para la acreditación de las entidades que presten servicios de supervisión auxiliar y para que anualmente puedan informar sus gestiones.
+            <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a>
+        </p>
+    </div>
+</div>
+<div class="container my-3">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-4 p-1 d-flex">
+            <a href='@Url.Action("Index", "RegistroSupervisor")' class="btn btn-outline-primary">
+                <p><h4><u>Registro Supervisor Auxiliar</u></h4></p>
+                <p>
+                    Registra un Supervisor Auxiliar, sus representantes legales y otros datos<br />
+                    Requiere uso de clave única.
+                </p>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 p-1 d-flex">
+            <a href="@Url.Action("Index", "ActualizacionSupervisor")" class="btn btn-outline-primary">
+                <p><h4><u>Actualización Datos Supervisor Auxiliar</u></h4></p>
+                <p>
+                    Actualiza los Datos de un Supervisor Auxiliar, Representantes Legales, Personas y otros datos.<br />
+                    Requiere uso de clave única
+                </p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>

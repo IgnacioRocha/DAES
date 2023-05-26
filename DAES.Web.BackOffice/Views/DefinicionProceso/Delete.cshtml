@@ -1,0 +1,75 @@
+﻿@model DAES.Model.SistemaIntegrado.DefinicionProceso
+
+@{
+    ViewBag.Title = "Eliminar";
+    ViewBag.SubTitle = "Definición de proceso";
+}
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Habilitado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Habilitado)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <a href="#ModalConfirm" data-toggle="modal" class="btn btn-primary">Eliminar</a>
+
+        <div class="modal fade" id="ModalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModal-label">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModal-label"><strong>Confirmación</strong></h4>
+                    </div>
+                    <div class="modal-body">
+                        Esta seguro de eliminar esta definición de proceso? 
+                        <br />
+                        Al eliminar esta definición de proceso eliminará también todos sus procesos en ejecución, tareas y documentos asociados.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn btn-primary">Confirmar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

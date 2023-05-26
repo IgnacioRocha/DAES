@@ -1,0 +1,34 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Trámites en línea</h1>
+        <p class="lead">Plataforma de trámites en línea del Ministerio de Economía, Fomento y Turismo. Algunos trámites requiren <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+<div class="container my-3">
+    <div class="card-deck d-flex">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">DAES digital</h5>
+                <p class="card-text">Trámites de cooperativas, asociaciones gremiales y de consumidores.</p>
+                <a href="@Url.Action("Index","DAES")" class="btn btn-primary btn-rounded">Acceder</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Informes HSA</h5>
+                <p class="card-text">Ingreso y seguimiento de informes HSA. Requiere el uso de Clave Única</p>
+                <a href="@Url.Action("GPHSA")" class="btn btn-primary btn-rounded">Acceder</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Verificación de documentos</h5>
+                <p class="card-text">Verificación de documentos firmados electrónicamente</p>
+                <a href="@Url.Action("Index","GPDocumentoVerificacion")" class="btn btn-primary btn-rounded">Acceder</a>
+            </div>
+        </div>
+    </div>
+</div>

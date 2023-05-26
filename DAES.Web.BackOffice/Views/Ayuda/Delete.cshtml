@@ -1,0 +1,44 @@
+﻿@model DAES.Model.SistemaIntegrado.Ayuda
+
+@{
+    ViewBag.Title = "Eliminar";
+    ViewBag.SubTitle = "Ayuda";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Pregunta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Pregunta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Respuesta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Respuesta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valoracion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valoracion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirmar eliminación" class="btn btn-primary" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

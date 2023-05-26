@@ -1,0 +1,205 @@
+﻿@model DAES.Model.DTO.DTOModulo
+
+
+<button type="button" class="btn btn-default" onclick="toggleCheckboxes()">Marcar/Desmarcar todos</button>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Información del Usuario</div>
+                <div class="panel-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(q => q.NombreFuncionario)
+
+                                </th>
+                                <th>
+                                    @Html.LabelFor(q => q.Email)
+
+                                </th>
+                                <th>
+                                    @Html.LabelFor(q => q.UserName)
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.EditorFor(q => q.NombreFuncionario, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(q => q.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                                <td>
+                                    @Html.EditorFor(q => q.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Módulos que puede visualizar</div>
+                <div class="panel-body">
+                    <div class="row">
+                        
+                                <div class="col-md-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Administración</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            @Html.HiddenFor(q => q.IdModulos)
+                                            @Html.HiddenFor(q => q.Id)
+                                            <ul>
+                                                <li>@Html.EditorFor(q => q.Ayuda) @Html.Label("Ayuda") </li>
+                                                <li>@Html.EditorFor(q => q.Cargos) @Html.Label("Cargos") </li>
+                                                <li>@Html.EditorFor(q => q.Comunas) @Html.Label("Comunas")</li>
+                                                <li>@Html.EditorFor(q => q.ConfigurarCertificados) @Html.Label("Configurar solicitud de certificados")</li>
+                                                <li>@Html.EditorFor(q => q.EstadosDeOrganizacion) @Html.Label("Estados de organización")</li>
+                                                <li>@Html.EditorFor(q => q.Firmantes) @Html.Label("Firmantes")</li>
+                                                <li>@Html.EditorFor(q => q.Generos) @Html.Label("Géneros")</li>
+                                                <li>@Html.EditorFor(q => q.HechosLegales) @Html.Label("Hechos legales")</li>
+                                                <li>@Html.EditorFor(q => q.HechosContables) @Html.Label("Hechos contables")</li>
+                                                <li>@Html.EditorFor(q => q.Organizaciones) @Html.Label("Organizaciones")</li>
+                                                <li>@Html.EditorFor(q => q.Regiones) @Html.Label("Regiones")</li>
+                                                <li>@Html.EditorFor(q => q.Rubros) @Html.Label("Rubros")</li>
+                                                <li>@Html.EditorFor(q => q.Situacion) @Html.Label("Situación")</li>
+                                                <li>@Html.EditorFor(q => q.SubRubros) @Html.Label("Subrubros")</li>
+                                                <li>@Html.EditorFor(q => q.TiposDeDocumentos) @Html.Label("Tipos de documentos")</li>
+                                                <li>@Html.EditorFor(q => q.TiposDeOrganizaciones) @Html.Label("Tipos de organizaciones")</li>
+                                                <li>@Html.EditorFor(q => q.TiposDeMateria) @Html.Label("Tipos de materia")</li>
+                                                <li>@Html.EditorFor(q => q.TiposDeCriterios) @Html.Label("Tipos de criterios")</li>
+                                                <li>@Html.EditorFor(q => q.TiposDeFiscalizacion) @Html.Label("Tipos de fiscaliazción")</li>
+                                                <li>@Html.EditorFor(q => q.TiposDeHallazgos) @Html.Label("Tipos de hallazgos")</li>
+                                                <li>@Html.EditorFor(q => q.TiposDeOficios) @Html.Label("Tipos de oficios")</li>
+                                                @*<li><a href="http://djdaes.economia.cl/">Buscar Documentos con Redes con Neuronas</a></li>*@
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Procesos</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            Definición de procesos
+                                            <ul>
+                                                <li>@Html.EditorFor(q => q.DefinirTareas) @Html.Label("Definir tareas")</li>
+                                                <li>@Html.EditorFor(q => q.DefinirProcesos) @Html.Label("Definir procesos")</li>
+                                            </ul>
+
+                                            Iniciar procesos
+                                            <ul>
+                                                <li>@Html.EditorFor(q => q.IniciarProcesoGestionDocumental) @Html.Label("Iniciar proceso desde gestión documental")</li>
+                                                <li>@Html.EditorFor(q => q.IniciarProcesoManualmente) @Html.Label("Iniciar proceso manualmente")</li>
+                                            </ul>
+
+                                            Gestión de procesos
+                                            <ul>
+                                                <li>@Html.EditorFor(q => q.AdministrarProcesos) @Html.Label("Administrar procesos")</li>
+                                                <li>@Html.EditorFor(q => q.AdministrarCargaDeTareas) @Html.Label("Administrar carga de tareas")</li>
+                                                <li>@Html.EditorFor(q => q.DashboardProcesos) @Html.Label("Dashboard de procesos")</li>
+                                                <li>@Html.EditorFor(q => q.DashboardTareas) @Html.Label("Dashboard de tareas")</li>
+                                                <li>@Html.EditorFor(q => q.ExportarProcesosExcel) @Html.Label("Exportar procesos a Excel")</li>
+                                                <li>@Html.EditorFor(q => q.ExportarTareasExcel) @Html.Label("Exportar tareas a Excel")</li>
+                                                <li>@Html.EditorFor(q => q.ReportePMG) @Html.Label("Reporte PMG")</li>
+
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Seguridad y configuración de sistema</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>@Html.EditorFor(q => q.CuentasUsuario) @Html.Label("Cuentas de usuario")</li>
+                                                <li>@Html.EditorFor(q => q.PerfilesDeUsuario) @Html.Label("Perfiles de usuario")</li>
+                                                <li>@Html.EditorFor(q => q.AdministracionModulos) @Html.Label("Administración de Módulos")</li>
+                                                <li>@Html.EditorFor(q => q.Configuracion) @Html.Label("Configuración")</li>
+                                                @*<li>@Html.ActionLink("Firmar documento", "Index", "Firma")</li>*@
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                          
+                                @*<div class="col-md-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Exportar organizaciones</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>@Html.ActionLink("Exportar organizaciones a Excel", "Download", "Organizacion")</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>*@
+
+                                <div class="col-md-4">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Mis tareas y documentos</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li>@Html.EditorFor(q => q.MisTareasYDocumentos) @Html.Label("Mis tareas y documentos")</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+
+                           
+                            <div class="col-md-4">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Consulta</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul>
+                                            <li>@Html.EditorFor(q => q.ConsultaOrganizaciones) @Html.Label("Organizaciones")</li>
+                                            <li>@Html.EditorFor(q => q.ConsultaProcesos) @Html.Label("Procesos")</li>
+                                            <li>@Html.EditorFor(q => q.ConsultaDocumentos) @Html.Label("Documentos")</li>
+                                            <li>@Html.EditorFor(q => q.ConsultaAyuda) @Html.Label("Ayuda")</li>
+                                            <li>@Html.EditorFor(q => q.ConsultaFiscalizaciones) @Html.Label("Fiscalizaciones")</li>
+                                            
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Guardar"/>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    function toggleCheckboxes() {
+        var checkboxes = document.querySelectorAll('input[type=checkbox]');
+        var allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = !allChecked;
+        });
+    }
+</script>

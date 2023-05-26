@@ -1,0 +1,12 @@
+﻿@model DAES.Model.SistemaIntegrado.Proceso
+@{
+    ViewBag.Title = "Atender";
+    ViewBag.SubTitle = "Proceso";
+}
+
+@Html.Partial("_ProcesoDetail", Model)
+
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ProcesoId }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

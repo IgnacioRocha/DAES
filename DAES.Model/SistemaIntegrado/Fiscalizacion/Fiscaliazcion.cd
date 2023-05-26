@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DAES.Model.SistemaIntegrado.Hallazgo">
+    <Position X="9.75" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAgEAAAAAEABgAAAEAAgASAAgQAUCBA=</HashCode>
+      <FileName>SistemaIntegrado\Fiscalizacion\Hallazgo.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TipoMateria" />
+      <Property Name="TipoCriterio" />
+      <Property Name="TipoHallazgo" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.TipoCriterio">
+    <Position X="12.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\Fiscalizacion\TipoCriterio.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Fiscalizacion">
+    <Position X="3.75" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAEAAACAUABAoIkAAAADARAAgAIAAQAgASAACEAACBI=</HashCode>
+      <FileName>SistemaIntegrado\Fiscalizacion\Fiscalizacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="TipoFiscalizacion" />
+      <Property Name="TipoHallazgo" />
+      <Property Name="TipoMateria" />
+      <Property Name="TipoOficio" />
+      <Property Name="Proceso" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Hallazgos" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.TipoFiscalizacion" Collapsed="true">
+    <Position X="3.75" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\Fiscalizacion\TipoFiscalizacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.TipoHallazgo" Collapsed="true">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\Fiscalizacion\TipoHallazgo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.TipoOficio" Collapsed="true">
+    <Position X="1.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\Fiscalizacion\TipoOficio.cs</FileName>
+      <NewMemberFileName>SistemaIntegrado\Fiscalizacion\TipoMateria.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.ApplicationUser" Collapsed="true">
+    <Position X="1" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAIACCAAAAAAAQAAgAAAEQAgABAAAAAAAAAAIAI=</HashCode>
+      <FileName>SistemaIntegrado\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.TipoMateria" Collapsed="true">
+    <Position X="7" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>SistemaIntegrado\Fiscalizacion\TipoMateria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Organizacion" Collapsed="true">
+    <Position X="1" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gaGEQQAGsKGQAAoBACgGDhgABS2SAQwBJEAgQBCEAAw=</HashCode>
+      <FileName>SistemaIntegrado\Organizacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DAES.Model.SistemaIntegrado.Proceso" Collapsed="true">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MQAQAAUAICEAAAABAAIAAAgAAQAQAAAAAQAAAIABIAY=</HashCode>
+      <FileName>SistemaIntegrado\Proceso.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Organizacion" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

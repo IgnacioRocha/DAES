@@ -1,0 +1,120 @@
+﻿@model DAES.Model.SistemaIntegrado.Organizacion
+
+
+<div class="form-horizontal">
+    <div class="panel panel-default">
+
+        @if (Model.ExistenciaPosteriors.Any())
+        {
+    <table class="table table-hover table-striped ">
+    @for (int i = 0; i < Model.ExistenciaPosteriors.Count(); i++)
+    {
+        @Html.HiddenFor(model => model.ExistenciaPosteriors[i].idExistenciaPost)
+        @Html.HiddenFor(model => model.ExistenciaPosteriors[i].OrganizacionId)
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaPosteriors[i].FechaConstitutivaSocios)
+                    @Html.EditorFor(model => model.ExistenciaPosteriors[i].FechaConstitutivaSocios, new { htmlAttributes = new { @class = "form-control" } })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaPosteriors[i].FechaEscrituraPublica)
+                    @Html.EditorFor(model => model.ExistenciaPosteriors[i].FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control" } })
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaPosteriors[i].FechaPublicacionn)
+                    @Html.EditorFor(model => model.ExistenciaPosteriors[i].FechaPublicacionn, new { htmlAttributes = new { @class = "form-control" } })
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    @Html.DisplayNameFor(model => Model.ExistenciaPosteriors[i].DatosGeneralesNotario)
+                    @Html.EditorFor(model => model.ExistenciaPosteriors[i].DatosGeneralesNotario, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaPosteriors[i].Fojas)
+                    @Html.EditorFor(model => model.ExistenciaPosteriors[i].Fojas, new { htmlAttributes = new { @class = "form-control" } })
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.ExistenciaPosteriors[i].AnoInscripcion)
+                    @Html.EditorFor(model => model.ExistenciaPosteriors[i].AnoInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2">
+                    @Html.DisplayNameFor(model => Model.ExistenciaPosteriors[i].DatosCBR)
+                    @Html.EditorFor(model => model.ExistenciaPosteriors[i].DatosCBR, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+
+                </th>
+            </tr>
+        </thead>                
+        }
+
+
+    </table> 
+        } 
+        else
+        {
+            <table class="table table-hover table-striped">
+            @for (var i = 0; i < Model.ExistenciaPosteriors.Count(); i++)
+            {
+                @Html.HiddenFor(model => model.ExistenciaPosteriors[i].idExistenciaPost)
+                @Html.HiddenFor(model => model.ExistenciaPosteriors[i].OrganizacionId)
+            }
+            <thead>
+                <tr>
+
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios)
+                        @Html.EditorFor(model => model.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios, new { htmlAttributes = new { @class = "form-control" } })
+
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ExistenciaPosteriors.FirstOrDefault().FechaEscrituraPublica)
+                        @Html.EditorFor(model => model.ExistenciaPosteriors.FirstOrDefault().FechaEscrituraPublica, new { htmlAttributes = new { @class = "form-control" } })
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn)
+                        @Html.EditorFor(model => model.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn, new { htmlAttributes = new { @class = "form-control" } })
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        @Html.DisplayNameFor(model => Model.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario)
+                        @Html.EditorFor(model => model.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ExistenciaPosteriors.FirstOrDefault().Fojas)
+                        @Html.EditorFor(model => model.ExistenciaPosteriors.FirstOrDefault().Fojas, new { htmlAttributes = new { @class = "form-control" } })
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => Model.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion)
+                        @Html.EditorFor(model => model.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion, new { htmlAttributes = new { @class = "form-control" } })
+                    </th>
+                </tr>
+                <tr>
+                    <th colspan="2">
+                        @Html.DisplayNameFor(model => Model.ExistenciaPosteriors.FirstOrDefault().DatosCBR)
+                        @Html.EditorFor(model => model.ExistenciaPosteriors.FirstOrDefault().DatosCBR, new { htmlAttributes = new { @class = "form-control", @style = "max-width: 1200px;" } })
+
+                    </th>
+                </tr>
+            </thead>
+
+
+
+</table>}
+
+
+        <br />
+    </div>
+</div>

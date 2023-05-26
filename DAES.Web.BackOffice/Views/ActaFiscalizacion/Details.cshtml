@@ -1,0 +1,147 @@
+﻿@model DAES.Model.SistemaIntegrado.ActaFiscalizacion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ActaFiscalizacion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Comuna.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Comuna.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GeneroGerente.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GeneroGerente.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GeneroRepresentanteLegal.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GeneroRepresentanteLegal.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Organizacion.NumeroRegistro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Organizacion.NumeroRegistro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Region.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Region.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NOficioAcreditacioRequerimientos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NOficioAcreditacioRequerimientos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaSalidaOficioAcreditacionRequerimientos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaSalidaOficioAcreditacionRequerimientos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NActaReunionFiscalizacionInSitu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NActaReunionFiscalizacionInSitu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaFiscalizacionInSitu)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaFiscalizacionInSitu)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RUT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RUT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepresentanteLegal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepresentanteLegal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VigenciaRepresentanteLegal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VigenciaRepresentanteLegal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gerente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gerente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DireccionActual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DireccionActual)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CambioDireccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CambioDireccion)
+        </dd>
+
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ActaFiscalizacionId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

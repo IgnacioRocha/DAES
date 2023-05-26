@@ -1,0 +1,52 @@
+﻿@model DAES.Model.SistemaIntegrado.TipoDocumento
+
+@{
+    ViewBag.Title = "Eliminar";
+    ViewBag.SubTitle = "Tipo de certificados";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GeneracionManual)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GeneracionManual)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EsVigente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EsVigente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiasVigencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiasVigencia)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Confirmar eliminación" class="btn btn-primary" /> |
+            @Html.ActionLink("Volver al listado", "Index")
+        </div>
+    }
+</div>

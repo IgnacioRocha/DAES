@@ -1,0 +1,30 @@
+﻿@model DAES.Model.SistemaIntegrado.Cargo
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Cargo";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Secuencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Secuencia)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.CargoId }) |
+    @Html.ActionLink("Volver al listado", "Index")
+</p>

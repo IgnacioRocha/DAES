@@ -1,0 +1,12 @@
+﻿
+<div class="row">
+    @*<p class="col text-left pt-1">
+        <a href='@Url.Action("Index", "DAES")'>Volver al DAES digital</a>
+    </p>*@
+
+    @if (ViewBag.User != null) {
+        <p class="col text-right pt-1">
+            @ViewBag.User | <a href="#" id="btn_logout" name="btn_logout">Cerrar sesión</a>
+        </p>
+    }
+</div>

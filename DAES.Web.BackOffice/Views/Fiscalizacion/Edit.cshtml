@@ -1,0 +1,992 @@
+﻿@model DAES.Model.SistemaIntegrado.Proceso
+@{
+    var FiscalizacionNuevo = new DAES.Model.SistemaIntegrado.Fiscalizacion() { ProcesoId = Model.ProcesoId };
+    var HallazgoNuevo = new DAES.Model.SistemaIntegrado.Hallazgo();
+}
+@using DAES.Web.BackOffice.Helper;
+
+<h2>Proceso de fiscalización @Model.ProcesoId</h2>
+<p class="my-2">
+    <br />
+    @Html.ActionLink("Volver a la lista de procesos", "Index")
+    | @Html.ActionLink("Editar proceso", "Change", new { id = Model.ProcesoId })
+    | <a href="#" data-toggle="modal" data-target="#ModalFiscalizacionAdd">Agregar fiscalización</a>
+    | <a href="#" data-toggle="modal" data-target="#ModalProcesoFinish">Finalizar proceso</a>
+</p>
+<br />
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Fiscalizaciones" data-toggle="tab">Gestionar fiscalizaciones</a>
+    </li>
+    <li>
+        <a href="#ProcesoActual" data-toggle="tab">Información del proceso</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Fiscalizaciones">
+        <br />
+
+        @if (!Model.Fiscalizacions.Any(q => q.Activo))
+        {
+            <p>No existen fiscalizaciones</p>
+        }
+
+        @foreach (var fiscalizacion in Model.Fiscalizacions.Where(q => q.Activo))
+        {
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <b> FISCALIZACION ID @fiscalizacion.FiscalizacionId</b>
+                </div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.ProcesoRelacionadoId)
+                                </dt>
+                                <dd>
+                                    @if (fiscalizacion.ProcesoRelacionadoId.HasValue)
+                                    {
+                                        @Html.ActionLink(fiscalizacion.ProcesoRelacionadoId.ToString(), "View", new { id = fiscalizacion.ProcesoRelacionadoId }, new { target = "_blank" })
+                                    }
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Fecha)
+                                </dt>
+                                <dd>
+                                    @string.Format("{0:dd/MM/yyyy hh:mm:ss}", fiscalizacion.Fecha)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoFiscalizacion.Descripcion)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoFiscalizacion.Descripcion)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.NumeroIngreso)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.NumeroIngreso)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Observacion)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Observacion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoHallazgoId)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoHallazgo.Descripcion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoMateriaId)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoMateria.Descripcion)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.OficioAnterior)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.OficioAnterior)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.FechaOficioAnterior)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.FechaOficioAnterior)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.OficioRemitido)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.OficioRemitido)
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-lg-6">
+                            <dl class="dl-horizontal">
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.FechaOficioRemitido)
+                                </dt>
+
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.FechaOficioRemitido)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.TipoOficioId)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.TipoOficio.Descripcion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.NumeroReiteracion)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.NumeroReiteracion)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.NumeroHallazgoPendientes)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.NumeroHallazgoPendientes)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Plazo)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Plazo)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Multa)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Multa)
+                                </dd>
+
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Responsable1)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Responsable1)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Responsable2)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Responsable2)
+                                </dd>
+                                <dt>
+                                    @Html.DisplayNameFor(model => fiscalizacion.Responsable3)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => fiscalizacion.Responsable3)
+                                </dd>
+
+                                <dt>
+                                    Número de hallazgos
+                                </dt>
+                                <dd>
+                                    @fiscalizacion.Hallazgos.Count()
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <p class="my-2">
+                        <a href="#" data-toggle="modal" data-target="@string.Concat("#ModalFiscalizacionEdit",fiscalizacion.FiscalizacionId)">Editar fiscalización</a>
+                        @if (Helper.CurrentUser.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Admininstrador || Helper.CurrentUser.PerfilId == (int)DAES.Infrastructure.Enum.Perfil.Jefatura)
+                        {
+                            <text>|</text> <a href="#" data-toggle="modal" data-target="@string.Concat("#ModalFiscalizacionDelete", fiscalizacion.FiscalizacionId)">Eliminar fiscalización</a>
+                        }
+                    </p>
+
+                    <div class="modal modal-wide" tabindex="-1" role="dialog" id=@string.Concat("ModalFiscalizacionEdit",fiscalizacion.FiscalizacionId)>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4>Editar fiscalización</h4>
+                                </div>
+                                @using (Html.BeginForm("FiscalizacionEdit", null))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(m => fiscalizacion.FiscalizacionId)
+                                    @Html.HiddenFor(m => fiscalizacion.ProcesoId)
+
+                                    <div class="modal-body">
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.ProcesoRelacionadoId, "Proceso relacionado", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.ProcesoRelacionadoId, new SelectList(ViewBag.ProcesoRelacionadoId, "Value", "Text", fiscalizacion.ProcesoRelacionadoId), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.ProcesoRelacionadoId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.TipoFiscalizacionId, "Tipo fiscalización", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.TipoFiscalizacionId, new SelectList(ViewBag.TipoFiscalizacionId, "Value", "Text", fiscalizacion.TipoFiscalizacionId), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.TipoFiscalizacionId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.NumeroIngreso, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => fiscalizacion.NumeroIngreso, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.NumeroIngreso, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.Observacion, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => fiscalizacion.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.Observacion, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.TipoHallazgoId, "Tipo hallazgo", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.TipoHallazgoId, new SelectList(ViewBag.TipoHallazgoId, "Value", "Text", fiscalizacion.TipoHallazgoId), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.TipoHallazgoId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.TipoMateriaId, "Tipo materia", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.TipoMateriaId, new SelectList(ViewBag.TipoMateriaId, "Value", "Text", fiscalizacion.TipoMateriaId), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.TipoMateriaId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.OficioAnterior, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => fiscalizacion.OficioAnterior, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.OficioAnterior, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.FechaOficioAnterior, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => fiscalizacion.FechaOficioAnterior, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.FechaOficioAnterior, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.OficioRemitido, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => fiscalizacion.OficioRemitido, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.OficioRemitido, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.FechaOficioRemitido, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => fiscalizacion.FechaOficioRemitido, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.FechaOficioRemitido, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.TipoOficioId, "Tipo oficio", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.TipoOficioId, new SelectList(ViewBag.TipoOficioId, "Value", "Text", fiscalizacion.TipoOficioId), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.TipoOficioId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.NumeroReiteracion, "Número reiteración", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.NumeroReiteracion, new SelectList(ViewBag.NumeroReiteracion, "Value", "Text", fiscalizacion.NumeroReiteracion), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.NumeroReiteracion, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.NumeroHallazgoPendientes, "Número de hallazgos pendientes", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.NumeroHallazgoPendientes, new SelectList(ViewBag.NumeroHallazgoPendientes, "Value", "Text", fiscalizacion.NumeroHallazgoPendientes), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.NumeroHallazgoPendientes, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.Plazo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.EditorFor(model => fiscalizacion.Plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.Plazo, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        @Html.LabelFor(model => fiscalizacion.Multa, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            <div class="checkbox">
+                                                                @Html.CheckBoxFor(model => fiscalizacion.Multa, htmlAttributes: new { @class = "checkbox-wide" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.Responsable1, "Responsable", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.Responsable1, new SelectList(ViewBag.Responsable1, "Value", "Text", fiscalizacion.Responsable1), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.Responsable1, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.Responsable2, "Responsable", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.Responsable2, new SelectList(ViewBag.Responsable2, "Value", "Text", fiscalizacion.Responsable2), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.Responsable2, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => fiscalizacion.Responsable3, "Responsable", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => fiscalizacion.Responsable3, new SelectList(ViewBag.Responsable3, "Value", "Text", fiscalizacion.Responsable3), "Seleccione...", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => fiscalizacion.Responsable3, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <p><b>DOCUMENTOS</b></p>
+
+                    @if (fiscalizacion.Proceso.Documentos.Any(q => q.Activo))
+                    {
+                        <table class="table table-hover table-striped datatable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Proceso.Documentos.FirstOrDefault().FechaCreacion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Proceso.Documentos.FirstOrDefault().Autor)
+                                    </th>
+                                    <th>
+                                        Archivo
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var documento in fiscalizacion.Proceso.Documentos.Where(q => q.Activo))
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => documento.FechaCreacion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => documento.Autor)
+                                        </td>
+                                        <td>
+                                            @if (documento.Content != null)
+                                            {
+                                                @Html.ActionLink(documento.FileName, "Download", "Documento", new { id = documento.DocumentoId }, null)
+                                            }
+                                        </td>
+
+                                        <td>
+                                            <a href="#" data-toggle="modal" data-target="@string.Concat("#ModalDocumentoDelete", documento.DocumentoId)">Eliminar</a>
+                                            <div class="modal" tabindex="-1" role="dialog" id=@string.Concat("ModalDocumentoDelete", documento.DocumentoId)>
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4>Eliminar documento</h4>
+                                                        </div>
+                                                        @using (Html.BeginForm("DocumentoDelete", "Task", new { id = documento.DocumentoId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+
+                                                            <div class="modal-body">
+                                                                <p>Confirma la eliminación del archivo?</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                    <a href="#"
+                       data-toggle="modal"
+                       data-target="@string.Concat("#ModalDocumentoAdd",fiscalizacion.FiscalizacionId)">Agregar documento</a>
+
+                    <div class="modal" tabindex="-1" role="dialog" id=@string.Concat("ModalDocumentoAdd",fiscalizacion.FiscalizacionId)>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4>Nuevo documento</h4>
+                                </div>
+                                @using (Html.BeginForm("DocumentoAdd", null, new { id = Model.ProcesoId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div class="modal-body">
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                @Html.Label("Documento", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    <input type="file" name="Archivo" class="form-control" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <p><b>HALLAZGOS</b></p>
+                    @if (fiscalizacion.Hallazgos.Any(q => q.Activo))
+                    {
+                        <table class="table table-hover table-striped datatable">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().TipoMateriaId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().TipoCriterioId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Descripcion)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().TipoHallazgoId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Plazo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Respondido)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => fiscalizacion.Hallazgos.FirstOrDefault().Resuelto)
+                                    </th>
+                                    <th>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var hallazgo in fiscalizacion.Hallazgos.Where(q => q.Activo).OrderBy(q => q.Orden))
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.TipoMateria.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.TipoCriterio.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.TipoHallazgo.Descripcion)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Plazo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Respondido)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(model => hallazgo.Resuelto)
+                                        </td>
+                                        <td>
+                                            <a href="#" data-toggle="modal" data-target="@string.Concat("#ModalHallazgoEdit", hallazgo.HallazgoId)">Editar</a>
+                                            <div class="modal" tabindex="-1" role="dialog" id=@string.Concat("ModalHallazgoEdit", hallazgo.HallazgoId)>
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4>Editar hallazgo</h4>
+                                                        </div>
+                                                        @using (Html.BeginForm("HallazgoEdit", null, new { fiscalizacion.FiscalizacionId }, FormMethod.Post))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+                                                            @Html.HiddenFor(model => hallazgo.HallazgoId)
+                                                            ;
+                                                            @Html.HiddenFor(model => hallazgo.FiscalizacionId)
+                                                            ;
+
+                                                            <div class="modal-body">
+                                                                <div class="form-horizontal">
+
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.TipoMateriaId, "Tipo materia", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            @Html.DropDownListFor(model => hallazgo.TipoMateriaId, new SelectList(ViewBag.TipoMateriaId, "Value", "Text", hallazgo.TipoMateriaId), "Seleccione...", new { @class = "form-control" })
+                                                                            @Html.ValidationMessageFor(model => hallazgo.TipoMateriaId, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.TipoCriterioId, "Tipo criterio", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            @Html.DropDownListFor(model => hallazgo.TipoCriterioId, new SelectList(ViewBag.TipoCriterioId, "Value", "Text", hallazgo.TipoCriterioId), "Seleccione...", new { @class = "form-control" })
+                                                                            @Html.ValidationMessageFor(model => hallazgo.TipoCriterioId, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.Descripcion, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            @Html.EditorFor(model => hallazgo.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessageFor(model => hallazgo.Descripcion, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.TipoHallazgoId, "Tipo hallazgo", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            @Html.DropDownListFor(model => hallazgo.TipoHallazgoId, new SelectList(ViewBag.TipoHallazgoId, "Value", "Text", hallazgo.TipoHallazgoId), "Seleccione...", new { @class = "form-control" })
+                                                                            @Html.ValidationMessageFor(model => hallazgo.TipoHallazgoId, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.ProximaJuntaoAsamblea, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            <div class="checkbox">
+                                                                                @Html.CheckBoxFor(model => hallazgo.ProximaJuntaoAsamblea, htmlAttributes: new { @class = "checkbox-wide", id = string.Format("hallazgo_ProximaJuntaoAsamblea_{0}", hallazgo.HallazgoId) })
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row" id="@string.Format("divPlazo{0}", hallazgo.HallazgoId)">
+                                                                        @Html.LabelFor(model => hallazgo.Plazo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            @Html.EditorFor(model => hallazgo.Plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessageFor(model => hallazgo.Plazo, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                    <script>
+                                                                    $("@string.Format("#hallazgo_ProximaJuntaoAsamblea_{0}", hallazgo.HallazgoId)").change(function() {
+                                                                        if (this.checked) {
+                                                                            $("@string.Format("#divPlazo{0}", hallazgo.HallazgoId)").hide();
+                                                                        } else {
+                                                                            $("@string.Format("#divPlazo{0}", hallazgo.HallazgoId)").show();
+                                                                        }
+                                                                    });
+                                                                    </script>
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.Respondido, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            <div class="checkbox">
+                                                                                @Html.CheckBoxFor(model => hallazgo.Respondido, htmlAttributes: new { @class = "checkbox-wide" })
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.Resuelto, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            <div class="checkbox">
+                                                                                @Html.CheckBoxFor(model => hallazgo.Resuelto, htmlAttributes: new { @class = "checkbox-wide" })
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group row">
+                                                                        @Html.LabelFor(model => hallazgo.Orden, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                                        <div class="col-md-8">
+                                                                            @Html.EditorFor(model => hallazgo.Orden, new { htmlAttributes = new { @class = "form-control" } })
+                                                                            @Html.ValidationMessageFor(model => hallazgo.Orden, "", new { @class = "text-danger" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                <button type="submit" class="btn btn-primary">Aceptar</button>
+                                                            </div>
+
+
+
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <text> | </text>
+                                            <a href="#" data-toggle="modal" data-target="@string.Concat("#ModalHallazgoDelete", hallazgo.HallazgoId)">Eliminar</a>
+                                            <div class="modal" tabindex="-1" role="dialog" id=@string.Concat("ModalHallazgoDelete", hallazgo.HallazgoId)>
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4>Eliminar hallazgo</h4>
+                                                        </div>
+                                                        @using (Html.BeginForm("HallazgoDelete", null, new { id = hallazgo.HallazgoId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                                        {
+                                                            @Html.AntiForgeryToken()
+
+                                                            <div class="modal-body">
+                                                                <p>Confirma la eliminación del hallazgo?</p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+
+                    <a href="#"
+                       data-toggle="modal"
+                       data-target="@string.Concat("#ModalHallazgoAdd",fiscalizacion.FiscalizacionId)">Agregar hallazgo</a>
+
+                    <div class="modal" tabindex="-1" role="dialog" id=@string.Concat("ModalHallazgoAdd",fiscalizacion.FiscalizacionId)>
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Nuevo hallazgo</h4>
+                                </div>
+
+                                @using (Html.BeginForm("HallazgoCreate", null, new { fiscalizacion.FiscalizacionId }))
+                                {
+                                    <div class="modal-body">
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-horizontal">
+
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.TipoMateriaId, "Tipo materia", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => HallazgoNuevo.TipoMateriaId, (SelectList)ViewBag.TipoMateriaId, "Seleccione...", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => HallazgoNuevo.TipoMateriaId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.TipoCriterioId, "Tipo criterio", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => HallazgoNuevo.TipoCriterioId, (SelectList)ViewBag.TipoCriterioId, "Seleccione...", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => HallazgoNuevo.TipoCriterioId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.Descripcion, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.EditorFor(model => HallazgoNuevo.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => HallazgoNuevo.Descripcion, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.TipoHallazgoId, "Tipo hallazgo", htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => HallazgoNuevo.TipoHallazgoId, (SelectList)ViewBag.TipoHallazgoId, "Seleccione...", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => HallazgoNuevo.TipoHallazgoId, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.ProximaJuntaoAsamblea, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    <div class="checkbox">
+                                                        @Html.CheckBoxFor(model => HallazgoNuevo.ProximaJuntaoAsamblea, htmlAttributes: new { @class = "checkbox-wide", @id = "ProximaJuntaoAsamblea" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row" id="divPlazo">
+                                                @Html.LabelFor(model => HallazgoNuevo.Plazo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.EditorFor(model => HallazgoNuevo.Plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => HallazgoNuevo.Plazo, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.Respondido, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    <div class="checkbox">
+                                                        @Html.CheckBoxFor(model => HallazgoNuevo.Respondido, htmlAttributes: new { @class = "checkbox-wide" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.Resuelto, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    <div class="checkbox">
+                                                        @Html.CheckBoxFor(model => HallazgoNuevo.Resuelto, htmlAttributes: new { @class = "checkbox-wide" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                @Html.LabelFor(model => HallazgoNuevo.Orden, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.EditorFor(model => HallazgoNuevo.Orden, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => HallazgoNuevo.Orden, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-primary">Aceptar</button>
+                                    </div>
+                                    <script>
+                                        $("#ProximaJuntaoAsamblea").change(function () {
+                                            if (this.checked) {
+                                                $("#divPlazo").hide();
+                                            } else {
+                                                $("#divPlazo").show();
+                                            }
+                                        });
+                                    </script>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" tabindex="-1" role="dialog" id=@string.Concat("ModalFiscalizacionDelete",fiscalizacion.FiscalizacionId)>
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">Eliminar fiscalización</h4>
+                        </div>
+                        @using (Html.BeginForm("FiscalizacionDelete", null, new { id = fiscalizacion.FiscalizacionId }, FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="modal-body">
+                                <p>Confirma la eliminación de la fiscalización, hallazgos y documentos asociados?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Confirmar</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+        <a href="#" data-toggle="modal" data-target="#ModalFiscalizacionAdd">Agregar fiscalización</a>
+
+        <div class="modal modal-wide" tabindex="-1" role="dialog" id="ModalFiscalizacionAdd">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nueva fiscalización</h4>
+                    </div>
+                    @using (Html.BeginForm("FiscalizacionCreate", null))
+                    {
+                        <div class="modal-body">
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => FiscalizacionNuevo.ProcesoId)
+
+                            <div class="form-horizontal">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        @*<div class="form-group">
+                                                @Html.LabelFor(model => FiscalizacionNuevo.Fecha, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.EditorFor(model => FiscalizacionNuevo.Fecha, new { htmlAttributes = new { @class = "form-control form-control-lg" } })
+                                                    @Html.ValidationMessageFor(model => FiscalizacionNuevo.Fecha, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>*@
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.ProcesoRelacionadoId, "Proceso relacionado", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.ProcesoRelacionadoId, (SelectList)ViewBag.ProcesoRelacionadoId, "Seleccione...", new { @class = "form-control form-control-lg" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.ProcesoRelacionadoId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group">
+                                                @Html.LabelFor(model => FiscalizacionNuevo.Fecha, htmlAttributes: new { @class = "control-label col-md-4" })
+                                                <div class="col-md-8">
+                                                    @Html.EditorFor(model => FiscalizacionNuevo.Fecha, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.ValidationMessageFor(model => FiscalizacionNuevo.Fecha, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>*@
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.TipoFiscalizacionId, "Tipo fiscalización", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.TipoFiscalizacionId, (SelectList)ViewBag.TipoFiscalizacionId, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.TipoFiscalizacionId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.NumeroIngreso, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => FiscalizacionNuevo.NumeroIngreso, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.NumeroIngreso, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.Observacion, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => FiscalizacionNuevo.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.Observacion, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.TipoHallazgoId, "Tipo hallazgo", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.TipoHallazgoId, (SelectList)ViewBag.TipoHallazgoId, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.TipoHallazgoId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.TipoMateriaId, "Tipo materia", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.TipoMateriaId, (SelectList)ViewBag.TipoMateriaId, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.TipoMateriaId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.OficioAnterior, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => FiscalizacionNuevo.OficioAnterior, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.OficioAnterior, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.FechaOficioAnterior, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => FiscalizacionNuevo.FechaOficioAnterior, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.FechaOficioAnterior, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.OficioRemitido, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => FiscalizacionNuevo.OficioRemitido, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.OficioRemitido, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.FechaOficioRemitido, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => FiscalizacionNuevo.FechaOficioRemitido, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.FechaOficioRemitido, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.TipoOficioId, "Tipo oficio", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.TipoOficioId, (SelectList)ViewBag.TipoOficioId, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.TipoOficioId, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.NumeroReiteracion, "Número reiteración", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.NumeroReiteracion, (SelectList)ViewBag.NumeroReiteracion, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.NumeroReiteracion, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.NumeroHallazgoPendientes, "Número de hallazgos pendientes", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.NumeroHallazgoPendientes, (SelectList)ViewBag.NumeroHallazgoPendientes, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.NumeroHallazgoPendientes, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.Plazo, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.EditorFor(model => FiscalizacionNuevo.Plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.Plazo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.Multa, htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                <div class="checkbox">
+                                                    @Html.CheckBoxFor(model => FiscalizacionNuevo.Multa, htmlAttributes: new { @class = "checkbox-wide" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.Responsable1, "Responsable", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.Responsable1, (SelectList)ViewBag.Responsable1, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.Responsable1, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.Responsable2, "Responsable", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.Responsable2, (SelectList)ViewBag.Responsable2, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.Responsable2, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => FiscalizacionNuevo.Responsable3, "Responsable", htmlAttributes: new { @class = "control-label col-md-4" })
+                                            <div class="col-md-8">
+                                                @Html.DropDownListFor(model => FiscalizacionNuevo.Responsable3, (SelectList)ViewBag.Responsable3, "Seleccione...", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => FiscalizacionNuevo.Responsable3, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="ModalProcesoFinish">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Finalizar proceso</h4>
+                    </div>
+                    @using (Html.BeginForm("ProcesoFinish", null))
+                    {
+                        <div class="modal-body">
+                            @Html.AntiForgeryToken()
+                            @Html.HiddenFor(m => Model.ProcesoId)
+
+                            <p>Confirma la finalización del proceso?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Confirmar</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade in" id="ProcesoActual">
+        <br />
+        @Html.Partial("_ProcesoDetails", Model)
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        if (localStorage['page'] == document.URL) {
+            $(document).scrollTop(localStorage['scrollTop']);
+        }
+    });
+    $(document).scroll(function () {
+        localStorage['page'] = document.URL;
+        localStorage['scrollTop'] = $(document).scrollTop();
+    });
+</script>
+
+

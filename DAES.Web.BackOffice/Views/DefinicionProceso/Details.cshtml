@@ -1,0 +1,188 @@
+﻿@model DAES.Model.SistemaIntegrado.DefinicionProceso
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Definición proceso";
+}
+
+<script>
+    $(function () {
+        $("#sortable").sortable({
+            stop: function (event, ui) {
+
+                var map = Function.prototype.call.bind([].map)
+                var list = document.querySelectorAll("li");
+                $("#ids").val(map(list, function (x) { return x.id; }));
+            }
+        });
+        $("#sortable").disableSelection();
+    });
+</script>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">Definición</div>
+    <div class="panel-body">
+
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Fecha)
+            </dt>
+
+            <dd>
+                @string.Format("{0:dd/MM/yyyy}",Model.Fecha)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Nombre)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Descripcion)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Habilitado)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Habilitado)
+            </dd>
+
+            <dt>
+                Procesos en ejecución
+            </dt>
+
+            <dd>
+                @Model.Procesos.Count(q => !q.Terminada)
+            </dd>
+
+            <dt>
+                Procesos terminados
+            </dt>
+
+            <dd>
+                @Model.Procesos.Count(q => q.Terminada)
+            </dd>
+
+            <dt>
+                Total de procesos
+            </dt>
+
+            <dd>
+                @Model.Procesos.Count()
+            </dd>
+
+        </dl>
+        <p>
+            <hr />
+            @Html.ActionLink("Editar", "Edit", new { id = Model.DefinicionProcesoId }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id = Model.DefinicionProcesoId }) |
+            @Html.ActionLink("Volver a la lista", "Index")
+        </p>
+    </div>
+
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Secuencia de pasos</div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(modelItem => Model.DefinicionProcesoId)
+            @Html.Hidden("ids");
+
+            <ul class="timeline" id="sortable">
+
+                @for (var i = 0; i < Model.DefinicionWorkflows.Count; i++)
+                {
+                    @Html.HiddenFor(modelItem => Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowId)
+                    @Html.HiddenFor(modelItem => Model.DefinicionWorkflows.ToArray()[i].PerfilId)
+                    @Html.HiddenFor(modelItem => Model.DefinicionWorkflows.ToArray()[i].TipoWorkflowId)
+                    @Html.HiddenFor(modelItem => Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowRechazoId)
+                    @Html.HiddenFor(modelItem => Model.DefinicionWorkflows.ToArray()[i].Habilitado)
+
+                    var muted = !Model.DefinicionWorkflows.ToArray()[i].Habilitado ? "text-muted" : "default";
+
+                    <li class="timeline-inverted @muted"  id="@Html.AttributeEncode(Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowId)">
+                        <div class="timeline-badge glyphicon glyphicon-chevron-down"></div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4 class="timeline-title"><strong>@Html.DisplayFor(model => @Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowId) : @Model.DefinicionWorkflows.ToArray()[i].TipoWorkflow.Nombre</strong></h4>
+                                <hr />
+                            </div>
+                            <div class="timeline-body">
+                                <p>
+                                    <dl class="dl-horizontal">
+                                        <dt>
+                                            @Html.DisplayNameFor(model => @Model.DefinicionWorkflows.ToArray()[i].Secuencia)
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => @Model.DefinicionWorkflows.ToArray()[i].Secuencia)
+                                        </dd>
+
+                                        <dt>
+                                            Funcionario
+                                        </dt>
+                                        <dd>
+                                            @Html.DisplayFor(model => @Model.DefinicionWorkflows.ToArray()[i].User.UserName)
+                                        </dd>
+
+                                        <dt>
+                                            En caso de rechazo
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => @Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowRechazo.TipoWorkflow.Nombre)
+                                        </dd>
+
+                                        <dt>
+                                            Depende de
+                                        </dt>
+
+                                        <dd>
+                                            @Html.DisplayFor(model => @Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowDependeDeId)
+                                        </dd>
+                                    </dl>
+                                    <hr />
+                                    @Html.ActionLink("Editar", "Edit", "DefinicionWorkflow", new { id = @Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowId }, null) |
+                                    @Html.ActionLink("Eliminar", "Delete", "DefinicionWorkflow", new { id = @Model.DefinicionWorkflows.ToArray()[i].DefinicionWorkflowId }, null)
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                }
+                <li class="timeline-inverted">
+                    <div class="timeline-badge glyphicon glyphicon-chevron-down"></div>
+                    @Html.ActionLink(" ", "Create", "DefinicionWorkflow", new { DefinicionProcesoId = Model.DefinicionProcesoId }, new { @class = "timeline-badge glyphicon success glyphicon-plus" })
+                </li>
+            </ul>
+            <p>
+                <br />
+                <br />
+                <input type="submit" value="Guardar definición" class="btn btn-primary" />
+            </p>
+        }
+    </div>
+</div>

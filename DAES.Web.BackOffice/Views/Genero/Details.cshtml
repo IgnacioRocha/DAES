@@ -1,0 +1,23 @@
+﻿@model DAES.Model.SistemaIntegrado.Genero
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Género";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.GeneroId }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

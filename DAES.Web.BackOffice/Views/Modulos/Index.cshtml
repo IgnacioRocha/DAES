@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Administración de módulos";
+}
+
+
+<div class="tab-content">
+    <table class="table table-hover" id="users-table">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Nombre Funcionario</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Users)
+            {
+                <tr>
+                    <td>
+                        @item.UserName
+                    </td>
+                    <td>
+                        @item.Nombre
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @Html.ActionLink("Módulos", "Edit", new { UserName = item.UserName })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    @Html.ActionLink("Volver al inicio", "Index", "Home")
+</p>
+
+<script>
+    $(document).ready(function () {
+        $('#users-table').DataTable();
+    });
+</script>

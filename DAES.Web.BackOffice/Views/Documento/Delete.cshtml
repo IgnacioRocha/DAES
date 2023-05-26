@@ -1,0 +1,192 @@
+﻿@model DAES.Model.GestionDocumental.Documento
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Documento</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EntidadExterna.Ext_Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EntidadExterna.Ext_Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDocumento.Tdo_Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDocumento.Tdo_Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IdFuncionario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdFuncionario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_ParentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_ParentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_FechaIngreso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_FechaIngreso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_UnidadServicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_UnidadServicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_UnidadServicio_Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_UnidadServicio_Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_NombreFuncionario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_NombreFuncionario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Correlativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Correlativo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_NumeroExterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_NumeroExterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Asunto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Asunto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Referencia)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Referencia)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Codigo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Codigo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Descripcion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Descripcion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_FechaCreacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_FechaCreacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_FechaModificacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_FechaModificacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_EsInterno)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_EsInterno)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Version)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Version)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Final)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Final)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Activo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Activo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doc_Folio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doc_Folio)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

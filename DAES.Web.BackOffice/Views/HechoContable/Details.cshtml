@@ -1,0 +1,21 @@
+﻿@model DAES.Model.SistemaIntegrado.HechoContable
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Hecho contable";
+}
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Antecedente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Antecedente)
+        </dd>
+
+    </dl>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.HechoContableId}) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

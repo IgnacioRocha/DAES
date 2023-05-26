@@ -1,0 +1,100 @@
+﻿@model DAES.Web.BackOffice.Controllers.DocumentoConsultorController.ModelView
+@{
+    ViewBag.Title = "Documentos";
+}
+<div class="row">
+    <div class="col-lg-3">
+        <div class="panel panel-default">
+            <div class="panel-heading">Filtros</div>
+            <div class="panel-body">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.LabelFor(model => model.Filter)
+                    @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Filter, "", new { @class = "text-danger" })
+
+                    <p></p>
+
+                    @Html.LabelFor(m => Model.TipoDocumentoId)
+                    @Html.DropDownListFor(model => Model.TipoDocumentoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => Model.TipoDocumentoId, "", new { @class = "red-text" })
+
+                    <p></p>
+                    <button type="submit" class="btn btn-primary btn-block">Buscar</button>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">Resultados</div>
+            <div class="panel-body">
+
+                <table class="table table-hover table-striped datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().DocumentoId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Registro)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Proceso)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Tipo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FechaCreacion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Periodo)
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Documentos)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DocumentoId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Registro) - @Html.DisplayFor(modelItem => item.RazonSocial)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Proceso)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Tipo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FechaCreacion)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Periodo)
+                                </td>
+                                <td>
+                                    @if (item.HasContent && !string.IsNullOrWhiteSpace(item.FileName))
+                                    {
+                                        @Html.ActionLink(!string.IsNullOrEmpty(item.FileName) ? item.FileName : item.DocumentoId.ToString(), "Download", "Documento", new { id = item.DocumentoId }, null)
+                                    }
+                                    else if (!string.IsNullOrWhiteSpace(item.Url))
+                                    {
+                                        <a href="@item.Url" target="_blank">@item.FileName</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.ActionLink("Volver al inicio", "Index", "Home")

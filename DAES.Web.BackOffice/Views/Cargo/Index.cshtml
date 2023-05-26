@@ -1,0 +1,21 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Cargo>
+
+@{
+    ViewBag.Title = "Cargos";
+}
+
+@using GridMvc.Html
+@Html.Grid(Model).Sortable(true).Columns(columns =>
+{
+    columns.Add(q => q.CargoId).Titled("Id").Sortable(true).Filterable(true);
+    columns.Add(q => q.Nombre).Titled("Cargo").Sortable(true).Filterable(true);
+    columns.Add(q => q.Secuencia).Titled("Secuencia").Sortable(true).Filterable(true);
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Detalles", "Details", new { id = q.CargoId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Editar", "Edit", new { id = q.CargoId }));
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Eliminar", "Delete", new { id = q.CargoId }));
+}).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()
+
+
+<hr />
+@Html.ActionLink("Crear nuevo", "Create") | @Html.ActionLink("Volver al inicio", "Index", "Home")
+

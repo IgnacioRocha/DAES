@@ -1,0 +1,229 @@
+﻿
+<style type="text/css">
+
+    .multiselect {
+        width: 322px;
+        height: 300px;
+        overflow-y: auto;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+            overflow-y: scroll;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+    .custom-form-control {
+        display: block;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+        .custom-form-control:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
+    #checkboxes {
+        height: auto; /* Resetea la altura para que no se vea extraño con las casillas de verificación */
+        overflow-y: auto; /* Añade una barra de desplazamiento vertical si hay muchos elementos */
+        max-height: 200px; /* Limita la altura máxima del contenedor */
+    }
+
+
+    /*  #checkboxes label:hover {
+                background-color: #1e90ff;
+            }*/
+</style>
+@model DAES.Model.DTO.DTOConsultaProceso
+@{
+    ViewBag.Title = "Procesos";
+}
+
+<div class="row">
+    <div class="col-lg-3">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Filtros</div>
+            <div class="panel-body">
+
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    @Html.Label("Texto de búsqueda")
+                    @Html.EditorFor(model => model.Filter, new { htmlAttributes = new { @class = "form-control" } })
+                    <br />
+                    <label>
+                        @Html.EditorFor(model => model.MostrarSoloVigentes) @Html.DisplayNameFor(model => model.MostrarSoloVigentes)
+                    </label>
+                    <br />
+                    <br />
+
+                    @Html.Label("Procesos")
+                    <br />
+                    <div>
+                        @*<div class="multiselect">
+                                <div class="selectBox" onclick="showCheckboxes()">
+                                    <select >
+
+                                        <option>Seleccione</option>
+
+                                    </select>
+                                    <div class="overSelect" ></div>
+                                </div>
+                                <div id="checkboxes" >
+                                        @Html.EditorFor(model => model.DefinicionProcesos)
+                                </div>
+                            </div>*@
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showCheckboxes()">
+                                <select class="custom-form-control">
+                                    <option>Seleccione</option>
+                                </select>
+                                <div class="overSelect"></div>
+                            </div>
+                            <div id="checkboxes" class="custom-form-control">
+                                @Html.EditorFor(model => model.DefinicionProcesos)
+                            </div>
+                        </div>
+
+                    </div>
+                    //@Html.EditorFor(model => model.DefinicionProcesos)
+                    <br />
+                    <input type="submit" value="Buscar" class="btn btn-primary btn-block" />
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="panel panel-default">
+            <div class="panel-heading">Resultados</div>
+            <div class="panel-body">
+
+                <table class="table table-hover table-striped datatable">
+                    <thead>
+                        <tr>
+                            <th>
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().ProcesoId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().Solicitante.Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().DefinicionProceso.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().Organizacion.NumeroRegistro)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().FechaVencimiento)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Procesos.FirstOrDefault().Terminada)
+                            </th>
+                            <th>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Procesos)
+                        {
+                            <tr>
+                                <td>
+                                    @{
+                                        if (!item.Terminada && DateTime.Now.Date < item.FechaVencimiento.Date)
+                                        {
+                                            <span class="label label-success label-as-badge">En curso normal</span>
+                                        }
+                                        if (!item.Terminada && DateTime.Now.Date == item.FechaVencimiento.Date)
+                                        {
+                                            <span class="label label-warning label-as-badge">Proceso por vencer</span>
+                                        }
+
+                                        if (!item.Terminada && DateTime.Now.Date > item.FechaVencimiento.Date)
+                                        {
+                                            <span class="label label-danger label-as-badge">Proceso atrasado</span>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ProcesoId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Solicitante.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DefinicionProceso.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Organizacion.NumeroRegistro)
+                                </td>
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)
+                                </td>
+                                <td>
+                                    @(item.Terminada ? "SI" : "NO")
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Detalles", "Details", new { id = item.ProcesoId })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.ActionLink("Volver al inicio", "Index", "Home")
+
+<script type="text/javascript">
+    var expanded = false;
+
+    function showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            enableFiltering: true;
+            expanded = false;
+        }
+    }
+
+
+
+</script>

@@ -1,0 +1,110 @@
+﻿<meta name="robots" content="noindex,nofollow" />
+
+@model DAES.Model.SistemaIntegrado.Organizacion
+@using Enum = DAES.Infrastructure.Enum;
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Publicaciones financieras</h1>
+        <p class="lead">De acuerdo al artículo 91° de la R.A.E 1321, todas las publicaciones contenidas en esta sección son publicadas por las propias cooperativas, por lo que su contenido es exclusivamente responsabilidad de cada una de ellas.</p>
+    </div>
+</div>
+<div class="container my-3">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Organización</h5>
+            <hr />
+            <div class="form-group">
+                @Html.LabelFor(m => Model.RazonSocial, new { @class = "font-weight-bold" })<br />
+                @Html.DisplayFor(m => Model.RazonSocial)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => Model.NumeroRegistro, new { @class = "font-weight-bold" })<br />
+                @Html.DisplayFor(m => Model.NumeroRegistro)
+            </div>
+
+            @if (Model.Articulo91s.Any(q => q.OK))
+            {
+                var ultimoPeriodo = Model.Articulo91s.LastOrDefault().Periodo;
+                <div class="form-group">
+                    <label><b>Última publicación de información</b></label><br />
+                    @Html.DisplayFor(m => ultimoPeriodo)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<div class="container my-3">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Publicaciones</h5>
+            @if (!Model.Articulo91s.Any(q => q.OK))
+            {
+                <hr />
+                <p>No existen publicaciones aprobadas</p>
+            }
+            else
+            {
+                <p class="my-4"></p>
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>
+                                Año
+                            </th>
+                            <th>
+                                Balance General
+                            </th>
+                            <th>
+                                Estado de Resultados
+                            </th>
+                            <th>
+                                Dictamen de Auditores
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @foreach (var item in Model.Articulo91s.Where(q => q.OK).OrderByDescending(q => q.Articulo91Id))
+                        {
+                            var documentos = item.Proceso.Documentos;
+
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Periodo)
+                                </td>
+                                <td>
+                                    @if (documentos != null && documentos.Any(q => q.TipoDocumentoId == (int)Enum.TipoDocumento.PDF_BALANCE))
+                                    {
+                                        var docBalance = documentos.FirstOrDefault(q => q.TipoDocumentoId == (int)Enum.TipoDocumento.PDF_BALANCE);
+
+                                        <a href="@Url.Action("Download", "Documento", new { id = docBalance.DocumentoId })" target="_blank">@docBalance.FileName</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (documentos != null && documentos.Any(q => q.TipoDocumentoId == (int)Enum.TipoDocumento.PDF_ESTADO_RESULTADOS))
+                                    {
+                                        var docEstado = documentos.FirstOrDefault(q => q.TipoDocumentoId == (int)Enum.TipoDocumento.PDF_ESTADO_RESULTADOS);
+
+                                        <a href="@Url.Action("Download", "Documento", new { id = docEstado.DocumentoId })" target="_blank">@docEstado.FileName</a>
+                                    }
+                                </td>
+                                <td>
+                                    @if (documentos != null && documentos.Any(q => q.TipoDocumentoId == (int)Enum.TipoDocumento.PDF_AUDITORES_EXTERNOS))
+                                    {
+                                        var docDictamen = documentos.FirstOrDefault(q => q.TipoDocumentoId == (int)Enum.TipoDocumento.PDF_AUDITORES_EXTERNOS);
+
+                                        <a href="@Url.Action("Download", "Documento", new { id = docDictamen.DocumentoId })" target="_blank">@docDictamen.FileName</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index")'>DAES digital</a>
+</div>

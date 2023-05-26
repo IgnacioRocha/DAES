@@ -1,0 +1,23 @@
+﻿@model DAES.Model.SistemaIntegrado.Situacion
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Estado";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.SituacionId }) |
+    @Html.ActionLink("Volver al listado", "Index")
+</p>

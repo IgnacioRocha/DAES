@@ -1,0 +1,36 @@
+﻿@model DAES.Model.DTO.DTOJuntaGeneralSociosObligatoriaCooperativa
+
+<table class="table table-responsive">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().NombreCompleto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().Rut)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().Cargo.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().Genero.Nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().FechaInicio)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Directorio.FirstOrDefault().FechaTermino)
+        </th>
+    </tr>
+    @for (int i = 0; i < Model.Directorio.Count; i++)
+    {
+        <tr>
+            @Html.HiddenFor(model => Model.Directorio[i].DirectorioId)
+
+            @Html.EditorFor(m => Model.Directorio[i])
+
+            <td>
+                @Ajax.ActionLink("Eliminar", "DirectorioDelete", "JuntaGeneralSociosObligatoriaCooperativa", new { Model.Directorio[i].Id }, new AjaxOptions { UpdateTargetId = "JuntaGeneralSociosObligatoriaCooperativaDirectorio" })
+            </td>
+        </tr>
+    }
+</table>

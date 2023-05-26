@@ -1,0 +1,65 @@
+﻿@model DAES.Model.SistemaIntegrado.Fiscalizacion
+
+@if (Model.Proceso.Documentos.Any())
+{
+    <table class="table table-hover table-striped datatable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => Model.Proceso.Documentos.FirstOrDefault().FechaCreacion)
+                </th>
+                <th>
+                    Archivo
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => Model.Proceso.Documentos.FirstOrDefault().Autor)
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var documento in Model.Proceso.Documentos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => documento.FechaCreacion)
+                    </td>
+                    <td>
+                        @if (documento.Content != null)
+                        {
+                            @Html.ActionLink(documento.FileName, "Download", "Documento", new { id = documento.DocumentoId }, null)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => documento.Autor)
+                    </td>
+
+                    <td>
+                        <a href="#" data-toggle="modal" data-target="@string.Concat("#ModalDocumentoDelete", documento.DocumentoId)">Eliminar</a>
+                        <div class="modal" tabindex="-1" role="dialog" id=@string.Concat("ModalDocumentoDelete", documento.DocumentoId)>
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4>Eliminar documento</h4>
+                                    </div>
+                                    @using (Html.BeginForm("DocumentoDelete", "Task", new { id = documento.DocumentoId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="modal-body">
+                                            <p>Confirma la eliminación del archivo?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

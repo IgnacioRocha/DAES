@@ -1,0 +1,414 @@
+﻿@model DAES.Model.DTO.DTOJuntaGeneralSociosCoop
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">
+            Elección de Consejo de Administración, Gerente o Gerente Administrador
+        </h1>
+        <p class="lead">
+            Este trámite permite actualizar el nombre de los miembros del Consejo de Administración, del Gerente o
+            del Gerente de Administración aprobados en Junta General de Socios.<br />
+            Asimismo, permite responder aquellos oficios con reparos que surgen con posterioridad a la tramitación
+            de este proceso de actualización.<br />
+            Para realizar este trámite se requiere adjuntar el Acta de la Junta General de Socios que aprueba la nueva
+            administración, Acta de Comité Administrativo con asignación de cargos directivos y el comprobante de
+            medios de convocatoria empleados.
+        </p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+
+@if (Model == null)
+{
+    return;
+}
+
+<style>
+    .container {
+        max-width: 1250px !important;
+    }
+</style>
+
+<div class="container">
+    @*<div class="alert alert-primary" role="alert">
+            <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
+        </div>*@
+    @*<div class="alert alert-warning" role="alert">
+            <b>Importante: </b> Indicar correo electrónico y fono del solicitante
+        </div>*@
+    <div class="alert alert-danger" role="alert">
+        <b>(*)</b> Campo Obligatorio
+    </div>
+    <div class="alert alert-warning" role="alert">
+        <b>Importante: </b> Indicar correo electrónico de solicitante
+    </div>
+    @using (Html.BeginForm("Create", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.RUTSolicitante)
+        @Html.HiddenFor(model => model.NombresSolicitante)
+        @Html.HiddenFor(model => model.ApellidosSolicitante)
+        @Html.HiddenFor(model => model.OrganizacionId)
+        @Html.HiddenFor(model => model.NumeroRegistro)
+        @Html.HiddenFor(model => model.RazonSocial)
+        @Html.HiddenFor(model => model.TipoOrganizacionId)
+        @Html.HiddenFor(model => model.EstadoId)
+        @Html.HiddenFor(model => model.RegionId)
+        @Html.HiddenFor(model => model.ComunaId)
+        @Html.HiddenFor(model => model.Direccion)
+        @Html.HiddenFor(model => model.RubroId)
+        @Html.HiddenFor(model => model.SubRubroId)
+
+
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        <div class="row">
+
+
+            <div class="col-sm-6">
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Solicitante</h5>
+                        <p class="card-title">Información correspondiente a solicitante</p>
+                        <hr />
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.RUTSolicitante, new { @class = "font-weight-bold" })
+                                    @Html.DisplayFor(m => Model.RUTSolicitante)
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => Model.NombresSolicitante, new { @class = "font-weight-bold" })<br />
+                                            @Html.DisplayFor(m => Model.NombresSolicitante)
+                                            @Html.ValidationMessageFor(m => Model.NombresSolicitante, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => Model.ApellidosSolicitante, new { @class = "font-weight-bold" })<br />
+                                            @Html.DisplayFor(m => Model.ApellidosSolicitante)
+                                            @Html.ValidationMessageFor(m => Model.ApellidosSolicitante, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-6 col-sm-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" })
+                                            @Html.EditorFor(m => Model.EmailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(m => Model.EmailSolicitante, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-12">
+                                        <div class="form-group">
+                                            @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" })
+                                            @Html.EditorFor(m => Model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(m => Model.FonoSolicitante, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(m => Model.EmailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(m => Model.EmailSolicitante, "", new { @class = "text-danger" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" })
+                                        @Html.EditorFor(m => Model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(m => Model.FonoSolicitante, "", new { @class = "text-danger" })
+                                    </div>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="card" style="min-height: 341px !important">
+                    <div class="card-body">
+                        <h5 class="card-title">Organización</h5>
+                        <p class="card-title">Información correspondiente organización</p>
+                        <hr />
+                        @*<div class="form-group">
+                                @Html.LabelFor(m => Model.NumeroRegistro, new { @class = "font-weight-bold" })<br />
+                                @Html.DisplayFor(m => Model.NumeroRegistro)
+                            </div>*@
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.RazonSocial, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => Model.RazonSocial)
+                        </div>
+                        @*<div class="form-group">
+                                @Html.LabelFor(m => Model.TipoOrganizacionId, new { @class = "font-weight-bold" })<br />
+                                @Html.DisplayFor(m => Model.TipoOrganizacion.Nombre)
+                            </div>*@
+                        @*<div class="form-group">
+                                @Html.LabelFor(m => Model.EstadoId, new { @class = "font-weight-bold" })<br />
+                                @Html.DisplayFor(m => Model.Estado.Nombre)
+                            </div>*@
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.RubroId, new { @class = "font-weight-bold" })<br />
+                                    @Html.DisplayFor(m => Model.Rubro.Nombre)
+                                    @*@Html.DropDownListFor(model => Model.RubroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })*@
+                                    @Html.ValidationMessageFor(m => Model.RubroId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-sm-12">
+                                <div class="form-group">
+                                    @Html.LabelFor(m => Model.SubRubroId, new { @class = "font-weight-bold" })<br />
+                                    @Html.DisplayFor(m => Model.SubRubro.Nombre)
+                                    @*@Html.DropDownListFor(model => Model.SubRubroId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })*@
+                                    @Html.ValidationMessageFor(m => Model.SubRubroId, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="row">
+                                <div class="col-lg-6 col-sm-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => Model.RegionId, new { @class = "font-weight-bold" })
+                                        @Html.DropDownListFor(model => Model.RegionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(m => Model.RegionId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-sm-12">
+                                    <div class="form-group">
+                                        @Html.LabelFor(m => Model.ComunaId, new { @class = "font-weight-bold" })
+                                        @Html.DropDownListFor(model => Model.ComunaId, null, "Seleccione...", htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
+                                        @Html.ValidationMessageFor(m => Model.ComunaId, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>*@
+                        @*<div class="form-group">
+                                @Html.LabelFor(m => Model.Direccion, new { @class = "font-weight-bold" })
+                                @Html.EditorFor(m => Model.Direccion, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(m => Model.Direccion, "", new { @class = "text-danger" })
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <br />
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Documentación</h5>
+                        <p class="card-title">Ingrese la documentación solicitada</p>
+                        <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.File1, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => Model.File1, null, new { @type = "file", @accept = "application/pdf" })<br />
+                            @Html.ValidationMessageFor(model => model.File1, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.File2, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => Model.File2, null, new { @type = "file", @accept = "application/pdf" })<br />
+                            @Html.ValidationMessageFor(model => model.File2, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.File3, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => Model.File3, null, new { @type = "file", @accept = "application/pdf" })<br />
+                            @Html.ValidationMessageFor(model => model.File3, "", new { @class = "text-danger" })
+                        </div>
+                        <hr class="my-4">
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.File4, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => Model.File4, null, new { @type = "file", @accept = "application/pdf" })<br />
+                            @Html.ValidationMessageFor(model => model.File4, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+            </div>
+            <div class="col-sm-12">
+                <div class="card">
+
+                    <br />
+                    <div class="container">
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body" style="min-height: 335px">
+                                        <p class="card-title text-center font-weight-bold">Consejo de Administración, Gerente o Gerente Administrador</p>
+                                        <hr />
+                                        <ul>
+                                            <li class="card-title text-info">
+                                                (*)Campos obligatorios
+                                            </li>
+                                            <li class="card-title text-info">
+                                                Campos marcados en sección "Eliminado?" serán eliminados
+                                            </li>
+                                        </ul>
+                                        <hr />
+
+                                        <div class="input_field">
+                                            <table class="table table-responsive" id="table_field">
+
+                                                <tr>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().NombreCompleto, "(*)Nombre Completo")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Rut, "(*)Rut")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Cargo.Nombre, "(*)Cargo")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Genero.Nombre)
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaInicio, "(*)Fecha de Inicio")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaTermino, "(*)Fecha de Termino")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().eliminado, "Eliminado?")
+                                                    </th>
+                                                </tr>
+
+
+                                                @for (int i = 0; i < Model.Directorio.Count; i++)
+                                                {
+
+                                                    <tr id="@Model.Directorio[i].DirectorioId">
+
+                                                        @Html.HiddenFor(model => Model.Directorio[i].DirectorioId)
+                                                        @Html.EditorFor(m => Model.Directorio[i])
+                                                        <td class="text-center">
+                                                            @Html.EditorFor(m => Model.Directorio[i].eliminado, new { htmlAttributes = new { @class = "form-control",  } })
+                                                            @*<label class="text-danger" name="BtnMarcar" id="@Model.Directorio[i].DirectorioId" onclick="Marcar(this.id)">
+                                                                <u>Marcar</u>
+                                                            </label>*@
+                                                            @*<label class="text-danger" hidden name="BtnQuitar+@Model.Directorio[i]" id="@Model.Directorio[i].DirectorioId" onclick="Quitar(this.id)">
+                                                                    <u>Quitar</u>
+                                                                </label>*@
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                @*@foreach (var item in Model.Directorio)
+                                                    {
+                                                        <tr id="@item.DirectorioId">
+
+                                                            @Html.HiddenFor(model => item.DirectorioId)
+                                                            @Html.HiddenFor(model => item.eliminado)
+
+                                                            @Html.EditorFor(Model => item)
+
+                                                            <td class="text-center">
+                                                                <label class="text-danger" id="@item.DirectorioId" onclick="Quitar(this.id)">
+                                                                    <u>Quitar</u>
+                                                                </label>
+                                                            </td>
+                                                        </tr>
+
+                                                    }*@
+
+                                            </table>
+                                        </div>
+                                        <hr />
+                                        <label class="text-primary" name="add" id="add">Agregar nuevo miembro</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+
+
+                    @*<div class="card-body">
+                            <h5 class="card-title">Consejo de Administración, Gerente o Gerente Administrador</h5>
+                            <p class="card-title">(*)Campos obligatorios</p>
+                            <hr />
+                            <div id="JuntaGeneralSociosCoop">
+                                @Html.Partial("_JuntaGeneralSociosCoop", Model)
+                            </div>
+                            @Ajax.ActionLink("Nuevo miembro", "DirectorioAdd", null, null, new AjaxOptions { UpdateTargetId = "JuntaGeneralSociosCoop", AllowCache = true, InsertionMode=InsertionMode.Replace }, new { @class = "btn btn-primary" })
+                        </div>*@
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <button class="btn btn-primary btn-rounded" type="submit">Enviar solicitud</button>
+    }
+</div>
+
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script type="text/javascript">
+    var max = 10, x = 1, cont = 1;
+    //Se crea los input requeridos para el objeto de directorio.
+    $("#add").click(function () {
+
+        var lista = [];
+            var wrapper = '<tr>'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="text" name="NombreCompleto" id="NombreCompleto"/>'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="text" name="Rut" id="Rut" />'
+                + '<td style="height:50px; padding-left: 10px"><select class="form-control" id="SelectCargo" name="SelectCargo">@foreach(var item in ViewBag.Cargo){<option value="@item.CargoId">@item.Nombre</option>}</select>'
+                + '<td style="height:50px; padding-left: 10px"><select class="form-control" id="SelectGenero" name="SelectGenero">@foreach(var item in ViewBag.Genero){<option value="@item.GeneroId">@item.Nombre</option>}</select>'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="date" name="FechaInicio" id="FechaInicio" />'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="date" name="FechaTermino" id="FechaTermino" />'
+                + '<td style="height:1px; padding-left: 1px"><input class="form-control text-box single-line" type="text" name="IdSolicitante" hidden id="IdSolicitante" value="@Model.OrganizacionId"/>'
+            + '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove"><u>Eliminar</u></label></td></tr>';
+        if (x < max) {
+            $("#table_field").append(wrapper);
+            x++, cont++;
+        }
+        lista = wrapper;
+
+    })
+
+    $("#table_field").on('click', '#remove', function () {
+        $(this).closest('tr').remove();
+        x--;
+    })
+
+
+
+    //function Marcar(clicked_id) {
+    //    var a = document.getElementById(clicked_id);
+    //    var b = document.getElementById(clicked_id);
+    //    console.log(a);
+    //    b.style.backgroundColor = "#595656";
+
+    //    var IdEliminar = clicked_id;
+    //    var lista = [];
+    //    var wrapper = '<tr>'
+    //        + '<td style="height:1px; padding-left: 1px"><input class="form-control text-box single-line" type="text" name="DirectorioId" hidden id="DirectorioId" value="'.concat(clicked_id).concat('"/>');
+
+    //    if (x < max) {
+    //        $("#table_field").append(wrapper);
+    //        x++, cont++;
+    //    }
+    //    lista = wrapper;
+
+    //    /*a.setAttribute('eliminado', '1');*/
+
+
+    //    x--;
+    //}
+    //function Recargar() {
+    //    location.reload();
+    /*}*/
+
+</script>

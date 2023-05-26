@@ -1,0 +1,129 @@
+﻿@model IEnumerable<DAES.Model.SistemaIntegrado.Proceso>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Procesos de la organización</div>
+    <div class="panel-body">
+
+        <table class="table table-hover table-striped datatable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().ProcesoId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Solicitante.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().DefinicionProceso.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Correlativo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaCreacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Terminada)
+                    </th>
+                    <th>
+                        Opciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(q => 
+                q.DefinicionProcesoId != (int)DAES.Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico && 
+                q.DefinicionProcesoId != (int)DAES.Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoManual))
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.ProcesoId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Solicitante.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.DefinicionProceso.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Correlativo)
+                    </td>
+                    <td>
+                        @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)
+                    </td>
+                    <td>
+                        @(item.Terminada ? "SI":"NO")
+                    </td>
+                    <td>
+                        @Html.ActionLink("Detalles", "Details", "ProcesoConsultor", new { id = item.ProcesoId }, null)
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Procesos de la organización (solicitudes de certificados)</div>
+    <div class="panel-body">
+
+        <table class="table table-hover table-striped datatable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().ProcesoId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Solicitante.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().DefinicionProceso.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Correlativo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().FechaCreacion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().Terminada)
+                    </th>
+                    <th>
+                        Opciones
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Where(q =>
+                q.DefinicionProcesoId == (int)DAES.Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico ||
+                q.DefinicionProcesoId == (int)DAES.Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoManual))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => item.ProcesoId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Solicitante.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.DefinicionProceso.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => item.Correlativo)
+                        </td>
+                        <td>
+                            @string.Format("{0:dd-MM-yyyy HH:mm:ss}", item.FechaCreacion)
+                        </td>
+                        <td>
+                            @(item.Terminada ? "SI" : "NO")
+                        </td>
+                        <td>
+                            @Html.ActionLink("Detalles", "Details", "ProcesoConsultor", new { id = item.ProcesoId }, null)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

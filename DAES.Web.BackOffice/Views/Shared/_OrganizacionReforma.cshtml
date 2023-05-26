@@ -1,0 +1,87 @@
+﻿
+
+@model IEnumerable<DAES.Model.SistemaIntegrado.ReformaAGAC>
+@using GridMvc.Html
+
+
+<div class="panel panel-default" style="overflow-x:scroll">
+    <div class="panel-heading">Reformas Asociación de consumidores y asociacion gremial</div>
+    <div class="panel-body">
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+
+                    @if (Model.Any(q => q.AsambleaDepId != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.AsambleaDeposito.Descripcion)
+                        </th>
+                    }
+                    @if (Model.Any(q => q.FechaAsambleaDep != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaAsambleaDep)
+                        </th>
+                    }
+                    @if (Model.Any(q => q.FechaOficio != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.FechaOficio)
+                        </th>
+                    }
+                    @if (Model.Any(q => q.NumeroOficio != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumeroOficio)
+                        </th>
+                    }
+                    @if (Model.Any(q => q.AprobacionId != null))
+                    {
+                        <th>
+                            @Html.DisplayNameFor(model => model.AprobacionId)
+                        </th>
+                    }
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        @if (item.AsambleaDepId != null)
+                        {
+                            <th>
+                                @Html.DisplayFor(model => item.AsambleaDeposito.Descripcion)
+                            </th>
+                        }
+                        @if (item.FechaAsambleaDep != null)
+                        {
+                            <th>
+                                @Html.DisplayFor(model => item.FechaAsambleaDep)
+                            </th>
+                        }
+                        @if (item.FechaOficio != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.FechaOficio)
+                            </td>
+                        }
+                        @if (item.NumeroOficio != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.NumeroOficio)
+                            </td>
+                        }
+                        @if (item.AprobacionId != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(model => item.Aprobacion.Nombre)
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

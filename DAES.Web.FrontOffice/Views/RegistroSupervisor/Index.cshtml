@@ -1,0 +1,43 @@
+﻿<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Registro Supervisores Auxiliares</h1>
+        <p class="lead">
+            Este trámite permite solicitar el registro de un Supervisor Auxiliar, sus representantes y otros datos, cumpliendo con los requisitos que exige la Ley General de Cooperativas, su Reglamento y la RAE 1321 de la DAES.
+        </p>
+        <p class="lead">Todos los trámites de esta sección requiren <a href="https://claveunica.gob.cl/" target="_blank">clave única.</a> </p>
+        <p>
+            <a href="https://asociatividad.economia.cl/wp-content/uploads/2019/04/RAE-1321.pdf" target="_blank" class="btn btn-primary btn-rounded">Ver RAE 1321</a>
+            Confirmar Lectura <input type="checkbox" name="confirmar" id="confirmar" style="height:20px; width:20px;" />
+        </p>
+       <a id="linkGo" name="linkGo" href="@Url.Action("Start", "SupervisorAuxiliar")" class="btn btn-primary btn-rounded" style="pointer-events:none">Iniciar trámite</a></p>
+    </div>
+</div>
+<div class="container my-3">
+    Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
+</div>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-149680284-32"></script>
+<script>
+    $(document).ready(function () {
+        $("#confirmar").change(function () {
+            if ($("#confirmar").is(':checked')) {
+                $("#linkGo").attr('style', 'pointer-events:auto')
+            } else {
+                $("#linkGo").css('pointer-events', 'none')
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-149680284-32');
+        /*gtag('event', 'Inicio de la solicitud', {
+            'event_category': 'Trámite digital',
+            'event_label': 'Trámite - ID 0800540005'
+        });*/
+    });
+</script>

@@ -1,0 +1,39 @@
+﻿@model  DAES.Web.FrontOffice.Controllers.GPDocumentoVerificacionController.DTODocumento
+
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="display-4">Verificación de documentos</h1>
+        <p class="lead">
+            Verificación de documentos electrónicos
+        </p>
+    </div>
+</div>
+<div class="container my-3">
+    @Html.Partial("_Message")
+</div>
+<div class="container my-3">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Búsqueda de documento</h5>
+                <p class="card-title"></p><br />
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 col-sm-12">
+                        <div class="form-group">
+                            @Html.EditorFor(m => Model.Id, new { htmlAttributes = new { @class = "form-control", placeholder = "Ingrese código de verificación del documento" } })
+                            @Html.ValidationMessageFor(m => Model.Id, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary btn-rounded" type="submit">Verificar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="container my-3">
+    <a href="@Url.Action("Index","GP")">Volver al inicio</a>
+</div>

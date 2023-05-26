@@ -1,0 +1,117 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+@{
+    ViewBag.Title = "Ejecución de tarea";
+}
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Info" data-toggle="tab">Información de la tarea</a>
+    </li>
+    <li>
+        <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Info">
+        <br />
+        @Html.Partial("_WorkflowDetails", Model.Workflow)
+        @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
+        @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })
+    </div>
+
+    <div class="tab-pane fade" id="Do">
+        <br />
+
+        @using (Html.BeginForm("FiscalizacionAdd","Task"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m => Model.Fiscalizacion.ProcesoId)
+
+            <div class="panel panel-default">
+                <div class="panel-heading">Fiscalización</div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.Fecha, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Fiscalizacion.Fecha, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.Fecha, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.TipoFiscalizacionId, "Tipo fiscalización", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => Model.Fiscalizacion.TipoFiscalizacionId, (SelectList)ViewBag.TipoFiscalizacionId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.TipoFiscalizacionId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.NumeroIngreso, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Fiscalizacion.NumeroIngreso, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.NumeroIngreso, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.Observacion, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Fiscalizacion.Observacion, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.Observacion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.TipoHallazgoId, "Tipo hallazgo", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => Model.Fiscalizacion.TipoHallazgoId, (SelectList)ViewBag.TipoHallazgoId, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.TipoHallazgoId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                        @*....*@
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.NumeroReiteracion, "Número reiteración", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => Model.Fiscalizacion.NumeroReiteracion, (SelectList)ViewBag.NumeroReiteracion, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.NumeroReiteracion, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.NumeroHallazgoPendientes, "Número de hallazgos pendientes", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownListFor(model => Model.Fiscalizacion.NumeroHallazgoPendientes, (SelectList)ViewBag.NumeroHallazgoPendientes, "Seleccione...", new { @class = "form-control", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.NumeroHallazgoPendientes, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.Plazo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => Model.Fiscalizacion.Plazo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => Model.Fiscalizacion.Plazo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => Model.Fiscalizacion.Multa, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                <div class="checkbox">
+                                    @Html.EditorFor(model => Model.Fiscalizacion.Multa)
+                                    @Html.ValidationMessageFor(model => Model.Fiscalizacion.Multa, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" value="Guardar" class="btn btn-primary my-3" />
+        }
+
+    </div>
+</div>

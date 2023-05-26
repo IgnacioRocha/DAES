@@ -1,0 +1,397 @@
+﻿@model DAES.Web.BackOffice.Controllers.TaskModel
+@{
+    ViewBag.Title = "Ejecución de tarea";
+}
+<style>
+    #capa1 {
+        position: absolute;
+        z-index: 1;
+        background-color: #FFFFFF;
+        right: 8%;
+        bottom: 10%;
+    }
+
+    #capa2 {
+        position: absolute;
+        z-index: 1;
+        background-color: #FFFFFF;
+        right: 10%;
+        bottom: 50%;
+        background-color: darkcyan;
+    }
+</style>
+
+<div id="capa1">
+    @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed" })
+</div>
+
+<ul class="nav nav-tabs">
+    <li class="active">
+        <a href="#Info" data-toggle="tab">Información de la tarea</a>
+    </li>
+    <li>
+        <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade in active" id="Info">
+        <br />
+        @Html.Partial("_WorkflowDetails", Model.Workflow)
+        @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
+    </div>
+
+    <div class="tab-pane fade" id="Do">
+        <br />
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Datos de Organización</div>
+                            <div class="panel-body" @*style="height: 200px"*@>
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Organizacion.OrganizacionId)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Organizacion.OrganizacionId)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Organizacion.RUT)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Organizacion.RUT)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Organizacion.RazonSocial)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Organizacion.RazonSocial)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Organizacion.Rubro.Nombre)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Organizacion.Rubro.Nombre)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Organizacion.SubRubro.Nombre)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Organizacion.SubRubro.Nombre)
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Datos de Solicitante</div>
+                            <div class="panel-body" @*style="height: 200px"*@>
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Rut)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Rut)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Nombres)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Nombres)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Apellidos)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Apellidos)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Email)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Email)
+                                    </dd>
+                                    <dt>
+                                        @Html.DisplayNameFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Fono)
+                                    </dt>
+                                    <dd>
+                                        @Html.DisplayFor(model => model.ActualizacionOrganizacion.Proceso.Solicitante.Fono)
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        @{
+            if (ViewBag.listado.Count > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="panel-group" id="collapse2" role="tablist" aria-multiselectable="true">
+
+                            <div class="panel panel-warning">
+                                <div class="panel-heading" role="tab" id="collapse-heading-two">
+                                    <div class="panel-title">
+                                        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#collapse2" href="#collapse-two" aria-expanded="false" aria-controls="collapse-two">
+                                            <h4>Comisión Liquidadora</h4>
+                                        </a>
+                                    </div>
+                                    <span style="font-size: medium"><strong>Advertencia: </strong> Esta actualizacion de Junta de Socios contiene miembros pertenecientes a Comisión Liquidadora</span>
+                                </div>
+                                <div id="collapse-two" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapse-heading-two" aria-expanded="true">
+                                    <div class="panel-body">
+
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr class="bg-warning" style="color: white">
+                                                    <td>Nombre Completo</td>
+                                                    <td>RUT</td>
+                                                    <td>Cargo</td>
+                                                    <td>Género</td>
+                                                    <td>Desde</td>
+                                                    <td>Hasta</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in ViewBag.listado)
+                                                {
+                                                    <tr>
+                                                        <td>@item.NombreCompleto</td>
+                                                        <td>@item.Rut</td>
+                                                        <td>@item.Cargo.Nombre</td>
+                                                        <td>@item.Genero.Nombre</td>
+                                                        <td>@item.FechaInicio</td>
+                                                        <td>@item.FechaTermino</td>
+                                                        @*<td>@String.Format("{0:dd/MM/yyyy}", @item.FechaInicio)</td>
+                                                            <td>@String.Format("{0:dd/MM/yyyy}", @item.FechaTermino)</td>*@
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        <p>Si se desea actualizar el directorio (modificar, agregar o eliminar), considerar que los siguientes miembros corresponden a comision liquidadora.</p>
+
+                                        <hr />
+                                        @Html.ActionLink("Ir a detalles de organizacion", "Details", "OrganizacionConsultor", new { id = 6 })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            }
+        }
+
+
+
+
+        <div class="row">
+            <div class="col-md-6">
+                @if (Model.Organizacion != null)
+                {
+
+                    <div class="panel-group" id="collapse3" role="tablist" aria-multiselectable="true">
+
+                        <div class="panel panel-danger">
+                            <div class="panel-heading" role="tab" id="collapse-heading-two">
+                                <div class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#collapse3" href="#collapse-three" aria-expanded="false" aria-controls="collapse-three">
+                                        <strong>Junta general de socios </strong>correspondiente a la organización
+                                    </a>
+                                </div>
+                                @*<span style="font-size: medium"><strong>Advertencia: </strong> Esta actualizacion de directorio contiene miembros pertenecientes a comision Liquidadora</span>*@
+                            </div>
+                            <div id="collapse-three" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapse-heading-two" aria-expanded="true">
+                                <div class="panel-body">
+
+
+                                    <table class="table table-hover table-striped" @*style="color: #b4bcc2"*@>
+                                        <thead>
+                                            <tr class="bg-danger" style="color: white">
+                                                <th>Nombre Completo</th>
+                                                <th>RUT</th>
+                                                <th>Cargo</th>
+                                                <th>Género</th>
+                                                <th>Desde</th>
+                                                <th>Hasta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                foreach (var item in Model.Directorios)
+                                                {
+                                                    <tr>
+                                                        <td>@Html.DisplayFor(m => item.NombreCompleto)</td>
+                                                        <td>@Html.DisplayFor(m => item.Rut)</td>
+                                                        <td>@Html.DisplayFor(m => item.Cargo.Nombre)</td>
+                                                        <td>@Html.DisplayFor(m => item.Genero.Nombre)</td>
+                                                        <td>@(@String.Format("{0:dd-MM-yyyy}", item.FechaInicio) != "" ? @String.Format("{0:dd-MM-yyyy}", item.FechaInicio) : "No Definido")</td>
+                                                        <td>@(@String.Format("{0:dd-MM-yyyy}", item.FechaTermino) != "" ? @String.Format("{0:dd-MM-yyyy}", item.FechaInicio) : "No Definido")</td>
+
+                                                        @*@foreach (var help in ViewBag.modelos)
+                                                            {
+
+                                                            }*@
+
+
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+            <div class="col-md-6">
+                @if (Model.ActualizacionOrganizacion != null)
+                {
+
+                    <div class="panel-group" id="collapse4" role="tablist" aria-multiselectable="true">
+
+                        <div class="panel panel-success">
+                            <div class="panel-heading" role="tab" id="collapse-heading-two">
+                                <div class="panel-title">
+                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#collapse4" href="#collapse-four" aria-expanded="false" aria-controls="collapse-four">
+                                        <strong>Junta general de socios solicitada </strong>para actualizar
+                                    </a>
+                                </div>
+                                @*<span style="font-size: medium"><strong>Advertencia: </strong> Esta actualizacion de directorio contiene miembros pertenecientes a comision Liquidadora</span>*@
+                            </div>
+                            <div id="collapse-four" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapse-heading-two" aria-expanded="true">
+                                <div class="panel-body">
+
+
+                                    @using (Html.BeginForm("ActualizarOrganizacionDirectorio", null, FormMethod.Post))
+                                    {
+
+                                        @Html.AntiForgeryToken()
+                                        @Html.HiddenFor(model => model.Workflow.WorkflowId)
+                                        @Html.HiddenFor(model => model.Organizacion.OrganizacionId)
+                                        @Html.HiddenFor(model => model.ActualizacionOrganizacion.ActualizacionOrganizacionId)
+                                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                                        <div id="directorio">
+                                            @if (Model.ActualizacionOrganizacion.Directorio.Any())
+                                            {
+                                                <table class="table table-hover table-striped">
+                                                    <thead>
+                                                        <tr class="bg-success" style="color: white">
+                                                            <th>Nombre Completo</th>
+                                                            <th>RUT</th>
+                                                            <th>Cargo</th>
+                                                            <th>Género</th>
+                                                            <th>Desde</th>
+                                                            <th>Hasta</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @{
+                                                            for (int i = 0; i < ViewBag.modelos.Count; i++)
+                                                            {
+                                                                <tr>
+                                                                    <td>@ViewBag.modelos[i].NombreCompleto</td>
+                                                                    <td>@ViewBag.modelos[i].Rut</td>
+                                                                    <td>@ViewBag.modelos[i].Cargo.Nombre</td>
+                                                                    <td>@ViewBag.modelos[i].Genero.Nombre</td>
+                                                                    <td>@String.Format("{0:dd/MM/yyyy}", ViewBag.modelos[i].FechaInicio)</td>
+                                                                    <td>@String.Format("{0:dd/MM/yyyy}", ViewBag.modelos[i].FechaTermino)</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            }
+                                            else
+                                            {
+                                                <p>Se solicita eliminar directorio</p>
+                                            }
+
+                                        </div>
+
+                                        <div class="offset-1">
+                                            @if (ViewBag.validador)
+                                            {
+                                                <input type="submit" value="Actualizar Directorio Organización" class="btn btn-primary" @*onclick="Validar(@ViewBag.listado_count)"*@ />
+                                            }
+                                        </div>
+
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+
+    $('form').on('submit', function (e) {
+
+        //swal({
+        //    title: "Estas Seguro?",
+        //    text: "Al modificar este directorio, los miembros de comision liquidadora se actualizarán",
+        //    icon: "warning",
+        //    buttons: true,
+        //    dangerMode: true,
+        //})
+
+        //    .then((willDelete) => {
+        //        if (willDelete) {
+        //            swal("Poof! Your imaginary file has been deleted!", {
+        //                icon: "success"
+        //            });
+        //        } else {
+        //            swal("Your imaginary file is safe!");
+        //        }
+
+        //});
+
+
+        var num = '@ViewBag.listado_count';
+
+        if (num > 0) {
+            if (confirm("¿Desea actualizar el directorio?") == true) {
+                return true;
+            } else {
+                e.preventDefault();
+                return false;
+            }
+        }
+
+    });
+
+    $('.collapse').on('hidden.bs.collapse', function () {
+        $('.collapse').eq(1).collapse('show');
+    })
+
+
+</script>

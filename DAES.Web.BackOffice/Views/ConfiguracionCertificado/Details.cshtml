@@ -1,0 +1,111 @@
+﻿@model DAES.Model.SistemaIntegrado.ConfiguracionCertificado
+
+@{
+    ViewBag.Title = "Detalles";
+    ViewBag.SubTitle = "Configuración certificado";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoDocumento.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoDocumento.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoOrganizacion.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoOrganizacion.Nombre)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parrafo1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parrafo1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parrafo2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parrafo2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Parrafo3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Parrafo3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ciudad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ciudad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnidadOrganizacional)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnidadOrganizacional)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.XML)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.XML)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsActivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsActivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TieneDirectorio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TieneDirectorio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TieneEstatuto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TieneEstatuto)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ConfiguracionCertificadoId }) |
+    @Html.ActionLink("Volver a la lista", "Index")
+</p>

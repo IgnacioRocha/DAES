@@ -1,0 +1,76 @@
+﻿@model DAES.Model.SistemaIntegrado.Proceso
+
+@{
+    ViewBag.Title = "Proceso";
+    ViewBag.SubTitle = "Eliminar";
+}
+
+<div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <strong>Advertencia:</strong>
+    Al eliminar el proceso eliminará también todas las tareas y documentos asociados.
+</div>
+
+
+<dl class="dl-horizontal">
+    <dt>
+        @Html.DisplayNameFor(model => model.DefinicionProceso.Nombre)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.DefinicionProceso.Nombre)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Organizacion.RazonSocial)
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.Organizacion.RazonSocial)
+    </dd>
+
+
+    <dt>
+        @Html.DisplayNameFor(model => model.FechaCreacion)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.FechaCreacion)
+    </dd>
+
+    <dt>
+        @Html.DisplayNameFor(model => model.FechaVencimiento)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.FechaVencimiento)
+    </dd>
+
+    @if (Model.Solicitante != null)
+    {
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitante.Nombres)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Solicitante.Nombres)
+        </dd>
+    }
+
+    <dt>
+        @Html.DisplayNameFor(model => model.Terminada)
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.Terminada)
+    </dd>
+
+</dl>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Confirmar eliminación" class="btn btn-primary" /> |
+        @Html.ActionLink("Volver a la lista", "Index")
+    </div>
+}
