@@ -9,9 +9,7 @@
 <div class="container my-3">
     @Html.Partial("_Message")
 </div>
-<div class="container my-3">
-    <p class="lead text-danger">Los campos marcados con * son obligatorios</p>
-</div>
+
 
 @if (Model == null)
 {
@@ -27,7 +25,9 @@
         @Html.HiddenFor(model => model.ApellidosSolicitante)
         @Html.HiddenFor(model => model.OrganizacionId)
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
+        <div class="alert alert-danger" role="alert">
+            <b>(*)</b> Campo Obligatorio
+        </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card">
@@ -36,44 +36,44 @@
                         <p class="card-title">Ingrese la documentación solicitada</p>
                         <hr />
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.Periodo, new { @class = "font-weight-bold" }) <span class="text-danger">*</span> <br />
+                            @Html.LabelFor(m => Model.Periodo, new { @class = "font-weight-bold" }) 
                             @Html.DropDownListFor(model => Model.Periodo, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => Model.Periodo, "", new { @class = "text-danger" })
                         </div>
                         <hr class="my-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.Balance, new { @class = "font-weight-bold" }) <span class="text-danger">*</span> <br />
+                            @Html.LabelFor(m => Model.Balance, new { @class = "font-weight-bold" }) 
                             @Html.TextBoxFor(m => Model.Balance, null, new { @type = "file", @accept = "application/pdf" })<br />
                             <small class="text-muted">Tamaño máximo del archivo 20 MB</small><br />
                             @Html.ValidationMessageFor(model => model.Estadoresultado, "", new { @class = "text-danger" })
                         </div>
                         <hr class="my-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.Estadoresultado, new { @class = "font-weight-bold" }) <span class="text-danger">*</span> <br />
+                            @Html.LabelFor(m => Model.Estadoresultado, new { @class = "font-weight-bold" }) 
                             @Html.TextBoxFor(m => Model.Estadoresultado, null, new { @type = "file", @accept = "application/pdf" })<br />
                             <small class="text-muted">Tamaño máximo del archivo 20 MB</small><br />
                             @Html.ValidationMessageFor(model => model.Estadoresultado, "", new { @class = "text-danger" })
                         </div>
                         <hr class="my-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.DictamenAuditorExterno, new { @class = "font-weight-bold" }) <span class="text-danger">*</span> <br />
+                            @Html.LabelFor(m => Model.DictamenAuditorExterno, new { @class = "font-weight-bold" })
                             @Html.TextBoxFor(m => Model.DictamenAuditorExterno, null, new { @type = "file", @accept = "application/pdf" })<br />
                             <small class="text-muted">Tamaño máximo del archivo 20 MB</small><br />
                             @Html.ValidationMessageFor(model => model.DictamenAuditorExterno, "", new { @class = "text-danger" })
                         </div>
                         <hr class="my-4">
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.NombreGerente, new { @class = "font-weight-bold" }) <span class="text-danger">*</span> <br />
+                            @Html.LabelFor(m => Model.NombreGerente, new { @class = "font-weight-bold" })
                             @Html.EditorFor(m => Model.NombreGerente, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.NombreGerente, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.NombreContadorGeneral, new { @class = "font-weight-bold" }) <span class="text-danger">*</span> <br />
+                            @Html.LabelFor(m => Model.NombreContadorGeneral, new { @class = "font-weight-bold" }) 
                             @Html.EditorFor(m => Model.NombreContadorGeneral, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.NombreContadorGeneral, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.FechaCelebracionUltimaJuntaGeneralSocios, new { @class = "font-weight-bold" }) <span class="text-danger">*</span> <br />
+                            @Html.LabelFor(m => Model.FechaCelebracionUltimaJuntaGeneralSocios, new { @class = "font-weight-bold" }) 
                             @Html.EditorFor(m => Model.FechaCelebracionUltimaJuntaGeneralSocios, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(model => model.FechaCelebracionUltimaJuntaGeneralSocios, "", new { @class = "text-danger" })
                         </div>
@@ -100,17 +100,17 @@
                             @Html.DisplayFor(m => Model.ApellidosSolicitante)
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.RegionSolicitanteId, new { @class = "font-weight-bold" }) <span class="text-danger">*</span>
+                            @Html.LabelFor(m => Model.RegionSolicitanteId, new { @class = "font-weight-bold" }) 
                             @Html.DropDownListFor(m => Model.RegionSolicitanteId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => Model.RegionSolicitanteId, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" }) <span class="text-danger">*</span>
+                            @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" }) 
                             @Html.EditorFor(m => Model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(m => Model.FonoSolicitante, "", new { @class = "text-danger" })
                         </div>
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" }) <span class="text-danger">*</span>
+                            @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" }) 
                             @Html.EditorFor(m => Model.EmailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
                             @Html.ValidationMessageFor(m => Model.EmailSolicitante, "", new { @class = "text-danger" })
                         </div>

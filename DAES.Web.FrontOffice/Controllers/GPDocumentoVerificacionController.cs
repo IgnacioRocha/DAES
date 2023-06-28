@@ -66,7 +66,7 @@ namespace DAES.Web.FrontOffice.Controllers
             int a = int.Parse(id);
 
             //var doc = db.Documento.Where(q => q.Activo && q.DocumentoId.Equals(id)).First();
-            var doc = db.Documento.Where(q => q.DocumentoId == a).First();
+            var doc = db.Documento.Where(q => q.DocumentoId == a).FirstOrDefault();
 
 
             System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
@@ -100,7 +100,6 @@ namespace DAES.Web.FrontOffice.Controllers
             }
             else
             {
-
                 return View("_Error", new Exception("Debe completar el captcha"));
             }
 

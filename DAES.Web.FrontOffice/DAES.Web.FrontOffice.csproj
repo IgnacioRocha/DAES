@@ -434,6 +434,7 @@
     <Content Include="Content\CAC\CACsMENSUAL_%282de2%29 V6.xls" />
     <Content Include="Content\CAC\Guia-estudio-socio-económico-para-Cacs.pdf" />
     <Content Include="Content\NOCAC\Guia-estudio-socio-económico-para-CVA.pdf" />
+    <Content Include="Content\NOCAC\NOCACS_BALANCE_V5.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Produccion.pubxml" />
     <Content Include="Content\Site.css" />

@@ -21,7 +21,9 @@
         @Html.HiddenFor(model => model.ApellidosSolicitante)
         @Html.HiddenFor(model => model.OrganizacionId)
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
+        <div class="alert alert-danger" role="alert">
+            <b>(*)</b> Campo Obligatorio
+        </div>
         <div class="row">
             <div class="col">
                 <div class="card">

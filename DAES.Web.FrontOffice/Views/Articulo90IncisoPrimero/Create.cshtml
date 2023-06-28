@@ -21,13 +21,15 @@
         @Html.HiddenFor(model => model.ApellidosSolicitante)
         @Html.HiddenFor(model => model.OrganizacionId)
         @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-
+    <div class="alert alert-danger" role="alert">
+        <b>(*)</b> Campo Obligatorio
+    </div>
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Documentación</h5>
-                        <p class="card-title">Modifique los datos de la organización</p>
+                        <p class="card-title">Ingrese la documentación solicitada</p>
                         <hr />
                         <div class="form-group">
                             @Html.LabelFor(m => Model.BalanceGeneralClasificado, new { @class = "font-weight-bold" })<br />

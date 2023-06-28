@@ -43,9 +43,28 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Start()
         {
+            //Para Prod
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisionNOCAC";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+
+            //Para Desarrollo
+            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisionNOCAC";
+            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
+
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            //{
+            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            //};
+            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            //{
+            //    numero = 44444444,
+            //    DV = "4",
+            //    tipo = "RUN"
+            //};
+            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
         }
 
         public ActionResult Finish()
@@ -167,7 +186,7 @@ namespace DAES.Web.FrontOffice.Controllers
                     RegionId = model.RegionSolicitanteId
                 };
 
-                SetFile(model.BalanceV4, (int)Infrastructure.Enum.TipoDocumento.NOCAC_BALANCE);
+                SetFile(model.BalanceV5, (int)Infrastructure.Enum.TipoDocumento.NOCAC_BALANCE);
                 SetFile(model.CarteraVencidaV3, (int)Infrastructure.Enum.TipoDocumento.NOCAC_CARTERA_VENCIDA);
                 SetFile(model.DeudoresV4, (int)Infrastructure.Enum.TipoDocumento.NOCAC_DEUDORES_2);
 

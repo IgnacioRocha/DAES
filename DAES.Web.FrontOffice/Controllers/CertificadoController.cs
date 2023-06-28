@@ -140,12 +140,12 @@ namespace DAES.Web.FrontOffice.Controllers
                         RegionId = model.RegionId
                     };
 
-                    //proceso.Documentos.Add(new Documento()
-                    //{
-                    //    TipoDocumentoId = model.TipoDocumentoId,
-                    //    TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Publico,
+                    proceso.Documentos.Add(new Documento()
+                    {
+                        TipoDocumentoId = model.TipoDocumentoId,
+                        TipoPrivacidadId = (int)DAES.Infrastructure.Enum.TipoPrivacidad.Publico,
 
-                    //});
+                    });
 
                     var p = _custom.ProcesoStart(proceso);
 
