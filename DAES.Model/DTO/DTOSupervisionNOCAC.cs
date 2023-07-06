@@ -18,7 +18,7 @@ namespace DAES.Model.DTO
         [Required(ErrorMessage = "Es necesario especificar el archivo Balance v.4")]
         [Display(Name = "Balance v.4")]
         [DataType(DataType.Upload)]
-        public HttpPostedFileBase BalanceV4 { get; set; }
+        public HttpPostedFileBase BalanceV5 { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el archivo Cartera Vencida v.3")]
         [Display(Name = "Cartera Vencida v.3")]

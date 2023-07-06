@@ -191,7 +191,8 @@
                                 <div class="input_field">
                                     <table id="table_field" class="table-bordered">
                                         <tr>
-                                            @Html.LabelFor(m => Model.DocumentoAdjunto, "Seleccione un documento", new { @class = "font-weight-bold" })<br />
+                                            @Html.LabelFor(m => Model.DocumentoAdjunto, "Seleccione un documento", new { @class = "font-weight-bold" })
+                                            <br />
                                             @Html.ValidationMessageFor(m => Model.DocumentoAdjunto, "", new { @class = "text-danger" })
                                             <td style="height:50px; padding-left: 10px">
                                                 @Html.TextBoxFor(m => Model.DocumentoAdjunto, null, new { @type = "file" })
@@ -255,7 +256,7 @@
         gtag('event', 'Inicio de la solicitud', {
             'event_category': 'Trámite digital',
             'event_label': 'Trámite - ID 0800540063'
-        });
+        });        
     });
 
     $('#TipoOrganizacionId option[value="1"]').attr("selected", true);
@@ -338,5 +339,16 @@
             alert("El tamaño máximo es 50 MB por archivo");
             $DocumentoAdjunto.value = "";
         }
+    });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FBP7RVLMWX"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-FBP7RVLMWX');
+    gtag('event', 'Inicio de la solicitud', {
+        'event_category': 'Trámite digital',
+        'event_label': 'Trámite - ID 0800540063'
     });
 </script>

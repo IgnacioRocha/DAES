@@ -2,19 +2,29 @@
 
 Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.com/es-ES/1.0.0/)
 
-Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
-## [2.5.4 tramites digitales, backOffice- 14-03-2023]
+## [2.5.5 Tramites Digitales - 06-07-2023]
+
 ### Changed
--se modifica modulo de administración de módulos 
--se modifica recaptcha
--se modifica busqueda de usuario al momento de restablecer la contraseña
+
+- Se modificaron los tags de Google Analytics, cambiandolos por la version GA4.
+
+## [2.5.4 tramites digitales, backOffice- 14-03-2023]
+
+### Changed
+
+- se modifica modulo de administración de módulos
+- se modifica recaptcha
+- se modifica busqueda de usuario al momento de restablecer la contraseña
 
 ## [2.5.3 tramites digitales, backOffice- 27-02-2023]
+
 ### Changed
--   Se agrega tipo de organización a certificados emitidos por trámites digitales
+
+- Se agrega tipo de organización a certificados emitidos por trámites digitales
 
 ## ADD
--   Se agrega módulo de administración de perfiles a backoffice.
+
+- Se agrega módulo de administración de perfiles a backoffice.
 
 ## [2.5.2 Tramites Digitales - 23-02-2023]
 

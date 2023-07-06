@@ -205,7 +205,7 @@
         gtag('event', 'Inicio de la solicitud', {
             'event_category': 'Trámite digital',
             'event_label': 'Trámite - ID 0800540005'
-        });
+        });        
     });
 
     const MAXIMO_TAMANIO_BYTES = @ViewBag.max_tamano_file;
@@ -277,5 +277,16 @@
             }
             console.log(archivo);
         }
+    });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V00WBXWJ83"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-V00WBXWJ83');
+    gtag('event', 'Inicio de la solicitud', {
+        'event_category': 'Trámite digital',
+        'event_label': 'Trámite - ID 0800540005'
     });
 </script>

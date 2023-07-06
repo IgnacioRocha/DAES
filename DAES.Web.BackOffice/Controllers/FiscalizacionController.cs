@@ -59,12 +59,15 @@ namespace DAES.Web.BackOffice.Controllers
             .OrderByDescending(q => q.ProcesoId)
             .ToList();
 
+            var fisca = db.Fiscalizacion.AsNoTracking().Where(q => q.Activo).ToList();
+
             foreach (var proceso in model)
             {
-                proceso.Fiscalizacions = proceso.Fiscalizacions.Where(f => f.Activo).ToList();
+                // Collection de Fiscalizaciones
+                var helpu = proceso.Fiscalizacions = proceso.Fiscalizacions.Where(f => f.Activo).ToList();
                 foreach (var fiscalizacion in proceso.Fiscalizacions)
                 {
-                    fiscalizacion.ProcesoRelacionado = db.Proceso.Find(fiscalizacion.ProcesoRelacionadoId);
+                    var helper = fiscalizacion.ProcesoRelacionado = db.Proceso.Find(fiscalizacion.ProcesoRelacionadoId);
                 }
             }
 
