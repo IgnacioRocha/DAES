@@ -61,6 +61,12 @@
                             <th>
                                 Dictamen de Auditores
                             </th>
+                            <th>
+                                Nombre del Gerente
+                            </th>
+                            <th>
+                                Nombre Contador general
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -96,6 +102,12 @@
 
                                         <a href="@Url.Action("Download", "Documento", new { id = docDictamen.DocumentoId })" target="_blank">@docDictamen.FileName</a>
                                     }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(q=> q.Articulo91s.FirstOrDefault().NombreGerente)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(q => q.Articulo91s.FirstOrDefault().NombreContadorGeneral)
                                 </td>
                             </tr>
                         }

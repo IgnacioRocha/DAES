@@ -1,73 +1,189 @@
-﻿@model IEnumerable<DAES.Web.BackOffice.Controllers.OrganizacionConsultorController.DTOOrganizacion>
-@{
-    ViewBag.Title = "Organizaciones";
-}
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema integrado DAES</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunob")
 
-<div class="row">
-    <div class="col-lg-3">
-        <div class="panel panel-default">
-            <div class="panel-heading">Filtros</div>
-            <div class="panel-body">
-                @using (Html.BeginForm("Index", null, FormMethod.Get))
-                {
-                    @Html.AntiForgeryToken()
+    @Styles.Render("~/Content/gridmvc")
+    @Scripts.Render("~/bundles/gridmvcjs")
 
-                    @Html.Label("Texto de búsqueda")
-                    @Html.Editor("Query", new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.Label("Tipo")
-                    @Html.DropDownList("TipoOrganizacionId", null, "Seleccione...", new { @class = "form-control" })
-                    @Html.Label("Estado")
-                    @Html.DropDownList("EstadoId", null, "Seleccione...", new { @class = "form-control" })
-                    @Html.Label("Situación")
-                    @Html.DropDownList("SituacionId", null, "Seleccione...", new { @class = "form-control" })
-                    @Html.Label("Rubro")
-                    @Html.DropDownList("RubroId", null, "Seleccione...", new { @class = "form-control" })
-                    @Html.Label("Región")
-                    @Html.DropDownList("RegionId", null, "Seleccione...", new { @class = "form-control" })
-                    @Html.Label("Comuna")
-                    @Html.DropDownList("ComunaId", null, "Seleccione...", new { @class = "form-control" })
-                    <br />
-                    <input type="submit" value="Buscar" class="btn btn-primary btn-block" />
-                }
+    @Styles.Render("~/Content/DataTables")
+    @Scripts.Render("~/bundles/datatables")
+    <style>
+        .row {
+            margin-left: 10%;
+            margin-right: 10%;
+        }
+    </style>
+</head>
+<body>
+    @model IEnumerable<DAES.Web.BackOffice.Controllers.OrganizacionConsultorController.DTOOrganizacion>
+    @{
+        ViewBag.Title = "Organizaciones";
+    }
+
+    @{
+        Layout = null;
+    }
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-full">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"></button>
+                @Html.ActionLink("Sistema integrado DAES", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
             </div>
         </div>
+    </nav>
+    <div class="container-full body-content">
+
+        <div class="page-header">
+            <h2>@ViewBag.Title </h2>
+            @*<h4 class="text-muted">@ViewBag.SubTitle</h4>*@
+        </div>
+
+        @Html.Partial("_Alerts")
     </div>
-    <div class="col-lg-9">
-        <div class="panel panel-default">
-            <div class="panel-heading">Resultados</div>
-            <div class="panel-body">
-                <table class="table table-hover table-striped datatable">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroRegistro)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.FirstOrDefault().RazonSocial)
-                            </th>
-                            <th>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Filtros</div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Index", null, FormMethod.Get))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @Html.Label("Texto de búsqueda")
+                        @Html.Editor("Query", new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.Label("Tipo")
+                        @Html.DropDownList("TipoOrganizacionId", null, "Seleccione...", new { @class = "form-control" })
+                        @Html.Label("Estado")
+                        @Html.DropDownList("EstadoId", null, "Seleccione...", new { @class = "form-control" })
+                        @Html.Label("Situación")
+                        @Html.DropDownList("SituacionId", null, "Seleccione...", new { @class = "form-control" })
+                        @Html.Label("Rubro")
+                        @Html.DropDownList("RubroId", null, "Seleccione...", new { @class = "form-control" })
+                        @Html.Label("Región")
+                        @Html.DropDownList("RegionId", null, "Seleccione...", new { @class = "form-control", @id = "ddlRegion" })
+                        @Html.Label("Comuna")
+                        @Html.DropDownList("ComunaId", null, "Seleccione...", new { @class = "form-control", @id = "ddlComuna" })
+
+                        <br />
+                        <input type="submit" value="Buscar" class="btn btn-primary btn-block" />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">Resultados</div>
+                <div class="panel-body">
+                    <table class="table table-hover table-striped datatable" id="tableOrganizaciones">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.NumeroRegistro)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.RazonSocial)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("Detalles", "Details", new { id = item.OrganizacionId })
-                                </td>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().NumeroRegistro)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FirstOrDefault().RazonSocial)
+                                </th>
+                                <th>
+                                </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NumeroRegistro)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RazonSocial)
+                                    </td>
+                                    <td>
+                                        @Html.ActionLink("Detalles", "Details", new { id = item.OrganizacionId })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@Html.ActionLink("Volver al inicio", "Index", "Home")
+    @Html.ActionLink("Volver al inicio", "Index", "Home")
+
+    <script>
+
+
+
+
+    $(document).ready(function () {
+        if (!$.fn.DataTable.isDataTable('#tableOrganizaciones')) {
+
+            // Si no ha sido inicializada, hazlo
+            $('#tableOrganizaciones').DataTable({
+                "columnDefs": [{
+                    "type": "num",
+                    "targets": 0
+                }],
+                "language":
+                {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate":
+                    {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+            });
+        }
+    // Tu código existente para el cambio de Región
+    $('#ddlRegion').change(function () {
+        var regionId = $(this).val();
+        if (regionId) {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetComunasByRegion", "OrganizacionConsultor")",
+                data: { regionId: regionId },
+                success: function (data) {
+                    $('#ddlComuna').empty();
+                    $('#ddlComuna').append('<option value="">Seleccione...</option>');
+                    $.each(data, function (index, item) {
+                        $('#ddlComuna').append('<option value="' + item.Value + '">' + item.Text + '</option>');
+                    });
+                }
+            });
+        } else {
+            $('#ddlComuna').empty();
+            $('#ddlComuna').append('<option value="">Seleccione...</option>');
+        }
+    });
+});
+
+    </script>
+
+</body>
+</html>

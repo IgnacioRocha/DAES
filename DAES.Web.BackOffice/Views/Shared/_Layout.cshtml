@@ -90,113 +90,208 @@
                 });
                 $('.dataTables_length').addClass('bs-select');
             }
+
+
         });
 
         /*Esto se creó solo para datatable de mis tareas y documentos, en ella se agregan mas filtros y personalizaciones solicitadas*/
+        //$(document).ready(function () {
+        //    $('#tareas thead tr')
+        //        .clone(true)
+        //        .addClass('filters')
+        //        .appendTo('#tareas thead');
+
+        //    var table = $('#tareas').DataTable({
+        //        orderCellsTop: true,
+        //        fixedHeader: true,
+        //        autoWidth: false,
+        //        columnDefs: [
+        //            {
+        //                targets: [7, 8], // Asegúrate de que este índice corresponda a la columna de fecha correcta
+        //                type: 'num',
+        //                render: function (data, type, row) {
+        //                    var formattedDate = moment(data, "DD-MM-YYYY HH:mm:ss").format('DD-MM-YYYY HH:mm:ss');
+        //                    if (type === 'display') {
+        //                        return formattedDate;
+        //                    } else if (type === 'sort') {
+        //                        return moment(formattedDate, "DD-MM-YYYY HH:mm:ss").unix(); // Devuelve la fecha como un número Unix
+        //                    }
+        //                    return data;
+        //                }
+        //            }
+        //        ],
+        //        buttons: [
+        //            'copy', 'excel', 'pdf'
+        //        ],
+        //        "order": [],
+        //        "language":
+        //        {
+        //            "decimal": "",
+        //            "emptyTable": "No hay información",
+        //            "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+        //            "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+        //            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+        //            "infoPostFix": "",
+        //            "thousands": ",",
+        //            "lengthMenu": "Mostrar _MENU_ entradas",
+        //            "loadingRecords": "Cargando...",
+        //            "processing": "Procesando...",
+        //            "search": "Buscar:",
+        //            "zeroRecords": "Sin resultados encontrados",
+        //            "paginate":
+        //            {
+        //                "first": "Primero",
+        //                "last": "Ultimo",
+        //                "next": "Siguiente",
+        //                "previous": "Anterior"
+        //            }
+        //        },
+
+        //        initComplete: function () {
+        //            var api = this.api();
+
+        //            // For each column
+        //            api
+        //                .columns([0, 1, 2, 3, 4, 5, 6, 7, 8])
+        //                .eq(0)
+        //                .each(function (colIdx) {
+        //                    // Set the header cell to contain the input element
+        //                    var cell = $('.filters th').eq(
+        //                        $(api.column(colIdx).header()).index()
+        //                    );
+        //                    var title = $(cell).text();
+        //                    $(cell).html('<input type="text" placeholder="Buscar" class="form-control" style="width: 100% !important" />');
+
+        //                    // On every keypress in this input
+        //                    $(
+        //                        'input',
+        //                        $('.filters th').eq($(api.column(colIdx).header()).index())
+        //                    )
+        //                        .off('keyup change')
+        //                        .on('change', function (e) {
+        //                            // Get the search value
+        //                            $(this).attr('title', $(this).val());
+        //                            var regexr = '({search})'; //$(this).parents('th').find('select').val();
+
+        //                            var cursorPosition = this.selectionStart;
+        //                            // Search the column for that value
+        //                            api
+        //                                .column(colIdx)
+        //                                .search(
+        //                                    this.value != ''
+        //                                        ? regexr.replace('{search}', '(((' + this.value + ')))')
+        //                                        : '',
+        //                                    this.value != '',
+        //                                    this.value == ''
+        //                                )
+        //                                .draw();
+        //                        })
+        //                        .on('keyup', function (e) {
+        //                            e.stopPropagation();
+
+        //                            $(this).trigger('change');
+        //                            $(this)
+        //                                .focus()[0]
+        //                                .setSelectionRange(cursorPosition, cursorPosition);
+        //                        });
+        //                });
+        //        },
+        //    });
+
+        //////////////////////
+        //});
+
+
+        //este bloque de código controla las datatables de mis tareas y documentos y modulos consulta.
         $(document).ready(function () {
-            $('#tareas thead tr')
-                .clone(true)
-                .addClass('filters')
-                .appendTo('#tareas thead');
+            function initializeDataTable(selector, columnDefs) {
+                if (!$.fn.DataTable.isDataTable(selector)) { // Verificar si la tabla ya está inicializada
+                    $(selector + ' thead tr')
+                        .clone(true)
+                        .addClass('filters')
+                        .appendTo(selector + ' thead');
 
-            var table = $('#tareas').DataTable({
-                orderCellsTop: true,
-                fixedHeader: true,
-                autoWidth: false,
-                columnDefs: [
-                    {
-                        targets: [7, 8], // Asegúrate de que este índice corresponda a la columna de fecha correcta
-                        type: 'num',
-                        render: function (data, type, row) {
-                            var formattedDate = moment(data, "DD-MM-YYYY HH:mm:ss").format('DD-MM-YYYY HH:mm:ss');
-                            if (type === 'display') {
-                                return formattedDate;
-                            } else if (type === 'sort') {
-                                return moment(formattedDate, "DD-MM-YYYY HH:mm:ss").unix(); // Devuelve la fecha como un número Unix
+                    var table = $(selector).DataTable({
+                        orderCellsTop: true,
+                        fixedHeader: true,
+                        autoWidth: false,
+                        columnDefs: columnDefs,
+                        buttons: ['copy', 'excel', 'pdf'],
+                        order: [],
+                        language: {
+                            decimal: "",
+                            emptyTable: "No hay información",
+                            info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                            infoEmpty: "Mostrando 0 to 0 of 0 Entradas",
+                            infoFiltered: "(Filtrado de _MAX_ total entradas)",
+                            infoPostFix: "",
+                            thousands: ",",
+                            lengthMenu: "Mostrar _MENU_ entradas",
+                            loadingRecords: "Cargando...",
+                            processing: "Procesando...",
+                            search: "Buscar:",
+                            zeroRecords: "Sin resultados encontrados",
+                            paginate: {
+                                first: "Primero",
+                                last: "Ultimo",
+                                next: "Siguiente",
+                                previous: "Anterior"
                             }
-                            return data;
+                        },
+                        initComplete: function () {
+                            var api = this.api();
+                            api.columns([0, 1, 2, 3, 4, 5, 6, 7, 8]).eq(0).each(function (colIdx) {
+                                var cell = $('.filters th').eq($(api.column(colIdx).header()).index());
+                                var title = $(cell).text();
+                                $(cell).html('<input type="text" placeholder="Buscar" class="form-control" style="width: 100% !important" />');
+                                $('input', $('.filters th').eq($(api.column(colIdx).header()).index()))
+                                    .off('keyup change')
+                                    .on('change', function (e) {
+                                        $(this).attr('title', $(this).val());
+                                        var regexr = '({search})';
+                                        var cursorPosition = this.selectionStart;
+                                        api.column(colIdx)
+                                            .search(
+                                                this.value != '' ? regexr.replace('{search}', '(((' + this.value + ')))') : '',
+                                                this.value != '',
+                                                this.value == ''
+                                            )
+                                            .draw();
+                                    })
+                                    .on('keyup', function (e) {
+                                        e.stopPropagation();
+                                        $(this).trigger('change');
+                                        $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
+                                    });
+                            });
                         }
-                    }
-                ],
-                buttons: [
-                    'copy', 'excel', 'pdf'
-                ],
-                "order": [],
-                "language":
-                {
-                    "decimal": "",
-                    "emptyTable": "No hay información",
-                    "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
-                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
-                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "Mostrar _MENU_ entradas",
-                    "loadingRecords": "Cargando...",
-                    "processing": "Procesando...",
-                    "search": "Buscar:",
-                    "zeroRecords": "Sin resultados encontrados",
-                    "paginate":
-                    {
-                        "first": "Primero",
-                        "last": "Ultimo",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                },
+                    });
+                }
+            }
 
-                initComplete: function () {
-                    var api = this.api();
+            var renderFunction = function (data, type, row) {
+                var formattedDate = moment(data, "DD-MM-YYYY HH:mm:ss").format('DD-MM-YYYY HH:mm:ss');
+                if (type === 'display') {
+                    return formattedDate;
+                } else if (type === 'sort') {
+                    return moment(formattedDate, "DD-MM-YYYY HH:mm:ss").unix();
+                }
+                return data;
+            };
 
-                    // For each column
-                    api
-                        .columns([0, 1, 2, 3, 4, 5, 6, 7, 8])
-                        .eq(0)
-                        .each(function (colIdx) {
-                            // Set the header cell to contain the input element
-                            var cell = $('.filters th').eq(
-                                $(api.column(colIdx).header()).index()
-                            );
-                            var title = $(cell).text();
-                            $(cell).html('<input type="text" placeholder="Buscar" class="form-control" style="width: 100% !important" />');
+            // Inicialización para las tres tablas
+            initializeDataTable('#tareas', [{
+                targets: [7, 8],
+                type: 'num',
+                render: renderFunction
+            }]);
 
-                            // On every keypress in this input
-                            $(
-                                'input',
-                                $('.filters th').eq($(api.column(colIdx).header()).index())
-                            )
-                                .off('keyup change')
-                                .on('change', function (e) {
-                                    // Get the search value
-                                    $(this).attr('title', $(this).val());
-                                    var regexr = '({search})'; //$(this).parents('th').find('select').val();
-
-                                    var cursorPosition = this.selectionStart;
-                                    // Search the column for that value
-                                    api
-                                        .column(colIdx)
-                                        .search(
-                                            this.value != ''
-                                                ? regexr.replace('{search}', '(((' + this.value + ')))')
-                                                : '',
-                                            this.value != '',
-                                            this.value == ''
-                                        )
-                                        .draw();
-                                })
-                                .on('keyup', function (e) {
-                                    e.stopPropagation();
-
-                                    $(this).trigger('change');
-                                    $(this)
-                                        .focus()[0]
-                                        .setSelectionRange(cursorPosition, cursorPosition);
-                                });
-                        });
-                },
-            });
+            initializeDataTable('#TableConsultaProcesos', [{
+                targets: [5, 6],
+                type: 'num',
+                render: renderFunction
+            }]);
         });
-
 
     </script>
 </body>

@@ -30,6 +30,27 @@ namespace DAES.BLL
     {
         private SmtpClient smtpClient = new SmtpClient();
         private MailMessage emailMsg = new MailMessage();
+
+        public static void CrearCatastro(OrganizacionCatastro org)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                OrganizacionCatastro cat = new OrganizacionCatastro();
+                cat.NombreGerente = org.NombreGerente;
+                cat.RutGerente = org.RutGerente;
+                cat.EmailGerente = org.EmailGerente;
+                cat.EmailRepresentante2 = org.EmailRepresentante2;
+                cat.NombreRepresentante2 = org.NombreRepresentante2;
+                cat.RutRepresentante2 = org.RutRepresentante2;
+                cat.EmailRepresentante3 = org.EmailRepresentante3;
+                cat.NombreRepresentante3 = org.NombreRepresentante3;
+                cat.RutRepresentante3 = org.RutRepresentante3;
+
+                context.OrganizacionCatastro.Add(cat);
+                context.SaveChanges();
+            }
+        }
+
         private GestionDocumentalContext gestionDocumentalContext = new GestionDocumentalContext();
 
 
@@ -99,6 +120,97 @@ namespace DAES.BLL
                 context.SaveChanges();
 
                 return organizacion;
+            }
+        }
+
+        public void CrearPeriodoNoCAC(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = new PeriodoCAC()
+                {
+                    Descripcion = model.Descripcion,
+                    Tipo = "ModeloSupervisionNOCAC"
+                };
+
+                context.PeriodoCAC.Add(periodo);
+                context.SaveChanges();
+            }
+        }
+
+        public void CreatePeriodoArticulo90(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = new PeriodoCAC()
+                {
+                    Descripcion = model.Descripcion,
+                    Tipo = "articulo90"
+                };
+
+                context.PeriodoCAC.Add(periodo);
+                context.SaveChanges();
+            }
+        }
+
+        public void EditPeriodoCAC(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var periodos = context.PeriodoCAC.First(q => q.PeriodoId == model.PeriodoId);
+                periodos.Descripcion = model.Descripcion;
+
+                context.SaveChanges();
+
+            }
+        }
+
+        public void EditPeriodoNoCAC(PeriodoCAC periodo)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var periodos = context.PeriodoCAC.First(q => q.PeriodoId == periodo.PeriodoId);
+                periodos.Descripcion = periodo.Descripcion;
+
+                context.SaveChanges();
+
+            }
+        }
+
+        public void CrearPeriodoCAC(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = new PeriodoCAC()
+                {
+                    Descripcion = model.Descripcion,
+                    Tipo = "ModeloSupervisionCAC"
+                };
+
+                context.PeriodoCAC.Add(periodo);
+                context.SaveChanges();
+            }
+        }
+
+        public void EditPeriodoArticulo90(PeriodoCAC periodo)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var periodos = context.PeriodoCAC.First(q => q.PeriodoId == periodo.PeriodoId);
+                periodos.Descripcion = periodo.Descripcion;
+
+                context.SaveChanges();
+
+            }
+        }
+
+        public void EliminarPeriodoCAC(int PeriodoId)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = context.PeriodoCAC.FirstOrDefault(q => q.PeriodoId == PeriodoId);
+                context.PeriodoCAC.Remove(periodo);
+                context.SaveChanges();
             }
         }
 
@@ -1803,7 +1915,7 @@ namespace DAES.BLL
                                                 parrafo = parrafo = parrafo.Replace(value, item.NNorma != null ? item.NNorma : string.Empty);
                                                 break;
                                             case "[FECHANORMAREF]":
-                                                parrafo = parrafo.Replace(value, item.FechaNorma.Value != null ?string.Format("{0:dd/MM/yyyy}", item.FechaNorma) : string.Empty);
+                                                parrafo = parrafo.Replace(value, item.FechaNorma.Value != null ? string.Format("{0:dd/MM/yyyy}", item.FechaNorma) : string.Empty);
                                                 break;
                                             case "[DATOSGENERALNOTARIOREF]":
                                                 parrafo = parrafo.Replace(value, item.DatosNotario != null ? item.DatosNotario : string.Empty);
@@ -3367,916 +3479,6 @@ namespace DAES.BLL
             }
         }
 
-        //private void ValidarOrganizacion(Organizacion model, string definicion)
-        //{
-        //    var orga = db.Organizacion.Where(q => q.OrganizacionId == model.OrganizacionId);
-        //    var refPost = db.ReformaPosterior.Where(q => q.OrganizacionId == model.OrganizacionId);
-        //    var refAnt = db.ReformaAnterior.Where(q => q.OrganizacionId == model.OrganizacionId);
-        //    using (SistemaIntegradoContext context = new SistemaIntegradoContext())
-        //    {
-        //        switch (definicion)
-        //        {
-        //            case "Disolucion":
-        //                //TODO: validaciones para organizacion en caso de Disolucion
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-        //                    if (model.Disolucions.Any())
-        //                    {
-        //                        //si existe un tipo de norma significa que es una existencia Anterior
-        //                        if (model.Disolucions.FirstOrDefault().TipoNormaId != null)
-        //                        {
-        //                            //Disolucion Anterior
-        //                            if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().NumeroNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().Autorizacion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.RazonSocial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-
-        //                        //si no existe un tipo de norma significa que es una existencia Posterior
-        //                        if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
-        //                        {
-        //                            //Disolucion Posterior
-        //                            if (model.RazonSocial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaEscrituraPublica == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().MinistroDeFe == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().NumeroFojas == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().DatosCBR == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().AñoInscripcion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
-        //                {
-        //                    if (model.Disolucions.Any())
-        //                    {
-        //                        if (model.RazonSocial == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.Disolucions.FirstOrDefault().NumeroOficio == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.Disolucions.FirstOrDefault().FechaOficio == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.Disolucions.FirstOrDefault().FechaAsambleaSocios == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.Disolucions.FirstOrDefault().NombreNotaria == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.Disolucions.FirstOrDefault().DatosNotario == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                    }
-        //                }
-        //                break;
-        //            case "Vigencia":
-        //                //TODO: validaciones para organizacion en caso de Vigencia
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
-        //                {
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                break;
-        //            case "VigenciaEstatutos":
-        //                //TODO: validaciones para organizacion en caso de VigenciaEstatutos
-
-        //                //COOPERATIVAS
-        //                //Existencia Anterior
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-        //                    if (model.ExistenciaAnteriors.Any() || model.ExistenciaPosteriors.Any() || model.Saneamientos.Any() || model.ReformaAnteriors.Any() || model.ReformaPosteriors.Any())
-        //                    {
-
-
-        //                        if (model.ExistenciaAnteriors.Any())
-        //                        {
-
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().TipoNormaId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().NNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().FNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().Autorizado == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion {0} no contiene su información actualizada en el sistema", model.RazonSocial));
-        //                            }
-        //                        }
-        //                        //Existencia Posterior
-        //                        if (model.ExistenciaPosteriors.Any())
-        //                        {
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().Fojas == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().DatosCBR == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-        //                        //Saneamiento
-
-        //                        if (model.Saneamientos.Any())
-        //                        {
-        //                            if (model.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().FechaaPublicacionDiario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().DatoGeneralesNotario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().Fojass == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().FechaaInscripcion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().DatoGeneralesNotario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-        //                        //Reforma Anterior
-        //                        if (model.ReformaAnteriors.Any())
-        //                        {
-        //                            foreach (var item in model.ReformaAnteriors)
-        //                            {
-        //                                if (item.FechaReforma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.TipoNormaId == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.NNorma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaNorma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.DatosNotario == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                            }
-
-
-        //                        }
-        //                        //Reforma Posterior
-        //                        if (model.ReformaPosteriors.Any())
-        //                        {
-        //                            foreach (var item in model.ReformaPosteriors)
-        //                            {
-        //                                if (item.FReforma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaPubliDiario == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaJuntGeneralSocios == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaEscrituraPublica == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaOficio == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FojasNumero == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.AnoInscripcion == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.DatosGeneralNotario == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.DatosCBR == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                            }
-
-
-        //                        }
-        //                    }
-
-        //                }
-        //                //ASOCIACION GREMIAL
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
-        //                {
-        //                    if (model.ExistenciaLegals.Any())
-        //                    {
-        //                        if (model.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.ExistenciaLegals.FirstOrDefault().NumeroOficio == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.ExistenciaLegals.FirstOrDefault().FechaOficio == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.ExistenciaLegals.FirstOrDefault().AprobacionId == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-
-        //                    }
-        //                    if (model.ReformaAGACs.Any())
-        //                    {
-        //                        foreach (var item in model.ReformaAGACs)
-        //                        {
-        //                            if (item.AsambleaDepId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.NumeroOficio == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.FechaAsambleaDep == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.AprobacionId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.FechaOficio == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-
-        //                    }
-        //                }
-
-        //                //ASOCIACION CONSUMIDORES
-        //                break;
-        //            case "VigenciaDirectorio":
-        //                //TODO: validaciones para organizacion en caso de VigenciaDirectorio
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.FechaCelebracion == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
-        //                {
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                    break;
-        //        }
-        //    }
-
-        //}
-        //private void ValidarOrganizacion(Organizacion model, string definicion)
-        //{
-        //    using (SistemaIntegradoContext context = new SistemaIntegradoContext())
-        //    {
-        //        switch (definicion)
-        //        {
-        //            case "Disolucion":
-        //                //TODO: validaciones para organizacion en caso de Disolucion
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-        //                    if (model.Disolucions.Any())
-        //                    {
-        //                        //si existe un tipo de norma significa que es una existencia Anterior
-        //                        if (model.Disolucions.FirstOrDefault().TipoNormaId != null)
-        //                        {
-        //                            //Disolucion Anterior
-        //                            if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().NumeroNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().Autorizacion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.RazonSocial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-
-        //                        }
-
-        //                        //si no existe un tipo de norma significa que es una existencia Posterior
-        //                        if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
-        //                        {
-        //                            //Disolucion Posterior
-        //                            if (model.RazonSocial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaEscrituraPublica == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().MinistroDeFe == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().NumeroFojas == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().DatosCBR == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().AñoInscripcion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
-        //                {
-        //                    if (model.Disolucions.Any())
-        //                    {
-        //                        //si existe un tipo de norma significa que es una existencia Anterior
-        //                        if (model.Disolucions.FirstOrDefault().TipoNormaId != null)
-        //                        {
-        //                            //Disolucion Anterior
-        //                            if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().NumeroNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().Autorizacion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.RazonSocial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-
-        //                        }
-
-        //                        //si no existe un tipo de norma significa que es una existencia Posterior
-        //                        if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
-        //                        {
-        //                            //Disolucion Posterior
-        //                            if (model.RazonSocial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaEscrituraPublica == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().MinistroDeFe == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().NumeroFojas == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().DatosCBR == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-
-        //                            if (model.Disolucions.FirstOrDefault().AñoInscripcion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-        //                    }
-        //                }
-        //                break;
-        //            case "Vigencia":
-        //                //TODO: validaciones para organizacion en caso de Vigencia
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
-        //                {
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                break;
-        //            case "VigenciaEstatutos":
-        //                //TODO: validaciones para organizacion en caso de VigenciaEstatutos
-
-        //                //COOPERATIVAS
-        //                //Existencia Anterior
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-        //                    if (model.ExistenciaAnteriors.Any() || model.ExistenciaPosteriors.Any() || model.Saneamientos.Any() || model.ReformaAnteriors.Any() || model.ReformaPosteriors.Any())
-        //                    {
-
-
-        //                        if (model.ExistenciaAnteriors.Any())
-        //                        {
-
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().TipoNormaId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().NNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().FNorma == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaAnteriors.FirstOrDefault().Autorizado == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion {0} no contiene su información actualizada en el sistema", model.RazonSocial));
-        //                            }
-        //                        }
-        //                        //Existencia Posterior
-        //                        if (model.ExistenciaPosteriors.Any())
-        //                        {
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().Fojas == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().DatosCBR == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-        //                        //Saneamiento
-
-        //                        if (model.Saneamientos.Any())
-        //                        {
-        //                            if (model.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().FechaaPublicacionDiario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().DatoGeneralesNotario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().Fojass == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().FechaaInscripcion == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (model.Saneamientos.FirstOrDefault().DatoGeneralesNotario == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-        //                        //Reforma Anterior
-        //                        if (model.ReformaAnteriors.Any())
-        //                        {
-        //                            foreach (var item in model.ReformaAnteriors)
-        //                            {
-        //                                if (item.FechaReforma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.TipoNormaId == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.NNorma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaNorma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.DatosNotario == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                            }
-
-
-        //                        }
-        //                        //Reforma Posterior
-        //                        if (model.ReformaPosteriors.Any())
-        //                        {
-        //                            foreach (var item in model.ReformaPosteriors)
-        //                            {
-        //                                if (item.FReforma == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaPubliDiario == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaJuntGeneralSocios == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaEscrituraPublica == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaOficio == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FojasNumero == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.AnoInscripcion == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.DatosGeneralNotario == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.DatosCBR == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.FechaOficio == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-        //                                if (item.NumeroOficio == null)
-        //                                {
-        //                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                                }
-
-        //                            }
-
-
-        //                        }
-        //                    }
-
-        //                }
-        //                //ASOCIACION GREMIAL
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
-        //                {
-        //                    if (model.ExistenciaLegals.Any())
-        //                    {
-        //                        if (model.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.ExistenciaLegals.FirstOrDefault().NumeroOficio == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.ExistenciaLegals.FirstOrDefault().FechaOficio == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-        //                        if (model.ExistenciaLegals.FirstOrDefault().AprobacionId == null)
-        //                        {
-        //                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                        }
-
-        //                    }
-        //                    if (model.ReformaAGACs.Any())
-        //                    {
-        //                        foreach (var item in model.ReformaAGACs)
-        //                        {
-        //                            if (item.AsambleaDepId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.NumeroOficio == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.FechaAsambleaDep == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.AprobacionId == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                            if (item.FechaOficio == null)
-        //                            {
-        //                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                            }
-        //                        }
-
-        //                    }
-        //                }
-
-        //                //ASOCIACION CONSUMIDORES
-        //                break;
-        //            case "VigenciaDirectorio":
-        //                //TODO: validaciones para organizacion en caso de VigenciaDirectorio
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
-        //                {
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.FechaCelebracion == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
-        //                {
-        //                    if (model.RazonSocial == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                    if (model.NumeroRegistro == null)
-        //                    {
-        //                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
-        //                    }
-        //                }
-        //                break;
-        //        }
-        //    }
-
-        //}
 
         private void ValidarOrganizacion(Organizacion model, string definicion)
         {
@@ -5198,7 +4400,15 @@ namespace DAES.BLL
                     ReportePMG = model.ReportePMG,
                     CambiarContraseña = model.CambiarContraseña,
                     Comunas = model.Comunas,
-                    AdministracionModulos = model.AdministracionModulos
+                    AdministracionModulos = model.AdministracionModulos,
+                    Neuronales = model.Neuronales,
+                    DocumentoFiscalizador = model.DocumentoFiscalizador,
+                    Periodo = model.Periodo,
+                    VisualizadorDocumentos = model.VisualizadorDocumentos,
+                    VisualizadorFiscalizacion = model.VisualizadorFiscalizacion,
+                    VisualizadorSupervisor = model.VisualizadorSupervisor,
+                    VisualizadorCoordinador = model.VisualizadorCoordinador,
+                    VisualizadorArchivarDocumento = model.VisualizadorArchivarDocumento,
                 };
 
                 context.ModulosConsulta.Add(consu);
@@ -5259,6 +4469,14 @@ namespace DAES.BLL
                 modelo.CambiarContraseña = model.CambiarContraseña;
                 modelo.Comunas = model.Comunas;
                 modelo.AdministracionModulos = model.AdministracionModulos;
+                modelo.Neuronales = model.Neuronales;
+                modelo.DocumentoFiscalizador = model.DocumentoFiscalizador;
+                modelo.Periodo = model.Periodo;
+                modelo.VisualizadorDocumentos = model.VisualizadorDocumentos;
+                modelo.VisualizadorFiscalizacion = model.VisualizadorFiscalizacion;
+                modelo.VisualizadorSupervisor = model.VisualizadorSupervisor;
+                modelo.VisualizadorCoordinador = model.VisualizadorCoordinador;
+                modelo.VisualizadorArchivarDocumento = model.VisualizadorArchivarDocumento;
 
                 context.SaveChanges();
 
@@ -5531,6 +4749,7 @@ namespace DAES.BLL
                 configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[FechaCreacion]", workflow.FechaCreacion.ToString());
                 configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[Tarea]", workflow.DefinicionWorkflow.TipoWorkflow.Nombre);
                 configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[Proceso]", workflow.Proceso.DefinicionProceso.Nombre);
+                configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[User]", workflow.User.Nombre);
                 if (workflow.Proceso.Organizacion != null)
                 {
                     configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[Registro]", workflow.Proceso.Organizacion.NumeroRegistro);
@@ -6111,7 +5330,7 @@ namespace DAES.BLL
                                     response.Errors.Add(folios.error);
 
                                 documento.Folio = folios.folio;
-                                
+
 
 
                                 context.SaveChanges();

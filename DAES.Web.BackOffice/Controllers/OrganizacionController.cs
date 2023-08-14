@@ -430,7 +430,14 @@ namespace DAES.Web.BackOffice.Controllers
 
             if (ModelState.IsValid)
             {
-
+                
+                db.ControlCambio.Add(new ControlCambio() {
+                    UsuarioId = Helper.Helper.CurrentUser.Id,
+                    NombreUsuario = Helper.Helper.CurrentUser.Nombre,
+                    FechaCambio = DateTime.Now,
+                    Organizacion = model.RazonSocial,
+                    OrganizacionId = model.OrganizacionId
+                });
 
                 //model.Reformas = null;
                 db.Entry(model).State = EntityState.Modified;

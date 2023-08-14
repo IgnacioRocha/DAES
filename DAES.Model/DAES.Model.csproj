@@ -163,6 +163,7 @@
     <Compile Include="SistemaIntegrado\AspNetUsers.cs" />
     <Compile Include="SistemaIntegrado\Certificado.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionSupervisor.cs" />
+    <Compile Include="SistemaIntegrado\ControlCambio.cs" />
     <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
     <Compile Include="SistemaIntegrado\DocumentoConfiguracion.cs" />
     <Compile Include="SistemaIntegrado\EscrituraConstitucion.cs" />
@@ -174,6 +175,8 @@
     <Compile Include="SistemaIntegrado\FileAttach.cs" />
     <Compile Include="SistemaIntegrado\FirmaDocumento.cs" />
     <Compile Include="SistemaIntegrado\ModulosConsulta.cs" />
+    <Compile Include="SistemaIntegrado\OrganizacionCatastro.cs" />
+    <Compile Include="SistemaIntegrado\PeriodoCAC.cs" />
     <Compile Include="SistemaIntegrado\PersonaFacultada.cs" />
     <Compile Include="SistemaIntegrado\RepresentanteLegal.cs" />
     <Compile Include="SistemaIntegrado\Saneamiento.cs" />

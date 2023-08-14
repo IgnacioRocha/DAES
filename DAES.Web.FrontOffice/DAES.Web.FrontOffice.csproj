@@ -378,8 +378,10 @@
     <Content Include="Content\btn_claveunica_172px.png" />
     <Content Include="Content\btn_claveunica_202px.png" />
     <Content Include="Content\claveunica-medium.png" />
+    <Content Include="Content\color_MinEconomia.png" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\header-social-sprite.png" />
+    <Content Include="Content\logo-minecon.png" />
     <Content Include="Content\logo-pagina-web3.png" />
     <Content Include="Content\GUIA_AC.pdf" />
     <Content Include="Content\GUIA_AG.pdf" />

@@ -30,25 +30,33 @@ namespace DAES.Web.FrontOffice.Controllers
 
         private SistemaIntegradoContext _db = new SistemaIntegradoContext();
 
-        public ActionResult Index()
-        {
-            IQueryable<Organizacion> query = _db.Organizacion;
-            query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
-            query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
-            query = query.Where(q => q.EsImportanciaEconomica);
+        //public ActionResult Index()
+        //{
+        //    IQueryable<Organizacion> query = _db.Organizacion;
+        //    query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
+        //    query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
+        //    query = query.Where(q => q.EsImportanciaEconomica);
 
-            var model = new Search()
-            {
-                Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList(),
-                First = false
-            };
+        //    var model = new Search()
+        //    {
+        //        Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList(),
+        //        First = false
+        //    };
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
-        [HttpPost]
+        
         public ActionResult Index(string Filter)
         {
+            if (Filter != "" && Filter != null)
+            {
+
+            }
+            else
+            {
+                Filter = " esto no debe buscar $%#";
+            }
             IQueryable<Organizacion> query = _db.Organizacion;
             query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
             query = query.Where(q => q.EsImportanciaEconomica);

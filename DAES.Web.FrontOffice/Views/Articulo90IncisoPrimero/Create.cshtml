@@ -2,6 +2,7 @@
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-4">Cumplimiento del Artículo 90°, inciso primero </h1>
+        <p class="lead">Este trámite permite remitir los estados financieros auditados de las Cooperativas de Importancia Económica, en cumplimiento al inciso primero del artículo 90° de la RAE 1321 de la DAES. Plazo de envío: a más tardar el 31 de marzo del año siguiente al que se informa.</p>
     </div>
 </div>
 <div class="container my-3">
@@ -31,6 +32,11 @@
                         <h5 class="card-title">Documentación</h5>
                         <p class="card-title">Ingrese la documentación solicitada</p>
                         <hr />
+                        <div class="form-group">
+                            @Html.LabelFor(m => Model.PeriodoId, new { @class = "font-weight-bold" })
+                            @Html.DropDownListFor(m => Model.PeriodoId, null, "Seleccione...", htmlAttributes: new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => Model.PeriodoId, "", new { @class = "text-danger" })
+                        </div>
                         <div class="form-group">
                             @Html.LabelFor(m => Model.BalanceGeneralClasificado, new { @class = "font-weight-bold" })<br />
                             @Html.TextBoxFor(m => Model.BalanceGeneralClasificado, null, new { @type = "file", @accept = "application/pdf" })<br />

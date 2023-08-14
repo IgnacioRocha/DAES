@@ -30,6 +30,8 @@ namespace DAES.Web.BackOffice.Controllers
             var Hoy = DateTime.Now;
             var permisos = db.ModulosConsulta.Where(q => q.Id == Helper.Helper.CurrentUser.Id).ToList();
             var id = Helper.Helper.CurrentUser.Id;
+            var perfilId = Helper.Helper.CurrentUser.PerfilId;
+            ViewBag.perfilId = perfilId;
             if (!User.Identity.IsAuthenticated || Helper.Helper.CurrentUser == null)
                 return RedirectToAction("LogOff", "Account");
             ViewBag.Modulos = permisos;

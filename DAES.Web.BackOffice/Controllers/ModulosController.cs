@@ -123,6 +123,14 @@ namespace DAES.Web.BackOffice.Controllers
                         model.CambiarContraseña = modulos[i].CambiarContraseña;
                         model.Comunas = modulos[i].Comunas;
                         model.AdministracionModulos = modulos[i].AdministracionModulos;
+                        model.Neuronales = modulos[i].Neuronales;
+                        model.DocumentoFiscalizador = modulos[i].DocumentoFiscalizador;
+                        model.Periodo = modulos[i].Periodo;
+                        model.VisualizadorDocumentos = modulos[i].VisualizadorDocumentos;
+                        model.VisualizadorFiscalizacion = modulos[i].VisualizadorFiscalizacion;
+                        model.VisualizadorSupervisor = modulos[i].VisualizadorSupervisor;
+                        model.VisualizadorCoordinador = modulos[i].VisualizadorCoordinador;
+                        model.VisualizadorArchivarDocumento = modulos[i].VisualizadorArchivarDocumento;
                     }
                     
                 }

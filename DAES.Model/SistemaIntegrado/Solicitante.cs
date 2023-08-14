@@ -35,6 +35,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Cargo")]
         public string Cargo { get; set; }
 
+        
         [Display(Name = "Región")]
         public int? RegionId { get; set; }
         public virtual Region Region { get; set; }

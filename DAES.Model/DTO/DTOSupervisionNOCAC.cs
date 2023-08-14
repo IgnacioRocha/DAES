@@ -15,7 +15,7 @@ namespace DAES.Model.DTO
         [Display(Name = "Periodo")]
         public string Periodo { get; set; }
 
-        [Required(ErrorMessage = "Es necesario especificar el archivo Balance v.4")]
+        //[Required(ErrorMessage = "Es necesario especificar el archivo Balance v.4")]
         [Display(Name = "Balance v.4")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase BalanceV4 { get; set; }
@@ -38,5 +38,10 @@ namespace DAES.Model.DTO
         [Display(Name = "Observación")]
         [DataType(DataType.MultilineText)]
         public string Observacion { get; set; }
+
+        [Required(ErrorMessage = "Es necesario especificar el archivo Balance v.5")]
+        [Display(Name = "Balance v.5")]
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase BalanceV5 { get; set; }
     }
 }

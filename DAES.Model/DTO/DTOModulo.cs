@@ -68,6 +68,19 @@ namespace DAES.Model.DTO
         public bool CambiarContraseña { get; set; }
 
         public bool AdministracionModulos { get; set; }
+        public bool Neuronales { get; set; }
+        public bool DocumentoFiscalizador { get; set; }
+        public bool Periodo { get; set; }
+
+        public bool VisualizadorDocumentos { get; set; }
+
+        public bool VisualizadorFiscalizacion { get; set; }
+
+        public bool VisualizadorSupervisor { get; set; }
+
+        public bool VisualizadorCoordinador { get; set; }
+
+        public bool VisualizadorArchivarDocumento { get; set; }
 
     }
 }

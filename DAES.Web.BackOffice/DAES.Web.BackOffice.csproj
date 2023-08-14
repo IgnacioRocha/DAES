@@ -349,7 +349,10 @@
     <Compile Include="Controllers\ModeloSupervisionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\FiscalizacionController.cs" />
+    <Compile Include="Controllers\ModuloRolController.cs" />
     <Compile Include="Controllers\ModulosController.cs" />
+    <Compile Include="Controllers\PeriodoController.cs" />
+    <Compile Include="Controllers\PruebassController.cs" />
     <Compile Include="Controllers\Situacion.cs" />
     <Compile Include="Controllers\EstadoController.cs" />
     <Compile Include="Controllers\FirmaController.cs" />
@@ -568,6 +571,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\15959757-1.png" />
     <Content Include="Content\8928161-K.png" />
+    <Content Include="Content\delete_file.png" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\14530378-8.png" />
     <Content Include="Content\themes\base\accordion.css" />
@@ -1064,6 +1068,17 @@
     <Content Include="Views\Task\ActualizarDirectorio.cshtml" />
     <Content Include="Views\Modulos\Index.cshtml" />
     <Content Include="Views\Modulos\Edit.cshtml" />
+    <Content Include="Views\Pruebass\Index.cshtml" />
+    <Content Include="Views\Periodo\Index.cshtml" />
+    <Content Include="Views\Periodo\PeriodoCac.cshtml" />
+    <Content Include="Views\Periodo\PeriodoNoCac.cshtml" />
+    <Content Include="Views\Periodo\CreatePeriodoCAC.cshtml" />
+    <Content Include="Views\Periodo\EditPeriodoCAC.cshtml" />
+    <Content Include="Views\Periodo\EditPeriodoNoCAC.cshtml" />
+    <Content Include="Views\Periodo\CreatePeriodoNoCac.cshtml" />
+    <Content Include="Views\Periodo\PeriodoArticulo90.cshtml" />
+    <Content Include="Views\Periodo\CreatePeriodoArticulo90.cshtml" />
+    <Content Include="Views\Periodo\EditPeriodoArticulo90.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -1087,6 +1102,7 @@
   <ItemGroup>
     <Folder Include="Views\AuthenticationService\" />
     <Folder Include="Views\FirmaDocumento\" />
+    <Folder Include="Views\ModuloRol\" />
     <Folder Include="Views\UserExtended\" />
   </ItemGroup>
   <ItemGroup>

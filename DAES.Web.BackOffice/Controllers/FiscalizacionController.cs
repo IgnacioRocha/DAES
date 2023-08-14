@@ -42,7 +42,6 @@ namespace DAES.Web.BackOffice.Controllers
             [Required(ErrorMessage = "Es necesario especificar este dato")]
             [Display(Name = "Razón social")]
             public string RazonSocial { get; set; }
-
             public int ProcesoId { get; set; }
             public int OrganizacionId { get; set; }
         }
@@ -50,26 +49,97 @@ namespace DAES.Web.BackOffice.Controllers
         private SistemaIntegradoContext db = new SistemaIntegradoContext();
 
 
+        //public ActionResult Index()
+        //{
+        //    var model = db.Proceso
+        //    .AsNoTracking()
+        //    .Include(p => p.Fiscalizacions)
+        //    .Where(q => q.DefinicionProcesoId == (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion)
+        //    .OrderByDescending(q => q.ProcesoId)
+        //    .ToList();
+
+        //    foreach (var proceso in model)
+        //    {
+        //        proceso.Fiscalizacions = proceso.Fiscalizacions.Where(f => f.Activo).ToList();
+        //        foreach (var fiscalizacion in proceso.Fiscalizacions)
+        //        {
+        //            fiscalizacion.ProcesoRelacionado = db.Proceso.Find(fiscalizacion.ProcesoRelacionadoId);
+        //        }
+        //    }
+
+        //    return View(model);
+        //}
+
+        //public ActionResult Index()
+        //{
+        //    int definicionProcesoId = (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion;
+        //    var model = db.Proceso
+        //        .AsNoTracking()
+        //        .Where(q => q.DefinicionProcesoId == definicionProcesoId)
+        //        .Select(q => new {
+        //            Proceso = q,
+        //            Fiscalizacions = q.Fiscalizacions
+        //                .Where(f => f.Activo)
+        //                .Select(f => new {
+        //                    Fiscalizacion = f,
+        //                    ProcesoRelacionado = db.Proceso.Where(p => p.ProcesoId == f.ProcesoRelacionadoId).FirstOrDefault()
+        //                })
+        //        })
+        //        .OrderByDescending(q => q.Proceso.ProcesoId)
+        //        .ToList()
+        //        .Select(q => {
+        //            q.Proceso.Fiscalizacions = q.Fiscalizacions
+        //                .Select(f => {
+        //                    f.Fiscalizacion.ProcesoRelacionado = f.ProcesoRelacionado;
+        //                    return f.Fiscalizacion;
+        //                })
+        //                .ToList();
+        //            return q.Proceso;
+        //        })
+        //        .ToList();
+
+        //    return View(model);
+        //}
+
         public ActionResult Index()
         {
-            var model = db.Proceso
-            .AsNoTracking()
-            .Include(p => p.Fiscalizacions)
-            .Where(q => q.DefinicionProcesoId == (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion)
-            .OrderByDescending(q => q.ProcesoId)
-            .ToList();
+            int definicionProcesoId = (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion;
 
-            foreach (var proceso in model)
-            {
-                proceso.Fiscalizacions = proceso.Fiscalizacions.Where(f => f.Activo).ToList();
-                foreach (var fiscalizacion in proceso.Fiscalizacions)
+            var model = db.Proceso
+                .AsNoTracking()
+                .Include(p => p.Fiscalizacions) // Cargar previamente Fiscalizacions
+                .Where(q => q.DefinicionProcesoId == definicionProcesoId)
+                .OrderByDescending(q => q.ProcesoId)
+                .ToList()
+                .Select(q => new
                 {
-                    fiscalizacion.ProcesoRelacionado = db.Proceso.Find(fiscalizacion.ProcesoRelacionadoId);
-                }
-            }
+                    Proceso = q,
+                    Fiscalizacions = q.Fiscalizacions
+                        .Where(f => f.Activo)
+                        .Select(f => new
+                        {
+                            Fiscalizacion = f,
+                            ProcesoRelacionado = f.ProcesoRelacionado // Asumiendo que se tiene una relación directa aquí
+                        })
+                })
+                .ToList()
+                .Select(q =>
+                {
+                    q.Proceso.Fiscalizacions = q.Fiscalizacions
+                        .Select(f =>
+                        {
+                            f.Fiscalizacion.ProcesoRelacionado = f.ProcesoRelacionado;
+                            return f.Fiscalizacion;
+                        })
+                        .ToList();
+                    return q.Proceso;
+                })
+                .ToList();
 
             return View(model);
         }
+
+
 
         public ActionResult Inbox()
         {

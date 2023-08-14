@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace DAES.Model.DTO
 {
@@ -21,17 +22,23 @@ namespace DAES.Model.DTO
         public string ApellidosSolicitante { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el dato Fono")]
-        [Display(Name = "Fono (solo números)")]
+        [Display(Name = "Fono (solo números) (*)")]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Solo se permiten números")]
         public string FonoSolicitante { get; set; }
 
 
         [Required(ErrorMessage = "Es necesario especificar el dato Email")]
-        [Display(Name = "Email")]
+        [Display(Name = "Email (*)")]
         public string EmailSolicitante { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el dato Región")]
-        [Display(Name = "Región")]
+        [Display(Name = "Región (*)")]
         public int RegionSolicitanteId { get; set; }
+
+        [Display(Name = "Cargo dentro de la empresa")]
+        public string Cargo { get; set; }
+
+        
+
     }
 }

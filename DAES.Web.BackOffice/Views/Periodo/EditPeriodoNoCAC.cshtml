@@ -1,0 +1,20 @@
+﻿@model DAES.Model.SistemaIntegrado.PeriodoCAC
+@{
+    ViewBag.Title = "EditPeriodoCAC";
+}
+
+
+@using (Html.BeginForm("EditPeriodoNoCAC", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(q => q.PeriodoId)
+    <div class="form-group">
+        @Html.LabelFor(model => model.Descripcion, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            @Html.EditorFor(model => model.Descripcion, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Descripcion, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success">Editar</button>
+
+}

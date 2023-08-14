@@ -154,7 +154,29 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Administración de Módulos")]
         public bool AdministracionModulos { get; set; }
 
+        [Display(Name = "Buscar Documentos con Redes Neuronales")]
+        public bool Neuronales { get; set; }
 
+        [Display(Name ="Ver documentos de Fiscalizador")]
+        public bool DocumentoFiscalizador { get; set; }
+
+        [Display(Name = "Periodos")]
+        public bool Periodo { get; set; }
+
+        [Display(Name = "Visualizador de Documentos")]
+        public bool VisualizadorDocumentos { get; set; }
+
+        [Display(Name = "Visualizador de Fiscalización")]
+        public bool VisualizadorFiscalizacion { get; set; }
+
+        [Display(Name = "Visualizador de Supervisor")]
+        public bool VisualizadorSupervisor { get; set; }
+
+        [Display(Name = "Visualizador de Coordinador")]
+        public bool VisualizadorCoordinador { get; set; }
+
+        [Display(Name = "Visualizador de Archivar Documentos")]
+        public bool VisualizadorArchivarDocumento { get; set; }
 
     }
 }

@@ -190,7 +190,6 @@ else if (!Model.Terminada && DateTime.Now.Date == Model.FechaVencimiento.Date)
 <div class="panel panel-default">
     <div class="panel-heading">Historial de ejecución</div>
     <div class="panel-body">
-
         <ul class="timeline">
             @foreach (var workflow in Model.Workflows.OrderByDescending(q => q.WorkflowId))
             {

@@ -36,7 +36,7 @@ namespace DAES.Web.BackOffice.Controllers
             var model = new Model.DTO.DTOConsultaProceso();
             model.Filter = string.Empty;
             model.DefinicionProcesos = db.DefinicionProceso.Where(q => q.Habilitado).OrderBy(q => q.Nombre).Select(q => new Model.DTO.DTOConsultaProceso.DTODefinicionProceso { selected = false, text = q.Nombre, value = q.DefinicionProcesoId }).ToList();
-
+            
             return View(model);
         }
 
@@ -73,7 +73,7 @@ namespace DAES.Web.BackOffice.Controllers
             }
 
             model.Procesos = query.OrderByDescending(q => q.ProcesoId).ToList();
-
+          
             return View(model);
         }
 
@@ -90,7 +90,6 @@ namespace DAES.Web.BackOffice.Controllers
             }
 
             ViewBag.PerfilId = Helper.Helper.CurrentUser.PerfilId;
-
             return View(proceso);
         }
 
@@ -189,7 +188,7 @@ namespace DAES.Web.BackOffice.Controllers
                     };
 
                     var p = _custom.ProcesoStart(proceso);
-
+                    
                     TempData["Message"] = Properties.Settings.Default.Success;
                     return RedirectToAction("Details", "ProcesoConsultor", new { id = p.ProcesoId });
                 }

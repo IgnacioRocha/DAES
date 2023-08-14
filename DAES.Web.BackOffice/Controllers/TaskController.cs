@@ -138,7 +138,9 @@ namespace DAES.Web.BackOffice.Controllers
             model.Users = db.Users.Where(q => q.Habilitado).OrderBy(q => q.UserName).Select(item => new DAES.Model.DTO.DTOUser() { Id = item.Id, Nombre = item.Nombre, UserName = item.UserName, Selected = false }).ToList();
             var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
             ViewBag.TipoUsuario = tipoDeUsuario;
-
+            var userId = Helper.Helper.CurrentUser.Id;
+            var permisos = db.ModulosConsulta.Where(q => q.Id == userId).ToList();
+            ViewBag.permisos = permisos;
 
             return View(model);
         }
@@ -165,26 +167,48 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
-
-        public ActionResult CrearDocumento(int WorkflowId)
+        public ActionResult CrearDocumento(int WorkflowId, int? bandera)
         {
-
+            var userId = Helper.Helper.CurrentUser.Id;
+            var permisos = db.ModulosConsulta.Where(q => q.Id == userId).ToList();
+            ViewBag.permisos = permisos;
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre");
             ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre");
-
+            ViewBag.bandera = bandera;
             var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            var tipoWorkFlow = workflow.DefinicionWorkflow.TipoWorkflowId;
+            
+            //identifico el tipo de tarea, lo asigno y lo envio a la vista
+            var perfilId = Helper.Helper.CurrentUser.PerfilId;
+            ViewBag.perfilId = perfilId;
+            if (tipoWorkFlow == 55)
+            {
+                ViewBag.tipoVisualizacion = 3;
+            }
+            if (tipoWorkFlow == 54)
+            {
+                ViewBag.tipoVisualizacion = 1;
+            }
+            if (tipoWorkFlow == 28)
+            {
+                ViewBag.tipoVisualizacion = 4;
+            }
+            if (tipoWorkFlow == 25)
+            {
+                ViewBag.tipoVisualizacion = 5;
+            }
+
             var model = new TaskModel();
             model.Workflow = workflow;
             model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).OrderBy(q => q.FechaCreacion).ToList();
             var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
             ViewBag.TipoUsuario = tipoDeUsuario;
-
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearDocumento(TaskModel model)
+        public ActionResult CrearDocumento(TaskModel model, int bandera)
         {
             if (ModelState.IsValid)
             {
@@ -217,7 +241,7 @@ namespace DAES.Web.BackOffice.Controllers
                     });
                     db.SaveChanges();
                     TempData["Message"] = Properties.Settings.Default.Success;
-                    return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
+                    return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId, bandera = bandera });
                 }
             }
 
@@ -239,6 +263,8 @@ namespace DAES.Web.BackOffice.Controllers
             }
             return RedirectToAction("CrearDocumento", new { WorkflowId });
         }
+
+
 
         public ActionResult ActualizarOrganizacion(int WorkflowId)
         {
@@ -318,7 +344,10 @@ namespace DAES.Web.BackOffice.Controllers
 
             //model.SupervisorAuxiliar = db.SupervisorAuxiliars.Find(model.Workflow.Proceso.SupervisorAuxiliar.SupervisorAuxiliarId);
             /*model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);*/
-
+            var userId = Helper.Helper.CurrentUser.Id;
+            var permisos = db.ModulosConsulta.Where(q => q.Id == userId).ToList();
+            ViewBag.permisos = permisos;
+            ViewBag.tipoVisualizacion = 2;
             ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
             ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
             ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
@@ -998,7 +1027,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.TipoUsuario = tipoDeUsuario;
             if (contador != null)
             {
-            ViewBag.contador = contador;
+                ViewBag.contador = contador;
 
             }
             else
