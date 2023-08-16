@@ -3,7 +3,6 @@ using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -91,9 +90,22 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
+        public JsonResult GetComunasByRegion(int regionId)
+        {
+            var comunas = db.Comuna
+                .Where(c => c.RegionId == regionId)
+                .Select(c => new
+                {
+                    Value = c.ComunaId,  // Ajusta estos nombres de propiedad según tu modelo
+                    Text = c.Nombre
+                }).ToList();
+
+            return Json(comunas, JsonRequestBehavior.AllowGet);
+        }
+
+
         public ActionResult Details(int? id)
         {
-
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

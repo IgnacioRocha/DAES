@@ -1,10 +1,15 @@
 ﻿using DAES.Infrastructure;
+using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Web.FrontOffice.Helper;
 using Newtonsoft.Json;
-using reCAPTCHA.MVC;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Web.Mvc;
 
 namespace DAES.Web.FrontOffice.Controllers
@@ -12,6 +17,7 @@ namespace DAES.Web.FrontOffice.Controllers
     [Audit]
     public class GPDocumentoVerificacionController : Controller
     {
+        private SistemaIntegradoContext db = new SistemaIntegradoContext();
         public class DTODocumento
         {
             public DTODocumento()
@@ -55,9 +61,20 @@ namespace DAES.Web.FrontOffice.Controllers
 
         public ActionResult Details(string id)
         {
+            bool esDaes = false;
+            bool esGp = false;
+            int a = int.Parse(id);
+
+            //var doc = db.Documento.Where(q => q.Activo && q.DocumentoId.Equals(id)).First();
+            var doc = db.Documento.Where(q => q.DocumentoId == a).FirstOrDefault();
+
+
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             var url = Properties.Settings.Default.url_gestion_procesos + "/Documento/GetById/" + id;
             var client = new RestClient(url);
             var response = client.Execute(new RestRequest());
+
+
             var documento = JsonConvert.DeserializeObject<DTODocumento>(response.Content);
 
             if (!documento.OK)
@@ -66,19 +83,58 @@ namespace DAES.Web.FrontOffice.Controllers
             return View(documento);
         }
 
+
         [HttpPost]
-        [CaptchaValidator(ErrorMessage = "Captcha inválido.", RequiredMessage = "El código captcha es requerido.")]
-        public ActionResult Details(DTODocumento model, bool captchaValid)
+        public ActionResult Details(DTODocumento model/*DTODocumento model, bool captchaValid*/)
         {
-            if (!ModelState.IsValid || !captchaValid)
-                return Redirect(Request.UrlReferrer.ToString());
+            if (IsReCaptchValid())
+            {
+                string messagetodb = "correcto";
 
-            var url = Properties.Settings.Default.url_gestion_procesos + "/Documento/GetById/" + model.Id;
-            var client = new RestClient(url);
-            var response = client.Execute(new RestRequest());
-            var documento = JsonConvert.DeserializeObject<DTODocumento>(response.Content);
+                var url = Properties.Settings.Default.url_gestion_procesos + "/Documento/GetById/" + model.Id;
+                var client = new RestClient(url);
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+                var response = client.Execute(new RestRequest());
+                var documento = JsonConvert.DeserializeObject<DTODocumento>(response.Content);
 
-            return File(documento.Pdf, System.Net.Mime.MediaTypeNames.Application.Octet, documento.Nombre);
+                return File(documento.Pdf, System.Net.Mime.MediaTypeNames.Application.Octet, documento.Nombre);
+            }
+            else
+            {
+                return View("_Error", new Exception("Debe completar el captcha"));
+            }
+
+            //if (!ModelState.IsValid || !captchaValid)
+            //    return Redirect(Request.UrlReferrer.ToString());
+
+            //System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
+            //var url = Properties.Settings.Default.url_gestion_procesos + "/Documento/GetById/" + model.Id;
+            //var client = new RestClient(url);
+            //var response = client.Execute(new RestRequest());
+            //var documento = JsonConvert.DeserializeObject<DTODocumento>(response.Content);
+
+        }
+
+        //Método para validar Captcha
+        public bool IsReCaptchValid()
+        {
+            var result = false;
+            var captchaResponse = Request.Form["g-recaptcha-response"];
+            var secretKey = ConfigurationManager.AppSettings["SecretKey"];
+            var apiUrl = "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}";
+            var requestUri = string.Format(apiUrl, secretKey, captchaResponse);
+            var request = (HttpWebRequest)WebRequest.Create(requestUri);
+
+            using (WebResponse response = request.GetResponse())
+            {
+                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                {
+                    JObject jResponse = JObject.Parse(stream.ReadToEnd());
+                    var isSuccess = jResponse.Value<bool>("success");
+                    result = (isSuccess) ? true : false;
+                }
+            }
+            return result;
         }
     }
 }

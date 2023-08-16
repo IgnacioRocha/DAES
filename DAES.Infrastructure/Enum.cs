@@ -181,11 +181,7 @@
             CertificadoDisolucionTest = 106,
             //TEST
             OficioTEST = 107,
-
-            
-
-
-
+            PDF_PODERREPRESENTACION = 109,
         }
 
         public enum TipoOrganizacion
@@ -253,7 +249,7 @@
         public enum Configuracion
         {
             url_tramites_en_linea,
-
+            url_tramites_en_linea_test,
             SecuenciaCorrelativo = 1,
             PlantillaInformeProcesosAtrasados = 2,
             PlantillaInformeProcesosAtrasadosDetalle = 3,
@@ -273,7 +269,13 @@
             PLantillaNotificacionTareaArchivada = 19,
             MensajePieFirmaCertificado = 20,
             UserHSM = 21,
-            PasswordHSM = 22
+            PasswordHSM = 22,
+
+            //Test url Testing
+            url_tramites_interno = 24
+
+            //URL Prod  
+            //url_tramites_interno_test
         }
 
 

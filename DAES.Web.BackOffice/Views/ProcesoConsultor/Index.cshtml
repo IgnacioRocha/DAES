@@ -1,13 +1,79 @@
-﻿@model DAES.Model.DTO.DTOConsultaProceso
+﻿
+<style type="text/css">
+
+    .multiselect {
+        width: 322px;
+        height: 300px;
+        overflow-y: auto;
+    }
+
+    .selectBox {
+        position: relative;
+    }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+            overflow-y: scroll;
+        }
+
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #checkboxes {
+        display: none;
+        border: 1px #dadada solid;
+    }
+    .custom-form-control {
+        display: block;
+        width: 100%;
+        height: calc(1.5em + .75rem + 2px);
+        padding: .375rem .75rem;
+        font-size: 1.5rem;
+        font-weight: 400;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+
+        .custom-form-control:focus {
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
+        }
+
+    #checkboxes {
+        height: auto; /* Resetea la altura para que no se vea extraño con las casillas de verificación */
+        overflow-y: auto; /* Añade una barra de desplazamiento vertical si hay muchos elementos */
+        max-height: 200px; /* Limita la altura máxima del contenedor */
+    }
+
+
+    /*  #checkboxes label:hover {
+                background-color: #1e90ff;
+            }*/
+</style>
+@model DAES.Model.DTO.DTOConsultaProceso
 @{
     ViewBag.Title = "Procesos";
 }
 
 <div class="row">
     <div class="col-lg-3">
+
         <div class="panel panel-default">
             <div class="panel-heading">Filtros</div>
             <div class="panel-body">
+
 
                 @using (Html.BeginForm())
                 {
@@ -24,8 +90,35 @@
 
                     @Html.Label("Procesos")
                     <br />
+                    <div>
+                        @*<div class="multiselect">
+                                <div class="selectBox" onclick="showCheckboxes()">
+                                    <select >
 
-                    @Html.EditorFor(model => model.DefinicionProcesos)
+                                        <option>Seleccione</option>
+
+                                    </select>
+                                    <div class="overSelect" ></div>
+                                </div>
+                                <div id="checkboxes" >
+                                        @Html.EditorFor(model => model.DefinicionProcesos)
+                                </div>
+                            </div>*@
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showCheckboxes()">
+                                <select class="custom-form-control">
+                                    <option>Seleccione</option>
+                                </select>
+                                <div class="overSelect"></div>
+                            </div>
+                            <div id="checkboxes" class="custom-form-control">
+                                <button id="toggleCheckboxBtn" type="button" onclick="toggleCheckboxes()">Marcar todos</button><br />
+                                @Html.EditorFor(model => model.DefinicionProcesos)
+                            </div>
+                        </div>
+
+                    </div>
+                    //@Html.EditorFor(model => model.DefinicionProcesos)
                     <br />
                     <input type="submit" value="Buscar" class="btn btn-primary btn-block" />
 
@@ -39,7 +132,7 @@
             <div class="panel-heading">Resultados</div>
             <div class="panel-body">
 
-                <table class="table table-hover table-striped datatable">
+                <table class="table table-hover table-striped datatable" id="TableConsultaProcesos">
                     <thead>
                         <tr>
                             <th>
@@ -115,5 +208,45 @@
             </div>
         </div>
     </div>
-</div>
+</div>                                   
 @Html.ActionLink("Volver al inicio", "Index", "Home")
+
+<script type="text/javascript">
+    var expanded = false;
+
+    function showCheckboxes() {
+        var checkboxes = document.getElementById("checkboxes");
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            enableFiltering: true;
+            expanded = false;
+        }
+    }
+
+    function toggleCheckboxes() {
+        var container = document.getElementById("checkboxes");
+        var checkboxes = container.querySelectorAll("input[type='checkbox']");
+        var allChecked = true;
+
+        // Verifica si todas las checkboxes están marcadas
+        checkboxes.forEach(chk => {
+            if (!chk.checked) {
+                allChecked = false;
+            }
+        });
+
+        // Si todas están marcadas, las desmarca; si no, las marca
+        checkboxes.forEach(chk => {
+            chk.checked = !allChecked;
+        });
+
+        // Cambia el texto del botón según el estado
+        var button = document.getElementById("toggleCheckboxBtn");
+        button.textContent = allChecked ? "Marcar todos" : "Desmarcar todos";
+    }
+
+
+</script>

@@ -112,32 +112,32 @@
     });
 
     $(document).ready(function () {
-       
-            $("#NombreOrganizacion").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "/Certificado/AutoComplete/",
-                        data: { term: request.term, TipoDocumentoId: $('select[name=TipoDocumentoId]').val() },
-                        type: "POST",
-                        success: function (data) {
-                            response($.map(data,
-                                function (item) {
-                                    return { id: item.id, value: item.value };
-                                }));
-                        }
-                    });
-                },
-                select: function (event, ui) {
-                    $("#NombreOrganizacion").val(ui.item.value);
-                    $("#OrganizacionId").val(ui.item.id);
-                    return false;
-                }
-            });
-            $("#TipoDocumentoId").change(function () {
-                $("#NombreOrganizacion").val('');
-                $("#OrganizacionId").val('');
-            });
-  
+
+        $("#NombreOrganizacion").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Certificado/AutoComplete/",
+                    data: { term: request.term, TipoDocumentoId: $('select[name=TipoDocumentoId]').val() },
+                    type: "POST",
+                    success: function (data) {
+                        response($.map(data,
+                            function (item) {
+                                return { id: item.id, value: item.value };
+                            }));
+                    }
+                });
+            },
+            select: function (event, ui) {
+                $("#NombreOrganizacion").val(ui.item.value);
+                $("#OrganizacionId").val(ui.item.id);
+                return false;
+            }
+        });
+        $("#TipoDocumentoId").change(function () {
+            $("#NombreOrganizacion").val('');
+            $("#OrganizacionId").val('');
+        });
+
 
     });
 

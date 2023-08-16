@@ -2,17 +2,13 @@
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
 using OfficeOpenXml;
-using ServiceStack;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using DAES.Model.DTO;
-using System.Dynamic;
 
 namespace DAES.Web.BackOffice.Controllers
 {
@@ -298,7 +294,7 @@ namespace DAES.Web.BackOffice.Controllers
             ViewBag.CargoId = new SelectList(db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
-            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");            
+            ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
             ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
 
@@ -386,7 +382,7 @@ namespace DAES.Web.BackOffice.Controllers
                     _custom.SaneamientoUpdate(model.Saneamientos);
                 }
 
-               
+
 
 
                 _custom.DirectorioUpdate(model.Directorios);
@@ -431,6 +427,14 @@ namespace DAES.Web.BackOffice.Controllers
             if (ModelState.IsValid)
             {
 
+                db.ControlCambio.Add(new ControlCambio()
+                {
+                    UsuarioId = Helper.Helper.CurrentUser.Id,
+                    NombreUsuario = Helper.Helper.CurrentUser.Nombre,
+                    FechaCambio = DateTime.Now,
+                    Organizacion = model.RazonSocial,
+                    OrganizacionId = model.OrganizacionId
+                });
 
                 //model.Reformas = null;
                 db.Entry(model).State = EntityState.Modified;
@@ -702,7 +706,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         public ActionResult ReformaAdd(int OrganizacionId)
         {
-            db.ReformaAnterior.Add(new ReformaAnterior() { OrganizacionId = OrganizacionId}) ;
+            db.ReformaAnterior.Add(new ReformaAnterior() { OrganizacionId = OrganizacionId });
             db.SaveChanges();
 
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
@@ -715,23 +719,23 @@ namespace DAES.Web.BackOffice.Controllers
             var model = db.Organizacion.Find(OrganizacionId);
             return PartialView("_Reforma", model);
         }
-        
+
         public ActionResult ReformaAddAGAC(int OrganizacionId)
         {
-            db.ReformaAGAC.Add(new ReformaAGAC() { OrganizacionId = OrganizacionId}) ;
+            db.ReformaAGAC.Add(new ReformaAGAC() { OrganizacionId = OrganizacionId });
             db.SaveChanges();
-            
+
             ViewBag.TipoNormaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre), "TipoNormaId", "Nombre");
             ViewBag.AprobacionId = new SelectList(db.Aprobacion.OrderBy(q => q.Nombre), "AprobacionId", "Nombre");
             //ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion), "AsambleaDepId", "Descripcion");
             ViewBag.AsambleaDepId = new SelectList(db.AsambleaDeposito.OrderBy(q => q.Descripcion).ToList(), "AsambleaDepId", "Descripcion");
             ViewBag.TipoNormaaId = new SelectList(db.TipoNorma.OrderBy(q => q.Nombre).ToList(), "TipoNormaId", "Nombre");
-            
+
 
             var model = db.Organizacion.Find(OrganizacionId);
             return PartialView("_ReformaAGAC", model);
         }
-              
+
 
         public ActionResult ReformaAddPost(int OrganizacionId)
         {
@@ -781,7 +785,7 @@ namespace DAES.Web.BackOffice.Controllers
         //    var model = db.Organizacion.Find(OrganizacionId);
         //    return PartialView("_Reforma", model);
         //}
-        
+
         public ActionResult ReformaDeleteAGAC(int IdReformaAGAC, int OrganizacionId)
         {
             var reforma = db.ReformaAGAC.FirstOrDefault(q => q.IdReformaAGAC == IdReformaAGAC);

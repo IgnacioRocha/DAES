@@ -1,16 +1,15 @@
 ﻿using DAES.BLL.Interfaces;
 using DAES.Infrastructure;
 using DAES.Infrastructure.GestionDocumental;
+using DAES.Infrastructure.Interfaces;
+using DAES.Infrastructure.Sigper;
 using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Model.Core;
 using DAES.Model.FirmaDocumento;
-using DAES.Model.Sigper;
 using DAES.Model.SistemaIntegrado;
-using DAES.Infrastructure.Sigper;
 using FluentDateTime;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 
@@ -18,9 +17,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Web.ModelBinding;
-using DAES.Infrastructure.Interfaces;
-using Microsoft.AspNet.Identity.EntityFramework;
 //using DAES.bll.Interfaces;
 
 namespace DAES.BLL
@@ -29,6 +25,7 @@ namespace DAES.BLL
     {
         private SmtpClient smtpClient = new SmtpClient();
         private MailMessage emailMsg = new MailMessage();
+
         private GestionDocumentalContext gestionDocumentalContext = new GestionDocumentalContext();
 
 
@@ -98,6 +95,97 @@ namespace DAES.BLL
                 context.SaveChanges();
 
                 return organizacion;
+            }
+        }
+
+        public void CrearPeriodoNoCAC(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = new PeriodoCAC()
+                {
+                    Descripcion = model.Descripcion,
+                    Tipo = "ModeloSupervisionNOCAC"
+                };
+
+                context.PeriodoCAC.Add(periodo);
+                context.SaveChanges();
+            }
+        }
+
+        public void CreatePeriodoArticulo90(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = new PeriodoCAC()
+                {
+                    Descripcion = model.Descripcion,
+                    Tipo = "articulo90"
+                };
+
+                context.PeriodoCAC.Add(periodo);
+                context.SaveChanges();
+            }
+        }
+
+        public void EditPeriodoCAC(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var periodos = context.PeriodoCAC.First(q => q.PeriodoId == model.PeriodoId);
+                periodos.Descripcion = model.Descripcion;
+
+                context.SaveChanges();
+
+            }
+        }
+
+        public void EditPeriodoNoCAC(PeriodoCAC periodo)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var periodos = context.PeriodoCAC.First(q => q.PeriodoId == periodo.PeriodoId);
+                periodos.Descripcion = periodo.Descripcion;
+
+                context.SaveChanges();
+
+            }
+        }
+
+        public void CrearPeriodoCAC(PeriodoCAC model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = new PeriodoCAC()
+                {
+                    Descripcion = model.Descripcion,
+                    Tipo = "ModeloSupervisionCAC"
+                };
+
+                context.PeriodoCAC.Add(periodo);
+                context.SaveChanges();
+            }
+        }
+
+        public void EditPeriodoArticulo90(PeriodoCAC periodo)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                var periodos = context.PeriodoCAC.First(q => q.PeriodoId == periodo.PeriodoId);
+                periodos.Descripcion = periodo.Descripcion;
+
+                context.SaveChanges();
+
+            }
+        }
+
+        public void EliminarPeriodoCAC(int PeriodoId)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                PeriodoCAC periodo = context.PeriodoCAC.FirstOrDefault(q => q.PeriodoId == PeriodoId);
+                context.PeriodoCAC.Remove(periodo);
+                context.SaveChanges();
             }
         }
 
@@ -282,8 +370,19 @@ namespace DAES.BLL
                 context.SaveChanges();
 
                 //cuando se desea eliminar
-                if (directorio_update.Count() < directorio_actual.Count())
-                    eliminar = true;
+                for (int i = 0; i < directorio_actual.Count(); i++)
+                {
+                    for (int e = 0; e < directorio_update.Count(); e++)
+                    {
+
+                        if (directorio_actual[i].Rut == directorio_update[e].Rut)
+                        {
+
+                            eliminar = true;
+                        }
+                    }
+                }
+                //if (directorio_update.Count() < directorio_actual.Count())
 
                 if (eliminar)
                 {
@@ -323,38 +422,38 @@ namespace DAES.BLL
                 return returnValue;
             }
         }
-        public List<string> DirectorioUpdate(List<Directorio> list /*int? organizacionId*/)
-        {
-            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
-            {
-                var returnValue = new List<string>();
+        //public List<string> DirectorioUpdate(List<Directorio> list /*int? organizacionId*/)
+        //{
+        //    using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+        //    {
+        //        var returnValue = new List<string>();
 
-                if (list == null)
-                {
-                    return returnValue;
-                }
+        //        if (list == null)
+        //        {
+        //            return returnValue;
+        //        }
 
-                context.SaveChanges();
+        //        context.SaveChanges();
 
-                foreach (var item in list)
-                {
-                    var directorio = context.Directorio.FirstOrDefault(q => q.DirectorioId == item.DirectorioUpdateId);
-                    if (directorio != null)
-                    {
-                        //directorio.CargoId = item.CargoId;
-                        //directorio.NombreCompleto = item.NombreCompleto;
-                        //directorio.Rut = item.Rut;
-                        //directorio.FechaInicio = item.FechaInicio;
-                        //directorio.FechaTermino = item.FechaTermino;
-                        //directorio.GeneroId = item.GeneroId;
+        //        foreach (var item in list)
+        //        {
+        //            var directorio = context.Directorio.FirstOrDefault(q => q.DirectorioId == item.DirectorioUpdateId);
+        //            if (directorio != null)
+        //            {
+        //                //directorio.CargoId = item.CargoId;
+        //                //directorio.NombreCompleto = item.NombreCompleto;
+        //                //directorio.Rut = item.Rut;
+        //                //directorio.FechaInicio = item.FechaInicio;
+        //                //directorio.FechaTermino = item.FechaTermino;
+        //                //directorio.GeneroId = item.GeneroId;
 
 
-                    }
-                }
-                context.SaveChanges();
-                return returnValue;
-            }
-        }
+        //            }
+        //        }
+        //        context.SaveChanges();
+        //        return returnValue;
+        //    }
+        //}
 
         public List<string> DirectorioUpdate(List<Directorio> list /*int? organizacionId*/)
         {
@@ -601,7 +700,7 @@ namespace DAES.BLL
                         reforma.NumeroOficio = item.NumeroOficio;
                         reforma.FechaAsambleaDep = item.FechaAsambleaDep;
                         reforma.AprobacionId = item.AprobacionId;
-                        //reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
+                        reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
                     }
                 }
 
@@ -632,7 +731,8 @@ namespace DAES.BLL
                         reforma.NumeroOficio = item.NumeroOficio;
                         reforma.FechaOficio = item.FechaOficio;
                         reforma.AprobacionId = item.AprobacionId;
-                        //reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
+                        reforma.FechaOficio = item.FechaOficio;
+                        reforma.EspaciosDocAGAC = item.EspaciosDocAGAC;
 
                     }
                 }
@@ -700,6 +800,8 @@ namespace DAES.BLL
                         reforma.FechaPubliDiario = item.FechaPubliDiario;
                         reforma.DatosGeneralNotario = item.DatosGeneralNotario;
                         reforma.EspaciosDoc = item.EspaciosDoc;
+                        reforma.NumeroOficio = item.NumeroOficio;
+                        reforma.FechaOficio = item.FechaOficio;
                     }
                 }
 
@@ -1153,282 +1255,6 @@ namespace DAES.BLL
             return memStream.ToArray();
         }
 
-        //TODO: Se crea nuevo metodo para documento configuracion
-        public byte[] CrearDocumentoConfiguracion(ConfiguracionCertificado configuracioncertificado)
-        {
-            #region Configurar PreDocumento
-            EventoTitulos ev = new EventoTitulos();
-            Font _fontTitulo = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, BaseColor.DARK_GRAY);
-            Font _fontNumero = new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD, BaseColor.DARK_GRAY);
-            Font _fontFirmante = new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, BaseColor.DARK_GRAY);
-            Font _fontStandard = new Font(Font.FontFamily.HELVETICA, 10, Font.NORMAL, BaseColor.DARK_GRAY);
-            Font _fontStandardBold = new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD, BaseColor.DARK_GRAY);
-
-            MemoryStream memStream = new MemoryStream();
-            Document doc = new Document(PageSize.LEGAL);
-            PdfWriter write = PdfWriter.GetInstance(doc, memStream);
-            write.PageEvent = ev;
-            Chunk SaltoLinea = Chunk.NEWLINE;
-
-            //NEW
-            doc.Open();
-            doc.AddTitle(configuracioncertificado.Titulo);
-
-            var centrar = Element.ALIGN_CENTER;
-            Paragraph paragraphTITULO = new Paragraph(configuracioncertificado.Titulo, _fontTitulo);
-            paragraphTITULO.Alignment = centrar;
-
-            var logo = context.Configuracion.FirstOrDefault(q => q.ConfiguracionId == (int)Infrastructure.Enum.Configuracion.URLImagenLogo);
-            if (logo == null)
-            {
-                throw new Exception("No se encontró la configuración de url de rúbrica.");
-            }
-
-            if (logo != null && logo.Valor.IsNullOrWhiteSpace())
-            {
-                throw new Exception("La configuración de url de rúbrica es inválida.");
-            }
-
-            Image imagenLogo = Image.GetInstance(logo.Valor);
-            imagenLogo.ScalePercent(20);
-
-            PdfPTable tableHeader = new PdfPTable(3);
-            tableHeader.WidthPercentage = 100f;
-            tableHeader.DefaultCell.Border = Rectangle.NO_BORDER;
-            tableHeader.DefaultCell.Border = 0;
-
-            //logo
-            PdfPCell cell = new PdfPCell(imagenLogo);
-            cell.HorizontalAlignment = Element.ALIGN_LEFT;
-            cell.BorderWidth = 0;
-            cell.PaddingTop = 20;
-            cell.Border = Rectangle.NO_BORDER;
-            tableHeader.AddCell(cell);
-
-            //title
-            cell = new PdfPCell(new Phrase(configuracioncertificado.Titulo, _fontTitulo));
-            cell.HorizontalAlignment = Element.ALIGN_CENTER;
-            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            cell.BorderWidth = 0;
-            cell.PaddingTop = 20;
-            cell.Border = Rectangle.NO_BORDER;
-            tableHeader.AddCell(cell);
-
-            //Id
-            var paragrafId = new Paragraph(string.Format("Nro Folio XX"), _fontNumero);
-            paragrafId.Alignment = Element.ALIGN_RIGHT;
-
-            var paragrafDate = new Paragraph(string.Format("{0:dd-MM-yyyy HH:mm:ss}", DateTime.Now), _fontStandard);
-            paragrafDate.Alignment = Element.ALIGN_RIGHT;
-
-            cell = new PdfPCell();
-            cell.AddElement(paragrafId);
-            cell.AddElement(paragrafDate);
-
-            cell.HorizontalAlignment = Element.ALIGN_RIGHT;
-            cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-            cell.BorderWidth = 0;
-            cell.PaddingTop = 20;
-            cell.Border = Rectangle.NO_BORDER;
-            tableHeader.AddCell(cell);
-
-            doc.Add(tableHeader);
-            doc.Add(SaltoLinea);
-            doc.Add(new Paragraph());
-
-
-            ////Configuracion - Parrafos / Se deben agregar todos los parrafos aqui
-            string parrafo_1 = string.Format(configuracioncertificado.Parrafo1 != null ? configuracioncertificado.Parrafo1 : string.Empty);
-            string parrafo_2 = string.Format(configuracioncertificado.Parrafo2 != null ? configuracioncertificado.Parrafo2 : string.Empty);
-            string parrafo_3 = string.Format(configuracioncertificado.Parrafo3 != null ? configuracioncertificado.Parrafo3 : string.Empty);
-            string parrafo_4 = string.Format(configuracioncertificado.Parrafo4 != null ? configuracioncertificado.Parrafo4 : string.Empty);
-            string parrafo_5 = string.Format(configuracioncertificado.Parrafo5 != null ? configuracioncertificado.Parrafo5 : string.Empty);
-            string parrafo1DisPos = string.Format(configuracioncertificado.Parrafo1DisPos != null ? configuracioncertificado.Parrafo1DisPos : string.Empty);
-            string parrafo1DisAnt = string.Format(configuracioncertificado.Parrafo1DisAnt != null ? configuracioncertificado.Parrafo1DisAnt : string.Empty);
-            string parrafo2ExAnterior = string.Format(configuracioncertificado.Parrafo2ExAnterior != null ? configuracioncertificado.Parrafo2ExAnterior : string.Empty);
-            string parrafo2ExPosterior = string.Format(configuracioncertificado.Parrafo2ExPosterior != null ? configuracioncertificado.Parrafo2ExPosterior : string.Empty);
-            string parrafo4ReAnterior = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : string.Empty);
-            string parrafo4RePosterior = string.Format(configuracioncertificado.Parrafo4RePosterior != null ? configuracioncertificado.Parrafo4RePosterior : string.Empty);
-            string parrafoObservacion = string.Format(configuracioncertificado.ParrafoObservacion != null ? configuracioncertificado.ParrafoObservacion : string.Empty);
-
-            //para cuando se necesite con color
-            string parrafo_fin = "Se hace presente que no se registra en nuestros archivos la cancelación de la personalidad jurídica de dicha Cooperativa."
-                             + "\n" + "\n" + "Saluda atentamente a ustedes";
-
-            //para cuando se necesite sin color
-            string parrafo_final = "Saluda atentamente a ustedes.";
-            #endregion
-
-            #region Declarar / Configurar Parrafos
-            Paragraph paragraphUNO = new Paragraph(parrafo_1, _fontStandard);
-            paragraphUNO.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphDOS = new Paragraph(parrafo_2, _fontStandard);
-            paragraphDOS.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphTRES = new Paragraph(parrafo_3, _fontStandard);
-            paragraphTRES.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphCUATRO = new Paragraph(parrafo_4, _fontStandard);
-            paragraphCUATRO.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphCINCO = new Paragraph(parrafo_5, _fontStandard);
-            paragraphCINCO.Alignment = Element.ALIGN_JUSTIFIED;
-
-            //Parrafos "Dinamicos de cada Organizacion"
-
-            Paragraph paragraphUNODISANT = new Paragraph(parrafo1DisAnt, _fontStandard);
-            paragraphUNODISANT.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphUNODISPOST = new Paragraph(parrafo1DisPos, _fontStandard);
-            paragraphUNODISPOST.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphDOSEXANT = new Paragraph(parrafo2ExAnterior, _fontStandard);
-            paragraphDOSEXANT.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphDOSEXPOST = new Paragraph(parrafo2ExPosterior, _fontStandard);
-            paragraphDOSEXPOST.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphCUATROREANT = new Paragraph(parrafo4ReAnterior, _fontStandard);
-            paragraphCUATROREANT.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphCUATROREPOST = new Paragraph(parrafo4RePosterior, _fontStandard);
-            paragraphCUATROREPOST.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphOBSERVACION = new Paragraph(parrafoObservacion, _fontStandard);
-            paragraphOBSERVACION.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphFINAL = new Paragraph(parrafo_final, _fontStandard);
-            paragraphFINAL.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph paragraphFIN = new Paragraph(parrafo_fin, _fontStandard);
-            paragraphFIN.Alignment = Element.ALIGN_JUSTIFIED;
-
-            Paragraph responsable = new Paragraph("Texto para Responsable", _fontStandardBold);
-            responsable.Alignment = centrar;
-
-            Paragraph _cargo = new Paragraph("Texto para cargo de Responsable", _fontStandardBold);
-            _cargo.Alignment = centrar;
-
-            Paragraph _unidad = new Paragraph("Unidad a la que pertenece el Responsable", _fontStandardBold);
-            _unidad.Alignment = centrar;
-
-            #endregion
-
-            //cambiar disolucion de Cooperativas usa mas parrafos
-            var definicion = "";
-            switch (configuracioncertificado.ConfiguracionCertificadoId)
-            {
-                case 1009:
-                case 1008:
-                    definicion = "Disolucion";
-                    break;
-                case 1010:
-                    definicion = "DisolucionCOOP";
-                    break;
-                case 4:
-                case 6:
-                case 1:
-                    definicion = "Vigencia";
-                    break;
-                case 17:
-                case 18:
-                    definicion = "VigenciaEstatutosAGAC";
-                    break;
-                case 16:
-                    definicion = "VigenciaEstatutosCOOP";
-                    break;
-                case 3:
-                case 2:
-                case 5:
-                    definicion = "VigenciaDirectorio";
-                    break;
-            }
-
-            switch (definicion)
-            {
-                case "Disolucion":
-                    doc.Add(paragraphUNO);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphOBSERVACION);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphFINAL);
-                    break;
-                case "DisolucionCOOP":
-                    doc.Add(paragraphUNODISANT);
-                    doc.Add(paragraphUNODISPOST);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphOBSERVACION);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphFINAL);
-                    break;
-                case "Vigencia":
-                    doc.Add(paragraphUNO);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphOBSERVACION);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphFINAL);
-                    break;
-                case "VigenciaEstatutosAGAC":
-                    doc.Add(paragraphUNO);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphDOS);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphCUATRO);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphOBSERVACION);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphFINAL);
-                    break;
-                case "VigenciaEstatutosCOOP":
-                    doc.Add(paragraphUNO);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphTRES);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphDOSEXANT);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphDOSEXPOST);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphCUATROREANT);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphCUATROREPOST);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphOBSERVACION);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphFIN);
-                    break;
-                case "VigenciaDirectorio":
-                    doc.Add(paragraphUNO);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphDOS);
-                    doc.Add(SaltoLinea);
-
-                    PdfPTable table = new PdfPTable(4);
-                    table.WidthPercentage = 100.0f;
-                    table.HorizontalAlignment = Element.ALIGN_CENTER;
-                    table.DefaultCell.BorderColor = BaseColor.LIGHT_GRAY;
-                    table.AddCell(new PdfPCell(new Phrase("Cargo", _fontStandard)));
-                    table.AddCell(new PdfPCell(new Phrase("Nombre", _fontStandard)));
-                    table.AddCell(new PdfPCell(new Phrase("Vigencia Desde", _fontStandardBold)));
-                    table.AddCell(new PdfPCell(new Phrase("Vigencia Hasta", _fontStandardBold)));
-
-                    doc.Add(table);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphOBSERVACION);
-                    doc.Add(SaltoLinea);
-                    doc.Add(paragraphFINAL);
-                    break;
-            }
-
-            doc.Add(SaltoLinea);
-            doc.Add(responsable);
-            doc.Add(_cargo);
-            doc.Add(_unidad);
-            doc.Close();
-            return memStream.ToArray();
-        }
-
-
         public byte[] CrearCertificadoPDF(ConfiguracionCertificado configuracioncertificado, Organizacion organizacion, Firmante firmante, int id, int TipoDocumentoId)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
@@ -1635,18 +1461,22 @@ namespace DAES.BLL
                                             break;
                                         case "[FECHAJUNTASOCIOS]":
                                             parrafo = parrafo.Replace(value, aux.FechaJuntaSocios.Value != null ?
-                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaJuntaSocios.ToString()) : string.Empty);
+                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaJuntaSocios.Value) : string.Empty);
                                             break;
+                                        //case "[FECHAESCRITURAPUBLICA]":
+                                        //    parrafo = parrafo.Replace(value, aux.FechaEscrituraPublica.Value != null ?
+                                        //                                      string.Format("{0:dd/MM/yyyy}", aux.FechaEscrituraPublica.ToString()) : string.Empty);
+                                        //    break;
                                         case "[FECHAESCRITURAPUBLICA]":
                                             parrafo = parrafo.Replace(value, aux.FechaEscrituraPublica.Value != null ?
-                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaEscrituraPublica.ToString()) : string.Empty);
+                                                                                string.Format("{0:dd/MM/yyyy}", aux.FechaEscrituraPublica.Value) : string.Empty);
                                             break;
                                         case "[MINISTRODEFE]":
                                             parrafo = parrafo.Replace(value, aux.MinistroDeFe != null ? aux.MinistroDeFe : string.Empty);
                                             break;
                                         case "[FECHAPUBLICCIONDIARIOOFICIAL]":
                                             parrafo = parrafo.Replace(value, aux.FechaPubliccionDiarioOficial.Value != null ?
-                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaPubliccionDiarioOficial.ToString()) : string.Empty);
+                                                                              string.Format("{0:dd/MM/yyyy}", aux.FechaPubliccionDiarioOficial.Value) : string.Empty);
                                             break;
                                         case "[NUMEROFOJAS]":
                                             parrafo = parrafo.Replace(value, aux.NumeroFojas != null ? aux.NumeroFojas : string.Empty);
@@ -1783,8 +1613,8 @@ namespace DAES.BLL
                                 }
                             }
                         }
-                            table.SpacingBefore = 15f;
-                            doc.Add(table);
+                        table.SpacingBefore = 15f;
+                        doc.Add(table);
                     }
                 }
 
@@ -2016,11 +1846,11 @@ namespace DAES.BLL
                             if (organizacion.ReformaAnteriors.Any() == true && organizacion.ReformaAnteriors.FirstOrDefault().FechaReforma != null)
                             {
                                 var contRef = 0;
-                                string parrafo = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : " ");
+                                //string parrafo = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : " ");
                                 var fechaMayorr = organizacion.ReformaAnteriors.OrderByDescending(q => q.FechaReforma).FirstOrDefault();
 
                                 List<string> campos_parrafo4 = new List<string>();
-                                foreach (var item in parrafo.Replace(",", " ").Replace(".", " ").Split())
+                                foreach (var item in configuracioncertificado.Parrafo4ReAnterior.Replace(",", " ").Replace(".", " ").Split())
                                 {
                                     if (item.Contains("[") && item.Contains("]"))
                                     {
@@ -2031,6 +1861,7 @@ namespace DAES.BLL
                                 foreach (var item in organizacion.ReformaAnteriors.ToList().OrderByDescending(q => q.FechaReforma).ToList())
                                 {
                                     contRef++;
+                                    string parrafo = string.Format(configuracioncertificado.Parrafo4ReAnterior != null ? configuracioncertificado.Parrafo4ReAnterior : " ");
                                     if (organizacion.ReformaAnteriors.Any() && contRef == 1 /*&& !organizacion.ReformaPosteriors.Any()*/)
                                     {
                                         parrafo = parrafo.Insert(0, "De acuerdo con los antecedentes registrados en esta División, la entidad presenta las siguientes reformas de estatutos:" +
@@ -2058,15 +1889,16 @@ namespace DAES.BLL
                                                 parrafo = parrafo = parrafo.Replace(value, item.NNorma != null ? item.NNorma : string.Empty);
                                                 break;
                                             case "[FECHANORMAREF]":
-                                                parrafo = parrafo.Replace(value, item.FechaNorma.Value != null ?
-                                                                                              string.Format("{0:dd/MM/yyyy}", item.FechaNorma) : string.Empty);
+                                                parrafo = parrafo.Replace(value, item.FechaNorma.Value != null ? string.Format("{0:dd/MM/yyyy}", item.FechaNorma) : string.Empty);
                                                 break;
                                             case "[DATOSGENERALNOTARIOREF]":
                                                 parrafo = parrafo.Replace(value, item.DatosNotario != null ? item.DatosNotario : string.Empty);
                                                 break;
                                             case "[FECHAPUBLICACIONDIARIOREF]":
-                                                parrafo = parrafo.Replace(value, item.FechaPublicDiario.Value != null ?
-                                                                                              string.Format("{0:dd/MM/yyyy}", item.FechaPublicDiario) : string.Empty);
+                                                parrafo = parrafo.Replace(value, item.FechaPublicDiario.Value != null ? string.Format("{0:dd/MM/yyyy}", item.FechaPublicDiario) : string.Empty);
+                                                break;
+                                            case "[ESPACIO]":
+                                                parrafo = parrafo.Replace(value, item.EspaciosDocAnterior != null ? item.EspaciosDocAnterior : string.Empty);
                                                 break;
                                         }
                                     }
@@ -2146,6 +1978,17 @@ namespace DAES.BLL
                                                 break;
                                             case "[ANOINSCRIPCION]":
                                                 parrafo = parrafo.Replace(value, item.AnoInscripcion != null ? item.AnoInscripcion : string.Empty);
+                                                break;
+                                            case "[ESPACIO]":
+                                                parrafo = parrafo.Replace(value, item.EspaciosDoc != null ?
+                                                                                              item.EspaciosDoc : string.Empty);
+                                                break;
+                                            case "[NUMEROOFICIO]":
+                                                parrafo = parrafo.Replace(value, item.NumeroOficio != null ? item.NumeroOficio : string.Empty);
+                                                break;
+                                            case "[FECHAOFICIO]":
+                                                parrafo = parrafo.Replace(value, item.FechaOficio.Value != null ?
+                                                                          string.Format("{0:dd/MM/yyyy}", item.FechaOficio.Value) : string.Empty);
                                                 break;
                                         }
                                     }
@@ -2265,6 +2108,14 @@ namespace DAES.BLL
                                             case "[APROBACION]":
                                                 parrafo4_VE = parrafo4_VE.Replace(value, item.Aprobacion.Nombre != null ? item.Aprobacion.Nombre : string.Empty);
                                                 break;
+                                            case "[FECHAOFICIO]":
+                                                parrafo4_VE = parrafo4_VE.Replace(value, item.FechaOficio.Value != null ?
+                                                                                  string.Format("{0:dd/MM/yyyy}", item.FechaOficio.Value) : string.Empty);
+                                                break;
+                                            case "[ESPACIO]":
+                                                parrafo4_VE = parrafo4_VE.Replace(value, item.EspaciosDocAGAC != null ? item.EspaciosDocAGAC : string.Empty);
+                                                break;
+
                                         }
                                     }
 
@@ -3016,7 +2867,7 @@ namespace DAES.BLL
                     }
                 }
 
-                if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoManual || obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico)
+                if (obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoManual /*|| obj.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico*/)
                 {
                     if (!obj.Documentos.Any())
                     {
@@ -3393,13 +3244,38 @@ namespace DAES.BLL
                 //en el caso de que sea certificado automático, generar pdf firmado
                 if (proceso.DefinicionProceso.DefinicionProcesoId == (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico)
                 {
+                    /**
+                        1. Certificado de Disolucion
+                        2. Cerfificado de Vigencia
+                        3. Cerfificado de Vigencia de Estatutos
+                        4. Certificado de Vigencia y Directorio
+                     */
+
+                    switch (obj.TipoCertificadoId)
+                    {
+                        case (int)DAES.Infrastructure.Enum.TipoDocumento.CertificadoDisolucionTest:
+                            ValidarOrganizacion(proceso.Organizacion, "Disolucion");
+                            break;
+                        case (int)DAES.Infrastructure.Enum.TipoDocumento.Vigencia:
+                            ValidarOrganizacion(proceso.Organizacion, "Vigencia");
+                            break;
+                        case (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaEstatutos:
+                            ValidarOrganizacion(proceso.Organizacion, "VigenciaEstatutos");
+                            break;
+                        case (int)DAES.Infrastructure.Enum.TipoDocumento.VigenciaDirectorio:
+                            ValidarOrganizacion(proceso.Organizacion, "VigenciaDirectorio");
+                            break;
+                    }
+
                     var doc = obj.Documentos.FirstOrDefault();
-                    var tipodoc = context.TipoDocumento.FirstOrDefault(q => q.TipoDocumentoId == doc.TipoDocumentoId);
+                    var tipodoc = context.TipoDocumento.FirstOrDefault(q => q.TipoDocumentoId == obj.TipoCertificadoId);
+                    //var tipodoc = context.TipoDocumento.FirstOrDefault(q => q.TipoDocumentoId == doc.TipoDocumentoId);
 
                     var documento = context.Documento.Add(new Documento()
                     {
                         Firmante = context.Firmante.FirstOrDefault(q => q.EsActivo),
-                        TipoDocumentoId = doc.TipoDocumentoId,
+                        TipoDocumentoId = obj.TipoCertificadoId,
+                        //TipoDocumentoId = doc.TipoDocumentoId,
                         Organizacion = proceso.Organizacion,
                         Proceso = proceso,
                         FechaValidoHasta = tipodoc.DiasVigencia.HasValue ? DateTime.Now.AddDays(tipodoc.DiasVigencia.Value) : (DateTime?)null,
@@ -3525,7 +3401,7 @@ namespace DAES.BLL
 
                     //var firmanteMail = sg.GetUserByRut(/*firmantes.IdFirma*/16366481);
                     //var firEmail = "";
-                    var configuracionCertificado = context.ConfiguracionCertificado.FirstOrDefault(q => q.TipoDocumentoId == documento.TipoDocumentoId && q.TipoOrganizacionId == proceso.Organizacion.TipoOrganizacionId);
+                    var configuracionCertificado = context.ConfiguracionCertificado.FirstOrDefault(q => q.TipoDocumentoId == obj.TipoCertificadoId && q.TipoOrganizacionId == proceso.Organizacion.TipoOrganizacionId);
                     documento.Content = CrearCertificadoPDF(configuracionCertificado, proceso.Organizacion, documento.Firmante, documento.DocumentoId, documento.TipoDocumentoId);
                     //documento.Content = SignPDF(documento.DocumentoId, documento.NumeroFolio, documento.Content, documento.DocumentoId.ToString(), documento.Firmante, false, documento.TipoDocumentoId, proceso.Organizacion.TipoOrganizacionId);
                     var objDoc = db.Documento.Where(q => q.DocumentoId == documento.DocumentoId).First();
@@ -3578,6 +3454,497 @@ namespace DAES.BLL
 
                 return proceso;
             }
+        }
+
+
+        private void ValidarOrganizacion(Organizacion model, string definicion)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                switch (definicion)
+                {
+                    case "Disolucion":
+                        //TODO: validaciones para organizacion en caso de Disolucion
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                        {
+                            if (model.Disolucions.Any())
+                            {
+                                //si existe un tipo de norma significa que es una existencia Anterior
+                                if (model.Disolucions.FirstOrDefault().TipoNormaId != null)
+                                {
+                                    //Disolucion Anterior
+                                    if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().NumeroNorma == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaNorma == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().Autorizacion == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.RazonSocial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+
+                                }
+
+                                //si no existe un tipo de norma significa que es una existencia Posterior
+                                if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
+                                {
+                                    //Disolucion Posterior
+                                    if (model.RazonSocial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaEscrituraPublica == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().MinistroDeFe == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().NumeroFojas == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().DatosCBR == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().AñoInscripcion == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                }
+                            }
+                        }
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
+                        {
+                            if (model.Disolucions.Any())
+                            {
+                                //si existe un tipo de norma significa que es una existencia Anterior
+                                if (model.Disolucions.FirstOrDefault().TipoNormaId != null)
+                                {
+                                    //Disolucion Anterior
+                                    if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().NumeroNorma == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaNorma == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().Autorizacion == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.RazonSocial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+
+                                }
+
+                                //si no existe un tipo de norma significa que es una existencia Posterior
+                                if (model.Disolucions.FirstOrDefault().TipoNormaId == null)
+                                {
+                                    //Disolucion Posterior
+                                    if (model.RazonSocial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaJuntaSocios == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaEscrituraPublica == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().MinistroDeFe == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().FechaPubliccionDiarioOficial == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().NumeroFojas == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().DatosCBR == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+
+                                    if (model.Disolucions.FirstOrDefault().AñoInscripcion == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case "Vigencia":
+                        //TODO: validaciones para organizacion en caso de Vigencia
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                        {
+
+                            if (model.RazonSocial == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                            if (model.NumeroRegistro == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                        }
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores)
+                        {
+                            if (model.RazonSocial == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                            if (model.NumeroRegistro == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                        }
+                        break;
+                    case "VigenciaEstatutos":
+                        //TODO: validaciones para organizacion en caso de VigenciaEstatutos
+
+                        //COOPERATIVAS
+                        //Existencia Anterior
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                        {
+                            if (model.ExistenciaAnteriors.Any() || model.ExistenciaPosteriors.Any() || model.Saneamientos.Any() || model.ReformaAnteriors.Any() || model.ReformaPosteriors.Any())
+                            {
+
+
+                                if (model.ExistenciaAnteriors.Any())
+                                {
+
+                                    if (model.ExistenciaAnteriors.FirstOrDefault().TipoNormaId == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaAnteriors.FirstOrDefault().NNorma == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaAnteriors.FirstOrDefault().FNorma == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaAnteriors.FirstOrDefault().FechaPublicacion == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaAnteriors.FirstOrDefault().Autorizado == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion {0} no contiene su información actualizada en el sistema", model.RazonSocial));
+                                    }
+                                }
+                                //Existencia Posterior
+                                if (model.ExistenciaPosteriors.Any())
+                                {
+                                    if (model.ExistenciaPosteriors.FirstOrDefault().FechaConstitutivaSocios == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaPosteriors.FirstOrDefault().DatosGeneralesNotario == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaPosteriors.FirstOrDefault().FechaPublicacionn == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaPosteriors.FirstOrDefault().Fojas == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaPosteriors.FirstOrDefault().DatosCBR == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.ExistenciaPosteriors.FirstOrDefault().AnoInscripcion == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                }
+                                //Saneamiento
+
+                                if (model.Saneamientos.Any())
+                                {
+                                    if (model.Saneamientos.FirstOrDefault().FechaEscrituraPublicaa == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.Saneamientos.FirstOrDefault().FechaaPublicacionDiario == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.Saneamientos.FirstOrDefault().DatoGeneralesNotario == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.Saneamientos.FirstOrDefault().Fojass == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.Saneamientos.FirstOrDefault().FechaaInscripcion == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (model.Saneamientos.FirstOrDefault().DatoGeneralesNotario == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                }
+                                //Reforma Anterior
+                                if (model.ReformaAnteriors.Any())
+                                {
+                                    foreach (var item in model.ReformaAnteriors)
+                                    {
+                                        if (item.FechaReforma == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.TipoNormaId == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.NNorma == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.FechaNorma == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.DatosNotario == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                    }
+
+
+                                }
+                                //Reforma Posterior
+                                if (model.ReformaPosteriors.Any())
+                                {
+                                    foreach (var item in model.ReformaPosteriors)
+                                    {
+                                        if (item.FReforma == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.FechaPubliDiario == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.FechaJuntGeneralSocios == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.FechaEscrituraPublica == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.FechaOficio == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.FojasNumero == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.AnoInscripcion == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.DatosGeneralNotario == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                        if (item.DatosCBR == null)
+                                        {
+                                            throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                        }
+                                    }
+
+
+                                }
+                            }
+
+                        }
+                        //ASOCIACION GREMIAL
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                        {
+                            if (model.ExistenciaLegals.Any())
+                            {
+                                if (model.ExistenciaLegals.FirstOrDefault().FechaConstitutivaSocios == null)
+                                {
+                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                }
+                                if (model.ExistenciaLegals.FirstOrDefault().NumeroOficio == null)
+                                {
+                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                }
+                                if (model.ExistenciaLegals.FirstOrDefault().FechaOficio == null)
+                                {
+                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                }
+                                if (model.ExistenciaLegals.FirstOrDefault().AprobacionId == null)
+                                {
+                                    throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                }
+
+                            }
+                            else
+                            {
+                                throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
+                            "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
+                            }
+                            if (model.ReformaAGACs.Any())
+                            {
+                                foreach (var item in model.ReformaAGACs)
+                                {
+                                    if (item.AsambleaDepId == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (item.NumeroOficio == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (item.FechaAsambleaDep == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (item.AprobacionId == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                    if (item.FechaOficio == null)
+                                    {
+                                        throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                throw new Exception("Aviso: La Organización no cuenta con sus datos actualizados " +
+                            "para una emisión de certificado inmediata. Por favor, para proceder con su requerimiento, seleccione la opción 'Certificado Disolución (Solicitar emisión)'");
+                            }
+                        }
+
+                        //ASOCIACION CONSUMIDORES
+                        break;
+                    case "VigenciaDirectorio":
+                        //TODO: validaciones para organizacion en caso de VigenciaDirectorio
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa)
+                        {
+                            if (model.RazonSocial == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                            if (model.NumeroRegistro == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                            if (model.FechaCelebracion == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                        }
+                        if (model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionConsumidores || model.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.AsociacionGremial)
+                        {
+                            if (model.RazonSocial == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                            if (model.NumeroRegistro == null)
+                            {
+                                throw new Exception(string.Format("Error al emitir, la organizacion no contiene su información actualizada en el sistema"));
+                            }
+                        }
+                        break;
+                }
+            }
+
         }
 
         public void ProcesoUpdate(Workflow w, int? DefinicionWorkflowId)
@@ -3959,6 +4326,140 @@ namespace DAES.BLL
             }
         }
 
+        public void CrearModuloConsulta(Model.DTO.DTOModulo model)
+        {
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+                ModulosConsulta consu = new ModulosConsulta()
+                {
+                    Id = model.Id,
+                    NombreFuncionario = model.NombreFuncionario,
+                    UserName = model.UserName,
+                    Email = model.Email,
+                    Ayuda = model.Ayuda,
+                    Cargos = model.Cargos,
+                    ConfigurarCertificados = model.ConfigurarCertificados,
+                    EstadosDeOrganizacion = model.EstadosDeOrganizacion,
+                    Firmantes = model.Firmantes,
+                    Generos = model.Generos,
+                    HechosLegales = model.HechosLegales,
+                    HechosContables = model.HechosContables,
+                    Organizaciones = model.Organizaciones,
+                    Regiones = model.Regiones,
+                    Rubros = model.Rubros,
+                    SubRubros = model.SubRubros,
+                    TiposDeDocumentos = model.TiposDeDocumentos,
+                    TiposDeOrganizaciones = model.TiposDeOrganizaciones,
+                    TiposDeMateria = model.TiposDeMateria,
+                    TiposDeCriterios = model.TiposDeCriterios,
+                    TiposDeFiscalizacion = model.TiposDeFiscalizacion,
+                    TiposDeHallazgos = model.TiposDeHallazgos,
+                    TiposDeOficios = model.TiposDeOficios,
+                    DefinirTareas = model.DefinirTareas,
+                    DefinirProcesos = model.DefinirProcesos,
+                    IniciarProcesoGestionDocumental = model.IniciarProcesoGestionDocumental,
+                    IniciarProcesoManualmente = model.IniciarProcesoManualmente,
+                    AdministrarProcesos = model.AdministrarProcesos,
+                    AdministrarCargaDeTareas = model.AdministrarCargaDeTareas,
+                    DashboardProcesos = model.DashboardProcesos,
+                    DashboardTareas = model.DashboardTareas,
+                    CuentasUsuario = model.CuentasUsuario,
+                    PerfilesDeUsuario = model.PerfilesDeUsuario,
+                    Configuracion = model.Configuracion,
+                    MisTareasYDocumentos = model.MisTareasYDocumentos,
+                    ConsultaOrganizaciones = model.ConsultaOrganizaciones,
+                    ConsultaProcesos = model.ConsultaProcesos,
+                    ConsultaDocumentos = model.ConsultaDocumentos,
+                    ConsultaAyuda = model.ConsultaAyuda,
+                    ConsultaFiscalizaciones = model.ConsultaFiscalizaciones,
+                    ExportarProcesosExcel = model.ExportarProcesosExcel,
+                    ExportarTareasExcel = model.ExportarTareasExcel,
+                    ReportePMG = model.ReportePMG,
+                    CambiarContraseña = model.CambiarContraseña,
+                    Comunas = model.Comunas,
+                    AdministracionModulos = model.AdministracionModulos,
+                    Neuronales = model.Neuronales,
+                    DocumentoFiscalizador = model.DocumentoFiscalizador,
+                    Periodo = model.Periodo,
+                    VisualizadorDocumentos = model.VisualizadorDocumentos,
+                    VisualizadorFiscalizacion = model.VisualizadorFiscalizacion,
+                    VisualizadorSupervisor = model.VisualizadorSupervisor,
+                    VisualizadorCoordinador = model.VisualizadorCoordinador,
+                    VisualizadorArchivarDocumento = model.VisualizadorArchivarDocumento,
+                };
+
+                context.ModulosConsulta.Add(consu);
+                context.SaveChanges();
+
+            }
+        }
+
+
+        public void EditarModulosConsulta(Model.DTO.DTOModulo model)
+        {
+
+            using (SistemaIntegradoContext context = new SistemaIntegradoContext())
+            {
+
+                var modelo = context.ModulosConsulta.First(q => q.IdModulos == model.IdModulos);
+                modelo.Ayuda = model.Ayuda;
+                modelo.Cargos = model.Cargos;
+                modelo.ConfigurarCertificados = model.ConfigurarCertificados;
+                modelo.EstadosDeOrganizacion = model.EstadosDeOrganizacion;
+                modelo.Firmantes = model.Firmantes;
+                modelo.Generos = model.Generos;
+                modelo.HechosLegales = model.HechosLegales;
+                modelo.HechosContables = model.HechosContables;
+                modelo.Organizaciones = model.Organizaciones;
+                modelo.Regiones = model.Regiones;
+                modelo.Rubros = model.Rubros;
+                modelo.Situacion = model.Situacion;
+                modelo.SubRubros = model.SubRubros;
+                modelo.TiposDeDocumentos = model.TiposDeDocumentos;
+                modelo.TiposDeOrganizaciones = model.TiposDeOrganizaciones;
+                modelo.TiposDeMateria = model.TiposDeMateria;
+                modelo.TiposDeCriterios = model.TiposDeCriterios;
+                modelo.TiposDeFiscalizacion = model.TiposDeFiscalizacion;
+                modelo.TiposDeHallazgos = model.TiposDeHallazgos;
+                modelo.TiposDeOficios = model.TiposDeOficios;
+                modelo.DefinirTareas = model.DefinirTareas;
+                modelo.DefinirProcesos = model.DefinirProcesos;
+                modelo.IniciarProcesoGestionDocumental = model.IniciarProcesoGestionDocumental;
+                modelo.IniciarProcesoManualmente = model.IniciarProcesoManualmente;
+                modelo.AdministrarProcesos = model.AdministrarProcesos;
+                modelo.AdministrarCargaDeTareas = model.AdministrarCargaDeTareas;
+                modelo.DashboardProcesos = model.DashboardProcesos;
+                modelo.DashboardTareas = model.DashboardTareas;
+                modelo.CuentasUsuario = model.CuentasUsuario;
+                modelo.PerfilesDeUsuario = model.PerfilesDeUsuario;
+                modelo.Configuracion = model.Configuracion;
+                modelo.MisTareasYDocumentos = model.MisTareasYDocumentos;
+                modelo.ConsultaOrganizaciones = model.ConsultaOrganizaciones;
+                modelo.ConsultaProcesos = model.ConsultaProcesos;
+                modelo.ConsultaDocumentos = model.ConsultaDocumentos;
+                modelo.ConsultaAyuda = model.ConsultaAyuda;
+                modelo.ConsultaFiscalizaciones = model.ConsultaFiscalizaciones;
+                modelo.Id = model.Id;
+                modelo.ExportarProcesosExcel = model.ExportarProcesosExcel;
+                modelo.ExportarTareasExcel = model.ExportarTareasExcel;
+                modelo.ReportePMG = model.ReportePMG;
+                modelo.CambiarContraseña = model.CambiarContraseña;
+                modelo.Comunas = model.Comunas;
+                modelo.AdministracionModulos = model.AdministracionModulos;
+                modelo.Neuronales = model.Neuronales;
+                modelo.DocumentoFiscalizador = model.DocumentoFiscalizador;
+                modelo.Periodo = model.Periodo;
+                modelo.VisualizadorDocumentos = model.VisualizadorDocumentos;
+                modelo.VisualizadorFiscalizacion = model.VisualizadorFiscalizacion;
+                modelo.VisualizadorSupervisor = model.VisualizadorSupervisor;
+                modelo.VisualizadorCoordinador = model.VisualizadorCoordinador;
+                modelo.VisualizadorArchivarDocumento = model.VisualizadorArchivarDocumento;
+
+                context.SaveChanges();
+
+            }
+        }
+
         public void WorkflowMove(int workflowid, string userid)
         {
             using (SistemaIntegradoContext context = new SistemaIntegradoContext())
@@ -4225,6 +4726,7 @@ namespace DAES.BLL
                 configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[FechaCreacion]", workflow.FechaCreacion.ToString());
                 configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[Tarea]", workflow.DefinicionWorkflow.TipoWorkflow.Nombre);
                 configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[Proceso]", workflow.Proceso.DefinicionProceso.Nombre);
+                configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[User]", workflow.User.Nombre);
                 if (workflow.Proceso.Organizacion != null)
                 {
                     configplantillanotificaciontarea.Valor = configplantillanotificaciontarea.Valor.Replace("[Registro]", workflow.Proceso.Organizacion.NumeroRegistro);
@@ -4618,7 +5120,7 @@ namespace DAES.BLL
             try
             {
                 //generar código QR
-                var _responseQR = _file.CreateQr(string.Concat(url_tramites_en_linea.Valor, "/GPDocumentoVerificacion/Details/", documentoFirmado.DocumentoId));
+                var _responseQR = _file.CreateQr(string.Concat(url_tramites_en_linea.Valor, "/VerificarDocumento/Finish/", documentoFirmado.DocumentoId));
 
                 //firmar documento
                 var _responseHSM = _hsm.SignWSDL(documentoOriginal.DocumentoSinFirma, idsFirma, documentoFirmado.DocumentoId, documentoFirmado.Folio, url_tramites_en_linea.Valor, _responseQR);
@@ -4788,8 +5290,8 @@ namespace DAES.BLL
                         idsFirma.Add(rubrica.IdentificadorFirma);
 
                         //generar código QR
-                        byte[] qr = fl.CreateQr(string.Concat(url_tramites_en_linea.Valor, "/GPDocumentoVerificacion/Details/", documento.DocumentoId));
-
+                        byte[] qr = fl.CreateQr(string.Concat(url_tramites_en_linea.Valor, "/VerificarDocumento/Finish/", documento.DocumentoId));
+                        documento.File = documento.Content;
                         //si el documento ya tiene folio no solicitarlo nuevamente
                         if (string.IsNullOrWhiteSpace(documento.Folio))
                         {
@@ -4808,6 +5310,7 @@ namespace DAES.BLL
                                 documento.File = documento.Content;
 
 
+
                                 context.SaveChanges();
                             }
                             catch (Exception ex)
@@ -4816,8 +5319,11 @@ namespace DAES.BLL
                             }
                         }
 
-
-                        var docto = hsms.Sign(documento.File, idsFirma, documento.DocumentoId, documento.Folio, url_tramites_en_linea.Valor, qr);
+                        var organizacionId = documento.OrganizacionId;
+                        var Orga = db.Organizacion.Where(q => q.OrganizacionId == organizacionId).ToList();
+                        var tipoOrgaId = Orga.FirstOrDefault().TipoOrganizacionId;
+                        var TipoOrganizacion = db.TipoOrganizacion.Where(q => q.TipoOrganizacionId == tipoOrgaId).FirstOrDefault().Nombre;
+                        var docto = hsms.Sign(documento.File, idsFirma, documento.DocumentoId, documento.Folio, url_tramites_en_linea.Valor, qr, TipoOrganizacion);
                         documento.Content = docto;
                         //documento.Signed = true;
                         documento.Firmado = true;
@@ -4835,6 +5341,122 @@ namespace DAES.BLL
 
 
             return response;
+        }
+
+        public byte[] SignREST(byte[] contenido, string firmantes, int documentoId, string folio, string urlVerificacion, string QR)
+        {
+            //validaciones
+            if (documentoId == 0)
+                throw new System.Exception("No se especificó el código de verificación del documento.");
+            if (contenido == null)
+                throw new System.Exception("No se especificó el contenido del documento.");
+            if (!firmantes.Any())
+                throw new System.Exception("Debe especificar al menos un firmante.");
+            if (urlVerificacion.IsNullOrWhiteSpace())
+                throw new System.Exception("No se especificó la url de verificación del documento.");
+            if (QR == null)
+                throw new System.Exception("No se especificó el código QR.");
+
+            using (MemoryStream ms = new MemoryStream())
+            using (var reader = new PdfReader(contenido))
+            using (PdfStamper stamper = new PdfStamper(reader, ms, '\0', true))
+            {
+                //agregar folio
+                if (!folio.IsNullOrWhiteSpace())
+                {
+                    try
+                    {
+                        //obtener informacion de la primera pagina
+                        var pagesize = reader.GetPageSize(1);
+                        var pdfContentFirstPage = stamper.GetOverContent(1);
+
+                        //estampa de folio
+                        ColumnText.ShowTextAligned(pdfContentFirstPage, Element.ALIGN_LEFT, new Phrase(string.Format("Folio {0}", folio), new Font(Font.FontFamily.HELVETICA, 13, Font.BOLD, BaseColor.DARK_GRAY)), pagesize.Width - 182, pagesize.Height - 167, 0);
+
+                        //estampa de fecha
+                        ColumnText.ShowTextAligned(pdfContentFirstPage, Element.ALIGN_LEFT, new Phrase(DateTime.Now.ToString("dd/MM/yyyy"), new Font(Font.FontFamily.HELVETICA, 13, Font.BOLD, BaseColor.DARK_GRAY)), pagesize.Width - 182, pagesize.Height - 182, 0);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        throw new System.Exception("Error al insertar folio en el documento: " + ex.Message);
+                    }
+                }
+
+                //agregar tabla de verificacion
+                try
+                {
+                    var img = Image.GetInstance(QR);
+                    var fontStandard = new Font(Font.FontFamily.HELVETICA, 9, Font.NORMAL, BaseColor.DARK_GRAY);
+                    var fontBold = new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD, BaseColor.DARK_GRAY);
+                    var pdfContentLastPage = stamper.GetOverContent(reader.NumberOfPages);
+                    var table = new PdfPTable(3) { HorizontalAlignment = Element.ALIGN_CENTER, WidthPercentage = 100 };
+
+                    table.TotalWidth = 520f;
+                    table.SetWidths(new[] { 8f, 25f, 6f });
+                    table.AddCell(new PdfPCell(new Phrase("Información de firma electrónica:", fontBold)) { Colspan = 2, BorderColor = BaseColor.DARK_GRAY });
+                    table.AddCell(new PdfPCell() { Rowspan = 5 }).AddElement(img);
+                    table.AddCell(new PdfPCell(new Phrase("Firmantes", fontBold)));
+                    table.AddCell(new PdfPCell(new Phrase(string.Join(", ", firmantes), fontStandard)) { BorderColor = BaseColor.DARK_GRAY });
+                    table.AddCell(new PdfPCell(new Phrase("Fecha de firma", fontBold)) { BorderColor = BaseColor.DARK_GRAY });
+                    table.AddCell(new PdfPCell(new Phrase(DateTime.Now.ToString("dd/MM/yyyy"), fontStandard)) { BorderColor = BaseColor.DARK_GRAY });
+                    table.AddCell(new PdfPCell(new Phrase("Código de verificación", fontBold)) { BorderColor = BaseColor.DARK_GRAY });
+                    table.AddCell(new PdfPCell(new Phrase(documentoId.ToString(), fontStandard)) { BorderColor = BaseColor.DARK_GRAY });
+                    table.AddCell(new PdfPCell(new Phrase("URL de verificación", fontBold)) { BorderColor = BaseColor.DARK_GRAY });
+                    table.AddCell(new PdfPCell(new Phrase(urlVerificacion, fontStandard)) { BorderColor = BaseColor.DARK_GRAY });
+                    table.WriteSelectedRows(0, -1, 43, 100, pdfContentLastPage);
+                }
+                catch (System.Exception ex)
+                {
+                    throw new System.Exception("Error al insertar tabla de validación de firma electrónica: " + ex.Message);
+                }
+
+                stamper.Close();
+                contenido = ms.ToArray();
+            }
+
+            //firma documento
+            var documentoParaFirmar = contenido;
+
+            //var client = new RestClient("https://apipersomatico.economia.cl/api/Integra");
+            //using (var ws = new SignFileImplClient())
+            //{
+            //    foreach (var firmante in firmantes)
+            //    {
+            //        var firmaRequest = new DTOFirmaRequest
+            //        {
+            //            inputfolder = Convert.ToBase64String(documentoParaFirmar)
+            //        };
+
+            //        var request = new RestRequest(Method.POST);
+            //        //request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            //        //request.AddParameter("inputfolder", firmaRequest.inputfolder);
+            //        //request.AddParameter("page_number", firmaRequest.page_number);
+            //        //request.AddParameter("sign_location", firmaRequest.sign_location);
+            //        //request.AddParameter("signer_name", firmante);
+            //        //request.AddParameter("username", firmaRequest.username);
+            //        //request.AddParameter("password", firmaRequest.password);
+            //        request.AddParameter("periodo", "2023");
+            //        request.AddParameter("tipodocumento", "CIRC");
+            //        request.AddParameter("solicitante", "padiaz@economia.cl");
+            //        request.AddParameter("subsecretaria", "ECONOMIA");
+            //        request.AddParameter("usuario", "sachin");
+            //        request.AddParameter("clave", "sachin@123");
+            //        request.AddParameter("nameFile", "hola.pdf");
+            //        request.AddParameter("base64file", "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==");
+
+            //        var response = client.Execute(request);
+            //        if (!response.IsSuccessful)
+            //            throw new System.Exception("El servicio externo de firma electrónica REST retornó falla:" + response.ErrorMessage);
+
+            //        var dtoResponse = JsonConvert.DeserializeObject<DTOFirmaResponse>(response.Content);
+            //        if (dtoResponse == null)
+            //            throw new System.Exception("El servicio externo de firma electrónica REST no retornó respuesta");
+
+            //        documentoParaFirmar = Convert.FromBase64String(dtoResponse.SignedBase64EncodedString);
+            //    }
+            //}
+
+            return documentoParaFirmar;
         }
 
         public byte[] SignResoAuto(Documento obj, string email, int HorasExtrasId)
@@ -4894,12 +5516,19 @@ namespace DAES.BLL
                         response.Errors.Add("No se encontró la configuración de usuario de HSM.");
                     if (HSMPassword != null && string.IsNullOrWhiteSpace(HSMPassword.Valor))
                         response.Errors.Add("La configuración de password de HSM es inválida.");
+                    //test
+                    var url_tramites_interno_test = db.Configuracion.FirstOrDefault(q => q.Nombre == nameof(Infrastructure.Enum.Configuracion.url_tramites_interno));
+                    if (url_tramites_interno_test == null)
+                        response.Errors.Add("No se encontró la configuración de la url de verificación de documentos");
+                    if (url_tramites_interno_test != null && url_tramites_interno_test.Valor.IsNullOrWhiteSpace())
+                        response.Errors.Add("No se encontró la configuración de la url de verificación de documentos");
 
-                    var url_tramites_en_linea = db.Configuracion.FirstOrDefault(q => q.Nombre == nameof(Infrastructure.Enum.Configuracion.url_tramites_en_linea));
-                    if (url_tramites_en_linea == null)
-                        response.Errors.Add("No se encontró la configuración de la url de verificación de documentos");
-                    if (url_tramites_en_linea != null && url_tramites_en_linea.Valor.IsNullOrWhiteSpace())
-                        response.Errors.Add("No se encontró la configuración de la url de verificación de documentos");
+                    //Prod
+                    //var url_tramites_en_linea = db.Configuracion.FirstOrDefault(q => q.Nombre == nameof(Infrastructure.Enum.Configuracion.url_tramites_en_linea));
+                    //if (url_tramites_en_linea == null)
+                    //    response.Errors.Add("No se encontró la configuración de la url de verificación de documentos");
+                    //if (url_tramites_en_linea != null && url_tramites_en_linea.Valor.IsNullOrWhiteSpace())
+                    //    response.Errors.Add("No se encontró la configuración de la url de verificación de documentos");
 
 
                     if (response.IsValid)
@@ -4955,8 +5584,9 @@ namespace DAES.BLL
                         idsFirma.Add(rubrica.IdentificadorFirma);
 
                         //generar código QR
-                        byte[] qr = fl.CreateQr(string.Concat(url_tramites_en_linea.Valor, "/GPDocumentoVerificacion/Details/", documento.DocumentoId));
-
+                        //byte[] qr = fl.CreateQr(string.Concat(url_tramites_en_linea.Valor, "/VerificarDocumento/Finish/", documento.DocumentoId));
+                        byte[] qr = fl.CreateQr(string.Concat(url_tramites_interno_test.Valor, "Finish/", documento.DocumentoId));
+                        documento.Content = obj.Content;
                         //si el documento ya tiene folio no solicitarlo nuevamente
                         if (string.IsNullOrWhiteSpace(documento.Folio))
                         {
@@ -4970,7 +5600,7 @@ namespace DAES.BLL
 
                                 if (folios != null && folios.status == "ERROR")
                                     response.Errors.Add(folios.error);
-
+                                //documento.Content = obj.Content;
                                 documento.Folio = folios.folio;
                                 documento.Content = obj.Content;
 
@@ -4983,7 +5613,12 @@ namespace DAES.BLL
                             }
                         }
 
-                        var docto = hsms.Sign(documento.Content, idsFirma, documento.DocumentoId, documento.Folio, url_tramites_en_linea.Valor, qr);
+                        var organizacionId = documento.OrganizacionId;
+                        var Orga = db.Organizacion.Where(q => q.OrganizacionId == organizacionId).ToList();
+                        var tipoOrgaId = Orga.FirstOrDefault().TipoOrganizacionId;
+                        var TipoOrganizacion = db.TipoOrganizacion.Where(q => q.TipoOrganizacionId == tipoOrgaId).FirstOrDefault().Nombre;
+                        //var docto = hsms.Sign(documento.Content, idsFirma, documento.DocumentoId, documento.Folio, url_tramites_en_linea.Valor, qr, TipoOrganizacion);
+                        var docto = hsms.Sign(documento.Content, idsFirma, documento.DocumentoId, documento.Folio, string.Concat(url_tramites_interno_test.Valor, "Finish/" + documento.DocumentoId), qr, TipoOrganizacion);
                         documento.Content = docto;
                         //documento.Signed = true;
                         documento.Firmado = true;

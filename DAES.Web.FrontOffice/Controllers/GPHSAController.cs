@@ -152,6 +152,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
             var url = Properties.Settings.Default.url_gestion_procesos + "/InformeHSA/GetInformes/" + Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero;
             var client = new RestClient(url);
+            System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12;
             var response = client.Execute(new RestRequest());
             DTOProcesoResponse procesos = JsonConvert.DeserializeObject<DTOProcesoResponse>(response.Content);
 
@@ -186,6 +187,10 @@ namespace DAES.Web.FrontOffice.Controllers
 
             return View(model);
         }
+
+
+
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]

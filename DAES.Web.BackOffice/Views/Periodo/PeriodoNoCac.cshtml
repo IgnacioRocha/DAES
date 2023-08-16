@@ -1,0 +1,79 @@
+﻿@model DAES.Model.SistemaIntegrado.PeriodoCAC
+@{
+    ViewBag.Title = "Periodo No Cac";
+}
+
+
+
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Descripción
+            </th>
+            <th>
+                Trámite
+            </th>
+            <th>
+
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in ViewBag.periodo)
+        {
+            <tr>
+                <th>
+                    @item.PeriodoId
+                </th>
+                <th>
+                    @item.Descripcion
+                </th>
+                <th>
+                    @item.Tipo
+                </th>
+                <th>
+                    @Html.ActionLink("Editar", "EditPeriodoCAC", "Periodo", new { item.PeriodoId }, new { @class = "btn btn-primary" })
+                </th>
+                <th>
+                    @Html.ActionLink("Eliminar", "EliminarPeriodoNoCac", "Periodo", new { item.PeriodoId }, new { @class = "btn btn-danger" })
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+@Html.ActionLink("Agregar", "CreatePeriodoNoCac", "Periodo", new { @class = "btn btn-success" })
+<script>
+    $(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#example').DataTable({
+            initComplete: function () {
+                // Apply the search
+                this.api()
+                    .columns()
+                    .every(function () {
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that.search(this.value).draw();
+                            }
+                        });
+                    });
+            },
+        });
+    });
+</script>

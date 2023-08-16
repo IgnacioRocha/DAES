@@ -31,11 +31,11 @@
 
 <div class="container">
     @*<div class="alert alert-primary" role="alert">
-        <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
-    </div>
-    <div class="alert alert-warning" role="alert">
-        <b>Importante: </b> Indicar correo electrónico y fono del solicitante
-    </div>*@
+            <b>Importante: </b>Todos los documentos solicitados deben incluir firma electrónica avanzada
+        </div>
+        <div class="alert alert-warning" role="alert">
+            <b>Importante: </b> Indicar correo electrónico y fono del solicitante
+        </div>*@
 
     <div class="alert alert-danger" role="alert">
         <b>(*)</b> Campo Obligatorio
@@ -235,14 +235,80 @@
 
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Directorio</h5>
-                        <p class="card-title">(*)Campos obligatorios</p>
-                        <hr />
-                        <div id="AsambleaOrdinariaAGAC">
-                            @Html.Partial("_ActualizarAsambleaOrdinariaAGAC", Model)
+                    @*<div class="card-body">
+                            <h5 class="card-title">Directorio</h5>
+                            <p class="card-title">(*)Campos obligatorios</p>
+                            <hr />
+                            <div id="AsambleaOrdinariaAGAC">
+                                @Html.Partial("_ActualizarAsambleaOrdinariaAGAC", Model)
+                            </div>
+                            @Ajax.ActionLink("Nuevo miembro", "DirectorioAdd", null, null, new AjaxOptions { UpdateTargetId = "AsambleaOrdinariaAGAC" }, new { @class = "btn btn-primary" })
+                        </div>*@
+                    <br />
+                    <div class="container">
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body" style="min-height: 335px">
+                                        <p class="card-title text-center font-weight-bold">Directorio</p>
+                                        <hr />
+                                        <ul>
+                                            <li class="card-title text-info">
+                                                (*)Campos obligatorios
+                                            </li>
+                                            <li class="card-title text-info">
+                                                Campos marcados en sección "Eliminado?" serán eliminados
+                                            </li>
+                                        </ul>
+                                        <hr />
+
+                                        <div class="input_field">
+                                            <table class="table table-responsive" id="table_field">
+                                                <tr>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().NombreCompleto, "(*)Nombre Completo")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Rut, "(*)Rut")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Cargo.Nombre, "(*)Cargo")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Genero.Nombre)
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaInicio, "(*)Fecha de Inicio")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaTermino, "(*)Fecha de Termino")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().eliminado, "Eliminado?")
+                                                    </th>
+                                                </tr>
+                                                @for (int i = 0; i < Model.Directorio.Count; i++)
+                                                {
+
+                                                    <tr id="@Model.Directorio[i].DirectorioId">
+
+                                                        @Html.HiddenFor(model => Model.Directorio[i].DirectorioId)
+                                                        @Html.EditorFor(m => Model.Directorio[i])
+                                                        <td class="text-center">
+                                                            @Html.EditorFor(m => Model.Directorio[i].eliminado, new { htmlAttributes = new { @class = "form-control", } })
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </table>
+                                        </div>
+                                        <hr />
+                                        <label class="text-primary" name="add" id="add">Agregar nuevo miembro</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        @Ajax.ActionLink("Nuevo miembro", "DirectorioAdd", null, null, new AjaxOptions { UpdateTargetId = "AsambleaOrdinariaAGAC" }, new { @class = "btn btn-primary" })
+                        <br />
                     </div>
                 </div>
             </div>
@@ -256,3 +322,82 @@
     Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
 </div>
 
+<script type="text/javascript">
+    var max = 10, x = 1, cont = 1;
+    //Se crea los input requeridos para el objeto de directorio.
+    $("#add").click(function () {
+
+        var lista = [];
+            var wrapper = '<tr>'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="text" name="NombreCompleto" id="NombreCompleto"/>'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="text" name="Rut" id="Rut" />'
+                + '<td style="height:50px; padding-left: 10px"><select class="form-control" id="SelectCargo" name="SelectCargo">@foreach (var item in ViewBag.Cargo){<option value="@item.CargoId">@item.Nombre</option>}</select>'
+                + '<td style="height:50px; padding-left: 10px"><select class="form-control" id="SelectGenero" name="SelectGenero">@foreach (var item in ViewBag.Genero){<option value="@item.GeneroId">@item.Nombre</option>}</select>'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="date" name="FechaInicio" id="FechaInicio" />'
+                + '<td style="height:50px; padding-left: 10px"><input class="form-control text-box single-line" type="date" name="FechaTermino" id="FechaTermino" />'
+                + '<td style="height:1px; padding-left: 1px"><input class="form-control text-box single-line" type="text" name="IdSolicitante" hidden id="IdSolicitante" value="@Model.OrganizacionId"/>'
+                + '</td><br /><td class="text-center"><label class="text-danger" name="remove" id="remove"><u>Quitar</u></label></td></tr>';
+        if (x < max) {
+            $("#table_field").append(wrapper);
+            x++, cont++;
+        }
+        lista = wrapper;
+
+    })
+
+    $("#table_field").on('click', '#remove', function () {
+        $(this).closest('tr').remove();
+        x--;
+    })
+
+    //$("#table_field").on('click', '#removee', function () {
+    //    var a = document.getElementById("removee");
+    //    var b = $("[name='removee']").attr("name");
+    //    /*$(this).closest('tr').remove();*/
+    //    console.log(b);
+
+    //})
+
+    //function Quitar(clicked_id) {
+    //    var a = document.getElementById(clicked_id);
+    //    //a.hidden = true;
+    //    /*a.remove();*/
+    //    //$(this).closest('tr').remove();
+    //    //x--;
+    //    /*$(this).closest('tr').remove();*/
+    //    a.style.backgroundColor = "#0000FF";
+    //    /*a.parentNode.removeChild(a);*/
+    //    /*a.textContent = '';*/
+    //    /*a.innerHTML = '';*/
+
+    //    x--;
+    //}
+
+    //function Quitar(clicked_id) {
+    //    var a = document.getElementById(clicked_id);
+    //    //a.hidden = true;
+    //    /*a.remove();*/
+    //    a.style.backgroundColor = "#595656";
+    //    var IdEliminar = clicked_id;
+    //    var lista = [];
+    //    var wrapper = '<tr>'
+    //        + '<td style="height:1px; padding-left: 1px"><input class="form-control text-box single-line" type="text" name="DirectorioId" hidden id="DirectorioId" value="'.concat(clicked_id).concat('"/>');
+
+    //    if (x < max) {
+    //        $("#table_field").append(wrapper);
+    //        x++, cont++;
+    //    }
+    //    lista = wrapper;
+    //    a.setAttribute('eliminado', '1');
+    //    /*$(this).closest('tr').remove();*/
+    //    /*a.parentNode.removeChild(a);*/
+    //    /*a.textContent = '';*/
+    //    /*a.innerHTML = '';*/
+
+    //    x--;
+    //}
+
+    //function Recargar() {
+    //    location.reload();
+    //}
+</script>

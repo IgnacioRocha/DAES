@@ -1,16 +1,15 @@
-﻿using DAES.Infrastructure.SistemaIntegrado;
+﻿using DAES.Infrastructure;
+using DAES.Infrastructure.SistemaIntegrado;
+using DAES.Model.DTO;
 using DAES.Model.SistemaIntegrado;
+using DAES.Web.FrontOffice.Helper;
+using DAES.Web.FrontOffice.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using DAES.Model.DTO;
-using DAES.Web.FrontOffice.Models;
-using DAES.Web.FrontOffice.Helper;
 using System.IO;
-using DAES.Infrastructure;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace DAES.Web.FrontOffice.Controllers
 {
@@ -124,6 +123,8 @@ namespace DAES.Web.FrontOffice.Controllers
             ViewBag.RegionSolicitanteId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
             ViewBag.CargoId = new SelectList(_db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
             ViewBag.GeneroId = new SelectList(_db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            ViewBag.Cargo = _db.Cargo.ToList();
+            ViewBag.Genero = _db.Genero.ToList();
 
             model = new DTOAsambleaOrdinariaDirectorio
             {
@@ -172,7 +173,7 @@ namespace DAES.Web.FrontOffice.Controllers
         // POST: ActualizarAsambleOrdinariaAGAC/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(DTOAsambleaOrdinariaDirectorio model)
+        public ActionResult Create(DTOAsambleaOrdinariaDirectorio model, List<string> NombreCompleto, List<string> Rut, List<int?> SelectCargo, List<int?> SelectGenero, List<string> FechaInicio, List<string> FechaTermino, List<int?> IdSolicitante, List<int?> Eliminado, List<int?> DirectorioId)
         {
             if (!Global.CurrentClaveUnica.IsAutenticated)
             {
@@ -184,6 +185,15 @@ namespace DAES.Web.FrontOffice.Controllers
                 ModelState.AddModelError(string.Empty, "La organización no fue encontrada.");
             }
 
+            ViewBag.ComunaId = new SelectList(_db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre", model.ComunaId);
+            ViewBag.EstadoId = new SelectList(_db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre", model.EstadoId);
+            ViewBag.SituacionId = new SelectList(_db.Situacion.OrderBy(q => q.Nombre), "SituacionId", "Nombre", model.SituacionId);
+            ViewBag.RegionId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.RegionId);
+            ViewBag.TipoOrganizacionId = new SelectList(_db.TipoOrganizacion.OrderBy(q => q.Nombre), "TipoOrganizacionId", "Nombre", model.TipoOrganizacionId);
+            ViewBag.CargoId = new SelectList(_db.Cargo.OrderBy(q => q.Nombre), "CargoId", "Nombre");
+            ViewBag.GeneroId = new SelectList(_db.Genero.OrderBy(q => q.Nombre), "GeneroId", "Nombre");
+            ViewBag.Cargo = _db.Cargo.ToList();
+            ViewBag.Genero = _db.Genero.ToList();
             //if (!model.RUTSolicitante.IsRut())
             //{
             //    ModelState.AddModelError(string.Empty, "El rut del solicitante ingresado no es válido");
@@ -212,6 +222,48 @@ namespace DAES.Web.FrontOffice.Controllers
                     Fono = model.FonoSolicitante
 
                 };
+
+
+                //Se quitar los integrantes seleccionados
+                //if (DirectorioId != null)
+                //{
+                //    for (int i = 0; i < DirectorioId.Count(); i++)
+                //    {
+                //        var variable = DirectorioId[i];
+                //        model.Directorio.Remove(model.Directorio.FirstOrDefault(q => q.DirectorioId == DirectorioId[i]));
+                //    }
+                //}
+                if (model.Directorio != null)
+                {
+                    var directDelete = model.Directorio.Where(q => q.eliminado == true).ToList();
+                    for (int i = 0; i < directDelete.Count(); i++)
+                    {
+                        model.Directorio.Remove(model.Directorio.FirstOrDefault(q => q.DirectorioId == directDelete[i].DirectorioId));
+                    }
+                }
+
+                // se cargan los nuevos integrantes del directorio al objeto
+                if (FechaInicio != null)
+                {
+                    for (int i = 0; i < Rut.Count(); i++)
+                    {
+
+                        var directorio = new DTODirectorio()
+                        {
+                            OrganizacionId = (int)IdSolicitante[i],
+                            NombreCompleto = NombreCompleto[i],
+                            GeneroId = (int)SelectGenero[i],
+                            CargoId = (int)SelectCargo[i],
+                            Rut = Rut[i],
+                            FechaInicio = DateTime.Parse(FechaInicio[i]),
+                            FechaTermino = DateTime.Parse(FechaTermino[i])
+                        };
+                        model.Directorio.Add(directorio);
+
+                    }
+
+                }
+
                 proceso.ActualizacionOrganizacions.Add(new ActualizacionOrganizacion()
                 {
                     OrganizacionId = model.OrganizacionId,

@@ -45,7 +45,7 @@ namespace DAES.Model.DTO
         [Display(Name = "Año")]
         public string Periodo { get; set; }
 
-        [MaxFileSize(20 * 1024  * 1024 , ErrorMessage = "Tamaño máximo de archivo es {0} MB")]
+        [MaxFileSize(20 * 1024 * 1024, ErrorMessage = "Tamaño máximo de archivo es {0} MB")]
         [Required(ErrorMessage = "Es necesario especificar el Balance General Anual")]
         [Display(Name = "Balance General Anual")]
         [DataType(DataType.Upload)]
@@ -57,7 +57,10 @@ namespace DAES.Model.DTO
         [DataType(DataType.Upload)]
         public HttpPostedFileBase Estadoresultado { get; set; }
 
-        [MaxFileSize(20 * 1024 * 1024, ErrorMessage = "Tamaño máximo de archivo es {0} MB")]
+        [Display(Name = "Poder representativo")]
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase PoderRepresentativo { get; set; }
+
         [Required(ErrorMessage = "Es necesario especificar el Dictamen de Auditores Externos")]
         [Display(Name = "Dictamen de Auditores Externos")]
         [DataType(DataType.Upload)]
@@ -72,7 +75,7 @@ namespace DAES.Model.DTO
         public string NombreContadorGeneral { get; set; }
 
         [Required(ErrorMessage = "Es necesario especificar el Nombre Contador General")]
-        [Display(Name = "Fecha celebración última Junta General de Socios")]
+        [Display(Name = "Fecha Junta General de Socios (*)")]
         [DataType(DataType.Date)]
         public DateTime FechaCelebracionUltimaJuntaGeneralSocios { get; set; }
 

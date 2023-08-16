@@ -41,23 +41,22 @@ namespace DAES.Web.FrontOffice.Controllers
         }
         public ActionResult Start()
         {
+            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            {
+                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            };
+            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            {
+                numero = 44444444,
+                DV = "4",
+                tipo = "RUN"
+            };
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "SupervisionCAC";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
-
-            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
-            //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
-            //{
-            //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
-            //    apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
-            //};
-            //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
-            //{
-            //    numero = 44444444,
-            //    DV = "4",
-            //    tipo = "RUN"
-            //};
-            //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
-            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
         public ActionResult Finish()
         {
@@ -107,8 +106,7 @@ namespace DAES.Web.FrontOffice.Controllers
             {
                 return View("_Error", new Exception("Organización no encontrada"));
             }
-
-            ViewBag.Periodo = new SelectList(_db.Periodo.Where(q=>q.Tipo == "Supervision").OrderByDescending(q => q.PeriodoId), "Descripcion", "Descripcion");
+            ViewBag.Periodo = new SelectList(_db.PeriodoCAC.Where(q => q.Tipo == "ModeloSupervisionCAC").OrderByDescending(q => q.PeriodoId), "Descripcion", "Descripcion");
             ViewBag.RegionSolicitanteId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
 
             return View(new Model.DTO.DTOSupervisionCAC()

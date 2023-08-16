@@ -47,7 +47,22 @@ namespace DAES.Web.FrontOffice.Controllers
         {
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "Articulo91";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Search";
-            return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
+
+            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
+            {
+                nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
+                apellidos = new System.Collections.Generic.List<string> { "DESA", "DESA" }
+            };
+            Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
+            {
+                numero = 44444444,
+                DV = "4",
+                tipo = "RUN"
+            };
+            return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
+            //para activar CU
+            //return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
 
         public ActionResult Finish()
@@ -55,45 +70,83 @@ namespace DAES.Web.FrontOffice.Controllers
             return View();
         }
 
-        public ActionResult Search()
-        {
-            if (!Global.CurrentClaveUnica.IsAutenticated)
-            {
-                return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
-            }
-
-            IQueryable<Organizacion> query = _db.Organizacion;
-            query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
-            query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
-            query = query.Where(q => q.EsImportanciaEconomica);
-
-            var model = new DTOSearch();
-            model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
-            model.First = false;
-
-            return View(model);
-        }
-
-        [HttpPost]
         public ActionResult Search(string Filter)
         {
+            //if (!Global.CurrentClaveUnica.IsAutenticated)
+            //{
+            //    return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+            //}
+
+            //IQueryable<Organizacion> query = _db.Organizacion;
+            //query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
+            //query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
+            //query = query.Where(q => q.EsImportanciaEconomica);
+
+            //var model = new DTOSearch();
+            //model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
+            //model.First = false;
+
+            //return View(model);
             if (!Global.CurrentClaveUnica.IsAutenticated)
             {
                 return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
             }
+            if (Filter != "" && Filter != null)
+            {
 
-            IQueryable<Organizacion> query = _db.Organizacion;
-            query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
-            query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
-            query = query.Where(q => q.EsImportanciaEconomica);
-            query = query.Where(q => q.RazonSocial.Contains(Filter) || q.NumeroRegistro.Contains(Filter) || q.Sigla.Contains(Filter));
 
-            var model = new DTOSearch();
-            model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
-            model.First = false;
 
-            return View(model);
+
+                IQueryable<Organizacion> query = _db.Organizacion;
+                query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
+                query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
+                query = query.Where(q => q.EsImportanciaEconomica);
+                query = query.Where(q => q.RazonSocial.Contains(Filter) || q.NumeroRegistro.Contains(Filter) || q.Sigla.Contains(Filter));
+
+                var model = new DTOSearch();
+                model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
+                model.First = false;
+
+                return View(model);
+            }
+            else
+            {
+                Filter = "Esto no debe buscar";
+                IQueryable<Organizacion> query = _db.Organizacion;
+                query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
+                query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
+                query = query.Where(q => q.EsImportanciaEconomica);
+                query = query.Where(q => q.RazonSocial.Contains(Filter) || q.NumeroRegistro.Contains(Filter) || q.Sigla.Contains(Filter));
+
+                var model = new DTOSearch();
+                model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
+                model.First = false;
+
+                return View(model);
+
+            }
         }
+
+        //[HttpPost]
+        //public ActionResult Search(string Filter)
+        //{
+        //    if (!Global.CurrentClaveUnica.IsAutenticated)
+        //    {
+        //        return View("_Error", new Exception("Usuario no autenticado con Clave Única."));
+        //    }
+
+        //    IQueryable<Organizacion> query = _db.Organizacion;
+        //    query = query.Where(q => q.TipoOrganizacionId == (int)Infrastructure.Enum.TipoOrganizacion.Cooperativa);
+        //    query = query.Where(q => q.EstadoId == (int)Infrastructure.Enum.Estado.Vigente);
+        //    query = query.Where(q => q.EsImportanciaEconomica);
+        //    query = query.Where(q => q.RazonSocial.Contains(Filter) || q.NumeroRegistro.Contains(Filter) || q.Sigla.Contains(Filter));
+
+        //    var model = new DTOSearch();
+        //    model.Organizacions = query.OrderBy(q => q.NumeroRegistro).ToList();
+        //    model.First = false;
+
+        //    return View(model);
+        //}
 
         public ActionResult Create(int id)
         {
@@ -110,7 +163,7 @@ namespace DAES.Web.FrontOffice.Controllers
 
             ViewBag.RegionSolicitanteId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
             ViewBag.Periodo = new SelectList(_db.Periodo.Where(q => q.Tipo == "Articulo91").OrderByDescending(q => q.PeriodoId), "Descripcion", "Descripcion");
-
+            ViewBag.Cargo = new SelectList(_db.Cargo.OrderBy(q => q.Nombre), "Nombre", "Nombre");
             return View(new Model.DTO.DTOArticulo91()
             {
                 RUTSolicitante = string.Concat(Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.numero, Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico.DV),
@@ -160,7 +213,8 @@ namespace DAES.Web.FrontOffice.Controllers
                     Apellidos = model.ApellidosSolicitante,
                     Email = model.EmailSolicitante,
                     Fono = model.FonoSolicitante,
-                    RegionId = model.RegionSolicitanteId
+                    RegionId = model.RegionSolicitanteId,
+                    Cargo = model.Cargo
                 };
 
                 proceso.Articulo91s.Add(new Articulo91()
@@ -176,6 +230,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 SetFile(model.Estadoresultado, (int)Infrastructure.Enum.TipoDocumento.PDF_ESTADO_RESULTADOS);
                 SetFile(model.Balance, (int)Infrastructure.Enum.TipoDocumento.PDF_BALANCE);
                 SetFile(model.DictamenAuditorExterno, (int)Infrastructure.Enum.TipoDocumento.PDF_AUDITORES_EXTERNOS);
+                SetFile(model.PoderRepresentativo, (int)Infrastructure.Enum.TipoDocumento.PDF_PODERREPRESENTACION);
 
                 foreach (var item in documentos)
                 {
@@ -197,7 +252,7 @@ namespace DAES.Web.FrontOffice.Controllers
                     return View("_Error", ex);
                 }
             }
-
+            ViewBag.Cargo = new SelectList(_db.Cargo.OrderBy(q => q.Nombre), "Nombre", "Nombre");
             ViewBag.RegionSolicitanteId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre", model.RegionSolicitanteId);
             ViewBag.Periodo = new SelectList(_db.Periodo.Where(q => q.Tipo == "Articulo91").OrderByDescending(q => q.PeriodoId), "Descripcion", "Descripcion", model.Periodo);
 

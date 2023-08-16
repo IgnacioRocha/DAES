@@ -1,15 +1,11 @@
-﻿using System;
+﻿using DAES.Model.SistemaIntegrado;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
-using DAES.Model.SistemaIntegrado;
 
 namespace DAES.Model.DTO
 {
-    public  class DTOAsambleaOrdinariaDirectorio : DTOSolicitanteCore
+    public class DTOAsambleaOrdinariaDirectorio : DTOSolicitanteCore
     {
         public DTOAsambleaOrdinariaDirectorio()
         {
@@ -64,23 +60,23 @@ namespace DAES.Model.DTO
         public string Direccion { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "Es necesario especificar el dato Acta de la Junta General de Socios, debidamente autorizada ante Notario")]
-        [Display(Name = "Acta de la Junta General de Socios, debidamente autorizada ante Notario")]
+        [Required(ErrorMessage = "Es necesario especificar el dato Acta de Junta General de Socios.")]
+        [Display(Name = "(*) Acta de Junta General de Socios.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File1 { get; set; }
 
-        [Required(ErrorMessage = "Es necesario especificar el dato Acta Constitutiva del Consejo de Administración, de acuerdo a lo dispuesto en el artículo 60, del reglamento de la Ley General de Cooperativas, debidamente autorizada ante Notario")]
-        [Display(Name = "Acta Constitutiva del Consejo de Administración, de acuerdo a lo dispuesto en el artículo 60, del reglamento de la Ley General de Cooperativas, debidamente autorizada ante Notario")]
+        [Required(ErrorMessage = "Es necesario especificar el dato Acta de sesión de Comité de Administración con asignación de cargos directivos.")]
+        [Display(Name = "(*) Acta de sesión de Comité de Administración con asignación de cargos directivos.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File2 { get; set; }
 
-        [Required(ErrorMessage = "Es necesario especificar el dato Formalidades de convocatoria, esto es, copia del aviso de citación publicado; comprobantes de correo y(o copia del Libro de citaciones")]
-        [Display(Name = "Formalidades de convocatoria, esto es, copia del aviso de citación publicado; comprobantes de correo y(o copia del Libro de citaciones")]
+        [Required(ErrorMessage = "Es necesario especificar el dato Comprobante de medios de convocatorias empleadas.")]
+        [Display(Name = "(*) Comprobante de medios de convocatorias empleadas.")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File3 { get; set; }
 
-        [Required(ErrorMessage = "Es necesario especificar el dato Ficha de Datos, según lo dispuesto en el artículo 2, numeral 9 de la presente Resolución Administrativa 1321")]
-        [Display(Name = "Ficha de Datos, según lo dispuesto en el artículo 2, numeral 9 de la presente Resolución Administrativa 1321")]
+
+        [Display(Name = "Documentos complementarios (escrituras, declaraciones, certificados y otros).")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase File4 { get; set; }
 

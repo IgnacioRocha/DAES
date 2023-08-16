@@ -332,27 +332,27 @@
     x--;
     })
     //Validar tamaño de documento dinamico
-    function validar(conta) {
-    const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjunto' + conta).files[0];
-    if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
-    alert("El tamaño máximo es 50 MB por archivo");
-    document.getElementById('DocumentoAdjunto' + conta).value = "";
-    }
-    }
+    //function validar(conta) {
+    //const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjunto' + conta).files[0];
+    //if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
+    //alert("El tamaño máximo es 50 MB por archivo");
+    //document.getElementById('DocumentoAdjunto' + conta).value = "";
+    //}
+    //}
     //Limpiar input documento sin quitarlo
     $('#re').on("click", function () {
     const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
     $DocumentoAdjunto.value = "";
     })
     //Validar tamaño documento
-    const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
-    $DocumentoAdjunto.addEventListener("change", function () {
-    const archivo = this.files[0];
-    if (archivo.size > MAXIMO_TAMANIO_BYTES) {
-    alert("El tamaño máximo es 50 MB por archivo");
-    $DocumentoAdjunto.value = "";
-    }
-    });
+    //const $DocumentoAdjunto = document.querySelector("#DocumentoAdjunto");
+    //$DocumentoAdjunto.addEventListener("change", function () {
+    //const archivo = this.files[0];
+    //if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+    //alert("El tamaño máximo es 50 MB por archivo");
+    //$DocumentoAdjunto.value = "";
+    //}
+    //});
 
     //google analitycs
 

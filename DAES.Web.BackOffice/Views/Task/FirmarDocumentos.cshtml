@@ -21,6 +21,17 @@
         bottom: 50%;
         background-color: darkcyan;
     }
+
+    .btnNext {
+        display: inline-block;
+        border: 1px solid #444348;
+        border-radius: 3px;
+        margin: 5px;
+        color: #444348;
+        font-size: 14px;
+        padding: 10px 15px;
+        cursor: pointer;
+    }
 </style>
 
 <div id="capa1">
@@ -37,11 +48,11 @@
 
     }*@
 <ul class="nav nav-tabs">
-    <li class="active">
-        <a href="#Info" data-toggle="tab">Información de la tarea</a>
+    <li class="active" id="LiInfo">
+        <a href="#Info" data-toggle="tab" id="aInfo">Información de la tarea</a>
     </li>
-    <li>
-        <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
+    <li id="LiDo">
+        <a href="#Do" id="aDo" data-toggle="tab">Ejecutar tarea</a>
     </li>
 </ul>
 <div class="tab-content">
@@ -132,7 +143,7 @@
                             <td>
                                 @*<input type="submit" value="Firmar documento" class="btn btn-primary" />*@
                                 @*@Html.ActionLink("Firmar documento", "FirmarDocumentosPost", null, new { id = Model.Documentos.ToArray()[i].DocumentoId }, new { @class = "btn btn-primary" })*@
-                                @using (Html.BeginForm("SignResolucion", "Task", new { id = Model.Documentos.ToArray()[i].DocumentoId, idProceso = Model.Documentos.ToArray()[i].ProcesoId, idWorkflow = ViewBag.WorkflowId }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                @using (Html.BeginForm("SignResolucion", "Task", new { id = Model.Documentos.ToArray()[i].DocumentoId, idProceso = Model.Documentos.ToArray()[i].ProcesoId, idWorkflow = ViewBag.WorkflowId, contador = 1 }, FormMethod.Post, new { enctype = "multipart/form-data" }))
                                 {
                                     @*@Html.DropDownList("RubricaID", null, "Seleccione...", new { @class = "form-control" })*@
                                     @Html.AntiForgeryToken()
@@ -143,7 +154,8 @@
                                     {
                                         if (Model.Documentos[i].FileName.Contains(".pdf"))
                                         {
-                                            <button class="btn btn-primary" type="submit">Firmar Documento</button>
+                                            <button class="btn btn-primary" type="submit" id="btn_firmar">Firmar Documento</button>
+
                                         }
                                     }
 
@@ -162,6 +174,7 @@
                                         if (Model.Documentos[i].FileName.Contains(".pdf"))
                                         {
                                             <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+
                                         }
                                     }
 
@@ -172,6 +185,7 @@
                         </tr>
                         @*}*@
                     }
+
                 </tbody>
             </table>
         }
@@ -179,6 +193,37 @@
 </div>
     </div>
 
+<script type="text/javascript">
+    if (@ViewBag.Contador) {
+        var LiInfo = document.getElementById('LiInfo');
+        var LiDo = document.getElementById('LiDo');
+        var aInfo = document.getElementById('aInfo');
+        var aDo = document.getElementById('aDo');
+        var hInfo = document.getElementById('Info');
+        var hDo = document.getElementById('Do');
+        LiInfo.removeAttribute("class", "active");
+        LiDo.setAttribute("class", "active");
+        //aInfo.removeAttribute("class");
+        //aInfo.setAttribute("class", "tab-pane fade");
+        //aDo.removeAttribute("class");
+        //aDo.setAttribute("class", "tab-pane fade active in");
+        hInfo.removeAttribute("class");
+        hInfo.setAttribute("class", "tab-pane fade");
+        hDo.removeAttribute("class");
+        hDo.setAttribute("class", "tab-pane fade active in");
+        /*alert("hola");*/
+
+        //alert("paso");
+        //$('LiInfo').removeClass('active');
+        //$('LiDo').addClass('active');
+        //$('aInfo').attr('aria-expanded', 'false');
+        //$('aDo').attr('aria-expanded', 'true');
+
+       // alert('paso');
+
+    }
+
+</script>
 
 
 

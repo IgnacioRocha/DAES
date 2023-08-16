@@ -126,7 +126,8 @@ namespace DAES.Web.FrontOffice.Controllers
                     var proceso = new Proceso()
                     {
                         DefinicionProcesoId = tipoDocumento.GeneracionManual ? (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoManual : (int)Infrastructure.Enum.DefinicionProceso.SolicitudCertificadoAutomatico,
-                        OrganizacionId = organizacion.OrganizacionId
+                        OrganizacionId = organizacion.OrganizacionId,
+                        TipoCertificadoId = model.TipoDocumentoId
                     };
 
                     proceso.Solicitante = new Solicitante()
@@ -160,7 +161,7 @@ namespace DAES.Web.FrontOffice.Controllers
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             ViewBag.RegionId = new SelectList(db.Region, "RegionId", "Nombre", model.RegionId);
-            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.Where(q=>q.EsExterno).OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { q.TipoDocumentoId, Nombre = string.Format("{0} ({1})", q.Nombre, q.GeneracionManual ? "Manual" : "Emisión inmediata") }), "TipoDocumentoId", "Nombre", model.TipoDocumentoId);
+            ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.Where(q => q.EsExterno).OrderBy(q => q.Nombre).AsEnumerable().Select(q => new { q.TipoDocumentoId, Nombre = string.Format("{0} ({1})", q.Nombre, q.GeneracionManual ? "Manual" : "Emisión inmediata") }), "TipoDocumentoId", "Nombre", model.TipoDocumentoId);
 
             return View(model);
         }

@@ -1,4 +1,7 @@
 ﻿@model IEnumerable<DAES.Web.BackOffice.Controllers.WorkflowController.DTOWorkflow>
+
+
+
 @{
     Layout = null;
 }
@@ -7,125 +10,185 @@
     thead input {
         width: 100%;
     }
+
+    /* tfoot input {
+        width: 100%;
+        padding: 3px;
+        box-sizing: border-box;
+    }*/
 </style>
 
 
 @*<div class="col-md-12">
-    <div class="col-md-6">
-        <table border="0" cellspacing="5" cellpadding="5" class="table">
-            <tbody>
-                <tr>
-                    <td>Fecha Inicio Tarea / Proceso:</td>
-                    <td><input type="text" id="min" name="min" class="form-control"></td>
-                </tr>
-                <tr>
-                    <td>Fecha Término Tarea / Proceso:</td>
-                    <td><input type="text" id="max" name="max" class="form-control"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>*@
+        <div class="col-md-6">
+            <table border="0" cellspacing="5" cellpadding="5" class="table">
+                <tbody>
+                    <tr>
+                        <td>Fecha Inicio Tarea / Proceso:</td>
+                        <td><input type="text" id="min" name="min" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>Fecha Término Tarea / Proceso:</td>
+                        <td><input type="text" id="max" name="max" class="form-control"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>*@
 
 <table class="table table-hover table-striped" id="tareas" style="max-width: 100%">
-    <thead>
-        <tr>
-            <th>
-                Estado
-            </th>
-            <th>
-                Tarea
-            </th>
-            <th>
-                Proceso
-            </th>
-            <th>
-                Número registro
-            </th>
-            <th>
-                Correlativo
-            </th>
-            <th>
-                Observación
-            </th>
-            <th>
-                Funcionario
-            </th>
-            <th>
-                Fecha Creacion Proceso
-            </th>
-            <th>
-                Fecha Creacion Tarea
-            </th>
-            <th>
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.OrderByDescending(q => q.WorkflowId))
-        {
+        <thead>
             <tr>
-                <td>
-                    @{
-                        if (!item.Terminada && DateTime.Now.Date < item.FechaVencimiento.Date)
-                        {
-                            <span class="label label-success label-as-badge">En curso normal</span>
-                        }
-                        if (!item.Terminada && DateTime.Now.Date == item.FechaVencimiento.Date)
-                        {
-                            <span class="label label-warning label-as-badge">Por vencer</span>
-                        }
-                        if (!item.Terminada && DateTime.Now.Date > item.FechaVencimiento.Date)
-                        {
-                            <span class="label label-danger label-as-badge">Atrasado</span>
-                        }
-                    }
-                </td>
-                <td>
-                    @item.WorkflowId - @item.Workflow
-                </td>
-                <td>
-                    @item.ProcesoId - @item.Proceso
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumeroRegistro)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Correlativo)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Observacion)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreFuncionario)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaCreacionProcess)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaCreacionWorkFlow)
-                </td>
-                <td>
-                    @Html.ActionLink("Ejecutar", item.Formulario, "Task", new { item.WorkflowId }, new { @class = "btn btn-primary" })
-                </td>
+                <th>
+                    Estado
+                </th>
+                <th>
+                    Tarea
+                </th>
+                <th>
+                    Proceso
+                </th>
+                <th>
+                    Número registro
+                </th>
+                <th>
+                    Razón Social
+                </th>
+                <th>
+                    Observación
+                </th>
+                <th>
+                    Funcionario
+                </th>
+                <th>
+                    Fecha Creacion Proceso
+                </th>
+                <th>
+                    Fecha Creacion Tarea
+                </th>
+                <th>
+                </th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderByDescending(q => q.WorkflowId))
+            {
+                <tr>
+                    <td>
+                        @{
+                            if (!item.Terminada && DateTime.Now.Date < item.FechaVencimiento.Date)
+                            {
+                                <span class="label label-success label-as-badge">En curso normal</span>
+                            }
+                            if (!item.Terminada && DateTime.Now.Date == item.FechaVencimiento.Date)
+                            {
+                                <span class="label label-warning label-as-badge">Por vencer</span>
+                            }
+                            if (!item.Terminada && DateTime.Now.Date > item.FechaVencimiento.Date)
+                            {
+                                <span class="label label-danger label-as-badge">Atrasado</span>
+                            }
+                        }
+                    </td>
+                    <td>
+                        @item.WorkflowId - @item.Workflow
+                    </td>
+                    <td>
+                        @item.ProcesoId - @item.Proceso
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NumeroRegistro)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RazonSocial)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Observacion)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreFuncionario)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaCreacionProcess)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FechaCreacionWorkFlow)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Ejecutar", item.Formulario, "Task", new { item.WorkflowId }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+@*@using GridMvc.Html
+@Html.Grid(Model).Columns(columns =>
+{
+    columns.Add(q => q.WorkflowId).Titled("Tarea").Sortable(true).Filterable(true);
+    columns.Add(q => q.ProcesoId).Titled("Proceso").Sortable(true).Filterable(true);
+    columns.Add(q => q.NumeroRegistro).Titled("Número registro").Sortable(true).Filterable(true);
+    columns.Add(q => q.Correlativo).Titled("Correlativo").Sortable(true).Filterable(true);
+    columns.Add(q => q.Observacion).Titled("Observación").Sortable(true).Filterable(true);
+    columns.Add(q => q.NombreFuncionario).Titled("Funcionario").Sortable(true).Filterable(true);
+    columns.Add(q => q.FechaCreacionProcess).Titled("Fecha Creación proceso").Sortable(true).Filterable(true);
+    columns.Add(q => q.FechaCreacionWorkFlow).Titled("Fecha Creación Tarea").Sortable(true).Filterable(true);
+    //columns.Add(@Html.ActionLink("Ejecutar", item.Formulario, "Task", new { item.WorkflowId }, new { @class = "btn btn-primary" }));
+
+    columns.Add().Encoded(false).Sanitized(false).SetWidth(25).RenderValueAs(q => @Html.ActionLink("Ejecutar", q.Formulario, new { controller = "Task", WorkflowId = q.WorkflowId }, new { id = q.WorkflowId, @class = "btn btn-primary" }));
+
+
+
+}).WithPaging(10).EmptyText("No se encontraron registros.").SetLanguage("es").Selectable(false).WithMultipleFilters()*@
+
 
 <script type="text/javascript">
-    var minDate, maxDate;
+    //var minDate, maxDate;
 
-    minDate = new DateTime($('#min'), {
-        format: 'MMMM Do YYYY'
-    });
+    //minDate = new DateTime($('#min'), {
+    //    format: 'MMMM Do YYYY'
+    //});
 
-    maxDate = new DateTime($('#max'), {
-        format: 'MMMM Do YYYY'
-    });
+    //maxDate = new DateTime($('#max'), {
+    //    format: 'MMMM Do YYYY'
+    //});
+    ////var table = $('#tareas').DataTable();
+    ////// Refilter the table
+    //$('#min, #max').on('change', function () {
+    //    table.draw();
+    //});
+
+
+
+    $(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#example').DataTable({
+            initComplete: function () {
+                // Apply the search
+                this.api()
+                    .columns()
+                    .every(function () {
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that.search(this.value).draw();
+                            }
+                        });
+                    });
+            },
+        });
     //var table = $('#tareas').DataTable();
     //// Refilter the table
     $('#min, #max').on('change', function () {
         table.draw();
     });
+
+    /*$('#test').DataTable({ width: "100%", order: [], pageLength: 25 });*/
 </script>

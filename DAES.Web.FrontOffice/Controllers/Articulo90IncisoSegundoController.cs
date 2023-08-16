@@ -108,7 +108,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 return View("_Error", new Exception("Organización no encontrada"));
             }
 
-            ViewBag.Periodo = new SelectList(_db.Periodo.Where(q => q.Tipo == "Articulo91").OrderByDescending(q => q.PeriodoId), "Descripcion", "Descripcion");
+            ViewBag.PeriodoId = new SelectList(_db.PeriodoCAC.Where(q => q.Tipo == "Articulo90").OrderByDescending(q => q.PeriodoId), "Descripcion", "Descripcion");
             ViewBag.RegionSolicitanteId = new SelectList(_db.Region.OrderBy(q => q.Nombre), "RegionId", "Nombre");
 
             return View(new Model.DTO.DTOArticulo90IncisoSegundo()
@@ -185,6 +185,7 @@ namespace DAES.Web.FrontOffice.Controllers
                 {
                     item.Autor = model.EmailSolicitante;
                     item.Organizacion = proceso.Organizacion;
+                    item.Periodo = model.PeriodoId;
                 }
 
                 proceso.Documentos = documentos;

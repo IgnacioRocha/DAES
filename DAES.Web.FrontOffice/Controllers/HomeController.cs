@@ -17,12 +17,14 @@ namespace DAES.Web.FrontOffice.Controllers
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "GPHSA";
             Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Index";
             return Redirect();
-        }        
+        }
 
         private ActionResult Redirect()
         {
+            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller = "GPHSA";
+            //Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method = "Index";
             //activar en desarrollo, bypass de clave única
-            Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
+            //Global.CurrentClaveUnica.ClaveUnicaUser = new ClaveUnicaUser();
             //Global.CurrentClaveUnica.ClaveUnicaUser.name = new Name
             //{
             //    nombres = new System.Collections.Generic.List<string> { "DESA", "DESA" },
@@ -30,13 +32,13 @@ namespace DAES.Web.FrontOffice.Controllers
             //};
             //Global.CurrentClaveUnica.ClaveUnicaUser.RolUnico = new RolUnico
             //{
-            //    numero = 13703244,
-            //    DV = "9",
+            //    numero = 17957898,
+            //    DV = "0",
             //    tipo = "RUN"
             //};
             //return RedirectToAction(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.method, Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.controller);
 
-            //activar en testing y produccion
+            //Sin bypass
             return Redirect(Global.CurrentClaveUnica.ClaveUnicaRequestAutorization.uri);
         }
     }

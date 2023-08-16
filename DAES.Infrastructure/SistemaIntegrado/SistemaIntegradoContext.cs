@@ -5,20 +5,23 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-
-
 namespace DAES.Infrastructure.SistemaIntegrado
 {
     public partial class SistemaIntegradoContext : IdentityDbContext<ApplicationUser>
     {
         public SistemaIntegradoContext() : base("name=SistemaIntegrado")
         {
+
         }
+
+
 
 
 
         public static SistemaIntegradoContext Create()
         {
+            var dataContex = new SistemaIntegradoContext();
+            dataContex.Database.CommandTimeout = 300;
             return new SistemaIntegradoContext();
         }
 
@@ -81,6 +84,8 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<DocumentoWorkflow> DocumentoWorkflow { get; set; }
         public virtual DbSet<Articulo91> Articulo91 { get; set; }
         public virtual DbSet<Periodo> Periodo { get; set; }
+
+        public virtual DbSet<PeriodoCAC> PeriodoCAC { get; set; }
         public virtual DbSet<ModificacionEstatuto> ModificacionEstatutos { get; set; }
         public virtual DbSet<Disolucion> Disolucions { get; set; }
         public virtual DbSet<Fiscalizacion> Fiscalizacion { get; set; }
@@ -111,6 +116,7 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<ExistenciaAnterior> ExistenciaLegalAnterior { get; set; }
         public virtual DbSet<ExistenciaPosterior> ExistenciaPosterior { get; set; }
         public virtual DbSet<FirmaDocumento> FirmaDocumento { get; set; }
+        public virtual DbSet<ModulosConsulta> ModulosConsulta { get; set; }
         /*
          * Tablas de Actualizacion de Supervisor
          */
@@ -124,7 +130,7 @@ namespace DAES.Infrastructure.SistemaIntegrado
         public virtual DbSet<ActualizacionRepresentante> ActualizacionRepresentantes { get; set; }
         public virtual DbSet<ActualizacionExtractoAuxiliar> ActualizacionExtractoAuxiliars { get; set; }
 
-
+        public virtual DbSet<ControlCambio> ControlCambio { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -1,10 +1,7 @@
-﻿using DAES.Infrastructure.GestionDocumental;
-using DAES.Infrastructure.SistemaIntegrado;
+﻿using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
 using System;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 
 namespace DAES.Web.BackOffice.Controllers
@@ -28,10 +25,13 @@ namespace DAES.Web.BackOffice.Controllers
         public ActionResult Index()
         {
             var Hoy = DateTime.Now;
-
+            var permisos = db.ModulosConsulta.Where(q => q.Id == Helper.Helper.CurrentUser.Id).ToList();
+            var id = Helper.Helper.CurrentUser.Id;
+            var perfilId = Helper.Helper.CurrentUser.PerfilId;
+            ViewBag.perfilId = perfilId;
             if (!User.Identity.IsAuthenticated || Helper.Helper.CurrentUser == null)
                 return RedirectToAction("LogOff", "Account");
-
+            ViewBag.Modulos = permisos;
             return View(new DTOResume()
             {
                 WorkflowCount = db.Workflow.Count(q => !q.Terminada && q.UserId == Helper.Helper.CurrentUser.Id),

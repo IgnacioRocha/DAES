@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Administración de módulos";
+}
+
+
+<div class=" tab-content">
+    <table class="table table-striped" id="users-table">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>Nombre Funcionario</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Users)
+            {
+                <tr>
+                    <td>
+                        @item.UserName
+                    </td>
+                    <td>
+                        @item.Nombre
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @Html.ActionLink("Módulos", "Edit", new { UserName = item.UserName })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<p>
+    @Html.ActionLink("Volver al inicio", "Index", "Home")
+</p>
+
+<script>
+    $(document).ready(function () {
+        $('#users-table').DataTable({
+            language: {
+                processing: "Procesando...",
+                search: "Buscar:",
+                lengthMenu: "Mostrar _MENU_ elementos",
+                info: "Mostrando desde _START_ hasta _END_ de _TOTAL_ elementos",
+                infoEmpty: "Mostrando ningún elemento.",
+                infoFiltered: "(filtrado _MAX_ elementos total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando registros...",
+                zeroRecords: "No se encontraron registros",
+                emptyTable: "No hay datos disponibles en la tabla",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Último"
+                },
+                aria: {
+                    sortAscending: ": Activar para ordenar la columna en orden ascendente",
+                    sortDescending: ": Activar para ordenar la columna en orden descendente"
+                }
+            }
+        });
+    });
+</script>
+

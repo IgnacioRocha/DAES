@@ -378,8 +378,10 @@
     <Content Include="Content\btn_claveunica_172px.png" />
     <Content Include="Content\btn_claveunica_202px.png" />
     <Content Include="Content\claveunica-medium.png" />
+    <Content Include="Content\color_MinEconomia.png" />
     <Content Include="Content\Gridmvc.css" />
     <Content Include="Content\header-social-sprite.png" />
+    <Content Include="Content\logo-minecon.png" />
     <Content Include="Content\logo-pagina-web3.png" />
     <Content Include="Content\GUIA_AC.pdf" />
     <Content Include="Content\GUIA_AG.pdf" />
@@ -434,6 +436,7 @@
     <Content Include="Content\CAC\CACsMENSUAL_%282de2%29 V6.xls" />
     <Content Include="Content\CAC\Guia-estudio-socio-económico-para-Cacs.pdf" />
     <Content Include="Content\NOCAC\Guia-estudio-socio-económico-para-CVA.pdf" />
+    <Content Include="Content\NOCAC\NOCACS_BALANCE_V5.xlsx" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\Produccion.pubxml" />
     <Content Include="Content\Site.css" />
@@ -452,12 +455,13 @@
     <Content Include="Scripts\gridmvc.lang.ru.js" />
     <Content Include="Scripts\gridmvc.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.map" />
+    <Content Include="Scripts\jquery-3.6.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
@@ -666,6 +670,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\FirmaDocumento\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAES.BLL\DAES.BLL.csproj">

@@ -24,7 +24,7 @@ namespace DAES.Model.SistemaIntegrado
             ComisionLiquidadoras = new List<ComisionLiquidadora>();
             Reformas = new List<Reforma>();
             ExistenciaAnteriors = new List<ExistenciaAnterior>();
-            
+
             /*DisolucionCooperativas = new List<DisolucionCooperativa>();
             DisolucionAsociacions = new List<DisolucionAsociacion>();*/
         }
@@ -196,6 +196,53 @@ namespace DAES.Model.SistemaIntegrado
 
         [Display(Name = "Situación")]
         public int? SituacionId { get; set; }
+
+        //Datos contacto Oficial
+
+        [Display(Name = "Código Postal")]
+        public string CodigoPostal { get; set; }
+
+        [Display(Name = "Facebook")]
+        public string Facebook { get; set; }
+
+        [Display(Name = "Instagram")]
+        public string Instagram { get; set; }
+
+        [Display(Name = "Fono Contacto 1")]
+        public string FonoContactoOficial1 { get; set; }
+
+        [Display(Name = "Fono Contacto 2")]
+        public string FonoContactoOficial2 { get; set; }
+
+        [Display(Name = "Otros")]
+        public string OtroContactoOficial { get; set; }
+
+        //datos contacto secundario
+
+        [Display(Name = "Nombre y Apellidos")]
+        public string NombreYApellidosContactoSecundario1 { get; set; }
+
+        [Display(Name = "Nombre y Apellidos")]
+        public string NombreYApellidosContactoSecundario2 { get; set; }
+
+        [Display(Name = "Cargo")]
+        public string CargoContactoSecundario1 { get; set; }
+
+        [Display(Name = "Cargo")]
+        public string CargoContactoSecundario2 { get; set; }
+
+        [Display(Name = "Telefono")]
+        public string FonoContactoSecundario1 { get; set; }
+
+        [Display(Name = "Telefono")]
+        public string FonoContactoSecundario2 { get; set; }
+
+        [Display(Name = "Email")]
+        public string EmailContactoSecundario1 { get; set; }
+
+        [Display(Name = "Email")]
+        public string EmailContactoSecundario2 { get; set; }
+
         public virtual Situacion Situacion { get; set; }
 
         public virtual List<Directorio> Directorios { get; set; }
@@ -206,7 +253,7 @@ namespace DAES.Model.SistemaIntegrado
         public virtual List<Articulo91> Articulo91s { get; set; }
         public virtual List<ModificacionEstatuto> ModificacionEstatutos { get; set; }
         public virtual List<Disolucion> Disolucions { get; set; }
-        public virtual List<ExistenciaLegal> ExistenciaLegals { get; set;}
+        public virtual List<ExistenciaLegal> ExistenciaLegals { get; set; }
         public virtual List<Saneamiento> Saneamientos { get; set; }
         public virtual List<Reforma> Reformas { get; set; }
 

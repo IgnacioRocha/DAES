@@ -1,5 +1,6 @@
 ﻿using DAES.Model.SistemaIntegrado;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Web;
 
 namespace DAES.Model.DTO
@@ -11,36 +12,47 @@ namespace DAES.Model.DTO
         public int OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
-        [Display(Name = "Balance general clasificado")]
+        [Required(ErrorMessage = "Es necesario subir un archivo")]
+        [Display(Name = "Balance general clasificado (*)")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase BalanceGeneralClasificado { get; set; }
 
-        [Display(Name = "Estado de resultados")]
+        [Required(ErrorMessage = "Es necesario subir un archivo")]
+        [Display(Name = "Estado de resultados (*)")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase EstadoDeResultados { get; set; }
 
-        [Display(Name = "Balance ocho columnas")]
+        [Required(ErrorMessage = "Es necesario subir un archivo")]
+        [Display(Name = "Balance ocho columnas (*)")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase BalanceOchoColumnas { get; set; }
 
-        [Display(Name = "Informe auditoría")]
+        [Required(ErrorMessage = "Es necesario subir un archivo")]
+        [Display(Name = "Informe auditoría (*)")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase InformdeAuditoria { get; set; }
 
-        [Display(Name = "Estado de flujo de efectivo")]
+        [Required(ErrorMessage = "Es necesario subir un archivo")]
+        [Display(Name = "Estado de flujo de efectivo (*)")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase EstadoDeFlujoDeEfectivo { get; set; }
 
-        [Display(Name = "Notas explicativas de los Estados Financieros")]
+        [Required(ErrorMessage = "Es necesario subir un archivo")]
+        [Display(Name = "Notas explicativas de los Estados Financieros (*)")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase NotasExplicativasDeLosEstadosFinancieros { get; set; }
 
-        [Display(Name = "Certificado que acredite la inscripción de los auditores en el registro señalado en el articulo 89° de la R.A.E. 1321")]
+        [Required(ErrorMessage = "Es necesario subir un archivo")]
+        [Display(Name = "Certificado que acredite la inscripción de los auditores en el registro señalado en el articulo 89° de la R.A.E. 1321 (*)")]
         [DataType(DataType.Upload)]
         public HttpPostedFileBase CertificadoInscripcionAuditoria { get; set; }
 
         [Display(Name = "Observación")]
         [DataType(DataType.MultilineText)]
         public string Observacion { get; set; }
+
+        [NotMapped]
+        [Display(Name = "periodo")]
+        public string PeriodoId { get; set; }
     }
 }

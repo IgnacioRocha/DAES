@@ -2,8 +2,8 @@
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
 using OfficeOpenXml;
-using ServiceStack.OrmLite;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -23,7 +23,16 @@ namespace DAES.Web.BackOffice.Controllers
             var model = new Model.DTO.DTOConsultaProceso();
             model.Filter = string.Empty;
             model.DefinicionProcesos = db.DefinicionProceso.OrderBy(q => q.Nombre).Where(q => q.Habilitado == true).Select(q => new DAES.Model.DTO.DTOConsultaProceso.DTODefinicionProceso { selected = false, text = q.Nombre, value = q.DefinicionProcesoId }).ToList();
+            ViewBag.def = new SelectList(db.DefinicionProceso.OrderBy(q => q.Nombre), "DefinicionProcesoId", "Nombre", model.DefinicionProcesos);
+            foreach (var item in model.DefinicionProcesos)
+            {
 
+                var fool = new List<SelectListItem>
+                {
+                        new SelectListItem { Text = item.text, Value = item.value.ToString(), Selected = item.selected }
+                    };
+                ViewBag.fool = fool;
+            }
             return View(model);
         }
 
@@ -32,6 +41,8 @@ namespace DAES.Web.BackOffice.Controllers
         {
             if (string.IsNullOrWhiteSpace(model.Filter) && !model.DefinicionProcesos.Any(q => q.selected))
             {
+                model.DefinicionProcesos = db.DefinicionProceso.OrderBy(q => q.Nombre).Where(q => q.Habilitado == true).Select(q => new DAES.Model.DTO.DTOConsultaProceso.DTODefinicionProceso { selected = false, text = q.Nombre, value = q.DefinicionProcesoId }).ToList();
+
                 return View(model);
             }
 
@@ -59,6 +70,7 @@ namespace DAES.Web.BackOffice.Controllers
             }
 
             model.Procesos = query.OrderByDescending(q => q.ProcesoId).ToList();
+            model.DefinicionProcesos = db.DefinicionProceso.OrderBy(q => q.Nombre).Where(q => q.Habilitado == true).Select(q => new DAES.Model.DTO.DTOConsultaProceso.DTODefinicionProceso { selected = false, text = q.Nombre, value = q.DefinicionProcesoId }).ToList();
 
             return View(model);
         }
@@ -148,9 +160,9 @@ namespace DAES.Web.BackOffice.Controllers
                 q.FechaVencimiento,
                 q.FechaTermino,
                 q.Solicitante.Rut,
-                Apellidos = q.Solicitante.Apellidos != null && q.Solicitante.Apellidos != string.Empty ? q.Solicitante.Apellidos: "No definido",
+                Apellidos = q.Solicitante.Apellidos != null && q.Solicitante.Apellidos != string.Empty ? q.Solicitante.Apellidos : "No definido",
                 q.Solicitante.Fono,
-                Email= q.Solicitante.Email != null && q.Solicitante.Email != string.Empty ? q.Solicitante.Email : "No definido",
+                Email = q.Solicitante.Email != null && q.Solicitante.Email != string.Empty ? q.Solicitante.Email : "No definido",
                 q.Solicitante.Nombres,
                 NumeroRegistro = q.Organizacion.NumeroRegistro != null ? q.Organizacion.NumeroRegistro : "No definido",
                 RazonSocial = q.Organizacion.RazonSocial != null ? q.Organizacion.RazonSocial : "No definido",

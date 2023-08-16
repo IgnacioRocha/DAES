@@ -45,12 +45,12 @@
                         <p class="card-title">Ingrese la documentación solicitada</p>
                         <hr />
                         <div class="form-group">
-                            @Html.LabelFor(m => Model.BalanceV4, new { @class = "font-weight-bold" })<br />
+                            @Html.LabelFor(m => Model.BalanceV5, new { @class = "font-weight-bold" })<br />
                             <div class=" float-right">
-                                <a href="~/Content/NOCAC/NOCACS_BALANCE_V4.xls">Ver plantilla</a>
+                                <a href="~/Content/NOCAC/NOCACS_BALANCE_V5.xlsx">Ver plantilla</a>
                             </div>
-                            @Html.TextBoxFor(m => Model.BalanceV4, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
-                            @Html.ValidationMessageFor(model => model.BalanceV4, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => Model.BalanceV5, null, new { @type = "file", @accept = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" })<br />
+                            @Html.ValidationMessageFor(model => model.BalanceV5, "", new { @class = "text-danger" })
                         </div>
                         <hr class="my-4">
 

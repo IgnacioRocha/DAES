@@ -43,7 +43,7 @@ namespace DAES.Web.FrontOffice.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("52428800")]
+        [global::System.Configuration.DefaultSettingValueAttribute("5242880000000000000000000000000000")]
         public string max_tamano_file {
             get {
                 return ((string)(this["max_tamano_file"]));

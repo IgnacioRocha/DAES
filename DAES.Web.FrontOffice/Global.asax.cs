@@ -15,6 +15,7 @@ namespace DAES.Web.FrontOffice
             //The culture value determines the results of culture-dependent functions, such as the date, number, and currency (NIS symbol)
             System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("es-CL");
             System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("es-CL");
+            MvcHandler.DisableMvcResponseHeader = true;
         }
 
         protected void Session_Start()

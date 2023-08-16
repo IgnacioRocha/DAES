@@ -2,7 +2,6 @@
 using DAES.BLL.Interfaces;
 using DAES.Infrastructure.Interfaces;
 using DAES.Infrastructure.SistemaIntegrado;
-using DAES.Model.Core;
 using DAES.Model.FirmaDocumento;
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
@@ -138,6 +137,9 @@ namespace DAES.Web.BackOffice.Controllers
             model.Users = db.Users.Where(q => q.Habilitado).OrderBy(q => q.UserName).Select(item => new DAES.Model.DTO.DTOUser() { Id = item.Id, Nombre = item.Nombre, UserName = item.UserName, Selected = false }).ToList();
             var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
             ViewBag.TipoUsuario = tipoDeUsuario;
+            var userId = Helper.Helper.CurrentUser.Id;
+            var permisos = db.ModulosConsulta.Where(q => q.Id == userId).ToList();
+            ViewBag.permisos = permisos;
 
 
             return View(model);
@@ -165,14 +167,37 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
-
-        public ActionResult CrearDocumento(int WorkflowId)
+        public ActionResult CrearDocumento(int WorkflowId, int? bandera)
         {
-
+            var userId = Helper.Helper.CurrentUser.Id;
+            var permisos = db.ModulosConsulta.Where(q => q.Id == userId).ToList();
+            ViewBag.permisos = permisos;
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre");
             ViewBag.TipoPrivacidadId = new SelectList(db.TipoPrivacidad.OrderBy(q => q.Nombre), "TipoPrivacidadId", "Nombre");
-
+            ViewBag.bandera = bandera;
             var workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
+            var tipoWorkFlow = workflow.DefinicionWorkflow.TipoWorkflowId;
+
+            //identifico el tipo de tarea, lo asigno y lo envio a la vista
+            var perfilId = Helper.Helper.CurrentUser.PerfilId;
+            ViewBag.perfilId = perfilId;
+            if (tipoWorkFlow == 55)
+            {
+                ViewBag.tipoVisualizacion = 3;
+            }
+            if (tipoWorkFlow == 54)
+            {
+                ViewBag.tipoVisualizacion = 1;
+            }
+            if (tipoWorkFlow == 28)
+            {
+                ViewBag.tipoVisualizacion = 4;
+            }
+            if (tipoWorkFlow == 25)
+            {
+                ViewBag.tipoVisualizacion = 5;
+            }
+
             var model = new TaskModel();
             model.Workflow = workflow;
             model.Documentos = db.Documento.Where(q => q.Workflow.ProcesoId == model.Workflow.ProcesoId).OrderBy(q => q.FechaCreacion).ToList();
@@ -184,7 +209,7 @@ namespace DAES.Web.BackOffice.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CrearDocumento(TaskModel model)
+        public ActionResult CrearDocumento(TaskModel model, int bandera)
         {
             if (ModelState.IsValid)
             {
@@ -217,7 +242,7 @@ namespace DAES.Web.BackOffice.Controllers
                     });
                     db.SaveChanges();
                     TempData["Message"] = Properties.Settings.Default.Success;
-                    return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId });
+                    return RedirectToAction("CrearDocumento", new { model.Workflow.WorkflowId, bandera = bandera });
                 }
             }
 
@@ -239,6 +264,8 @@ namespace DAES.Web.BackOffice.Controllers
             }
             return RedirectToAction("CrearDocumento", new { WorkflowId });
         }
+
+
 
         public ActionResult ActualizarOrganizacion(int WorkflowId)
         {
@@ -318,7 +345,10 @@ namespace DAES.Web.BackOffice.Controllers
 
             //model.SupervisorAuxiliar = db.SupervisorAuxiliars.Find(model.Workflow.Proceso.SupervisorAuxiliar.SupervisorAuxiliarId);
             /*model.ActualizacionOrganizacion = db.ActualizacionOrganizacion.FirstOrDefault(q => q.ProcesoId == model.Workflow.ProcesoId);*/
-
+            var userId = Helper.Helper.CurrentUser.Id;
+            var permisos = db.ModulosConsulta.Where(q => q.Id == userId).ToList();
+            ViewBag.permisos = permisos;
+            ViewBag.tipoVisualizacion = 2;
             ViewBag.CiudadId = new SelectList(db.Ciudad.OrderBy(q => q.Nombre), "CiudadId", "Nombre");
             ViewBag.ComunaId = new SelectList(db.Comuna.OrderBy(q => q.Nombre), "ComunaId", "Nombre");
             ViewBag.EstadoId = new SelectList(db.Estado.OrderBy(q => q.Nombre), "EstadoId", "Nombre");
@@ -989,13 +1019,22 @@ namespace DAES.Web.BackOffice.Controllers
             return View(model);
         }
 
-        public ActionResult FirmarDocumentos(int WorkflowId)
+        public ActionResult FirmarDocumentos(int WorkflowId, int? contador, int? Contador)
         {
             var model = new TaskModel();
             model.Workflow = db.Workflow.FirstOrDefault(q => q.WorkflowId == WorkflowId);
             var rubrica = db.Rubrica;
             var tipoDeUsuario = Helper.Helper.CurrentUser.Perfil.Nombre;
             ViewBag.TipoUsuario = tipoDeUsuario;
+            if (contador != null)
+            {
+                ViewBag.contador = contador;
+
+            }
+            else
+            {
+                ViewBag.contador = Contador;
+            }
 
             model.Documentos = db.Documento.Where(q => q.Activo && q.Workflow.ProcesoId == model.Workflow.Proceso.ProcesoId).ToList();
             ViewBag.TipoDocumentoId = new SelectList(db.TipoDocumento.OrderBy(q => q.Nombre), "TipoDocumentoId", "Nombre");
@@ -1091,14 +1130,14 @@ namespace DAES.Web.BackOffice.Controllers
 
         //método de firma para FEA
         [HttpPost]
-        public ActionResult SignResolucion(int id, int idProceso, string RubricaID, int? idWorkflow)
+        public ActionResult SignResolucion(int id, int idProceso, string RubricaID, int? idWorkflow, int contador)
         {
 
             Custom _custom = new Custom();
 
             var doc = db.Documento.FirstOrDefault(q => q.DocumentoId == id);
             var email = Helper.Helper.CurrentUser.Email;
-
+            ViewBag.contador = contador;
             //ESTO ESTABA ESCRITO
             //var model = db.Workflow.Where(q => q.ProcesoId == idProceso).First().WorkflowId;
             //var workflowId = model.WorkflowId;
@@ -1123,7 +1162,7 @@ namespace DAES.Web.BackOffice.Controllers
                 TempData["Message"] = Properties.Settings.Default.Success;
 
                 //return Redirect(Request.UrlReferrer.ToString());
-                return RedirectToAction("FirmarDocumentos", new { WorkflowId = workflowId });
+                return RedirectToAction("FirmarDocumentos", new { WorkflowId = workflowId, Contador = contador });
             }
 
 
@@ -1135,9 +1174,9 @@ namespace DAES.Web.BackOffice.Controllers
             }
 
             //return Redirect("/Inbox/Index");
-            return Redirect(Request.UrlReferrer.ToString());
+            //return Redirect(Request.UrlReferrer.ToString());
 
-            //return RedirectToAction("FirmarDocumentos", new { WorkflowId = model });
+            return RedirectToAction("FirmarDocumentos", new { WorkflowId = model.FirstOrDefault().WorkflowId, Contador = contador });
         }
 
 

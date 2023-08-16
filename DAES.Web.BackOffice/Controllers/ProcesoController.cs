@@ -2,7 +2,6 @@
 using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -249,7 +248,7 @@ namespace DAES.Web.BackOffice.Controllers
                 {
 
                     var organizacion = db.Organizacion.First(q => q.OrganizacionId == model.OrganizacionId);
-                    
+
                     proceso.Organizacion = new Organizacion()
                     {
                         OrganizacionId = organizacion.OrganizacionId,

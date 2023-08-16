@@ -1,6 +1,6 @@
-﻿using System;
+﻿using DAES.Model.SistemaIntegrado;
+using System;
 using System.ComponentModel.DataAnnotations;
-using DAES.Model.SistemaIntegrado;
 
 namespace DAES.Model.DTO
 {
@@ -52,5 +52,8 @@ namespace DAES.Model.DTO
         public virtual Genero Genero { get; set; }
 
         public int ActualizacionOrganizacionDirectorioId { get; set; }
+
+
+        public bool eliminado { get; set; } = false;
     }
 }

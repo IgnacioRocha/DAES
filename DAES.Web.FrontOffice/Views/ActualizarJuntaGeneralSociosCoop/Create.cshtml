@@ -1,5 +1,6 @@
 ﻿@model DAES.Model.DTO.DTOJuntaGeneralSociosCoop
 
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.unobtrusive-ajax/3.2.5/jquery.unobtrusive-ajax.min.js"></script>
 <div class="jumbotron">
     <div class="container">
         <h1 class="display-4">
@@ -121,18 +122,18 @@
                                         @Html.LabelFor(m => Model.EmailSolicitante, new { @class = "font-weight-bold" })
                                         @Html.EditorFor(m => Model.EmailSolicitante, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(m => Model.EmailSolicitante, "", new { @class = "text-danger" })
-                                    </div>
+                            </div>
 
                                     <div class="form-group">
                                         @Html.LabelFor(m => Model.FonoSolicitante, new { @class = "font-weight-bold" })
                                         @Html.EditorFor(m => Model.FonoSolicitante, new { htmlAttributes = new { @class = "form-control" } })
                                         @Html.ValidationMessageFor(m => Model.FonoSolicitante, "", new { @class = "text-danger" })
                                     </div>*@
-                            </div>
-
                         </div>
+
                     </div>
                 </div>
+            </div>
             </div>
             <div class="col-sm-6">
                 <div class="card" style="min-height: 341px !important">
@@ -180,14 +181,14 @@
                                         @Html.LabelFor(m => Model.RegionId, new { @class = "font-weight-bold" })
                                         @Html.DropDownListFor(model => Model.RegionId, null, "Seleccione...", htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
                                         @Html.ValidationMessageFor(m => Model.RegionId, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
+                    </div>
+                </div>
                                 <div class="col-lg-6 col-sm-12">
                                     <div class="form-group">
                                         @Html.LabelFor(m => Model.ComunaId, new { @class = "font-weight-bold" })
                                         @Html.DropDownListFor(model => Model.ComunaId, null, "Seleccione...", htmlAttributes: new { @class = "form-control", @disabled = "disabled" })
                                         @Html.ValidationMessageFor(m => Model.ComunaId, "", new { @class = "text-danger" })
-                                    </div>
+            </div>
                                 </div>
                             </div>*@
                         @*<div class="form-group">
@@ -238,15 +239,80 @@
 
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Consejo de Administración, Gerente o Gerente Administrador</h5>
-                        <p class="card-title">(*)Campos obligatorios</p>
-                        <hr />
-                        <div id="JuntaGeneralSociosCoop">
-                            @Html.Partial("_JuntaGeneralSociosCoop", Model)
+
+                    <br />
+                    <div class="container">
+                        <br />
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body" style="min-height: 335px">
+                                        <p class="card-title text-center font-weight-bold">Consejo de Administración, Gerente o Gerente Administrador</p>
+                                        <hr />
+                                        <ul>
+                                            <li class="card-title text-info">
+                                                (*)Campos obligatorios
+                                            </li>
+                                            <li class="card-title text-info">
+                                                Campos marcados en sección "Eliminado?" serán eliminados
+                                            </li>
+                                        </ul>
+                                        <hr />
+
+                                        <div class="input_field">
+                                            <table class="table table-responsive" id="table_field">
+
+                                                <tr>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().NombreCompleto, "(*)Nombre Completo")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Rut, "(*)Rut")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Cargo.Nombre, "(*)Cargo")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().Genero.Nombre)
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaInicio, "(*)Fecha de Inicio")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().FechaTermino, "(*)Fecha de Termino")
+                                                    </th>
+                                                    <th>
+                                                        @Html.LabelFor(model => model.Directorio.FirstOrDefault().eliminado, "Eliminado?")
+                                                    </th>
+                                                </tr>
+
+
+                                                @for (int i = 0; i < Model.Directorio.Count; i++)
+                                                {
+
+                                                    <tr id="@Model.Directorio[i].DirectorioId">
+
+                                                        @Html.HiddenFor(model => Model.Directorio[i].DirectorioId)
+                                                        @Html.EditorFor(m => Model.Directorio[i])
+                                                        <td class="text-center">
+                                                            @Html.EditorFor(m => Model.Directorio[i].eliminado, new { htmlAttributes = new { @class = "form-control", } })
+
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </table>
+                                        </div>
+                                        <hr />
+                                        <label class="text-primary" name="add" id="add">Agregar nuevo miembro</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        @Ajax.ActionLink("Nuevo miembro", "DirectorioAdd", null, null, new AjaxOptions { UpdateTargetId = "JuntaGeneralSociosCoop" }, new { @class = "btn btn-primary" })
+                        <br />
                     </div>
+
+
                 </div>
             </div>
         </div>
@@ -258,4 +324,62 @@
 <div class="container my-3">
     Volver al <a href='@Url.Action("Index", "DAES")'>DAES digital</a>
 </div>
+<script type="text/javascript">
+    var max = 10, x = 1, cont = 1;
+    //Se crea los input requeridos para el objeto de directorio.
+    @*$("#add").click(function () {
 
+        var lista = [];
+            var wrapper = '<tr>'
+                + '<td style="height:50px;"><input class="form-control" type="text" name="NombreCompleto" id="NombreCompleto_' + cont + '"/>'
+                + '<td style="height:50px;"><input class="form-control" type="text" name="Rut" id="Rut_' + cont + '" />'
+                + '<td style="height:50px;"><select class="form-control" id="SelectCargo_' + cont + '" name="SelectCargo">@foreach(var item in ViewBag.Cargo){<option value="@item.CargoId">@item.Nombre</option>}</select>'
+                + '<td style="height:50px;"><select class="form-control" id="SelectGenero_' + cont + '" name="SelectGenero">@foreach(var item in ViewBag.Genero){<option value="@item.GeneroId">@item.Nombre</option>}</select>'
+                + '<td style="height:50px;"><input class="form-control" type="date" name="FechaInicio" id="FechaInicio_' + cont + '" />'
+                + '<td style="height:50px;"><input class="form-control" type="date" name="FechaTermino" id="FechaTermino_' + cont + '" />'
+                + '<td><input class="form-control" type="text" name="IdSolicitante" hidden id="IdSolicitante_' + cont + '" value="@Model.OrganizacionId"/>'
+            + '</td><td class="text-center"><input type="checkbox" class="form-control" name="eliminado" id="eliminado_' + cont + '"></td></tr>';
+        if (x < max) {
+            $("#table_field").append(wrapper);
+            x++, cont++;
+        }
+        lista = wrapper;
+    })*@
+    $("#add").click(function () {
+
+    var wrapper = '<tr>'
+        + '<td style="height:50px;"><input class="form-control" type="text" name="NombreCompleto" id="NombreCompleto_' + cont + '"/>'
+        + '<td style="height:50px;"><input class="form-control" type="text" name="Rut" id="Rut_' + cont + '" />'
+        + '<td style="height:50px;"><select class="form-control" id="SelectCargo_' + cont + '" name="SelectCargo">@foreach(var item in ViewBag.Cargo){<option value="@item.CargoId">@item.Nombre</option>}</select>'
+        + '<td style="height:50px;"><select class="form-control" id="SelectGenero_' + cont + '" name="SelectGenero">@foreach(var item in ViewBag.Genero){<option value="@item.GeneroId">@item.Nombre</option>}</select>'
+        + '<td style="height:50px;"><input class="form-control" type="date" name="FechaInicio" id="FechaInicio_' + cont + '" />'
+        + '<td style="height:50px;"><input class="form-control" type="date" name="FechaTermino" id="FechaTermino_' + cont + '" />'
+        + '<td class="text-center"><input type="checkbox" class="form-control" name="eliminado" id="eliminado_' + cont + '"></td>'
+        + '<td><input class="form-control" type="text" name="IdSolicitante" hidden id="IdSolicitante_' + cont + '" value="@Model.OrganizacionId"/></td>'
+        + '</tr>';
+    if (x < max) {
+        $("#table_field").append(wrapper);
+        x++, cont++;
+    }
+        lista = wrapper;
+});
+    $("#table_field").on('click', '#remove', function () {
+        $(this).closest('tr').remove();
+        x--;
+    })
+
+    // Esto se ejecutará cuando el formulario esté a punto de ser enviado
+    $('form').on('submit', function () {
+
+        // Recorremos cada checkbox "eliminado" que esté marcado
+        $('input[name="eliminado"]:checked').each(function () {
+
+            // Para cada fila que tenga un checkbox marcado, deshabilitamos todos sus inputs
+            $(this).closest('tr').find('input,select').attr('disabled', 'disabled');
+
+        });
+
+    });
+
+
+</script>

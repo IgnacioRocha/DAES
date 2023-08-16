@@ -28,34 +28,37 @@
         </div>
 
     }*@
+
 <div id="capa1">
     @Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary", @style = "position:fixed" })
 </div>
 <ul class="nav nav-tabs">
-    <li class="active">
+    <li class="@(ViewBag.Bandera == 1 ? "" : "active")">
         <a href="#Info" data-toggle="tab">Información de la tarea</a>
     </li>
-    <li>
+    <li class="@(ViewBag.Bandera == 1 ? "active" : "")">
         <a href="#Do" data-toggle="tab">Ejecutar tarea</a>
     </li>
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade in active" id="Info">
+
+    <div class="tab-pane fade @(ViewBag.Bandera == 1 ? "" : "in active")" id="Info">
         <br />
         @Html.Partial("_WorkflowDetails", Model.Workflow)
         @Html.Partial("_ProcesoDetails", Model.Workflow.Proceso)
         @*@Html.ActionLink("Enviar tarea", "Send", "Task", new { Model.Workflow.WorkflowId }, new { @class = "btn btn-primary" })*@
     </div>
-    <div class="tab-pane fade" id="Do">
+    @*<div class="tab-pane fade" id="Do">*@
+    <div class="tab-pane fade @(ViewBag.Bandera == 1 ? "in active" : "")" id="Do">
         <br />
 
         @if (Model.Documentos != null)
         {
             <div class="panel panel-default">
-                <div class="panel-heading">Documentos del procesox</div>
+                <div class="panel-heading">Documentos del proceso</div>
                 <div class="panel-body">
-                    <table class="table table-hover table-striped datatable">
+                    <table class="table table-hover table-striped" id="docs-table">
                         <thead>
                             <tr>
                                 <th>
@@ -88,7 +91,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (int i = 0; i < Model.Documentos.Count(); i++)
+                            @for (int i = 0; i < Model.Documentos.OrderBy(q => q.FechaCreacion).Count(); i++)
                             {
                                 @*using (Html.BeginForm())
                                     {
@@ -101,10 +104,38 @@
                                         @Html.DisplayFor(model => Model.Documentos.ToArray()[i].DocumentoId)
                                     </td>
                                     <td>
-                                        @if (Model.Documentos.ToArray()[i].Content != null && !string.IsNullOrWhiteSpace(Model.Documentos.ToArray()[i].FileName))
+                                        @foreach (var item in ViewBag.permisos)
                                         {
-                                            @Html.ActionLink(Model.Documentos.ToArray()[i].FileName, "Download", "Documento", new { id = Model.Documentos.ToArray()[i].DocumentoId }, null)
+                                            if (Model.Documentos[i].Content != null && !string.IsNullOrEmpty(Model.Documentos[i].FileName))
+                                            {
+                                                if (Model.Documentos[i].Autor == User.Identity.Name)
+                                                {
+                                                    if (ViewBag.perfilId == 1 || ViewBag.perfilId == 3 || ViewBag.perfilId == 5 || ViewBag.perfilId == 7 || ViewBag.perfilId == 4 || ViewBag.perfilId == 6 || ViewBag.perfilId == 8)
+                                                    {
+                                                        @Html.ActionLink(Model.Documentos.ToArray()[i].FileName, "Download", "Documento", new { id = Model.Documentos.ToArray()[i].DocumentoId }, null)
+
+                                                    }
+                                                    else if (ViewBag.perfilId == 2 || ViewBag.perfilId == 9)
+                                                    {
+                                                        if (ViewBag.tipoVisualizacion == 4 || ViewBag.tipoVisualizacion == 3 || ViewBag.tipoVisualizacion == 5)
+                                                        {
+                                                            //@Html.ActionLink("Eliminar", "CrearDocumentoDelete", "Task", new { Model.Documentos[i].DocumentoId, Model.Workflow.WorkflowId }, new { @class = "btn btn-danger" })
+                                                            @Html.ActionLink(Model.Documentos.ToArray()[i].FileName, "Download", "Documento", new { id = Model.Documentos.ToArray()[i].DocumentoId }, null)
+                                                        }
+                                                        else
+                                                        {
+                                                            <a>@Model.Documentos.ToArray()[i].FileName</a>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a>@Model.Documentos.ToArray()[i].FileName</a>
+                                                    }
+                                                }
+                                            }
                                         }
+
                                     </td>
 
                                     <td>
@@ -140,17 +171,35 @@
 
                                     <td style="width:500px">
 
-                                        @if (Model.Documentos[i].Content != null)
+                                        @foreach (var item in ViewBag.permisos)
                                         {
-                                            if (Model.Documentos[i].FileName.Contains(".pdf"))
+                                            if (Model.Documentos[i].Content != null && !string.IsNullOrEmpty(Model.Documentos[i].FileName))
                                             {
-                                                <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+                                                if (Model.Documentos[i].Autor == User.Identity.Name)
+                                                {
+                                                    if (ViewBag.perfilId == 1 || ViewBag.perfilId == 3 || ViewBag.perfilId == 5 || ViewBag.perfilId == 7 || ViewBag.perfilId == 4 || ViewBag.perfilId == 6 || ViewBag.perfilId == 8)
+                                                    {
+                                                        <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+
+                                                    }
+                                                    else
+                                                    {
+                                                    }
+                                                    if (ViewBag.perfilId == 2 || ViewBag.perfilId == 9)
+                                                    {
+                                                        if (ViewBag.tipoVisualizacion == 4 || ViewBag.tipoVisualizacion == 3 || ViewBag.tipoVisualizacion == 5)
+                                                        {
+                                                            //@Html.ActionLink("Eliminar", "CrearDocumentoDelete", "Task", new { Model.Documentos[i].DocumentoId, Model.Workflow.WorkflowId }, new { @class = "btn btn-danger" })
+                                                            <embed src="@Url.Action("ShowPDF", "Documento", new { id = Model.Documentos[i].DocumentoId })" width="100%" height="300" type="application/pdf">
+                                                        }
+                                                        else
+                                                        {
+                                                        }
+
+                                                    }
+                                                }
                                             }
                                         }
-
-
-
-
                                     </td>
 
                                 </tr>
@@ -228,6 +277,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-md-offset-2 col-md-10">
+                                    <input type="hidden" name="bandera" value="1" />
                                     <input type="submit" value="Adjuntar archivo" class="btn btn-primary" />
                                 </div>
                             </div>
@@ -256,6 +306,9 @@
                                 <th>
 
                                 </th>
+                                <th>
+
+                                </th>
                             </tr>
                         </thead>
 
@@ -267,10 +320,38 @@
                                     @Html.HiddenFor(model => Model.Documentos[i].DocumentoId)
 
                                     <td>
-                                        @if (Model.Documentos[i].Content != null && !string.IsNullOrEmpty(Model.Documentos[i].FileName))
+
+                                        @foreach (var item in ViewBag.permisos)
                                         {
-                                            @Html.ActionLink(Model.Documentos[i].FileName, "Download", "Documento", new { id = Model.Documentos[i].DocumentoId }, null)
+                                            if (Model.Documentos[i].Content != null && !string.IsNullOrEmpty(Model.Documentos[i].FileName))
+                                            {
+                                                if (Model.Documentos[i].Autor == User.Identity.Name)
+                                                {
+                                                    if (ViewBag.perfilId == 1 || ViewBag.perfilId == 3 || ViewBag.perfilId == 5 || ViewBag.perfilId == 7 || ViewBag.perfilId == 4 || ViewBag.perfilId == 6 || ViewBag.perfilId == 8)
+                                                    {
+                                                        @Html.ActionLink(Model.Documentos[i].FileName, "Download", "Documento", new { id = Model.Documentos[i].DocumentoId }, null)
+                                                    }
+                                                    else if (ViewBag.perfilId == 2 || ViewBag.perfilId == 9)
+                                                    {
+                                                        if (ViewBag.tipoVisualizacion == 4 || ViewBag.tipoVisualizacion == 3 || ViewBag.tipoVisualizacion == 5)
+                                                        {
+                                                            //@Html.ActionLink("Eliminar", "CrearDocumentoDelete", "Task", new { Model.Documentos[i].DocumentoId, Model.Workflow.WorkflowId }, new { @class = "btn btn-danger" })
+                                                            @Html.ActionLink(Model.Documentos[i].FileName, "Download", "Documento", new { id = Model.Documentos[i].DocumentoId }, null)
+                                                        }
+                                                        else
+                                                        {
+                                                            <a>@Model.Documentos[i].FileName </a>
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <a>@Model.Documentos[i].FileName </a>
+                                                    }
+                                                }
+                                            }
                                         }
+
                                     </td>
                                     <td>
                                         @string.Format("{0:dd-MM-yyyy HH:mm:ss}", Model.Documentos[i].FechaCreacion)
@@ -285,10 +366,30 @@
                                         @Html.DisplayFor(model => Model.Documentos[i].Descripcion)
                                     </td>
                                     <td>
-                                        @if (Model.Documentos[i].Autor == User.Identity.Name || ViewBag.TipoUsuario == "Administrador")
+                                        @foreach (var item in ViewBag.permisos)
                                         {
-                                            @Html.ActionLink("Eliminar", "CrearDocumentoDelete", "Task", new { Model.Documentos[i].DocumentoId, Model.Workflow.WorkflowId }, null)
+                                            if (Model.Documentos[i].Autor == User.Identity.Name || ViewBag.TipoUsuario == "Administrador")
+                                            {
+                                                if (ViewBag.perfilId == 1 || ViewBag.perfilId == 3 || ViewBag.perfilId == 5 || ViewBag.perfilId == 7 || ViewBag.perfilId == 4 || ViewBag.perfilId == 6 || ViewBag.perfilId == 8)
+                                                {
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ModalEliminar" data-id="@Model.Documentos[i].DocumentoId">
+                                                        Eliminar
+                                                    </button>
+                                                }
+                                                if (ViewBag.perfilId == 2 || ViewBag.perfilId == 9)
+                                                {
+                                                    if (ViewBag.tipoVisualizacion == 4 || ViewBag.tipoVisualizacion == 3 || ViewBag.tipoVisualizacion == 5)
+                                                    {
+                                                        //@Html.ActionLink("Eliminar", "CrearDocumentoDelete", "Task", new { Model.Documentos[i].DocumentoId, Model.Workflow.WorkflowId }, new { @class = "btn btn-danger" })
+                                                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#ModalEliminar" data-id="@Model.Documentos[i].DocumentoId">
+                                                            Eliminar
+                                                        </button>
+
+                                                    }
+                                                }
+                                            }
                                         }
+
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target=@string.Concat("#modal2",Model.Documentos[i].DocumentoId) id=@string.Concat("button2",Model.Documentos[i].DocumentoId)>
@@ -305,6 +406,34 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Eliminar Documento</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <a href="#">
+                                                            <img src="~/Content/delete_file.png" alt="Eliminar" style="vertical-align: auto; margin-right: 10px; height:60px" />
+                                                        </a>
+                                                        Estas seguro que quieres eliminar este documento?
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form method="post" action="@Url.Action("CrearDocumentoDelete", "Task",new {  WorkflowId = Model.Workflow.WorkflowId })">
+                                                            <input type="hidden" name="id" id="idEliminar" />
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                                            <button type="submit" class="btn btn-primary">Confirmar</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
@@ -332,27 +461,79 @@
 <script type="text/javascript">
     const MAXIMO_TAMANIO_BYTES = 52428800; // 1MB = 1 millón de bytes
 
-    // Obtener referencia al elemento
-    const $miInput = document.querySelector("#Documento_File");
+<script>
+    $(document).ready(function () {
+        $('#docs-table').DataTable({
+            buttons: [
+                'copy', 'excel', 'pdf'
+            ],
+            columnDefs: [
+                {
+                    targets: [2], // Asegúrate de que este índice corresponda a la columna de fecha correcta
+                    type: 'num',
+                    render: function (data, type, row) {
+                        var formattedDate = moment(data, "DD-MM-YYYY HH:mm:ss").format('DD-MM-YYYY HH:mm:ss');
+                        if (type === 'display') {
+                            return formattedDate;
+                        } else if (type === 'sort') {
+                            return moment(formattedDate, "DD-MM-YYYY HH:mm:ss").unix(); // Devuelve la fecha como un número Unix
+                        }
+                        return data;
+                    }
+                }
+            ],
+            order: [],
+            language: {
+                decimal: "",
+                emptyTable: "No hay información",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                infoEmpty: "Mostrando 0 a 0 de 0 entradas",
+                infoFiltered: "(Filtrado de _MAX_ total entradas)",
+                infoPostFix: "",
+                thousands: ",",
+                lengthMenu: "Mostrar _MENU_ entradas",
+                loadingRecords: "Cargando...",
+                processing: "Procesando...",
+                search: "Buscar:",
+                zeroRecords: "Sin resultados encontrados",
+                paginate: {
+                    first: "Primero",
+                    last: "Último",
+                    next: "Siguiente",
+                    previous: "Anterior"
+                }
+            }
+        });
+        $('.dataTables_length').addClass('bs-select');
 
-    $miInput.addEventListener("change", function () {
-        // si no hay archivos, regresamos
-        if (this.files.length <= 0) return;
 
-        // Validamos el primer archivo únicamente
-        const archivo = this.files[0];
-        if (archivo.size > MAXIMO_TAMANIO_BYTES) {
-            const tamanioEnMb = MAXIMO_TAMANIO_BYTES / 1000000;
-            alert(`El tamaño máximo es ${tamanioEnMb} MB`);
-            // Limpiar
-            $miInput.value = "";
-        } else {
-            // Validación pasada. Envía el formulario o haz lo que tengas que hacer
-        }
+        $('#ModalEliminar').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // El botón que desencadenó el modal
+        var id = button.data('id'); // Recupera el data-id del botón
+
+        var modal = $(this);
+        modal.find('#idEliminar').val(id); // Establece el ID en el input oculto dentro del modal
     });
 </script>
 
+    // Cuando se haga clic en "Confirmar"
+    $('.btn-primary').click(function(e) {
 
+        var idValue = $('#idEliminar').val(); // Obtiene el valor del ID desde el input oculto
 
+        $.ajax({
+        url: '@Url.Action("CrearDocumentoDelete", "Task")',
+        type: 'POST',
+        data: {
+        DocumentoId: idValue,
+        WorkflowId: '@Model.Workflow.WorkflowId'
+    },
+    success: function(response) {
 
+        location.reload(); // Recarga la página para reflejar los cambios
+    }
+});
 
+    });
+    });
+</script>

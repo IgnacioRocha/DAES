@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAES.Model.SistemaIntegrado
 {
     [Table("ReformaAnterior")]
     public class ReformaAnterior
     {
-    
+
 
 
         [Key]
@@ -37,7 +33,7 @@ namespace DAES.Model.SistemaIntegrado
         [Display(Name = "Numero de norma")]
         public string NNorma { get; set; }
 
-        
+
         [Display(Name = "Fecha Publicacion Diario Oficial")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
@@ -49,14 +45,15 @@ namespace DAES.Model.SistemaIntegrado
 
         //esto sirve para agregar espacios al documento.
         [Display(Name = "Agregar espacios manuales")]
+        [DataType(DataType.MultilineText)]
         public string EspaciosDocAnterior { get; set; }
 
         [Display(Name = "Organización")]
         public int? OrganizacionId { get; set; }
         public virtual Organizacion Organizacion { get; set; }
 
-        
-        
+
+
 
     }
 

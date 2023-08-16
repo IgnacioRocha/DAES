@@ -1,0 +1,14 @@
+﻿@model DAES.Model.SistemaIntegrado.PeriodoCAC
+
+
+<h2>Crear nuevo Periodo para supervisión No CAC</h2>
+
+@using (Html.BeginForm("CreatePeriodoNoCAC", null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(q => q.Descripcion)
+        @Html.EditorFor(q => q.Descripcion)
+    </div>
+
+    <button type="submit" class="btn btn-success">Agregar</button>
+}

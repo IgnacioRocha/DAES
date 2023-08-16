@@ -106,6 +106,7 @@
     <Compile Include="DTO\DTOFileUploadEdit.cs" />
     <Compile Include="DTO\DTOInformacionSemestral.cs" />
     <Compile Include="DTO\DTOJuntaGeneralSociosCoop.cs" />
+    <Compile Include="DTO\DTOModulo.cs" />
     <Compile Include="DTO\DTORespuestaOficio.cs" />
     <Compile Include="DTO\DTOCreacionOrganizacion.cs" />
     <Compile Include="DTO\DTOConsultaProceso.cs" />
@@ -162,6 +163,7 @@
     <Compile Include="SistemaIntegrado\AspNetUsers.cs" />
     <Compile Include="SistemaIntegrado\Certificado.cs" />
     <Compile Include="SistemaIntegrado\ActualizacionSupervisor.cs" />
+    <Compile Include="SistemaIntegrado\ControlCambio.cs" />
     <Compile Include="SistemaIntegrado\CooperativaAbierta.cs" />
     <Compile Include="SistemaIntegrado\DocumentoConfiguracion.cs" />
     <Compile Include="SistemaIntegrado\EscrituraConstitucion.cs" />
@@ -172,6 +174,9 @@
     <Compile Include="SistemaIntegrado\ExtractoAuxiliar.cs" />
     <Compile Include="SistemaIntegrado\FileAttach.cs" />
     <Compile Include="SistemaIntegrado\FirmaDocumento.cs" />
+    <Compile Include="SistemaIntegrado\ModulosConsulta.cs" />
+    <Compile Include="SistemaIntegrado\OrganizacionCatastro.cs" />
+    <Compile Include="SistemaIntegrado\PeriodoCAC.cs" />
     <Compile Include="SistemaIntegrado\PersonaFacultada.cs" />
     <Compile Include="SistemaIntegrado\RepresentanteLegal.cs" />
     <Compile Include="SistemaIntegrado\Saneamiento.cs" />
@@ -272,8 +277,8 @@
     <None Include="Content\bootstrap\mixins.less" />
     <None Include="Content\bootstrap\variables.less" />
     <None Include="packages.config" />
-    <None Include="Scripts\jquery-3.4.1.min.map" />
-    <None Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <None Include="Scripts\jquery-3.6.0.min.map" />
+    <None Include="Scripts\jquery-3.6.0.slim.min.map" />
     <None Include="SistemaIntegrado\Fiscalizacion\200826- Propuesta Fiscalización DAES.xlsm" />
     <None Include="SistemaIntegrado\Fiscalizacion\Fiscaliazcion.cd" />
     <None Include="SistemaIntegrado\Articulo91.cd" />
@@ -284,10 +289,11 @@
     <Content Include="Scripts\expressive.annotations.validate.js" />
     <Content Include="Scripts\expressive.annotations.validate.min.js" />
     <Content Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.6.0.js" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.js" />
+    <Content Include="Scripts\jquery-3.6.0.slim.min.js" />
     <Content Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />

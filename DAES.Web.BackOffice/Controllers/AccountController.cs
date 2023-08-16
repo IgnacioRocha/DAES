@@ -1,4 +1,5 @@
-﻿using DAES.Infrastructure.SistemaIntegrado;
+﻿using DAES.Infrastructure;
+using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
 using DAES.Web.BackOffice.Properties;
@@ -13,10 +14,9 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Configuration;
-using DAES.Infrastructure;
 
-namespace DAES.Web.BackOffice.Controllers {
+namespace DAES.Web.BackOffice.Controllers
+{
 
     [Audit]
     [Authorize]
@@ -26,7 +26,7 @@ namespace DAES.Web.BackOffice.Controllers {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private SmtpClient smtpClient = new SmtpClient();
-        private MailMessage emailMsg = new MailMessage();   
+        private MailMessage emailMsg = new MailMessage();
         private readonly SistemaIntegradoContext _db = new SistemaIntegradoContext();
         private BLL.Custom _custom = new BLL.Custom();
 
@@ -73,12 +73,14 @@ namespace DAES.Web.BackOffice.Controllers {
         public ActionResult Edit(string id)
         {
 
-            if (id == null) {
+            if (id == null)
+            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             var model = _db.Users.FirstOrDefault(q => q.Id == id);
-            if (model == null) {
+            if (model == null)
+            {
                 return HttpNotFound();
             }
 
@@ -92,7 +94,7 @@ namespace DAES.Web.BackOffice.Controllers {
         public ActionResult Edit(ApplicationUser model)
         {
 
-            if (model.PerfilId != (int)Infrastructure.Enum.Perfil.RepresentanteOrganizacion || string.IsNullOrWhiteSpace(model.NombreOrganizacion)) 
+            if (model.PerfilId != (int)Infrastructure.Enum.Perfil.RepresentanteOrganizacion || string.IsNullOrWhiteSpace(model.NombreOrganizacion))
             {
                 model.OrganizacionId = null;
             }
@@ -109,6 +111,7 @@ namespace DAES.Web.BackOffice.Controllers {
                 {
                     _db.Entry(user).State = EntityState.Modified;
                     user.Email = model.Email;
+                    user.Nombre = model.Nombre;
                     user.PerfilId = model.PerfilId;
                     user.OrganizacionId = model.OrganizacionId;
                     user.Habilitado = model.Habilitado;
@@ -338,7 +341,8 @@ namespace DAES.Web.BackOffice.Controllers {
             if (ModelState.IsValid)
             {
                 //var user = await UserManager.FindByNameAsync(model.Email);
-                var user = await UserManager.FindByEmailAsync(model.Email);
+                //var user = await UserManager.FindByEmailAsync(model.Email);
+                var userr = UserManager.FindByName(model.UserName);
                 //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 //{
                 //    // Don't reveal that the user does not exist or is not confirmed
@@ -347,17 +351,18 @@ namespace DAES.Web.BackOffice.Controllers {
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link 
-                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                string code = await UserManager.GeneratePasswordResetTokenAsync(userr.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = userr.Id, code = code }, protocol: Request.Url.Scheme);
                 //await UserManager.SendEmailAsync(a.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 //UserManager.SendEmail(a.Id, "reset password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 emailMsg.IsBodyHtml = true;
                 emailMsg.Subject = "Restablecer contraseña sistema DAES";
-                emailMsg.Body = "Resetea tu contraseña haciendo click en el siguiente enlace: <a href=\"" + callbackUrl + "\">here</a>";
+                emailMsg.Body = "Resetea tu contraseña haciendo click en el siguiente enlace: <a href=\"" + callbackUrl + "\">Aquí</a>";
                 emailMsg.To.Clear();
-                if (user != null)
+                if (userr != null)
                 {
-                    foreach (var to in user.Email.Split(';'))
+                    foreach (var to in userr.Email.Split(';'))
                     {
                         if (!to.IsNullOrWhiteSpace())
                         {
@@ -402,14 +407,15 @@ namespace DAES.Web.BackOffice.Controllers {
                 return View(model);
             }
             //var user = await UserManager.FindByNameAsync(model.Email);
-            var a = await UserManager.FindByEmailAsync(model.Email);
-            if (a == null)
+            //var a = await UserManager.FindByEmailAsync(model.Email);
+            var b = UserManager.FindByName(model.UserName);
+            if (b == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            var result = await UserManager.ResetPasswordAsync(a.Id, model.Code, model.Password);
-            if(result.Succeeded)
+            var result = await UserManager.ResetPasswordAsync(b.Id, model.Code, model.Password);
+            if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
@@ -525,7 +531,7 @@ namespace DAES.Web.BackOffice.Controllers {
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

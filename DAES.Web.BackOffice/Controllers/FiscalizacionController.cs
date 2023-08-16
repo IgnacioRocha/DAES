@@ -4,7 +4,6 @@ using DAES.Web.BackOffice.Helper;
 using OfficeOpenXml;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -50,14 +49,91 @@ namespace DAES.Web.BackOffice.Controllers
         private SistemaIntegradoContext db = new SistemaIntegradoContext();
 
 
+        //public ActionResult Index()
+        //{
+        //    var model = db.Proceso
+        //    .AsNoTracking()
+        //    .Include(p => p.Fiscalizacions)
+        //    .Where(q => q.DefinicionProcesoId == (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion)
+        //    .OrderByDescending(q => q.ProcesoId)
+        //    .ToList();
+
+        //    foreach (var proceso in model)
+        //    {
+        //        proceso.Fiscalizacions = proceso.Fiscalizacions.Where(f => f.Activo).ToList();
+        //        foreach (var fiscalizacion in proceso.Fiscalizacions)
+        //        {
+        //            fiscalizacion.ProcesoRelacionado = db.Proceso.Find(fiscalizacion.ProcesoRelacionadoId);
+        //        }
+        //    }
+
+        //    return View(model);
+        //}
+
+        //public ActionResult Index()
+        //{
+        //    int definicionProcesoId = (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion;
+        //    var model = db.Proceso
+        //        .AsNoTracking()
+        //        .Where(q => q.DefinicionProcesoId == definicionProcesoId)
+        //        .Select(q => new {
+        //            Proceso = q,
+        //            Fiscalizacions = q.Fiscalizacions
+        //                .Where(f => f.Activo)
+        //                .Select(f => new {
+        //                    Fiscalizacion = f,
+        //                    ProcesoRelacionado = db.Proceso.Where(p => p.ProcesoId == f.ProcesoRelacionadoId).FirstOrDefault()
+        //                })
+        //        })
+        //        .OrderByDescending(q => q.Proceso.ProcesoId)
+        //        .ToList()
+        //        .Select(q => {
+        //            q.Proceso.Fiscalizacions = q.Fiscalizacions
+        //                .Select(f => {
+        //                    f.Fiscalizacion.ProcesoRelacionado = f.ProcesoRelacionado;
+        //                    return f.Fiscalizacion;
+        //                })
+        //                .ToList();
+        //            return q.Proceso;
+        //        })
+        //        .ToList();
+
+        //    return View(model);
+        //}
+
         public ActionResult Index()
         {
-            var model =
-                db
-                .Proceso
+            int definicionProcesoId = (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion;
+
+            var model = db.Proceso
                 .AsNoTracking()
-                .Where(q => q.DefinicionProcesoId == (int)DAES.Infrastructure.Enum.DefinicionProceso.Fiscalizacion)
+                .Include(p => p.Fiscalizacions) // Cargar previamente Fiscalizacions
+                .Where(q => q.DefinicionProcesoId == definicionProcesoId)
                 .OrderByDescending(q => q.ProcesoId)
+                .ToList()
+                .Select(q => new
+                {
+                    Proceso = q,
+                    Fiscalizacions = q.Fiscalizacions
+                        .Where(f => f.Activo)
+                        .Select(f => new
+                        {
+                            Fiscalizacion = f,
+                            ProcesoRelacionado = f.ProcesoRelacionado // Asumiendo que se tiene una relación directa aquí
+                        })
+                })
+                .ToList()
+                .Select(q =>
+                {
+                    q.Proceso.Fiscalizacions = q.Fiscalizacions
+                        .Select(f =>
+                        {
+                            f.Fiscalizacion.ProcesoRelacionado = f.ProcesoRelacionado;
+                            return f.Fiscalizacion;
+                        })
+                        .ToList();
+                    return q.Proceso;
+                })
                 .ToList();
 
             foreach (var item in model)
@@ -66,6 +142,8 @@ namespace DAES.Web.BackOffice.Controllers
 
             return View(model);
         }
+
+
 
         public ActionResult Inbox()
         {

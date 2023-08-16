@@ -3,9 +3,8 @@ using DAES.Model.SistemaIntegrado;
 using DAES.Web.BackOffice.Helper;
 using System;
 using System.Collections.Generic;
-using System.Data;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
-using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -33,12 +32,18 @@ namespace DAES.Web.BackOffice.Controllers
             public string Proceso { get; set; }
             public string NumeroRegistro { get; set; }
             public string Correlativo { get; set; }
+            public string RazonSocial { get; set; }
             public string Observacion { get; set; }
             public bool Terminada { get; set; }
             public DateTime FechaVencimiento { get; set; }
             public string Formulario { get; set; }
             public string NombreFuncionario { get; set; }
+            [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
             public DateTime FechaCreacionProcess { get; set; }
+
+
+
+            [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
             public DateTime FechaCreacionWorkFlow { get; set; }
             public string EstadoTarea { get; set; }
 
@@ -71,7 +76,8 @@ namespace DAES.Web.BackOffice.Controllers
                     ProcesoId = q.Proceso.ProcesoId,
                     Proceso = q.Proceso.DefinicionProceso.Nombre,
                     NumeroRegistro = q.Proceso.Organizacion.NumeroRegistro,
-                    Correlativo = q.Proceso.Correlativo,
+                    RazonSocial = q.Proceso.Organizacion.RazonSocial,
+                    //Correlativo = q.Proceso.Correlativo,
                     //Observacion = q.Proceso.Workflows.Any(i => i.Observacion != null) ? q.Proceso.Workflows.OrderByDescending(i => i.WorkflowId).FirstOrDefault(i => i.Observacion != null).Observacion : string.Empty
                     Observacion = q.Observacion,
                     NombreFuncionario = q.User.Nombre,
@@ -79,7 +85,7 @@ namespace DAES.Web.BackOffice.Controllers
                     FechaCreacionWorkFlow = q.FechaCreacion,
                     EstadoTarea = (DateTime.Now < q.Proceso.FechaVencimiento ? "En curso normal" : (DateTime.Now == q.Proceso.FechaVencimiento ? "Por Vencer" : "Atrasado")),
 
-                }).OrderByDescending(q => q.FechaCreacionProcess).ToList());
+                }).OrderByDescending(q => q.FechaCreacionWorkFlow).ToList());
             }
             else
             {
@@ -94,7 +100,7 @@ namespace DAES.Web.BackOffice.Controllers
                     ProcesoId = q.Proceso.ProcesoId,
                     Proceso = q.Proceso.DefinicionProceso.Nombre,
                     NumeroRegistro = q.Proceso.Organizacion.NumeroRegistro,
-                    Correlativo = q.Proceso.Correlativo,
+                    //Correlativo = q.Proceso.Correlativo,
                     //Observacion = q.Proceso.Workflows.Any(i => i.Observacion != null) ? q.Proceso.Workflows.OrderByDescending(i => i.WorkflowId).FirstOrDefault(i => i.Observacion != null).Observacion : string.Empty
                     Observacion = q.Observacion,
                     FechaCreacionProcess = q.Proceso.FechaCreacion,
@@ -106,7 +112,7 @@ namespace DAES.Web.BackOffice.Controllers
                 }).OrderByDescending(q => q.FechaCreacionProcess).ToList());
             }
 
-            
+
 
             return View(model);
         }

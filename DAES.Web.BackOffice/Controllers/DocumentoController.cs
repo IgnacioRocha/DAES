@@ -18,6 +18,7 @@ namespace DAES.Web.BackOffice.Controllers
     {
         private SistemaIntegradoContext db = new SistemaIntegradoContext();
 
+
         public class DTODocumento
         {
 
@@ -93,6 +94,7 @@ namespace DAES.Web.BackOffice.Controllers
         public FileResult Download(int id)
         {
             var documento = db.Documento.Find(id);
+            //var documento = db.Documento.Where(q => q.DocumentoId == id).FirstOrDefault();
             return File(documento.Content, System.Net.Mime.MediaTypeNames.Application.Octet, documento.FileName);
         }
 

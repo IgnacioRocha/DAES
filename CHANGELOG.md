@@ -2,7 +2,60 @@
 
 Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.com/es-ES/1.0.0/)
 
-Cambios realizados en la solución, tanto adherencias, como modificaciones y eliminaciones hechas durante el proceso de desarrollo del tramite N°2 Certificado de Disolucion
+## [2.5.6-Alpha - Mejoras DAES - 16-08-2023]
+
+### Changed
+
+- //TODO Agregar Cambios Gio
+
+### Added
+
+- // TODO Agregar Cambios Gio
+
+## [2.5.5 Tramites Digitales - 06-07-2023]
+
+### Changed
+
+- Se modificaron los tag de Google Analytics, cambiandolos por la version GA4.
+
+## [2.5.4 tramites digitales, backOffice- 14-03-2023]
+
+### Changed
+
+-se modifica modulo de administración de módulos
+-se modifica recaptcha
+-se modifica busqueda de usuario al momento de restablecer la contraseña
+
+## [2.5.3 tramites digitales, backOffice- 27-02-2023]
+
+### Changed
+
+- Se agrega tipo de organización a certificados emitidos por trámites digitales
+
+## ADD
+
+- Se agrega módulo de administración de perfiles a backoffice.
+
+## [2.5.2 Tramites Digitales - 23-02-2023]
+
+### Changed
+
+- Se modifico en GPDocumentoVerificacion y GPHSA los controladores agregando protocolo de seguridad.
+- Se trajeron los cambios de libreria jquery-unobstrosive-
+
+### Added
+
+- Se agrego en web.config, tokens de ReCAPTCHA para testing de Tramites Digitales.
+
+### Deleted
+
+- Se eliminaron, 7zip DAES12012023 y la carpeta DAES12012023.
+
+## [2.5.1 Tramites Digitales - 22-02-2023]
+
+### Added
+
+- Se agrego Protocolo de seguridad al momento de validar documento con FEA en Tramites Digitales debido al cambio de URL de GP.
 
 ## [2.5.0 DAES Completo - 17-01-2023]
 

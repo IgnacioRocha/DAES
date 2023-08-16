@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAES.Model.SistemaIntegrado
 {
@@ -42,7 +38,8 @@ namespace DAES.Model.SistemaIntegrado
         public int? AprobacionId { get; set; }
 
         //esto sirve para agregar espacios al documento.
-        [Display(Name = "Agregar espacios manuales")]
+        [Display(Name = "Texto Adicional")]
+        [DataType(DataType.MultilineText)]
         public string EspaciosDocAGAC { get; set; }
 
         [Display(Name = "Organización")]

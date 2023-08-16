@@ -237,10 +237,10 @@
         const DocumentoAdjuntadoDI = document.querySelector('#DocumentoAdjuntoTest' + conta).files[0];
         console.log(DocumentoAdjuntadoDI);
 
-        if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
-            alert("El tamaño máximo es 50 MB por archivo");
-            document.getElementById('DocumentoAdjuntoTest' + conta).value = "";
-        }        
+        //if (DocumentoAdjuntadoDI.size > MAXIMO_TAMANIO_BYTES) {
+        //    alert("El tamaño máximo es 50 MB por archivo");
+        //    document.getElementById('DocumentoAdjuntoTest' + conta).value = "";
+        //}        
     }
 
     $('#re').on("click", function () {
@@ -260,15 +260,15 @@
         } else {
             $('#re').show();
         }
-        for (let i = 0; i < 10; i++) {
-            const archivo = this.files[i];
-            if (archivo.size > MAXIMO_TAMANIO_BYTES) {
-                alert("El tamaño máximo es 50 MB por archivo");
-                $DocumentoAdjuntoTest.value = "";
-                $('#add').hide();
-                $('#re').hide();
-            }
-            console.log(archivo);
-        }
+        //for (let i = 0; i < 10; i++) {
+        //    const archivo = this.files[i];
+        //    if (archivo.size > MAXIMO_TAMANIO_BYTES) {
+        //        alert("El tamaño máximo es 50 MB por archivo");
+        //        $DocumentoAdjuntoTest.value = "";
+        //        $('#add').hide();
+        //        $('#re').hide();
+        //    }
+        //    console.log(archivo);
+        //}
     });
 </script>

@@ -28,6 +28,6 @@ namespace DAES.Infrastructure.Interfaces
         /// <returns></returns>
         /// <exception cref="System.Exception"></exception>
         byte[] SignREST(byte[] documento, List<string> firmante, int documentoId, string folio, string urlVerificacion, byte[] qr);
-        byte[] Sign(byte[] documento, List<string> firmantes, int documentoId, string folio, string url, byte[] QR);
+        byte[] Sign(byte[] documento, List<string> firmantes, int documentoId, string folio, string url, byte[] QR, string TipoOrganizacion);
     }
 }
