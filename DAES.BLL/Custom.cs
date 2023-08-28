@@ -6128,9 +6128,11 @@ namespace DAES.BLL
                         var TipoOrganizacion = db.TipoOrganizacion.Where(q => q.TipoOrganizacionId == tipoOrgaId).FirstOrDefault().Nombre;
                         var docto = hsms.Sign(documento.File, idsFirma, documento.DocumentoId, documento.Folio, url_tramites_en_linea.Valor, qr, TipoOrganizacion);
                         documento.Content = docto;
+                        documento.Firmantes = obj.Firmantes;
+                        documento.FechaFirma = obj.FechaFirma;
                         //documento.Signed = true;
                         documento.Firmado = true;
-
+                        
                         context.SaveChanges();
 
                     }
