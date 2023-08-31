@@ -1,27 +1,21 @@
 ﻿using DAES.BLL.Interfaces;
 using DAES.Infrastructure;
 using DAES.Infrastructure.GestionDocumental;
+using DAES.Infrastructure.Interfaces;
+using DAES.Infrastructure.Sigper;
 using DAES.Infrastructure.SistemaIntegrado;
 using DAES.Model.Core;
 using DAES.Model.FirmaDocumento;
-using DAES.Model.Sigper;
 using DAES.Model.SistemaIntegrado;
-using DAES.Infrastructure.Sigper;
 using FluentDateTime;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
-
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Web.ModelBinding;
-using DAES.Infrastructure.Interfaces;
-using Microsoft.AspNet.Identity.EntityFramework;
-using Newtonsoft.Json;
 //using DAES.bll.Interfaces;
 
 namespace DAES.BLL
@@ -1803,7 +1797,7 @@ namespace DAES.BLL
                                                 parrafo = parrafo = parrafo.Replace(value, item.NNorma != null ? item.NNorma : string.Empty);
                                                 break;
                                             case "[FECHANORMAREF]":
-                                                parrafo = parrafo.Replace(value, item.FechaNorma.Value != null ?string.Format("{0:dd/MM/yyyy}", item.FechaNorma) : string.Empty);
+                                                parrafo = parrafo.Replace(value, item.FechaNorma.Value != null ? string.Format("{0:dd/MM/yyyy}", item.FechaNorma) : string.Empty);
                                                 break;
                                             case "[DATOSGENERALNOTARIOREF]":
                                                 parrafo = parrafo.Replace(value, item.DatosNotario != null ? item.DatosNotario : string.Empty);
@@ -5828,7 +5822,7 @@ namespace DAES.BLL
         public ResponseMessage Sign(int id, List<string> emailsFirmantes, string firmante)
         {
             var responseCaseUse = new ResponseMessage();
-            var persona = new Model.Sigper.SIGPER();
+            //var persona = new Model.Sigper.SIGPER();
             //var emails = _sigper.GetUserByUnidad(workflow.Pl_UndCod.Value).Select(q => q.Rh_Mail.Trim());
             SistemaIntegradoContext context = new SistemaIntegradoContext();
 
@@ -5885,7 +5879,7 @@ namespace DAES.BLL
                 try
                 {
                     //var errors = ModelState.Select(x => x.Value.Errors);
-                    var _responseFolio = _folio.GetFolio(string.Join(", ", emailsFirmantes), documentoOriginal.TipoDocumentoCodigo, persona.SubSecretaria);
+                    var _responseFolio = _folio.GetFolio(string.Join(", ", emailsFirmantes), documentoOriginal.TipoDocumentoCodigo, "ECONOMIA"/*persona.SubSecretaria*/);
                     if (_responseFolio == null)
                         responseCaseUse.Errors.Add("Error al llamar el servicio externo de folio");
 
@@ -6042,17 +6036,17 @@ namespace DAES.BLL
 
                     if (response.IsValid)
                     {
-                        var persona = sg.GetUserByEmail(email);
+                        //var persona = sg.GetUserByEmail(email);
 
-                        /*se buscar la persona para determinar la subsecretaria*/
-                        if (!string.IsNullOrEmpty(email))
-                        {
-                            if (persona == null)
-                                response.Errors.Add("No se encontró usuario firmante en sistema Sigper");
+                        ///*se buscar la persona para determinar la subsecretaria*/
+                        //if (!string.IsNullOrEmpty(email))
+                        //{
+                        //    if (persona == null)
+                        //        response.Errors.Add("No se encontró usuario firmante en sistema Sigper");
 
-                            if (persona != null && string.IsNullOrWhiteSpace(persona.SubSecretaria))
-                                response.Errors.Add("No se encontró la subsecretaría del firmante");
-                        }
+                        //    if (persona != null && string.IsNullOrWhiteSpace(persona.SubSecretaria))
+                        //        response.Errors.Add("No se encontró la subsecretaría del firmante");
+                        //}
 
                         /*Se busca proceso para determinar tipo de documento*/
                         string TipoDocto = "OTRO";
@@ -6103,7 +6097,7 @@ namespace DAES.BLL
                             try
                             {
 
-                                var folios = folio.GetFolio(string.Join(", ", email), TipoDocto, persona.SubSecretaria);
+                                var folios = folio.GetFolio(string.Join(", ", email), TipoDocto, "ECONOMIA"/*persona.SubSecretaria*/);
                                 if (folios == null)
                                     response.Errors.Add("Servicio de folio no entregó respuesta");
 
@@ -6111,7 +6105,7 @@ namespace DAES.BLL
                                     response.Errors.Add(folios.error);
 
                                 documento.Folio = folios.folio;
-                                
+
 
 
                                 context.SaveChanges();
@@ -6336,17 +6330,17 @@ namespace DAES.BLL
 
                     if (response.IsValid)
                     {
-                        var persona = sg.GetUserByEmail(rubrica.Email);
+                        //var persona = sg.GetUserByEmail(rubrica.Email);
 
-                        /*se buscar la persona para determinar la subsecretaria*/
-                        if (!string.IsNullOrEmpty(email))
-                        {
-                            if (persona == null)
-                                response.Errors.Add("No se encontró usuario firmante en sistema Sigper");
+                        ///*se buscar la persona para determinar la subsecretaria*/
+                        //if (!string.IsNullOrEmpty(email))
+                        //{
+                        //    if (persona == null)
+                        //        response.Errors.Add("No se encontró usuario firmante en sistema Sigper");
 
-                            if (persona != null && string.IsNullOrWhiteSpace(persona.SubSecretaria))
-                                response.Errors.Add("No se encontró la subsecretaría del firmante");
-                        }
+                        //    if (persona != null && string.IsNullOrWhiteSpace(persona.SubSecretaria))
+                        //        response.Errors.Add("No se encontró la subsecretaría del firmante");
+                        //}
 
                         /*Se busca proceso para determinar tipo de documento*/
                         string TipoDocto = "OTRO";
@@ -6396,7 +6390,7 @@ namespace DAES.BLL
                             try
                             {
 
-                                var folios = folio.GetFolio(string.Join(", ", rubrica.Email), TipoDocto, persona.SubSecretaria);
+                                var folios = folio.GetFolio(string.Join(", ", rubrica.Email), TipoDocto, "ECONOMIA");
                                 if (folios == null)
                                     response.Errors.Add("Servicio de folio no entregó respuesta");
 

@@ -2,6 +2,16 @@
 
 Este archivo esta basado en el formato Keep a Changelog(https://keepachangelog.com/es-ES/1.0.0/)
 
+## [2.5.6 DAES Completo] - 31-08-2023
+
+### Changed
+
+- Se elimino en ambos metodos de firma, SignResoAuto y SignReso, la llamada a SIGPER, dejando en duro el dato de ECONOMIA, para el folio.
+
+### Deleted
+
+- Se eliminaron zip y carpetas que no deberian estar en el proyecto asi como el controlador DecretoTarifario
+
 ## [2.5.5 Tramites Digitales - 06-07-2023]
 
 ### Changed

@@ -340,7 +340,6 @@
     <Compile Include="Controllers\ConfiguracionCertificadoController.cs" />
     <Compile Include="Controllers\ConfiguracionController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
-    <Compile Include="Controllers\DecretoTarifarioController.cs" />
     <Compile Include="Controllers\DefinicionProcesoController.cs" />
     <Compile Include="Controllers\DefinicionWorkflowController.cs" />
     <Compile Include="Controllers\DirectorioController.cs" />
