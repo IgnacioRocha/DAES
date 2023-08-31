@@ -135,10 +135,11 @@ namespace DAES.Model.SistemaIntegrado
         public string DocumentoConFirmaFilename { get; set; }
         [NotMapped]
         public string DocumentoSinFirmaFilename { get; set; }
-        [NotMapped]
+
         public DateTime? FechaFirma { get; set; }
-        [NotMapped]
+
         public string Firmantes { get; set; }
+
         [NotMapped]
         public string TipoDocumentoCodigo { get; set; }
         [NotMapped]

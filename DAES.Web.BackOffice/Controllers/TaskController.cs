@@ -1123,6 +1123,9 @@ namespace DAES.Web.BackOffice.Controllers
             var deff = db.DefinicionProceso.ToArray();
             var obj = db.Proceso.FirstOrDefault(q => q.ProcesoId == idProceso);
             doc.TipoDocumentoId = 12;
+            doc.Firmantes = Helper.Helper.CurrentUser.UserName;
+            doc.FechaFirma = DateTime.Today;
+            
 
             var _UseCaseResponseMessage = _custom.SignReso(doc, email, idProceso);
 
